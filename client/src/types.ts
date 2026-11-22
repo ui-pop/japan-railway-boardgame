@@ -172,6 +172,7 @@ export interface PublicGameState {
   localRules: LocalRuleDef[];
   turnCount: number;
   canRollback: boolean;
+  cardUsedThisTurn: boolean;
 }
 
 export interface GameEventSeqItem {

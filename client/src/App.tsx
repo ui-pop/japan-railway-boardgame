@@ -367,7 +367,7 @@ export function App() {
           cardsMaster={cardsMaster}
           gameState={gameState}
           myPlayerId={myPlayerId}
-          canUseNow={isMyTurn && gameState.phase === 'action_select'}
+          canUseNow={isMyTurn && gameState.phase === 'action_select' && !gameState.cardUsedThisTurn}
           onUseCard={useCard}
           onClose={() => setCardModalOpen(false)}
         />

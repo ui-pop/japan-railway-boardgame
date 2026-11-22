@@ -112,6 +112,11 @@ export const ActionDock: React.FC<ActionDockProps> = ({
                 <span className="text-xs">物件</span>
               </button>
             </div>
+            {gameState.cardUsedThisTurn && (
+              <div className="text-center text-[11px] font-bold text-amber-800">
+                このターンはカードを使用済み。サイコロを振ってください
+              </div>
+            )}
           </div>
         ) : (
           /* 他人のターン（待機中） */

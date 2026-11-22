@@ -186,6 +186,14 @@ function calculateEventsDurationMs(events: GameEventSeqItem[]): number {
   return total;
 }
 
+// 通信が切れた人間プレイヤーの手番をCPUが代行するまでの猶予（ミリ秒）
+const DISCONNECT_PROXY_GRACE_MS = 30000;
+let proxyTurnCount = -1;
+
+function isCpuControlled(p: { isCpu: boolean; isMasterOverrideCpu: boolean; isConnected: boolean }) {
+  return p.isCpu || p.isMasterOverrideCpu || !p.isConnected;
+}
+
 function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   if (cpuTimer) {
     clearTimeout(cpuTimer);
@@ -195,7 +203,7 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   if (engine.status !== 'playing') return;
   const current = engine.getCurrentPlayer();
   if (!current) return;
-  if (!current.isCpu && !current.isMasterOverrideCpu) return;
+  if (!isCpuControlled(current)) return;
 
   // 直前のイベントキューがスマホ側で完全に再生し終わる時間を厳密に計算して待機
   const eventsMs = calculateEventsDurationMs(lastEvents);
@@ -205,12 +213,21 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   } else if (engine.phase === 'property_buy' || engine.phase === 'card_shop') {
     baseDelay = 1400;
   }
-  const delay = Math.max(baseDelay, eventsMs + 500);
+  let delay = Math.max(baseDelay, eventsMs + 500);
+
+  // 離脱中の人間プレイヤー：復帰を待つ猶予の後にCPUが代行（同一ターン内の2手目以降は即代行）
+  const isDisconnectedHuman = !current.isCpu && !current.isMasterOverrideCpu && !current.isConnected;
+  if (isDisconnectedHuman && proxyTurnCount !== engine.turnCount) {
+    delay = Math.max(delay, DISCONNECT_PROXY_GRACE_MS);
+  }
 
   cpuTimer = setTimeout(() => {
     if (engine.status !== 'playing') return;
     const active = engine.getCurrentPlayer();
-    if (!active || (!active.isCpu && !active.isMasterOverrideCpu)) return;
+    if (!active || !isCpuControlled(active)) return;
+    if (!active.isCpu && !active.isMasterOverrideCpu && !active.isConnected) {
+      proxyTurnCount = engine.turnCount;
+    }
 
     const decision = cpuAi.decideAction(active, engine.getPublicState());
     let events: GameEventSeqItem[] = [];

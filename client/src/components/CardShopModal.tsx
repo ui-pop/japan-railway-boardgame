@@ -96,11 +96,14 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
         </div>
 
         <div className="p-4 bg-slate-950/90 border-t border-slate-800">
+          <div className="text-[11px] text-slate-400 text-center mb-2">
+            お金と手札の空きがある限り、続けて何枚でも買えます
+          </div>
           <button
             onClick={onSkip}
             className="w-full py-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-sm"
           >
-            買わずに終了
+            買い物を終える
           </button>
         </div>
       </div>

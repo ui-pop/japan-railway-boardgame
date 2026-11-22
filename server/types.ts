@@ -221,6 +221,7 @@ export interface PublicGameState {
   localRules: LocalRuleDef[];
   turnCount: number;
   canRollback: boolean;
+  cardUsedThisTurn: boolean;
 }
 
 export interface GameEventSeqItem {
@@ -261,4 +262,5 @@ export interface SavedGameSnapshot {
   nuisanceTargetPlayerId: string | null;
   lastEventMessage: string;
   turnCount: number;
+  cardUsedThisTurn?: boolean;
 }

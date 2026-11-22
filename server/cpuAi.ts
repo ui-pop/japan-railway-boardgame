@@ -36,10 +36,24 @@ export class CpuAi {
     state: PublicGameState
   ): CpuActionDecision {
     if (state.phase === 'action_select') {
+      // カードは1ターン1枚まで。使用済みならサイコロ
+      if (state.cardUsedThisTurn) return { type: 'roll_dice' };
+
       const dist = this.pathfinder.getShortestDistance(
         player.stationId,
         state.destinationStationId
       );
+      const findCard = (ids: string[]): number => {
+        for (const cid of ids) {
+          const idx = player.cards.indexOf(cid);
+          if (idx !== -1) return idx;
+        }
+        return -1;
+      };
+      const others = state.players
+        .filter((p) => p.id !== player.id)
+        .sort((a, b) => a.rank - b.rank);
+      const topRival = others[0];
 
       // 1. ピンポイント移動カードでゴールできるなら使う
       for (let i = 0; i < player.cards.length; i++) {
@@ -48,47 +62,90 @@ export class CpuAi {
           return { type: 'use_card', cardIndex: i };
         }
       }
-
-      // 2. 臨時収入カードがあれば使う
-      const cashIdx = player.cards.findIndex((id) => id === 'bonus_cash');
-      if (cashIdx !== -1 && player.money < 5000) {
-        return { type: 'use_card', cardIndex: cashIdx };
+      if (dist >= 1 && dist <= 6) {
+        const sp = findCard(['special_move']);
+        if (sp !== -1) return { type: 'use_card', cardIndex: sp };
       }
 
-      // 3. 目的地が遠ければ急行系・接近ワープカードを使う
+      // 2. 借金・お邪魔キャラへの対処
+      if (player.money < 0) {
+        const idx = findCard(['debt_relief', 'billion_card', 'gold_cash', 'angel_card', 'bonus_cash']);
+        if (idx !== -1) return { type: 'use_card', cardIndex: idx };
+      }
+      if (player.hasNuisance) {
+        const exIdx = findCard(['super_exorcise', 'exorcise_nuisance']);
+        if (exIdx !== -1) return { type: 'use_card', cardIndex: exIdx };
+        const passIdx = findCard(['pass_nuisance']);
+        if (passIdx !== -1 && topRival) {
+          return { type: 'use_card', cardIndex: passIdx, targetPlayerId: topRival.id };
+        }
+      }
+
+      // 3. 目的地が遠ければワープ系
       if (dist >= 12) {
-        const nearWarpIdx = player.cards.findIndex((id) => id === 'warp_near_dest');
-        if (nearWarpIdx !== -1) {
-          return { type: 'use_card', cardIndex: nearWarpIdx };
-        }
+        const idx = findCard(['warp_near_dest', 'goal_half_warp']);
+        if (idx !== -1) return { type: 'use_card', cardIndex: idx };
       }
+
+      // 4. 遠ければ急行系（強い順）
       if (dist >= 7) {
-        const speedPriority = ['linear_express', 'super_express', 'express_3', 'express_2'];
-        for (const cid of speedPriority) {
-          const idx = player.cards.findIndex((id) => id === cid);
-          if (idx !== -1) {
-            return { type: 'use_card', cardIndex: idx };
+        const idx = findCard([
+          'super_linear',
+          'nozomi_shuyu',
+          'linear_express',
+          'shinkansen_shuyu',
+          'nozomi_express',
+          'super_shuyu',
+          'super_express',
+          'express_shuyu',
+          'express_3',
+          'express_2',
+        ]);
+        if (idx !== -1) return { type: 'use_card', cardIndex: idx };
+      }
+
+      // 5. 収入系カード（手札が多いとき or 資金不足のとき）
+      if (player.cards.length >= 6 || player.money < 5000) {
+        const idx = findCard([
+          'billion_card',
+          'gold_cash',
+          'angel_card',
+          'property_boom',
+          'vampire_card',
+          'lucky_slot',
+          'tax_collect',
+          'bonus_cash',
+          'card_pack',
+        ]);
+        if (idx !== -1) return { type: 'use_card', cardIndex: idx };
+      }
+
+      // 6. 攻撃カード（トップのライバルを狙う）
+      if (topRival && topRival.rank < player.rank && Math.random() < 0.5) {
+        const idx = findCard([
+          'takeover_prop',
+          'devil_attack',
+          'rob_money',
+          'king_bomb_card',
+          'cow_walk',
+          'freeze_rival',
+          'burn_card',
+          'fastball_card',
+          'steal_card',
+        ]);
+        if (idx !== -1) {
+          return { type: 'use_card', cardIndex: idx, targetPlayerId: topRival.id };
+        }
+      }
+
+      // 7. 手札が満杯なら何か1枚消化する
+      if (player.cards.length >= 8) {
+        for (let i = 0; i < player.cards.length; i++) {
+          const card = this.cardMap.get(player.cards[i]);
+          if (!card || card.passive) continue;
+          if (card.category === 'economy' && card.id !== 'shuffle_all' && card.id !== 'summon_all') {
+            return { type: 'use_card', cardIndex: i };
           }
-        }
-      }
-
-      // 4. とても遠ければぶっとびカードを使うことがある
-      if (dist >= 15) {
-        const warpIdx = player.cards.findIndex((id) => id === 'warp_near');
-        if (warpIdx !== -1 && Math.random() < 0.5) {
-          return { type: 'use_card', cardIndex: warpIdx };
-        }
-      }
-
-      // 5. 攻撃カード（トップのプレイヤーを狙う）
-      const sortedOthers = state.players
-        .filter((p) => p.id !== player.id)
-        .sort((a, b) => a.rank - b.rank);
-      if (sortedOthers.length > 0 && Math.random() < 0.35) {
-        const topRival = sortedOthers[0];
-        const robIdx = player.cards.findIndex((id) => id === 'rob_money');
-        if (robIdx !== -1 && topRival.money >= 2000) {
-          return { type: 'use_card', cardIndex: robIdx, targetPlayerId: topRival.id };
         }
       }
 
@@ -159,7 +216,7 @@ export class CpuAi {
     }
 
     if (state.phase === 'card_shop') {
-      if (player.cards.length >= 8) return { type: 'skip_card_shop' };
+      if (player.cards.length >= 5) return { type: 'skip_card_shop' };
       const prefer = ['super_express', 'express_3', 'shield', 'express_2'];
       for (const cid of prefer) {
         const card = this.cardMap.get(cid);

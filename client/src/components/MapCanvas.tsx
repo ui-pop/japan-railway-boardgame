@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+﻿import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Compass, Crosshair, Maximize2 } from 'lucide-react';
 import { GRID_SIZE, JAPAN_LAND_CELLS } from '../data/japanPolygons';
 import type { PublicGameState, StationDef } from '../types';
@@ -808,7 +808,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           全体
         </button>
         <div className="text-[10px] text-center font-mono text-white/80 bg-black/40 rounded-full px-2 py-0.5">
-          v3.0
+          v3.1
         </div>
       </div>
     </div>
