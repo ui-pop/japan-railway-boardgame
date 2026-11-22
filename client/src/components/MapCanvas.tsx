@@ -109,13 +109,13 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
     }
   }, [focusTargetTrigger, focusOnPoint, focusWholeJapan, gameState, myPlayerId, stationMap]);
 
-  // 自動追従モード：手番プレイヤーが動いたら目標カメラ座標を更新
+  // 自動追従モード：手番プレイヤーが動いたら現在のズーム倍率を保ったまま目標カメラ座標だけ更新
   useEffect(() => {
     if (cameraMode !== 'auto' || !gameState) return;
     const active = gameState.players.find((p) => p.id === gameState.currentTurnPlayerId);
     const st = active ? stationMap.get(active.stationId) : null;
     if (st) {
-      focusOnPoint(st.x, st.y, Math.max(cameraRef.current.zoom, 0.68), false);
+      focusOnPoint(st.x, st.y, undefined, false);
     }
   }, [
     cameraMode,
@@ -632,7 +632,6 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
 
       if (bestStationId) {
         setInspectedStation(null);
-        setCameraMode('auto');
         onSelectNextStation(bestStationId);
         return;
       }
