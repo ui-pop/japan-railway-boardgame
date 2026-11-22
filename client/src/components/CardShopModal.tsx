@@ -31,6 +31,14 @@ const SHOP_STOCK_IDS = [
   'card_pack',
 ];
 
+function getCardShopPrice(basePrice: number | undefined, year: number): number {
+  const base = basePrice ?? 1500;
+  const y = Math.max(1, year);
+  const infl = y === 1 ? 1 : Math.round((1 + (y - 1) * 0.4 + Math.pow(y - 1, 2) * 0.11) * 10) / 10;
+  const mult = Math.max(1, 1 + (infl - 1) * 0.45);
+  return Math.round((base * mult) / 100) * 100;
+}
+
 export const CardShopModal: React.FC<CardShopModalProps> = ({
   gameState,
   myPlayerId,
@@ -91,7 +99,7 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
         <div className="p-4 overflow-y-auto space-y-2 flex-1">
           {tab === 'buy' ? (
             shopCards.map((card) => {
-              const price = card.price ?? 1500;
+              const price = getCardShopPrice(card.price, gameState.currentYear);
               const canAfford = myMoney >= price && myCardCount < 8;
               return (
                 <div
@@ -129,7 +137,7 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
             myCards.map((cid, idx) => {
               const card = cardsMaster.find((c) => c.id === cid);
               if (!card) return null;
-              const sellPrice = Math.floor((card.price ?? 1500) * 0.5);
+              const sellPrice = Math.floor(getCardShopPrice(card.price, gameState.currentYear) * 0.5);
               return (
                 <div
                   key={`${cid}_${idx}`}

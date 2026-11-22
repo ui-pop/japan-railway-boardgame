@@ -1,3 +1,4 @@
+import { getCardShopPrice } from './gameEngine';
 import { Pathfinder } from './pathfinder';
 import {
   CardDef,
@@ -259,7 +260,7 @@ export class CpuAi {
       const prefer = ['super_express', 'express_3', 'shield', 'express_2'];
       for (const cid of prefer) {
         const card = this.cardMap.get(cid);
-        const price = card?.price ?? 1500;
+        const price = getCardShopPrice(card?.price, state.currentYear);
         if (card && player.money >= price + 1000) {
           return { type: 'buy_card_shop', cardId: cid };
         }

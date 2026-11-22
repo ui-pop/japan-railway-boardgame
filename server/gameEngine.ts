@@ -64,6 +64,20 @@ function calcAnnualIncome(price: number, rate: number, level: number, isMonopoli
   return Math.round(price * level * effectiveRate * monoMult);
 }
 
+// 本家桃鉄準拠の年数インフレ倍率（1年目=1x, 3年目=2.2x, 5年目=4.4x, 10年目=13.5x, 20年目=48.3x）
+export function getYearInflationMult(year: number): number {
+  const y = Math.max(1, year);
+  if (y === 1) return 1;
+  return Math.round((1 + (y - 1) * 0.4 + Math.pow(y - 1, 2) * 0.11) * 10) / 10;
+}
+
+// カード売り場価格の年数インフレ連動（1年目は基準額、後半は緩やかに上昇）
+export function getCardShopPrice(basePrice: number | undefined, year: number): number {
+  const base = basePrice ?? 1500;
+  const mult = Math.max(1, 1 + (getYearInflationMult(year) - 1) * 0.45);
+  return Math.round((base * mult) / 100) * 100;
+}
+
 export class GameEngine {
   public roomId: string;
   public status: 'waiting' | 'playing' | 'paused' | 'finished' = 'waiting';
@@ -558,32 +572,38 @@ export class GameEngine {
         const endEvents = this.finishTurn(player);
         return { ok: true, events: [...events, ...endEvents] };
       } else if (card.id === 'typhoon_card') {
+        const dmg = Math.round((2500 * getYearInflationMult(this.currentYear)) / 100) * 100;
         this.players.forEach((p) => {
-          if (p.id !== player.id) p.money -= 1500;
+          if (p.id !== player.id) p.money -= dmg;
         });
-        this.lastEventMessage = `🌀 ${player.name}が台風発生カードを使用！ライバル全員に-1,500万円の被害！`;
+        this.lastEventMessage = `🌀 ${player.name}が台風発生カードを使用！ライバル全員に-${dmg.toLocaleString()}万円の被害！`;
       } else if (card.id === 'vampire_card') {
         let totalDrained = 0;
         this.players.forEach((p) => {
           if (p.id !== player.id && p.money > 0) {
-            const drain = Math.min(3000, Math.round((p.money * 0.1) / 100) * 100);
+            const drain = Math.round((p.money * 0.15) / 100) * 100;
             p.money -= drain;
             totalDrained += drain;
           }
         });
         player.money += totalDrained;
-        this.lastEventMessage = `🧛 ${player.name}が吸血鬼カードを使用！全員から合計 +${totalDrained.toLocaleString()}万円を吸い取った！`;
+        this.lastEventMessage = `🧛 ${player.name}が吸血鬼カードを使用！全員から所持金の15%（合計 +${totalDrained.toLocaleString()}万円）を吸い取った！`;
       } else if (card.id === 'reverse_rank') {
+        const mult = getYearInflationMult(this.currentYear);
         const sorted = [...this.players].sort((a, b) => a.rank - b.rank);
         const top = sorted[0];
         const isLast = player.rank === this.players.length && this.players.length > 1;
         if (isLast && top && top.id !== player.id) {
-          top.money -= 5000;
-          player.money += 5000;
-          this.lastEventMessage = `⚔️ 下剋上発動！最下位の${player.name}が1位${top.name}から5,000万円を奪った！`;
+          const minSteal = Math.round((5000 * mult) / 100) * 100;
+          const pctSteal = top.money > 0 ? Math.round((top.money * 0.25) / 100) * 100 : 0;
+          const steal = Math.max(minSteal, pctSteal);
+          top.money -= steal;
+          player.money += steal;
+          this.lastEventMessage = `⚔️ 下剋上発動！最下位の${player.name}が1位${top.name}から ${steal.toLocaleString()}万円を奪った！`;
         } else {
-          player.money += 1500;
-          this.lastEventMessage = `⚔️ ${player.name}が下剋上カードで+1,500万円を獲得！`;
+          const gain = Math.round((2000 * mult) / 100) * 100;
+          player.money += gain;
+          this.lastEventMessage = `⚔️ ${player.name}が下剋上カードで+${gain.toLocaleString()}万円を獲得！`;
         }
       } else if (card.id === 'big_dubbing') {
         const copied: string[] = [];
@@ -597,19 +617,30 @@ export class GameEngine {
         player.cardCount = player.cards.length;
         this.lastEventMessage = `📑 ${player.name}がダブルダビングで ${copied.join('・') || '複製なし'} を増やした！`;
       } else if (card.id === 'property_boom') {
-        const count = Object.values(this.ownedProperties).filter((o) => o.ownerId === player.id).length;
-        const bonus = count * 600;
+        let annualTotal = 0;
+        for (const owned of Object.values(this.ownedProperties)) {
+          if (owned.ownerId !== player.id) continue;
+          const st = this.stationMap.get(owned.stationId);
+          const prop = st?.properties?.find((p) => p.id === owned.propertyId);
+          if (!prop) continue;
+          const isMono = this.isStationMonopolizedBy(owned.stationId, player.id);
+          annualTotal += calcAnnualIncome(prop.price, prop.rate, owned.level, isMono);
+        }
+        const minBonus = Math.round((1000 * getYearInflationMult(this.currentYear)) / 100) * 100;
+        const bonus = Math.max(minBonus, Math.round((annualTotal * 0.5) / 100) * 100);
         player.money += bonus;
-        this.lastEventMessage = `📈 全物件好景気！${player.name}は所有${count}件×600万＝+${bonus.toLocaleString()}万円を獲得！`;
+        this.lastEventMessage = `📈 全物件好景気！${player.name}は年間総収益の50% ＝ +${bonus.toLocaleString()}万円の臨時配当を獲得！`;
       } else if (card.id === 'lucky_slot') {
-        const prizes = [1000, 3000, 7000, 10000];
-        const win = prizes[Math.floor(Math.random() * prizes.length)];
+        const mult = getYearInflationMult(this.currentYear);
+        const prizes = [2000, 5000, 10000, 20000];
+        const win = Math.round((prizes[Math.floor(Math.random() * prizes.length)] * mult) / 100) * 100;
         player.money += win;
         this.lastEventMessage = `🎰 スロット大当たり！${player.name}は +${win.toLocaleString()}万円を獲得！`;
       } else if (card.id === 'super_exorcise') {
         if (player.hasNuisance) {
           player.hasNuisance = false;
           this.nuisanceTargetPlayerId = null;
+          this.nuisanceForm = 'normal';
         }
         if (player.cards.length < 8) {
           player.cards.push('shield');
@@ -617,13 +648,14 @@ export class GameEngine {
         }
         this.lastEventMessage = `⛩️✨ ${player.name}が大お祓いカードでケチケチ大王を撃退＆バリアカード獲得！`;
       } else if (card.id === 'angel_card') {
-        player.money += 4000;
+        const gain = Math.round((5000 * getYearInflationMult(this.currentYear)) / 100) * 100;
+        player.money += gain;
         if (player.cards.length < 8) {
           const rc = this.cards[Math.floor(Math.random() * this.cards.length)];
           player.cards.push(rc.id);
           player.cardCount = player.cards.length;
         }
-        this.lastEventMessage = `👼 ${player.name}がエンジェルカードを使用！+4,000万円＆カード1枚獲得！`;
+        this.lastEventMessage = `👼 ${player.name}がエンジェルカードを使用！+${gain.toLocaleString()}万円＆カード1枚獲得！`;
       } else if (card.id === 'summon_all') {
         this.players.forEach((p) => {
           if (p.id !== player.id) {
@@ -667,7 +699,8 @@ export class GameEngine {
           this.lastEventMessage = `📋 ${player.name}はダビングできなかった！`;
         }
       } else if (card.id === 'tax_collect') {
-        const per = card.cashAmount ?? 1000;
+        const per =
+          Math.round(((card.cashAmount ?? 1500) * getYearInflationMult(this.currentYear)) / 100) * 100;
         const others = this.players.filter((p) => p.id !== player.id);
         let collected = 0;
         others.forEach((o) => {
@@ -688,7 +721,8 @@ export class GameEngine {
         player.cardCount = player.cards.length;
         this.lastEventMessage = `${player.name}が「${card.name}」を開封！ ${gained.join('、') || '手札満杯'} を入手！`;
       } else {
-        const amount = card.cashAmount ?? 3000;
+        const amount =
+          Math.round(((card.cashAmount ?? 3000) * getYearInflationMult(this.currentYear)) / 100) * 100;
         player.money += amount;
         this.lastEventMessage = `${player.name}が「${card.name}」を使用！ 資金 +${amount.toLocaleString()}万円！`;
       }
@@ -777,10 +811,10 @@ export class GameEngine {
         target.stationId = tmp;
         this.lastEventMessage = `${player.name}が「${card.name}」で${target.name}と場所を入れ替えた！`;
       } else if (card.id === 'rob_money') {
-        const stolen = Math.min(5000, Math.max(0, Math.floor(target.money * 0.2)));
+        const stolen = target.money > 0 ? Math.round((target.money * 0.25) / 100) * 100 : 0;
         target.money -= stolen;
         player.money += stolen;
-        this.lastEventMessage = `${player.name}が${target.name}から${stolen.toLocaleString()}万円を奪った！`;
+        this.lastEventMessage = `${player.name}が${target.name}から所持金の25%（${stolen.toLocaleString()}万円）を奪った！`;
       } else if (card.id === 'steal_card') {
         if (target.cards.length > 0 && player.cards.length < 8) {
           const rIdx = Math.floor(Math.random() * target.cards.length);
@@ -816,9 +850,10 @@ export class GameEngine {
         target.skipNextTurn = true;
         this.lastEventMessage = `❄️ ${player.name}が冬眠カードで${target.name}を次のターン1回休みにした！`;
       } else if (card.id === 'cow_walk') {
+        const dmg = Math.round((2000 * getYearInflationMult(this.currentYear)) / 100) * 100;
         target.skipNextTurn = true;
-        target.money -= 1500;
-        this.lastEventMessage = `🐄 ${player.name}の牛歩カード！${target.name}は1回休み＆-1,500万円！`;
+        target.money -= dmg;
+        this.lastEventMessage = `🐄 ${player.name}の牛歩カード！${target.name}は1回休み＆-${dmg.toLocaleString()}万円！`;
       } else if (card.id === 'teleport_rival') {
         player.prevStationId = player.stationId;
         player.stationId = target.stationId;
@@ -852,14 +887,17 @@ export class GameEngine {
           this.lastEventMessage = `💨 ${player.name}のオナラカードで${target.name}が${blown.name}へ吹き飛んだ！`;
         }
       } else if (card.id === 'devil_attack') {
-        target.money -= 3000;
-        this.lastEventMessage = `😈 ${player.name}がデビルを派遣！${target.name}は3,000万円の損害！`;
+        const dmg = Math.round((4000 * getYearInflationMult(this.currentYear)) / 100) * 100;
+        target.money -= dmg;
+        this.lastEventMessage = `😈 ${player.name}がデビルを派遣！${target.name}は${dmg.toLocaleString()}万円の損害！`;
       } else if (card.id === 'king_bomb_card') {
+        const dmg = Math.round((3500 * getYearInflationMult(this.currentYear)) / 100) * 100;
         this.players.forEach((p) => (p.hasNuisance = false));
         target.hasNuisance = true;
         this.nuisanceTargetPlayerId = target.id;
-        target.money -= 2500;
-        this.lastEventMessage = `🔥 ${player.name}がキング召喚！${target.name}にケチケチ大王憑依＆-2,500万円！`;
+        this.nuisanceForm = 'king';
+        target.money -= dmg;
+        this.lastEventMessage = `🔥 ${player.name}がキング召喚！${target.name}にキングケチケチ憑依＆-${dmg.toLocaleString()}万円！`;
       } else if (card.id === 'burn_card') {
         let burned = 0;
         for (let i = 0; i < 3; i++) {
@@ -960,7 +998,7 @@ export class GameEngine {
       const streakMult =
         this.consecutiveDestCount >= 3 ? 2.0 : this.consecutiveDestCount === 2 ? 1.5 : 1.0;
       const baseBonus =
-        this.eventsData.stationValues.destinationBonusBase + (this.currentYear - 1) * 3000;
+        this.eventsData.stationValues.destinationBonusBase * getYearInflationMult(this.currentYear);
       const bonus = Math.round((baseBonus * streakMult) / 100) * 100;
       player.money += bonus;
 
@@ -1077,7 +1115,7 @@ export class GameEngine {
     if (!station) return this.finishTurn(player);
 
     const events: GameEventSeqItem[] = [];
-    const yearMultiplier = 1 + (this.currentYear - 1) * 0.25;
+    const yearMultiplier = getYearInflationMult(this.currentYear);
     const isSummer = this.currentMonth >= 6 && this.currentMonth <= 8;
     const isWinter = this.currentMonth === 12 || this.currentMonth <= 2;
 
@@ -1335,7 +1373,7 @@ export class GameEngine {
         },
       };
     }
-    const stolen = Math.min(10000, Math.round((player.money * 0.25) / 100) * 100);
+    const stolen = Math.round((player.money * 0.25) / 100) * 100;
     player.money -= stolen;
     this.recalculateRankingsAndDistances();
     this.lastEventMessage = `🕵️ スリの銀次出現！${player.name}は持ち金の25%（-${stolen.toLocaleString()}万円）をすられた！`;
@@ -1363,7 +1401,7 @@ export class GameEngine {
       return { ok: false, error: 'あなたのターンではありません。', events: [] };
     }
     const card = this.cardMap.get(cardId);
-    const price = card?.price ?? 1500;
+    const price = getCardShopPrice(card?.price, this.currentYear);
     if (!card || !SHOP_STOCK_IDS.includes(card.id) || player.cards.length >= 8 || player.money < price) {
       return { ok: false, error: 'このカードは購入できません。', events: [] };
     }
@@ -1375,7 +1413,7 @@ export class GameEngine {
 
     // 続けて買えるなら売り場に留まる（「買い物を終える」で終了）
     const cheapest = Math.min(
-      ...SHOP_STOCK_IDS.map((id) => this.cardMap.get(id)?.price ?? 1500)
+      ...SHOP_STOCK_IDS.map((id) => getCardShopPrice(this.cardMap.get(id)?.price, this.currentYear))
     );
     if (player.cards.length < 8 && player.money >= cheapest) {
       return { ok: true, events: [] };
@@ -1400,7 +1438,7 @@ export class GameEngine {
     if (!card) {
       return { ok: false, error: '指定されたカードが見つかりません。', events: [] };
     }
-    const sellPrice = Math.floor((card.price ?? 1500) * 0.5);
+    const sellPrice = Math.floor(getCardShopPrice(card.price, this.currentYear) * 0.5);
     player.cards.splice(cardIndex, 1);
     player.cardCount = player.cards.length;
     player.money += sellPrice;
@@ -1573,8 +1611,10 @@ export class GameEngine {
         this.nuisanceForm = 'normal';
       }
 
+      const inflMult = getYearInflationMult(this.currentYear);
       if (this.nuisanceForm === 'happy') {
-        const bonus = (Math.floor(Math.random() * 3) + 2) * 1000;
+        const bonus =
+          Math.round(((Math.floor(Math.random() * 3) + 2) * 1000 * inflMult) / 100) * 100;
         player.money += bonus;
         this.lastEventMessage = `😇 ハッピー大王の祝福！${player.name}に +${bonus.toLocaleString()}万円のプレゼント！`;
         events.push({
@@ -1588,7 +1628,8 @@ export class GameEngine {
           },
         });
       } else if (this.nuisanceForm === 'mini') {
-        const loss = (Math.floor(Math.random() * 4) + 3) * 100;
+        const loss =
+          Math.round(((Math.floor(Math.random() * 4) + 3) * 100 * inflMult) / 100) * 100;
         player.money -= loss;
         events.push({
           type: 'nuisance_action',
@@ -1679,7 +1720,8 @@ export class GameEngine {
           if (kingRoll < 0.45) {
             const dice = Array.from({ length: 5 }, () => Math.floor(Math.random() * 6) + 1);
             const sum = dice.reduce((a, b) => a + b, 0);
-            const loss = sum * 300;
+            const unit = Math.round((500 * inflMult) / 100) * 100;
+            const loss = sum * unit;
             player.money -= loss;
             events.push({
               type: 'nuisance_action',
@@ -1687,7 +1729,7 @@ export class GameEngine {
               payload: {
                 blocked: false,
                 title: '🔥 キングのサイコロ5個大出費！！',
-                description: `サイコロ5個の出目は [${dice.join('・')}]＝合計${sum}！ ×300万で -${loss.toLocaleString()}万円を吹き飛ばされた！！`,
+                description: `サイコロ5個の出目は [${dice.join('・')}]＝合計${sum}！ ×${unit.toLocaleString()}万で -${loss.toLocaleString()}万円を吹き飛ばされた！！`,
                 icon: '🔥',
               },
             });
@@ -1748,26 +1790,29 @@ export class GameEngine {
         if (act.type === 'money_loss') {
           const min = act.minAmount ?? 1000;
           const max = act.maxAmount ?? 4000;
-          const loss = Math.round((min + Math.random() * (max - min)) / 100) * 100;
+          const loss =
+            Math.round(((min + Math.random() * (max - min)) * inflMult) / 100) * 100;
           player.money -= loss;
           detail = `${act.description} (-${loss.toLocaleString()}万円)`;
         } else if (act.type === 'money_gain') {
           const min = act.minAmount ?? 1000;
           const max = act.maxAmount ?? 1500;
-          const gain = Math.round((min + Math.random() * (max - min)) / 100) * 100;
+          const gain =
+            Math.round(((min + Math.random() * (max - min)) * inflMult) / 100) * 100;
           player.money += gain;
           detail = `${act.description} (+${gain.toLocaleString()}万円)`;
         } else if (act.type === 'treat_everyone') {
           const others = this.players.filter((p) => p.id !== player.id);
-          const per = act.perPlayerAmount ?? 800;
+          const per = Math.round(((act.perPlayerAmount ?? 800) * inflMult) / 100) * 100;
           if (others.length > 0) {
             const totalPaid = per * others.length;
             player.money -= totalPaid;
             others.forEach((o) => (o.money += per));
             detail = `他の社長全員に${per.toLocaleString()}万円ずつおごった！（合計 -${totalPaid.toLocaleString()}万円）`;
           } else {
-            player.money -= 1200;
-            detail = `1人で豪華ディナーを食べてしまった！ (-1,200万円)`;
+            const selfLoss = Math.round((1200 * inflMult) / 100) * 100;
+            player.money -= selfLoss;
+            detail = `1人で豪華ディナーを食べてしまった！ (-${selfLoss.toLocaleString()}万円)`;
           }
         } else if (act.type === 'sell_property') {
           const myProps = Object.values(this.ownedProperties).filter((o) => o.ownerId === player.id);
@@ -2061,20 +2106,22 @@ export class GameEngine {
     const hero = st.hero!;
 
     let desc = '';
+    const heroMult = getYearInflationMult(this.currentYear);
     if (hero.effectType === 'cash_gift') {
-      const bonus = 3000;
+      const bonus = Math.round((3000 * heroMult) / 100) * 100;
       player.money += bonus;
       desc = `${st.name}の偉人「${hero.name}」が軍資金 +${bonus.toLocaleString()}万円を授けてくれた！`;
     } else if (hero.effectType === 'steal_money_all') {
       const others = this.players.filter((p) => p.id !== player.id);
       if (others.length === 0) return null;
+      const per = Math.round((1000 * heroMult) / 100) * 100;
       let total = 0;
       others.forEach((o) => {
-        o.money -= 800;
-        total += 800;
+        o.money -= per;
+        total += per;
       });
       player.money += total;
-      desc = `${st.name}の偉人「${hero.name}」がライバル全員から800万円ずつ（計+${total.toLocaleString()}万円）徴収してくれた！`;
+      desc = `${st.name}の偉人「${hero.name}」がライバル全員から${per.toLocaleString()}万円ずつ（計+${total.toLocaleString()}万円）徴収してくれた！`;
     } else if (hero.effectType === 'give_express') {
       if (player.cards.length >= 8) return null;
       const pool = this.cards.filter((c) => c.category === 'dice');

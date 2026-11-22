@@ -26,10 +26,15 @@ interface StatusBarProps {
 export function formatMoney(manYen: number): string {
   const sign = manYen < 0 ? '-' : '';
   const abs = Math.abs(manYen);
+  if (abs >= 100000000) {
+    const cho = Math.floor(abs / 100000000);
+    const oku = Math.floor((abs % 100000000) / 10000);
+    return oku > 0 ? `${sign}${cho}兆${oku.toLocaleString()}億円` : `${sign}${cho}兆円`;
+  }
   if (abs >= 10000) {
     const oku = Math.floor(abs / 10000);
     const man = abs % 10000;
-    return man > 0 ? `${sign}${oku}億${man.toLocaleString()}万` : `${sign}${oku}億円`;
+    return man > 0 ? `${sign}${oku.toLocaleString()}億${man.toLocaleString()}万` : `${sign}${oku.toLocaleString()}億円`;
   }
   return `${sign}${abs.toLocaleString()}万円`;
 }
