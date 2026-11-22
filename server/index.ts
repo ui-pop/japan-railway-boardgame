@@ -164,8 +164,8 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   if (!current) return;
   if (!current.isCpu && !current.isMasterOverrideCpu) return;
 
-  // 桃鉄らしいゆったりした演出テンポの計算
-  let delay = 2200; // デフォルト（ターン開始時）
+  // 桃鉄らしいゆったりした演出テンポの計算（ターン間アイキャッチ分も含めて余裕を持たせる）
+  let delay = 2900; // デフォルト（ターン開始アイキャッチ後）
   const hasDiceRoll = lastEvents.some((e) => e.type === 'dice_roll');
   const hasBigEvent = lastEvents.some(
     (e) =>
@@ -177,15 +177,15 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   const hasStationEffect = lastEvents.some((e) => e.type === 'station_effect');
 
   if (hasBigEvent) {
-    delay = 3400;
+    delay = 3800;
   } else if (hasDiceRoll) {
-    delay = 2600; // サイコロがコロコロ回って確定するまで待つ
+    delay = 2700; // サイコロが回って確定するまで待つ
   } else if (hasStationEffect) {
-    delay = 2500;
+    delay = 2800;
   } else if (engine.phase === 'moving') {
-    delay = 850; // 1マスずつ列車が走るテンポ
+    delay = 900; // 1マスずつ列車が走るテンポ
   } else if (engine.phase === 'property_buy' || engine.phase === 'card_shop') {
-    delay = 1800;
+    delay = 1900;
   }
 
   cpuTimer = setTimeout(() => {

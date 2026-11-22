@@ -126,6 +126,11 @@ export class GameEngine {
     }
   }
 
+  private formatPresidentName(raw: string, fallbackIdx: number): string {
+    const base = raw.trim().slice(0, 10) || `プレイヤー${fallbackIdx + 1}`;
+    return base.endsWith('社長') ? base : `${base}社長`;
+  }
+
   public addCpuPlayer(): { ok: boolean; error?: string } {
     if (this.status !== 'waiting') {
       return { ok: false, error: 'ゲーム開始後はCPUを追加できません。' };
@@ -134,10 +139,10 @@ export class GameEngine {
       return { ok: false, error: '満員です（最大8名まで）。' };
     }
 
-    const cpuNames = ['まめ鬼社長', '赤鬼鉄道', '餓鬼電鉄', '風神急行', 'あしゅら商事', 'えんま鉄道', 'さくま鉄人'];
+    const cpuNames = ['まめ鬼社長', '赤鬼社長', '餓鬼社長', '風神社長', 'あしゅら社長', 'えんま社長', 'さくま社長'];
     const existingNames = new Set(this.players.map((p) => p.name));
     const availableName =
-      cpuNames.find((n) => !existingNames.has(n)) ?? `CPU社長${this.players.length + 1}`;
+      cpuNames.find((n) => !existingNames.has(n)) ?? `CPU${this.players.length + 1}社長`;
 
     const seatIndex = this.players.length;
     this.players.push({
@@ -207,7 +212,7 @@ export class GameEngine {
     const newPlayer: PlayerInternalState = {
       id: `p_${uuidv4().slice(0, 8)}`,
       seatIndex,
-      name: name.trim().slice(0, 12) || `社長${seatIndex + 1}`,
+      name: this.formatPresidentName(name, seatIndex),
       color: PLAYER_COLORS[seatIndex % PLAYER_COLORS.length],
       avatar: PLAYER_AVATARS[seatIndex % PLAYER_AVATARS.length],
       isCpu: false,

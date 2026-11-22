@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Compass, Crosshair, Maximize2 } from 'lucide-react';
-import { JAPAN_POLYGONS } from '../data/japanPolygons';
+import { GRID_SIZE, JAPAN_LAND_CELLS } from '../data/japanPolygons';
 import type { PublicGameState, StationDef } from '../types';
 
 interface MapCanvasProps {
@@ -77,10 +77,10 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
   }, []);
 
   const focusWholeJapan = useCallback(() => {
-    const zoomX = size.width / 9600;
+    const zoomX = size.width / 9800;
     const zoomY = size.height / 10800;
     const fitZoom = Math.max(0.06, Math.min(zoomX, zoomY) * 0.92);
-    focusOnPoint(4800, 5600, fitZoom, true);
+    focusOnPoint(4600, 5200, fitZoom, true);
   }, [focusOnPoint, size.height, size.width]);
 
   // 外部トリガーからのフォーカス
@@ -187,22 +187,28 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
         ctx.stroke();
       }
 
-      // 日本列島ポリゴン（実地理ベース・桃鉄風の明るい草原グリーン＋砂浜クリーム縁取り）
-      for (const poly of JAPAN_POLYGONS) {
-        ctx.beginPath();
-        poly.forEach(([px, py], idx) => {
-          if (idx === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        });
-        ctx.closePath();
-        ctx.fillStyle = '#4ade80';
-        ctx.fill();
-        ctx.strokeStyle = '#fef3c7';
-        ctx.lineWidth = 18;
-        ctx.stroke();
-        ctx.strokeStyle = '#16a34a';
-        ctx.lineWidth = 6;
-        ctx.stroke();
+      // 緯度・経度グリッドに沿った桃鉄風カクカク日本列島（2パス描画で海岸線に砂浜の縁取りを自動生成！）
+      const pad = 16;
+      const half = GRID_SIZE / 2;
+      // パス1: 砂浜（クリーム色）
+      ctx.fillStyle = '#fef3c7';
+      for (const [gx, gy] of JAPAN_LAND_CELLS) {
+        ctx.fillRect(
+          gx * GRID_SIZE - half - pad,
+          gy * GRID_SIZE - half - pad,
+          GRID_SIZE + pad * 2,
+          GRID_SIZE + pad * 2
+        );
+      }
+      // パス2: 明るい草原グリーン（陸地本体）
+      ctx.fillStyle = '#4ade80';
+      for (const [gx, gy] of JAPAN_LAND_CELLS) {
+        ctx.fillRect(
+          gx * GRID_SIZE - half - 2,
+          gy * GRID_SIZE - half - 2,
+          GRID_SIZE + 4,
+          GRID_SIZE + 4
+        );
       }
 
       // 路線（鉄道レール：茶色の枕木＋白レール）

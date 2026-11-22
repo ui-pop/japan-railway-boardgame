@@ -165,7 +165,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
               <span className="font-black">
                 {currentTurnPlayer.id === myPlayerId
                   ? 'あなたのターン！'
-                  : `${currentTurnPlayer.name}社長が行動中…`}
+                  : `${currentTurnPlayer.name}が行動中…`}
               </span>
               <span className="text-slate-600 font-semibold truncate ml-1">
                 {gameState.lastEventMessage}

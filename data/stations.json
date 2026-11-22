@@ -4,8 +4,8 @@
     "name": "稚内",
     "region": "北海道",
     "type": "property",
-    "x": 7218,
-    "y": 490,
+    "x": 6890,
+    "y": 520,
     "neighbors": [
       "route_1"
     ],
@@ -46,12 +46,12 @@
     "name": "網走",
     "region": "北海道",
     "type": "property",
-    "x": 8564,
-    "y": 1352,
+    "x": 8190,
+    "y": 1300,
     "neighbors": [
-      "route_7",
-      "route_8",
-      "route_14"
+      "route_9",
+      "route_10",
+      "route_17"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -83,13 +83,11 @@
     "name": "旭川",
     "region": "北海道",
     "type": "property",
-    "x": 7576,
-    "y": 1507,
+    "x": 7150,
+    "y": 1430,
     "neighbors": [
-      "route_6",
-      "route_13",
-      "route_18",
-      "route_19"
+      "route_8",
+      "route_20"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -121,11 +119,12 @@
     "name": "富良野",
     "region": "北海道",
     "type": "property",
-    "x": 7582,
-    "y": 1773,
+    "x": 7150,
+    "y": 1690,
     "neighbors": [
-      "route_18",
-      "route_23"
+      "route_20",
+      "route_21",
+      "route_24"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -157,13 +156,11 @@
     "name": "釧路",
     "region": "北海道",
     "type": "property",
-    "x": 8622,
-    "y": 1996,
+    "x": 8190,
+    "y": 1820,
     "neighbors": [
-      "route_17",
-      "route_25",
-      "route_29",
-      "route_32"
+      "route_19",
+      "route_29"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -195,13 +192,11 @@
     "name": "帯広",
     "region": "北海道",
     "type": "property",
-    "x": 8008,
-    "y": 2034,
+    "x": 7670,
+    "y": 1950,
     "neighbors": [
-      "route_24",
-      "route_31",
-      "route_36",
-      "route_41"
+      "route_28",
+      "route_36"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -233,10 +228,10 @@
     "name": "小樽",
     "region": "北海道",
     "type": "property",
-    "x": 6859,
-    "y": 1866,
+    "x": 6500,
+    "y": 1820,
     "neighbors": [
-      "route_45"
+      "route_42"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -275,13 +270,12 @@
     "name": "札幌",
     "region": "北海道",
     "type": "property",
-    "x": 7046,
-    "y": 1947,
+    "x": 6760,
+    "y": 1820,
     "neighbors": [
-      "route_22",
-      "route_45",
-      "route_46",
-      "route_47"
+      "route_23",
+      "route_42",
+      "route_41"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -327,12 +321,11 @@
     "name": "苫小牧",
     "region": "北海道",
     "type": "property",
-    "x": 7176,
-    "y": 2213,
+    "x": 6760,
+    "y": 2080,
     "neighbors": [
-      "route_40",
-      "route_46",
-      "route_48"
+      "route_41",
+      "route_43"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -364,11 +357,11 @@
     "name": "函館",
     "region": "北海道",
     "type": "property",
-    "x": 6724,
-    "y": 2747,
+    "x": 6370,
+    "y": 2600,
     "neighbors": [
-      "route_49",
-      "route_51"
+      "route_45",
+      "route_48"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -414,13 +407,12 @@
     "name": "青森",
     "region": "東北",
     "type": "property",
-    "x": 6729,
-    "y": 3336,
+    "x": 6370,
+    "y": 3120,
     "neighbors": [
-      "route_53",
-      "route_54",
-      "route_56",
-      "route_57"
+      "route_50",
+      "route_51",
+      "route_55"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -459,12 +451,11 @@
     "name": "八戸",
     "region": "東北",
     "type": "property",
-    "x": 7119,
-    "y": 3528,
+    "x": 6760,
+    "y": 3380,
     "neighbors": [
-      "route_55",
-      "route_61",
-      "route_64"
+      "route_54",
+      "route_61"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -496,14 +487,13 @@
     "name": "秋田",
     "region": "東北",
     "type": "property",
-    "x": 6396,
-    "y": 4018,
+    "x": 6110,
+    "y": 3770,
     "neighbors": [
+      "route_67",
       "route_70",
       "route_73",
-      "route_76",
-      "route_82",
-      "route_88"
+      "route_80"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -542,14 +532,13 @@
     "name": "盛岡",
     "region": "東北",
     "type": "property",
-    "x": 6942,
-    "y": 4030,
+    "x": 6630,
+    "y": 3770,
     "neighbors": [
       "route_60",
       "route_63",
-      "route_75",
-      "route_91",
-      "route_97"
+      "route_72",
+      "route_96"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -588,13 +577,12 @@
     "name": "山形",
     "region": "東北",
     "type": "property",
-    "x": 6521,
-    "y": 4929,
+    "x": 6240,
+    "y": 4680,
     "neighbors": [
-      "route_81",
+      "route_79",
       "route_99",
-      "route_100",
-      "route_103"
+      "route_100"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -633,15 +621,12 @@
     "name": "仙台",
     "region": "東北",
     "type": "property",
-    "x": 6796,
-    "y": 4917,
+    "x": 6500,
+    "y": 4680,
     "neighbors": [
-      "route_96",
+      "route_95",
       "route_99",
-      "route_104",
-      "route_107",
-      "route_110",
-      "route_115"
+      "route_106"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -694,12 +679,11 @@
     "name": "郡山",
     "region": "東北",
     "type": "property",
-    "x": 6542,
-    "y": 5456,
+    "x": 6240,
+    "y": 5200,
     "neighbors": [
-      "route_109",
-      "route_117",
-      "route_118"
+      "route_102",
+      "route_110"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -738,11 +722,11 @@
     "name": "いわき",
     "region": "東北",
     "type": "property",
-    "x": 6807,
-    "y": 5673,
+    "x": 6500,
+    "y": 5330,
     "neighbors": [
-      "route_114",
-      "route_121"
+      "route_109",
+      "route_114"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -774,14 +758,13 @@
     "name": "新潟",
     "region": "中部",
     "type": "property",
-    "x": 5845,
-    "y": 5140,
+    "x": 5590,
+    "y": 4810,
     "neighbors": [
-      "route_87",
-      "route_123",
-      "route_126",
-      "route_132",
-      "route_138"
+      "route_90",
+      "route_118",
+      "route_121",
+      "route_127"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -820,13 +803,11 @@
     "name": "水戸",
     "region": "関東",
     "type": "property",
-    "x": 6588,
-    "y": 6095,
+    "x": 6240,
+    "y": 5720,
     "neighbors": [
-      "route_122",
-      "route_142",
-      "route_143",
-      "route_146"
+      "route_117",
+      "route_141"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -858,12 +839,11 @@
     "name": "宇都宮",
     "region": "関東",
     "type": "property",
-    "x": 6282,
-    "y": 5977,
+    "x": 5980,
+    "y": 5590,
     "neighbors": [
-      "route_120",
-      "route_147",
-      "route_148"
+      "route_113",
+      "route_147"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -895,14 +875,12 @@
     "name": "高崎",
     "region": "関東",
     "type": "property",
-    "x": 5829,
-    "y": 6126,
+    "x": 5590,
+    "y": 5720,
     "neighbors": [
-      "route_131",
+      "route_126",
       "route_150",
-      "route_152",
-      "route_153",
-      "route_155"
+      "route_151"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -941,13 +919,13 @@
     "name": "大宮",
     "region": "関東",
     "type": "property",
-    "x": 6128,
-    "y": 6353,
+    "x": 5850,
+    "y": 5980,
     "neighbors": [
       "route_149",
-      "route_154",
-      "route_156",
-      "route_157"
+      "route_152",
+      "route_153",
+      "route_154"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -986,11 +964,12 @@
     "name": "千葉",
     "region": "関東",
     "type": "property",
-    "x": 6412,
-    "y": 6576,
+    "x": 6110,
+    "y": 6240,
     "neighbors": [
-      "route_158",
-      "route_159"
+      "route_143",
+      "route_144",
+      "route_157"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1029,14 +1008,12 @@
     "name": "東京",
     "region": "関東",
     "type": "property",
-    "x": 6249,
-    "y": 6490,
+    "x": 5850,
+    "y": 6240,
     "neighbors": [
-      "route_145",
-      "route_156",
-      "route_159",
-      "route_160",
-      "route_161"
+      "route_144",
+      "route_153",
+      "route_158"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1096,11 +1073,12 @@
     "name": "横浜",
     "region": "関東",
     "type": "property",
-    "x": 6172,
-    "y": 6657,
+    "x": 5590,
+    "y": 6240,
     "neighbors": [
-      "route_160",
-      "route_165"
+      "route_158",
+      "route_159",
+      "route_161"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1139,12 +1117,13 @@
     "name": "熱海",
     "region": "中部",
     "type": "property",
-    "x": 5871,
-    "y": 6931,
+    "x": 5590,
+    "y": 6500,
     "neighbors": [
-      "route_166",
-      "route_167",
-      "route_168"
+      "route_161",
+      "route_162",
+      "route_163",
+      "route_166"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -1176,13 +1155,12 @@
     "name": "甲府",
     "region": "中部",
     "type": "property",
-    "x": 5600,
-    "y": 6535,
+    "x": 5330,
+    "y": 6110,
     "neighbors": [
-      "route_164",
-      "route_169",
-      "route_171",
-      "route_173"
+      "route_160",
+      "route_168",
+      "route_171"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -1221,12 +1199,12 @@
     "name": "長野",
     "region": "中部",
     "type": "property",
-    "x": 5403,
-    "y": 5921,
+    "x": 5070,
+    "y": 5590,
     "neighbors": [
-      "route_174",
-      "route_175",
-      "route_176"
+      "route_176",
+      "route_178",
+      "route_179"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1265,12 +1243,12 @@
     "name": "松本",
     "region": "中部",
     "type": "property",
-    "x": 5288,
-    "y": 6175,
+    "x": 5070,
+    "y": 5850,
     "neighbors": [
       "route_170",
-      "route_175",
-      "route_179"
+      "route_178",
+      "route_181"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -1302,13 +1280,13 @@
     "name": "富山",
     "region": "中部",
     "type": "property",
-    "x": 4893,
-    "y": 5890,
+    "x": 4680,
+    "y": 5590,
     "neighbors": [
-      "route_137",
-      "route_178",
-      "route_181",
-      "route_182"
+      "route_138",
+      "route_180",
+      "route_183",
+      "route_184"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1347,12 +1325,12 @@
     "name": "金沢",
     "region": "中部",
     "type": "property",
-    "x": 4607,
-    "y": 5977,
+    "x": 4420,
+    "y": 5590,
     "neighbors": [
-      "route_182",
-      "route_183",
-      "route_185"
+      "route_184",
+      "route_185",
+      "route_189"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1391,12 +1369,12 @@
     "name": "福井",
     "region": "中部",
     "type": "property",
-    "x": 4378,
-    "y": 6287,
+    "x": 4160,
+    "y": 5980,
     "neighbors": [
-      "route_184",
       "route_188",
-      "route_190"
+      "route_192",
+      "route_196"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -1435,12 +1413,12 @@
     "name": "静岡",
     "region": "中部",
     "type": "property",
-    "x": 5507,
-    "y": 6963,
+    "x": 5200,
+    "y": 6630,
     "neighbors": [
-      "route_167",
-      "route_172",
-      "route_194"
+      "route_165",
+      "route_174",
+      "route_199"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1479,11 +1457,10 @@
     "name": "浜松",
     "region": "中部",
     "type": "property",
-    "x": 5164,
-    "y": 7124,
+    "x": 4940,
+    "y": 6760,
     "neighbors": [
-      "route_195",
-      "route_196"
+      "route_200"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -1522,13 +1499,12 @@
     "name": "岐阜",
     "region": "中部",
     "type": "property",
-    "x": 4654,
-    "y": 6676,
+    "x": 4420,
+    "y": 6370,
     "neighbors": [
-      "route_189",
-      "route_197",
-      "route_200",
-      "route_201"
+      "route_195",
+      "route_204",
+      "route_207"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -1567,13 +1543,11 @@
     "name": "名古屋",
     "region": "中部",
     "type": "property",
-    "x": 4737,
-    "y": 6840,
+    "x": 4550,
+    "y": 6630,
     "neighbors": [
-      "route_200",
-      "route_202",
-      "route_203",
-      "route_205"
+      "route_208",
+      "route_209"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1626,13 +1600,12 @@
     "name": "伊勢",
     "region": "近畿",
     "type": "property",
-    "x": 4575,
-    "y": 7256,
+    "x": 4420,
+    "y": 6890,
     "neighbors": [
-      "route_204",
-      "route_207",
-      "route_209",
-      "route_214"
+      "route_210",
+      "route_212",
+      "route_215"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1671,14 +1644,13 @@
     "name": "京都",
     "region": "近畿",
     "type": "property",
-    "x": 4075,
-    "y": 6938,
+    "x": 3900,
+    "y": 6500,
     "neighbors": [
-      "route_215",
-      "route_216",
-      "route_217",
-      "route_218",
-      "route_223"
+      "route_221",
+      "route_223",
+      "route_225",
+      "route_231"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1731,12 +1703,12 @@
     "name": "奈良",
     "region": "近畿",
     "type": "property",
-    "x": 4192,
-    "y": 7142,
+    "x": 4030,
+    "y": 6760,
     "neighbors": [
-      "route_208",
-      "route_216",
-      "route_226"
+      "route_214",
+      "route_222",
+      "route_224"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -1768,13 +1740,12 @@
     "name": "大阪",
     "region": "近畿",
     "type": "property",
-    "x": 4008,
-    "y": 7136,
+    "x": 3770,
+    "y": 6760,
     "neighbors": [
-      "route_217",
-      "route_226",
-      "route_227",
-      "route_228"
+      "route_224",
+      "route_235",
+      "route_237"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1827,12 +1798,12 @@
     "name": "和歌山",
     "region": "近畿",
     "type": "property",
-    "x": 3843,
-    "y": 7425,
+    "x": 3640,
+    "y": 7020,
     "neighbors": [
-      "route_227",
-      "route_229",
-      "route_230"
+      "route_236",
+      "route_238",
+      "route_240"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1871,12 +1842,13 @@
     "name": "神戸",
     "region": "近畿",
     "type": "property",
-    "x": 3824,
-    "y": 7136,
+    "x": 3510,
+    "y": 6760,
     "neighbors": [
-      "route_228",
-      "route_231",
-      "route_232"
+      "route_237",
+      "route_242",
+      "route_243",
+      "route_289"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1915,12 +1887,11 @@
     "name": "姫路",
     "region": "近畿",
     "type": "property",
-    "x": 3583,
-    "y": 7049,
+    "x": 3250,
+    "y": 6630,
     "neighbors": [
-      "route_232",
-      "route_233",
-      "route_234"
+      "route_244",
+      "route_246"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -1952,13 +1923,12 @@
     "name": "鳥取",
     "region": "中国",
     "type": "property",
-    "x": 3349,
-    "y": 6634,
+    "x": 3120,
+    "y": 6240,
     "neighbors": [
-      "route_222",
-      "route_235",
-      "route_236",
-      "route_239"
+      "route_230",
+      "route_247",
+      "route_250"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1990,12 +1960,11 @@
     "name": "松江",
     "region": "中国",
     "type": "property",
-    "x": 2738,
-    "y": 6650,
+    "x": 2600,
+    "y": 6240,
     "neighbors": [
-      "route_238",
-      "route_240",
-      "route_241"
+      "route_249",
+      "route_252"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2027,13 +1996,11 @@
     "name": "岡山",
     "region": "中国",
     "type": "property",
-    "x": 3224,
-    "y": 7132,
+    "x": 2990,
+    "y": 6760,
     "neighbors": [
-      "route_233",
-      "route_244",
       "route_245",
-      "route_246"
+      "route_255"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2072,12 +2039,12 @@
     "name": "尾道",
     "region": "中国",
     "type": "property",
-    "x": 2808,
-    "y": 7310,
+    "x": 2730,
+    "y": 6890,
     "neighbors": [
-      "route_247",
-      "route_248",
-      "route_249"
+      "route_257",
+      "route_261",
+      "route_262"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -2109,13 +2076,12 @@
     "name": "広島",
     "region": "中国",
     "type": "property",
-    "x": 2423,
-    "y": 7322,
+    "x": 2340,
+    "y": 6890,
     "neighbors": [
-      "route_250",
-      "route_251",
-      "route_254",
-      "route_257"
+      "route_263",
+      "route_264",
+      "route_267"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2161,12 +2127,12 @@
     "name": "山口",
     "region": "中国",
     "type": "property",
-    "x": 1908,
-    "y": 7452,
+    "x": 1820,
+    "y": 7020,
     "neighbors": [
-      "route_256",
-      "route_259",
-      "route_265"
+      "route_270",
+      "route_273",
+      "route_281"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -2205,11 +2171,11 @@
     "name": "下関",
     "region": "中国",
     "type": "property",
-    "x": 1672,
-    "y": 7542,
+    "x": 1560,
+    "y": 7150,
     "neighbors": [
-      "route_265",
-      "route_266"
+      "route_282",
+      "route_283"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2241,12 +2207,12 @@
     "name": "高松",
     "region": "四国",
     "type": "property",
-    "x": 3245,
-    "y": 7353,
+    "x": 3120,
+    "y": 7020,
     "neighbors": [
-      "route_246",
-      "route_267",
-      "route_268"
+      "route_256",
+      "route_284",
+      "route_285"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2285,13 +2251,12 @@
     "name": "徳島",
     "region": "四国",
     "type": "property",
-    "x": 3510,
-    "y": 7521,
+    "x": 3380,
+    "y": 7150,
     "neighbors": [
-      "route_230",
-      "route_267",
-      "route_271",
-      "route_272"
+      "route_241",
+      "route_288",
+      "route_290"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -2330,11 +2295,11 @@
     "name": "高知",
     "region": "四国",
     "type": "property",
-    "x": 2980,
-    "y": 7837,
+    "x": 2860,
+    "y": 7410,
     "neighbors": [
-      "route_274",
-      "route_275"
+      "route_294",
+      "route_295"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2373,14 +2338,12 @@
     "name": "松山",
     "region": "四国",
     "type": "property",
-    "x": 2584,
-    "y": 7663,
+    "x": 2470,
+    "y": 7280,
     "neighbors": [
-      "route_258",
-      "route_277",
-      "route_278",
-      "route_281",
-      "route_286"
+      "route_272",
+      "route_297",
+      "route_304"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2419,12 +2382,11 @@
     "name": "小倉",
     "region": "九州",
     "type": "property",
-    "x": 1563,
-    "y": 7691,
+    "x": 1300,
+    "y": 7150,
     "neighbors": [
-      "route_266",
-      "route_288",
-      "route_290"
+      "route_283",
+      "route_307"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -2456,12 +2418,12 @@
     "name": "博多",
     "region": "九州",
     "type": "property",
-    "x": 1362,
-    "y": 7818,
+    "x": 1300,
+    "y": 7410,
     "neighbors": [
-      "route_290",
-      "route_291",
-      "route_292"
+      "route_307",
+      "route_308",
+      "route_310"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2515,11 +2477,11 @@
     "region": "九州",
     "type": "property",
     "x": 1300,
-    "y": 8023,
+    "y": 7670,
     "neighbors": [
-      "route_291",
-      "route_295",
-      "route_297"
+      "route_308",
+      "route_313",
+      "route_316"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -2558,11 +2520,11 @@
     "name": "長崎",
     "region": "九州",
     "type": "property",
-    "x": 1076,
-    "y": 8339,
+    "x": 1040,
+    "y": 7930,
     "neighbors": [
-      "route_296",
-      "route_298"
+      "route_315",
+      "route_318"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2601,13 +2563,12 @@
     "name": "大分",
     "region": "九州",
     "type": "property",
-    "x": 2034,
-    "y": 8069,
+    "x": 1820,
+    "y": 7540,
     "neighbors": [
-      "route_299",
-      "route_300",
+      "route_302",
       "route_303",
-      "route_308"
+      "route_319"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2646,12 +2607,11 @@
     "name": "熊本",
     "region": "九州",
     "type": "property",
-    "x": 1513,
-    "y": 8308,
+    "x": 1430,
+    "y": 7930,
     "neighbors": [
-      "route_294",
-      "route_302",
-      "route_309",
+      "route_312",
+      "route_323",
       "route_314"
     ],
     "isDestinationCandidate": true,
@@ -2691,11 +2651,11 @@
     "name": "宮崎",
     "region": "九州",
     "type": "property",
-    "x": 1882,
-    "y": 8860,
+    "x": 1820,
+    "y": 8320,
     "neighbors": [
-      "route_307",
-      "route_315"
+      "route_325",
+      "route_331"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2734,13 +2694,12 @@
     "name": "鹿児島",
     "region": "九州",
     "type": "property",
-    "x": 1430,
-    "y": 9058,
+    "x": 1300,
+    "y": 8580,
     "neighbors": [
-      "route_313",
-      "route_316",
-      "route_317",
-      "route_323"
+      "route_329",
+      "route_334",
+      "route_345"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2793,12 +2752,11 @@
     "name": "那覇",
     "region": "沖縄",
     "type": "property",
-    "x": 858,
-    "y": 10137,
+    "x": 780,
+    "y": 9620,
     "neighbors": [
-      "route_322",
-      "route_324",
-      "route_328"
+      "route_344",
+      "route_347"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2844,12 +2802,11 @@
     "name": "知床",
     "region": "北海道",
     "type": "property",
-    "x": 8923,
-    "y": 1321,
+    "x": 8450,
+    "y": 1300,
     "neighbors": [
-      "route_7",
-      "route_28",
-      "route_334"
+      "route_9",
+      "route_359"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -2881,11 +2838,11 @@
     "name": "登別",
     "region": "北海道",
     "type": "property",
-    "x": 6916,
-    "y": 2325,
+    "x": 6500,
+    "y": 2210,
     "neighbors": [
-      "route_48",
-      "route_50"
+      "route_44",
+      "route_47"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -2917,11 +2874,11 @@
     "name": "弘前",
     "region": "東北",
     "type": "property",
-    "x": 6583,
-    "y": 3472,
+    "x": 6110,
+    "y": 3250,
     "neighbors": [
       "route_56",
-      "route_72"
+      "route_69"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -2953,11 +2910,11 @@
     "name": "気仙沼",
     "region": "東北",
     "type": "property",
-    "x": 7160,
-    "y": 4520,
+    "x": 6760,
+    "y": 4290,
     "neighbors": [
-      "route_69",
-      "route_106"
+      "route_66",
+      "route_105"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -2989,13 +2946,11 @@
     "name": "会津若松",
     "region": "東北",
     "type": "property",
-    "x": 6308,
-    "y": 5400,
+    "x": 5980,
+    "y": 5070,
     "neighbors": [
-      "route_102",
-      "route_117",
-      "route_125",
-      "route_337"
+      "route_103",
+      "route_120"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3027,11 +2982,11 @@
     "name": "日光",
     "region": "関東",
     "type": "property",
-    "x": 6141,
-    "y": 5859,
+    "x": 5720,
+    "y": 5460,
     "neighbors": [
-      "route_147",
-      "route_151"
+      "route_146",
+      "route_125"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3063,11 +3018,13 @@
     "name": "成田",
     "region": "関東",
     "type": "property",
-    "x": 6549,
-    "y": 6454,
+    "x": 6240,
+    "y": 5980,
     "neighbors": [
+      "route_141",
       "route_142",
-      "route_158"
+      "route_155",
+      "route_156"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3092,12 +3049,11 @@
     "name": "鎌倉",
     "region": "関東",
     "type": "property",
-    "x": 6070,
-    "y": 6809,
+    "x": 5850,
+    "y": 6500,
     "neighbors": [
-      "route_165",
-      "route_166",
-      "route_338"
+      "route_162",
+      "route_361"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3129,11 +3085,11 @@
     "name": "軽井沢",
     "region": "中部",
     "type": "property",
-    "x": 5632,
-    "y": 6113,
+    "x": 5330,
+    "y": 5720,
     "neighbors": [
-      "route_152",
-      "route_174"
+      "route_150",
+      "route_177"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3165,13 +3121,12 @@
     "name": "高山",
     "region": "中部",
     "type": "property",
-    "x": 4914,
-    "y": 6237,
+    "x": 4680,
+    "y": 5850,
     "neighbors": [
-      "route_180",
-      "route_181",
-      "route_199",
-      "route_339"
+      "route_182",
+      "route_183",
+      "route_206"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3203,11 +3158,12 @@
     "name": "豊橋",
     "region": "中部",
     "type": "property",
-    "x": 4982,
-    "y": 7087,
+    "x": 4680,
+    "y": 6370,
     "neighbors": [
-      "route_196",
-      "route_202"
+      "route_203",
+      "route_204",
+      "route_205"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3232,12 +3188,12 @@
     "name": "大津",
     "region": "近畿",
     "type": "property",
-    "x": 4260,
-    "y": 6938,
+    "x": 4160,
+    "y": 6500,
     "neighbors": [
-      "route_193",
-      "route_206",
-      "route_215"
+      "route_198",
+      "route_211",
+      "route_221"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3269,12 +3225,12 @@
     "name": "白浜",
     "region": "近畿",
     "type": "property",
-    "x": 3926,
-    "y": 7762,
+    "x": 3770,
+    "y": 7280,
     "neighbors": [
-      "route_213",
-      "route_229",
-      "route_340"
+      "route_220",
+      "route_239",
+      "route_364"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3306,11 +3262,12 @@
     "name": "淡路島",
     "region": "近畿",
     "type": "property",
-    "x": 3676,
-    "y": 7349,
+    "x": 3510,
+    "y": 6500,
     "neighbors": [
-      "route_231",
-      "route_271"
+      "route_226",
+      "route_227",
+      "route_242"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3342,11 +3299,12 @@
     "name": "倉敷",
     "region": "中国",
     "type": "property",
-    "x": 3062,
-    "y": 7221,
+    "x": 2990,
+    "y": 6500,
     "neighbors": [
-      "route_245",
-      "route_247"
+      "route_254",
+      "route_255",
+      "route_260"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3378,12 +3336,12 @@
     "name": "出雲",
     "region": "中国",
     "type": "property",
-    "x": 2566,
-    "y": 6718,
+    "x": 2340,
+    "y": 6370,
     "neighbors": [
-      "route_240",
       "route_253",
-      "route_264"
+      "route_266",
+      "route_280"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3415,12 +3373,12 @@
     "name": "今治",
     "region": "四国",
     "type": "property",
-    "x": 2704,
-    "y": 7521,
+    "x": 2730,
+    "y": 7150,
     "neighbors": [
-      "route_248",
-      "route_270",
-      "route_277"
+      "route_261",
+      "route_287",
+      "route_299"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3452,12 +3410,11 @@
     "name": "四万十",
     "region": "四国",
     "type": "property",
-    "x": 2668,
-    "y": 8190,
+    "x": 2470,
+    "y": 7670,
     "neighbors": [
-      "route_276",
-      "route_280",
-      "route_346"
+      "route_298",
+      "route_369"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3482,12 +3439,11 @@
     "name": "別府",
     "region": "九州",
     "type": "property",
-    "x": 1871,
-    "y": 7982,
+    "x": 1560,
+    "y": 7540,
     "neighbors": [
-      "route_285",
-      "route_289",
-      "route_299"
+      "route_303",
+      "route_309"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3519,10 +3475,10 @@
     "name": "石垣島",
     "region": "沖縄",
     "type": "property",
-    "x": 286,
-    "y": 10571,
+    "x": 260,
+    "y": 10010,
     "neighbors": [
-      "route_327"
+      "route_352"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3555,8 +3511,7 @@
     "region": "北海道",
     "type": "property",
     "neighbors": [
-      "route_35",
-      "route_336"
+      "route_35"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3582,8 +3537,8 @@
         "rate": 0.55
       }
     ],
-    "x": 9246,
-    "y": 1779
+    "x": 8840,
+    "y": 1690
   },
   {
     "id": "yubari",
@@ -3591,8 +3546,9 @@
     "region": "北海道",
     "type": "property",
     "neighbors": [
-      "route_44",
-      "route_47"
+      "route_39",
+      "route_40",
+      "route_22"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3618,8 +3574,8 @@
         "rate": 0.75
       }
     ],
-    "x": 7384,
-    "y": 1953
+    "x": 7020,
+    "y": 1950
   },
   {
     "id": "hiraizumi",
@@ -3627,8 +3583,9 @@
     "region": "東北",
     "type": "property",
     "neighbors": [
-      "route_98",
-      "route_116"
+      "route_92",
+      "route_93",
+      "route_98"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3654,8 +3611,8 @@
         "rate": 0.55
       }
     ],
-    "x": 6921,
-    "y": 4470
+    "x": 6500,
+    "y": 4160
   },
   {
     "id": "sakata",
@@ -3663,8 +3620,8 @@
     "region": "東北",
     "type": "property",
     "neighbors": [
-      "route_90",
-      "route_141"
+      "route_76",
+      "route_140"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3690,8 +3647,8 @@
         "rate": 0.6
       }
     ],
-    "x": 6261,
-    "y": 4520
+    "x": 5980,
+    "y": 4290
   },
   {
     "id": "yonezawa",
@@ -3699,8 +3656,9 @@
     "region": "東北",
     "type": "property",
     "neighbors": [
-      "route_103",
-      "route_337"
+      "route_104",
+      "route_119",
+      "route_120"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3726,8 +3684,8 @@
         "rate": 0.55
       }
     ],
-    "x": 6401,
-    "y": 5134
+    "x": 5980,
+    "y": 4810
   },
   {
     "id": "tsukuba",
@@ -3735,8 +3693,8 @@
     "region": "関東",
     "type": "property",
     "neighbors": [
-      "route_146",
-      "route_157"
+      "route_145",
+      "route_156"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3762,8 +3720,8 @@
         "rate": 0.45
       }
     ],
-    "x": 6401,
-    "y": 6274
+    "x": 6500,
+    "y": 5980
   },
   {
     "id": "chichibu",
@@ -3771,8 +3729,9 @@
     "region": "関東",
     "type": "property",
     "neighbors": [
-      "route_155",
-      "route_173"
+      "route_151",
+      "route_152",
+      "route_175"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3798,8 +3757,8 @@
         "rate": 0.55
       }
     ],
-    "x": 5866,
-    "y": 6330
+    "x": 5590,
+    "y": 5980
   },
   {
     "id": "hakone",
@@ -3807,8 +3766,8 @@
     "region": "関東",
     "type": "property",
     "neighbors": [
-      "route_168",
-      "route_338"
+      "route_167",
+      "route_363"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3841,8 +3800,8 @@
         "rate": 0.5
       }
     ],
-    "x": 5829,
-    "y": 6752
+    "x": 5330,
+    "y": 6370
   },
   {
     "id": "wajima",
@@ -3850,7 +3809,7 @@
     "region": "中部",
     "type": "property",
     "neighbors": [
-      "route_187"
+      "route_191"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3876,8 +3835,8 @@
         "rate": 0.55
       }
     ],
-    "x": 4732,
-    "y": 5462
+    "x": 4550,
+    "y": 5200
   },
   {
     "id": "gero",
@@ -3885,8 +3844,8 @@
     "region": "中部",
     "type": "property",
     "neighbors": [
-      "route_201",
-      "route_339"
+      "route_205",
+      "route_206"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3905,8 +3864,8 @@
         "rate": 0.5
       }
     ],
-    "x": 4909,
-    "y": 6442
+    "x": 4680,
+    "y": 6110
   },
   {
     "id": "toba",
@@ -3914,8 +3873,9 @@
     "region": "近畿",
     "type": "property",
     "neighbors": [
-      "route_214",
-      "route_345"
+      "route_215",
+      "route_216",
+      "route_368"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -3941,8 +3901,8 @@
         "rate": 0.5
       }
     ],
-    "x": 4759,
-    "y": 7270
+    "x": 4420,
+    "y": 7150
   },
   {
     "id": "kinosaki",
@@ -3950,8 +3910,8 @@
     "region": "近畿",
     "type": "property",
     "neighbors": [
-      "route_225",
-      "route_239"
+      "route_234",
+      "route_251"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -3977,8 +3937,8 @@
         "rate": 0.6
       }
     ],
-    "x": 3645,
-    "y": 6560
+    "x": 3510,
+    "y": 6240
   },
   {
     "id": "uwajima",
@@ -3986,8 +3946,10 @@
     "region": "四国",
     "type": "property",
     "neighbors": [
-      "route_287",
-      "route_346"
+      "route_300",
+      "route_301",
+      "route_306",
+      "route_370"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -4013,8 +3975,8 @@
         "rate": 0.55
       }
     ],
-    "x": 2475,
-    "y": 8048
+    "x": 2210,
+    "y": 7540
   },
   {
     "id": "sasebo",
@@ -4022,8 +3984,7 @@
     "region": "九州",
     "type": "property",
     "neighbors": [
-      "route_297",
-      "route_298"
+      "route_317"
     ],
     "isDestinationCandidate": false,
     "properties": [
@@ -4049,8 +4010,8 @@
         "rate": 0.65
       }
     ],
-    "x": 998,
-    "y": 8085
+    "x": 910,
+    "y": 7670
   },
   {
     "id": "aso",
@@ -4058,8 +4019,8 @@
     "region": "九州",
     "type": "property",
     "neighbors": [
-      "route_308",
-      "route_314"
+      "route_320",
+      "route_330"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -4085,8 +4046,8 @@
         "rate": 0.5
       }
     ],
-    "x": 1726,
-    "y": 8215
+    "x": 1690,
+    "y": 7800
   },
   {
     "id": "ibusuki",
@@ -4094,8 +4055,8 @@
     "region": "九州",
     "type": "property",
     "neighbors": [
-      "route_323",
-      "route_333"
+      "route_346",
+      "route_358"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -4121,16 +4082,16 @@
         "rate": 0.75
       }
     ],
-    "x": 1477,
-    "y": 9281
+    "x": 1430,
+    "y": 8840
   },
   {
     "id": "route_1",
     "name": "稚内・旭川間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 7269,
-    "y": 635,
+    "x": 7020,
+    "y": 520,
     "neighbors": [
       "wakkanai",
       "route_2"
@@ -4142,8 +4103,8 @@
     "name": "稚内・旭川間(マイナス駅)",
     "region": "北海道",
     "type": "minus",
-    "x": 7320,
-    "y": 781,
+    "x": 7150,
+    "y": 520,
     "neighbors": [
       "route_1",
       "route_3"
@@ -4152,11 +4113,11 @@
   },
   {
     "id": "route_3",
-    "name": "稚内・旭川間(プラス駅)",
+    "name": "稚内・旭川間(カード駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 7371,
-    "y": 926,
+    "type": "card",
+    "x": 7150,
+    "y": 650,
     "neighbors": [
       "route_2",
       "route_4"
@@ -4165,11 +4126,11 @@
   },
   {
     "id": "route_4",
-    "name": "稚内・旭川間(カード駅)",
+    "name": "稚内・旭川間(プラス駅)",
     "region": "北海道",
-    "type": "card",
-    "x": 7423,
-    "y": 1071,
+    "type": "plus",
+    "x": 7150,
+    "y": 780,
     "neighbors": [
       "route_3",
       "route_5"
@@ -4178,11 +4139,11 @@
   },
   {
     "id": "route_5",
-    "name": "稚内・旭川間(プラス駅)",
+    "name": "稚内・旭川間(マイナス駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 7474,
-    "y": 1216,
+    "type": "minus",
+    "x": 7150,
+    "y": 910,
     "neighbors": [
       "route_4",
       "route_6"
@@ -4191,24 +4152,51 @@
   },
   {
     "id": "route_6",
-    "name": "稚内・旭川間(マイナス駅)",
+    "name": "稚内・旭川間(プラス駅)",
     "region": "北海道",
-    "type": "minus",
-    "x": 7525,
-    "y": 1362,
+    "type": "plus",
+    "x": 7150,
+    "y": 1040,
     "neighbors": [
       "route_5",
-      "asahikawa"
+      "route_7"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_7",
+    "name": "稚内・旭川間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7150,
+    "y": 1170,
+    "neighbors": [
+      "route_6",
+      "route_8"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_8",
+    "name": "稚内・旭川間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 7150,
+    "y": 1300,
+    "neighbors": [
+      "route_7",
+      "asahikawa",
+      "route_16"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_9",
     "name": "網走・知床間(ナイスカード駅)",
     "region": "北海道",
     "type": "nice_card",
-    "x": 8744,
-    "y": 1337,
+    "x": 8320,
+    "y": 1300,
     "neighbors": [
       "abashiri",
       "shiretoko"
@@ -4216,51 +4204,25 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_8",
+    "id": "route_10",
     "name": "網走・旭川間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 8423,
-    "y": 1374,
+    "x": 8060,
+    "y": 1300,
     "neighbors": [
       "abashiri",
-      "route_9"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_9",
-    "name": "網走・旭川間(カード駅)",
-    "region": "北海道",
-    "type": "card",
-    "x": 8282,
-    "y": 1396,
-    "neighbors": [
-      "route_8",
-      "route_10"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_10",
-    "name": "網走・旭川間(マイナス駅)",
-    "region": "北海道",
-    "type": "minus",
-    "x": 8141,
-    "y": 1418,
-    "neighbors": [
-      "route_9",
       "route_11"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_11",
-    "name": "網走・旭川間(プラス駅)",
+    "name": "網走・旭川間(マイナス駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 7999,
-    "y": 1441,
+    "type": "minus",
+    "x": 7930,
+    "y": 1300,
     "neighbors": [
       "route_10",
       "route_12"
@@ -4269,11 +4231,11 @@
   },
   {
     "id": "route_12",
-    "name": "網走・旭川間(カード駅)",
+    "name": "網走・旭川間(プラス駅)",
     "region": "北海道",
-    "type": "card",
-    "x": 7858,
-    "y": 1463,
+    "type": "plus",
+    "x": 7800,
+    "y": 1300,
     "neighbors": [
       "route_11",
       "route_13"
@@ -4285,34 +4247,34 @@
     "name": "網走・旭川間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 7717,
-    "y": 1485,
+    "x": 7670,
+    "y": 1300,
     "neighbors": [
       "route_12",
-      "asahikawa"
+      "route_14"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_14",
-    "name": "網走・釧路間(マイナス駅)",
+    "name": "網走・旭川間(マイナス駅)",
     "region": "北海道",
     "type": "minus",
-    "x": 8576,
-    "y": 1481,
+    "x": 7540,
+    "y": 1300,
     "neighbors": [
-      "abashiri",
+      "route_13",
       "route_15"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_15",
-    "name": "網走・釧路間(カード駅)",
+    "name": "網走・旭川間(カード駅)",
     "region": "北海道",
     "type": "card",
-    "x": 8587,
-    "y": 1610,
+    "x": 7410,
+    "y": 1300,
     "neighbors": [
       "route_14",
       "route_16"
@@ -4321,37 +4283,64 @@
   },
   {
     "id": "route_16",
-    "name": "網走・釧路間(プラス駅)",
+    "name": "網走・旭川間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 8599,
-    "y": 1738,
+    "x": 7280,
+    "y": 1300,
     "neighbors": [
       "route_15",
-      "route_17"
+      "route_8"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_17",
-    "name": "網走・釧路間(プラス駅)",
+    "name": "網走・釧路間(マイナス駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 8610,
-    "y": 1867,
+    "type": "minus",
+    "x": 8190,
+    "y": 1430,
     "neighbors": [
-      "route_16",
-      "kushiro"
+      "abashiri",
+      "route_18"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_18",
-    "name": "旭川・富良野間(プラス駅)",
+    "name": "網走・釧路間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 7579,
-    "y": 1640,
+    "x": 8190,
+    "y": 1560,
+    "neighbors": [
+      "route_17",
+      "route_19"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_19",
+    "name": "網走・釧路間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 8190,
+    "y": 1690,
+    "neighbors": [
+      "route_18",
+      "kushiro",
+      "route_32"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_20",
+    "name": "旭川・富良野間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 7150,
+    "y": 1560,
     "neighbors": [
       "asahikawa",
       "furano"
@@ -4359,40 +4348,14 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_19",
+    "id": "route_21",
     "name": "旭川・札幌間(カード売り場)",
     "region": "北海道",
     "type": "shop",
-    "x": 7470,
-    "y": 1595,
+    "x": 7150,
+    "y": 1820,
     "neighbors": [
-      "asahikawa",
-      "route_20"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_20",
-    "name": "旭川・札幌間(プラス駅)",
-    "region": "北海道",
-    "type": "plus",
-    "x": 7364,
-    "y": 1683,
-    "neighbors": [
-      "route_19",
-      "route_21"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_21",
-    "name": "旭川・札幌間(カード駅)",
-    "region": "北海道",
-    "type": "card",
-    "x": 7258,
-    "y": 1771,
-    "neighbors": [
-      "route_20",
+      "furano",
       "route_22"
     ],
     "isDestinationCandidate": false
@@ -4402,60 +4365,61 @@
     "name": "旭川・札幌間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 7152,
-    "y": 1859,
+    "x": 7020,
+    "y": 1820,
     "neighbors": [
       "route_21",
-      "sapporo"
+      "route_23",
+      "yubari"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_23",
-    "name": "富良野・帯広間(カード駅)",
+    "name": "旭川・札幌間(マイナス駅)",
     "region": "北海道",
-    "type": "card",
-    "x": 7724,
-    "y": 1860,
+    "type": "minus",
+    "x": 6890,
+    "y": 1820,
     "neighbors": [
-      "furano",
-      "route_24"
+      "route_22",
+      "sapporo"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_24",
-    "name": "富良野・帯広間(カード駅)",
+    "name": "富良野・帯広間(プラス駅)",
     "region": "北海道",
-    "type": "card",
-    "x": 7866,
-    "y": 1947,
+    "type": "plus",
+    "x": 7280,
+    "y": 1690,
     "neighbors": [
-      "route_23",
-      "obihiro"
+      "furano",
+      "route_25"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_25",
-    "name": "釧路・知床間(カード駅)",
+    "name": "富良野・帯広間(プラス駅)",
     "region": "北海道",
-    "type": "card",
-    "x": 8682,
-    "y": 1861,
+    "type": "plus",
+    "x": 7410,
+    "y": 1690,
     "neighbors": [
-      "kushiro",
+      "route_24",
       "route_26"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_26",
-    "name": "釧路・知床間(カード駅)",
+    "name": "富良野・帯広間(マイナス駅)",
     "region": "北海道",
-    "type": "card",
-    "x": 8742,
-    "y": 1726,
+    "type": "minus",
+    "x": 7540,
+    "y": 1690,
     "neighbors": [
       "route_25",
       "route_27"
@@ -4464,11 +4428,11 @@
   },
   {
     "id": "route_27",
-    "name": "釧路・知床間(マイナス駅)",
+    "name": "富良野・帯広間(カード駅)",
     "region": "北海道",
-    "type": "minus",
-    "x": 8803,
-    "y": 1591,
+    "type": "card",
+    "x": 7670,
+    "y": 1690,
     "neighbors": [
       "route_26",
       "route_28"
@@ -4477,24 +4441,25 @@
   },
   {
     "id": "route_28",
-    "name": "釧路・知床間(プラス駅)",
+    "name": "富良野・帯広間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 8863,
-    "y": 1456,
+    "x": 7670,
+    "y": 1820,
     "neighbors": [
       "route_27",
-      "shiretoko"
+      "obihiro",
+      "route_31"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_29",
-    "name": "釧路・帯広間(プラス駅)",
+    "name": "釧路・帯広間(マイナス駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 8469,
-    "y": 2006,
+    "type": "minus",
+    "x": 8060,
+    "y": 1820,
     "neighbors": [
       "kushiro",
       "route_30"
@@ -4503,11 +4468,11 @@
   },
   {
     "id": "route_30",
-    "name": "釧路・帯広間(カード駅)",
+    "name": "釧路・帯広間(プラス駅)",
     "region": "北海道",
-    "type": "card",
-    "x": 8315,
-    "y": 2015,
+    "type": "plus",
+    "x": 7930,
+    "y": 1820,
     "neighbors": [
       "route_29",
       "route_31"
@@ -4516,50 +4481,51 @@
   },
   {
     "id": "route_31",
-    "name": "釧路・帯広間(カード駅)",
+    "name": "釧路・帯広間(プラス駅)",
     "region": "北海道",
-    "type": "card",
-    "x": 8162,
-    "y": 2025,
+    "type": "plus",
+    "x": 7800,
+    "y": 1820,
     "neighbors": [
       "route_30",
-      "obihiro"
+      "route_28"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_32",
-    "name": "釧路・根室間(プラス駅)",
+    "name": "釧路・根室間(マイナス駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 8747,
-    "y": 1953,
+    "type": "minus",
+    "x": 8320,
+    "y": 1690,
     "neighbors": [
-      "kushiro",
+      "route_19",
       "route_33"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_33",
-    "name": "釧路・根室間(プラス駅)",
+    "name": "釧路・根室間(カード駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 8872,
-    "y": 1909,
+    "type": "card",
+    "x": 8450,
+    "y": 1690,
     "neighbors": [
       "route_32",
-      "route_34"
+      "route_34",
+      "route_360"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_34",
-    "name": "釧路・根室間(マイナス駅)",
+    "name": "釧路・根室間(プラス駅)",
     "region": "北海道",
-    "type": "minus",
-    "x": 8996,
-    "y": 1866,
+    "type": "plus",
+    "x": 8580,
+    "y": 1690,
     "neighbors": [
       "route_33",
       "route_35"
@@ -4568,11 +4534,11 @@
   },
   {
     "id": "route_35",
-    "name": "釧路・根室間(プラス駅)",
+    "name": "釧路・根室間(マイナス駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 9121,
-    "y": 1822,
+    "type": "minus",
+    "x": 8710,
+    "y": 1690,
     "neighbors": [
       "route_34",
       "nemuro"
@@ -4581,11 +4547,11 @@
   },
   {
     "id": "route_36",
-    "name": "帯広・苫小牧間(マイナス駅)",
+    "name": "帯広・苫小牧間(プラス駅)",
     "region": "北海道",
-    "type": "minus",
-    "x": 7869,
-    "y": 2064,
+    "type": "plus",
+    "x": 7540,
+    "y": 1950,
     "neighbors": [
       "obihiro",
       "route_37"
@@ -4594,11 +4560,11 @@
   },
   {
     "id": "route_37",
-    "name": "帯広・苫小牧間(カード駅)",
+    "name": "帯広・苫小牧間(プラス駅)",
     "region": "北海道",
-    "type": "card",
-    "x": 7731,
-    "y": 2094,
+    "type": "plus",
+    "x": 7410,
+    "y": 1950,
     "neighbors": [
       "route_36",
       "route_38"
@@ -4607,11 +4573,11 @@
   },
   {
     "id": "route_38",
-    "name": "帯広・苫小牧間(プラス駅)",
+    "name": "帯広・苫小牧間(マイナス駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 7592,
-    "y": 2124,
+    "type": "minus",
+    "x": 7280,
+    "y": 1950,
     "neighbors": [
       "route_37",
       "route_39"
@@ -4620,89 +4586,51 @@
   },
   {
     "id": "route_39",
-    "name": "帯広・苫小牧間(プラス駅)",
-    "region": "北海道",
-    "type": "plus",
-    "x": 7453,
-    "y": 2153,
-    "neighbors": [
-      "route_38",
-      "route_40"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_40",
     "name": "帯広・苫小牧間(カード駅)",
     "region": "北海道",
     "type": "card",
-    "x": 7315,
-    "y": 2183,
+    "x": 7150,
+    "y": 1950,
     "neighbors": [
-      "route_39",
-      "tomakomai"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_41",
-    "name": "帯広・夕張間(プラス駅)",
-    "region": "北海道",
-    "type": "plus",
-    "x": 7883,
-    "y": 2018,
-    "neighbors": [
-      "obihiro",
-      "route_42"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_42",
-    "name": "帯広・夕張間(カード駅)",
-    "region": "北海道",
-    "type": "card",
-    "x": 7758,
-    "y": 2002,
-    "neighbors": [
-      "route_41",
-      "route_43"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_43",
-    "name": "帯広・夕張間(プラス駅)",
-    "region": "北海道",
-    "type": "plus",
-    "x": 7634,
-    "y": 1985,
-    "neighbors": [
-      "route_42",
-      "route_44"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_44",
-    "name": "帯広・夕張間(マイナス駅)",
-    "region": "北海道",
-    "type": "minus",
-    "x": 7509,
-    "y": 1969,
-    "neighbors": [
-      "route_43",
+      "route_38",
       "yubari"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_45",
+    "id": "route_40",
+    "name": "帯広・苫小牧間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 6890,
+    "y": 1950,
+    "neighbors": [
+      "yubari",
+      "route_41"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_41",
+    "name": "帯広・苫小牧間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 6760,
+    "y": 1950,
+    "neighbors": [
+      "route_40",
+      "tomakomai",
+      "sapporo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_42",
     "name": "小樽・札幌間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 6953,
-    "y": 1907,
+    "x": 6630,
+    "y": 1820,
     "neighbors": [
       "otaru",
       "sapporo"
@@ -4710,106 +4638,146 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_46",
-    "name": "札幌・苫小牧間(プラス駅)",
-    "region": "北海道",
-    "type": "plus",
-    "x": 7111,
-    "y": 2080,
-    "neighbors": [
-      "sapporo",
-      "tomakomai"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_47",
-    "name": "札幌・夕張間(プラス駅)",
-    "region": "北海道",
-    "type": "plus",
-    "x": 7215,
-    "y": 1950,
-    "neighbors": [
-      "sapporo",
-      "yubari"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_48",
+    "id": "route_43",
     "name": "苫小牧・登別間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 7046,
-    "y": 2269,
+    "x": 6760,
+    "y": 2210,
     "neighbors": [
       "tomakomai",
+      "route_44"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_44",
+    "name": "苫小牧・登別間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 6630,
+    "y": 2210,
+    "neighbors": [
+      "route_43",
       "noboribetsu"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_49",
+    "id": "route_45",
+    "name": "函館・登別間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 6500,
+    "y": 2600,
+    "neighbors": [
+      "hakodate",
+      "route_46"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_46",
     "name": "函館・登別間(プラス駅)",
     "region": "北海道",
     "type": "plus",
-    "x": 6788,
-    "y": 2606,
+    "x": 6500,
+    "y": 2470,
+    "neighbors": [
+      "route_45",
+      "route_47"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_47",
+    "name": "函館・登別間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 6500,
+    "y": 2340,
+    "neighbors": [
+      "route_46",
+      "noboribetsu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_48",
+    "name": "函館・青森間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 6370,
+    "y": 2730,
     "neighbors": [
       "hakodate",
+      "route_49"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_49",
+    "name": "函館・青森間(ナイスカード駅)",
+    "region": "北海道",
+    "type": "nice_card",
+    "x": 6370,
+    "y": 2860,
+    "neighbors": [
+      "route_48",
       "route_50"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_50",
-    "name": "函館・登別間(プラス駅)",
+    "name": "函館・青森間(マイナス駅)",
     "region": "北海道",
-    "type": "plus",
-    "x": 6852,
-    "y": 2466,
+    "type": "minus",
+    "x": 6370,
+    "y": 2990,
     "neighbors": [
       "route_49",
-      "noboribetsu"
+      "aomori"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_51",
-    "name": "函館・青森間(ナイスカード駅)",
-    "region": "北海道",
-    "type": "nice_card",
-    "x": 6725,
-    "y": 2894,
+    "name": "青森・八戸間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6500,
+    "y": 3120,
     "neighbors": [
-      "hakodate",
+      "aomori",
       "route_52"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_52",
-    "name": "函館・青森間(プラス駅)",
-    "region": "北海道",
+    "name": "青森・八戸間(プラス駅)",
+    "region": "東北",
     "type": "plus",
-    "x": 6727,
-    "y": 3042,
+    "x": 6630,
+    "y": 3120,
     "neighbors": [
       "route_51",
-      "route_53"
+      "route_53",
+      "route_57"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_53",
-    "name": "函館・青森間(プラス駅)",
-    "region": "北海道",
-    "type": "plus",
-    "x": 6728,
-    "y": 3189,
+    "name": "青森・八戸間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6760,
+    "y": 3120,
     "neighbors": [
       "route_52",
-      "aomori"
+      "route_54"
     ],
     "isDestinationCandidate": false
   },
@@ -4818,60 +4786,60 @@
     "name": "青森・八戸間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6859,
-    "y": 3400,
+    "x": 6760,
+    "y": 3250,
     "neighbors": [
-      "aomori",
-      "route_55"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_55",
-    "name": "青森・八戸間(プラス駅)",
-    "region": "東北",
-    "type": "plus",
-    "x": 6989,
-    "y": 3464,
-    "neighbors": [
-      "route_54",
+      "route_53",
       "hachinohe"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_56",
+    "id": "route_55",
     "name": "青森・弘前間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6656,
-    "y": 3404,
+    "x": 6370,
+    "y": 3250,
     "neighbors": [
       "aomori",
+      "route_56"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_56",
+    "name": "青森・弘前間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6240,
+    "y": 3250,
+    "neighbors": [
+      "route_55",
       "hirosaki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_57",
-    "name": "青森・盛岡間(プラス駅)",
+    "name": "青森・盛岡間(カード駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6772,
-    "y": 3475,
+    "type": "card",
+    "x": 6630,
+    "y": 3250,
     "neighbors": [
-      "aomori",
+      "route_52",
       "route_58"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_58",
-    "name": "青森・盛岡間(カード駅)",
+    "name": "青森・盛岡間(プラス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 6814,
-    "y": 3614,
+    "type": "plus",
+    "x": 6630,
+    "y": 3380,
     "neighbors": [
       "route_57",
       "route_59"
@@ -4880,11 +4848,11 @@
   },
   {
     "id": "route_59",
-    "name": "青森・盛岡間(プラス駅)",
+    "name": "青森・盛岡間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6857,
-    "y": 3752,
+    "type": "minus",
+    "x": 6630,
+    "y": 3510,
     "neighbors": [
       "route_58",
       "route_60"
@@ -4896,8 +4864,8 @@
     "name": "青森・盛岡間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6899,
-    "y": 3891,
+    "x": 6630,
+    "y": 3640,
     "neighbors": [
       "route_59",
       "morioka"
@@ -4906,11 +4874,11 @@
   },
   {
     "id": "route_61",
-    "name": "八戸・盛岡間(カード駅)",
+    "name": "八戸・盛岡間(プラス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 7075,
-    "y": 3654,
+    "type": "plus",
+    "x": 6760,
+    "y": 3510,
     "neighbors": [
       "hachinohe",
       "route_62"
@@ -4919,11 +4887,11 @@
   },
   {
     "id": "route_62",
-    "name": "八戸・盛岡間(プラス駅)",
+    "name": "八戸・盛岡間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 7031,
-    "y": 3779,
+    "type": "minus",
+    "x": 6760,
+    "y": 3640,
     "neighbors": [
       "route_61",
       "route_63"
@@ -4932,14 +4900,15 @@
   },
   {
     "id": "route_63",
-    "name": "八戸・盛岡間(プラス駅)",
+    "name": "八戸・盛岡間(カード駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6986,
-    "y": 3905,
+    "type": "card",
+    "x": 6760,
+    "y": 3770,
     "neighbors": [
       "route_62",
-      "morioka"
+      "morioka",
+      "route_64"
     ],
     "isDestinationCandidate": false
   },
@@ -4948,21 +4917,21 @@
     "name": "八戸・気仙沼間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 7125,
-    "y": 3670,
+    "x": 6760,
+    "y": 3900,
     "neighbors": [
-      "hachinohe",
+      "route_63",
       "route_65"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_65",
-    "name": "八戸・気仙沼間(カード駅)",
+    "name": "八戸・気仙沼間(マイナス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 7131,
-    "y": 3811,
+    "type": "minus",
+    "x": 6760,
+    "y": 4030,
     "neighbors": [
       "route_64",
       "route_66"
@@ -4971,37 +4940,37 @@
   },
   {
     "id": "route_66",
-    "name": "八戸・気仙沼間(マイナス駅)",
+    "name": "八戸・気仙沼間(プラス駅)",
     "region": "東北",
-    "type": "minus",
-    "x": 7137,
-    "y": 3953,
+    "type": "plus",
+    "x": 6760,
+    "y": 4160,
     "neighbors": [
       "route_65",
-      "route_67"
+      "kesennuma"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_67",
-    "name": "八戸・気仙沼間(プラス駅)",
+    "name": "秋田・弘前間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 7142,
-    "y": 4095,
+    "x": 6110,
+    "y": 3640,
     "neighbors": [
-      "route_66",
+      "akita",
       "route_68"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_68",
-    "name": "八戸・気仙沼間(マイナス駅)",
+    "name": "秋田・弘前間(マイナス駅)",
     "region": "東北",
     "type": "minus",
-    "x": 7148,
-    "y": 4237,
+    "x": 6110,
+    "y": 3510,
     "neighbors": [
       "route_67",
       "route_69"
@@ -5010,24 +4979,24 @@
   },
   {
     "id": "route_69",
-    "name": "八戸・気仙沼間(カード駅)",
+    "name": "秋田・弘前間(カード駅)",
     "region": "東北",
     "type": "card",
-    "x": 7154,
-    "y": 4378,
+    "x": 6110,
+    "y": 3380,
     "neighbors": [
       "route_68",
-      "kesennuma"
+      "hirosaki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_70",
-    "name": "秋田・弘前間(プラス駅)",
+    "name": "秋田・盛岡間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6443,
-    "y": 3882,
+    "x": 6240,
+    "y": 3770,
     "neighbors": [
       "akita",
       "route_71"
@@ -5036,11 +5005,11 @@
   },
   {
     "id": "route_71",
-    "name": "秋田・弘前間(カード駅)",
+    "name": "秋田・盛岡間(マイナス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 6490,
-    "y": 3745,
+    "type": "minus",
+    "x": 6370,
+    "y": 3770,
     "neighbors": [
       "route_70",
       "route_72"
@@ -5049,24 +5018,25 @@
   },
   {
     "id": "route_72",
-    "name": "秋田・弘前間(プラス駅)",
+    "name": "秋田・盛岡間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6536,
-    "y": 3609,
+    "x": 6500,
+    "y": 3770,
     "neighbors": [
       "route_71",
-      "hirosaki"
+      "morioka",
+      "route_91"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_73",
-    "name": "秋田・盛岡間(プラス駅)",
+    "name": "秋田・山形間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6533,
-    "y": 4021,
+    "x": 6110,
+    "y": 3900,
     "neighbors": [
       "akita",
       "route_74"
@@ -5075,11 +5045,11 @@
   },
   {
     "id": "route_74",
-    "name": "秋田・盛岡間(カード駅)",
+    "name": "秋田・山形間(マイナス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 6669,
-    "y": 4024,
+    "type": "minus",
+    "x": 6110,
+    "y": 4030,
     "neighbors": [
       "route_73",
       "route_75"
@@ -5088,37 +5058,38 @@
   },
   {
     "id": "route_75",
-    "name": "秋田・盛岡間(カード駅)",
+    "name": "秋田・山形間(カード駅)",
     "region": "東北",
     "type": "card",
-    "x": 6806,
-    "y": 4027,
+    "x": 6110,
+    "y": 4160,
     "neighbors": [
       "route_74",
-      "morioka"
+      "route_76"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_76",
-    "name": "秋田・山形間(マイナス駅)",
+    "name": "秋田・山形間(プラス駅)",
     "region": "東北",
-    "type": "minus",
-    "x": 6414,
-    "y": 4148,
+    "type": "plus",
+    "x": 6110,
+    "y": 4290,
     "neighbors": [
-      "akita",
-      "route_77"
+      "route_75",
+      "route_77",
+      "sakata"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_77",
-    "name": "秋田・山形間(プラス駅)",
+    "name": "秋田・山形間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6432,
-    "y": 4278,
+    "type": "minus",
+    "x": 6110,
+    "y": 4420,
     "neighbors": [
       "route_76",
       "route_78"
@@ -5130,8 +5101,8 @@
     "name": "秋田・山形間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6450,
-    "y": 4408,
+    "x": 6110,
+    "y": 4550,
     "neighbors": [
       "route_77",
       "route_79"
@@ -5140,40 +5111,41 @@
   },
   {
     "id": "route_79",
-    "name": "秋田・山形間(カード駅)",
+    "name": "秋田・山形間(プラス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 6467,
-    "y": 4539,
+    "type": "plus",
+    "x": 6110,
+    "y": 4680,
     "neighbors": [
       "route_78",
-      "route_80"
+      "yamagata",
+      "route_104"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_80",
-    "name": "秋田・山形間(プラス駅)",
+    "name": "秋田・新潟間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6485,
-    "y": 4669,
+    "type": "minus",
+    "x": 5980,
+    "y": 3770,
     "neighbors": [
-      "route_79",
+      "akita",
       "route_81"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_81",
-    "name": "秋田・山形間(マイナス駅)",
+    "name": "秋田・新潟間(カード駅)",
     "region": "東北",
-    "type": "minus",
-    "x": 6503,
-    "y": 4799,
+    "type": "card",
+    "x": 5850,
+    "y": 3770,
     "neighbors": [
       "route_80",
-      "yamagata"
+      "route_82"
     ],
     "isDestinationCandidate": false
   },
@@ -5182,21 +5154,21 @@
     "name": "秋田・新潟間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6317,
-    "y": 4178,
+    "x": 5720,
+    "y": 3770,
     "neighbors": [
-      "akita",
+      "route_81",
       "route_83"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_83",
-    "name": "秋田・新潟間(ナイスカード駅)",
+    "name": "秋田・新潟間(マイナス駅)",
     "region": "東北",
-    "type": "nice_card",
-    "x": 6239,
-    "y": 4339,
+    "type": "minus",
+    "x": 5590,
+    "y": 3770,
     "neighbors": [
       "route_82",
       "route_84"
@@ -5205,11 +5177,11 @@
   },
   {
     "id": "route_84",
-    "name": "秋田・新潟間(マイナス駅)",
+    "name": "秋田・新潟間(プラス駅)",
     "region": "東北",
-    "type": "minus",
-    "x": 6160,
-    "y": 4499,
+    "type": "plus",
+    "x": 5590,
+    "y": 3900,
     "neighbors": [
       "route_83",
       "route_85"
@@ -5218,11 +5190,11 @@
   },
   {
     "id": "route_85",
-    "name": "秋田・新潟間(プラス駅)",
+    "name": "秋田・新潟間(ナイスカード駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6081,
-    "y": 4659,
+    "type": "nice_card",
+    "x": 5590,
+    "y": 4030,
     "neighbors": [
       "route_84",
       "route_86"
@@ -5234,8 +5206,8 @@
     "name": "秋田・新潟間(マイナス駅)",
     "region": "東北",
     "type": "minus",
-    "x": 6002,
-    "y": 4819,
+    "x": 5590,
+    "y": 4160,
     "neighbors": [
       "route_85",
       "route_87"
@@ -5244,37 +5216,38 @@
   },
   {
     "id": "route_87",
-    "name": "秋田・新潟間(プラス駅)",
+    "name": "秋田・新潟間(カード駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 5924,
-    "y": 4980,
+    "type": "card",
+    "x": 5590,
+    "y": 4290,
     "neighbors": [
       "route_86",
-      "niigata"
+      "route_88",
+      "route_139"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_88",
-    "name": "秋田・酒田間(プラス駅)",
+    "name": "秋田・新潟間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6362,
-    "y": 4144,
+    "x": 5590,
+    "y": 4420,
     "neighbors": [
-      "akita",
+      "route_87",
       "route_89"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_89",
-    "name": "秋田・酒田間(マイナス駅)",
+    "name": "秋田・新潟間(マイナス駅)",
     "region": "東北",
     "type": "minus",
-    "x": 6329,
-    "y": 4269,
+    "x": 5590,
+    "y": 4550,
     "neighbors": [
       "route_88",
       "route_90"
@@ -5283,40 +5256,40 @@
   },
   {
     "id": "route_90",
-    "name": "秋田・酒田間(プラス駅)",
+    "name": "秋田・新潟間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6295,
-    "y": 4395,
+    "x": 5590,
+    "y": 4680,
     "neighbors": [
       "route_89",
-      "sakata"
+      "niigata"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_91",
-    "name": "盛岡・仙台間(カード売り場)",
+    "name": "盛岡・仙台間(プラス駅)",
     "region": "東北",
-    "type": "shop",
-    "x": 6921,
-    "y": 4157,
+    "type": "plus",
+    "x": 6500,
+    "y": 3900,
     "neighbors": [
-      "morioka",
+      "route_72",
       "route_92"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_92",
-    "name": "盛岡・仙台間(プラス駅)",
+    "name": "盛岡・仙台間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6900,
-    "y": 4283,
+    "type": "minus",
+    "x": 6500,
+    "y": 4030,
     "neighbors": [
       "route_91",
-      "route_93"
+      "hiraizumi"
     ],
     "isDestinationCandidate": false
   },
@@ -5325,11 +5298,12 @@
     "name": "盛岡・仙台間(カード駅)",
     "region": "東北",
     "type": "card",
-    "x": 6879,
-    "y": 4410,
+    "x": 6500,
+    "y": 4290,
     "neighbors": [
-      "route_92",
-      "route_94"
+      "hiraizumi",
+      "route_94",
+      "route_105"
     ],
     "isDestinationCandidate": false
   },
@@ -5338,8 +5312,8 @@
     "name": "盛岡・仙台間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6859,
-    "y": 4537,
+    "x": 6500,
+    "y": 4420,
     "neighbors": [
       "route_93",
       "route_95"
@@ -5348,27 +5322,27 @@
   },
   {
     "id": "route_95",
-    "name": "盛岡・仙台間(プラス駅)",
+    "name": "盛岡・仙台間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6838,
-    "y": 4664,
+    "type": "minus",
+    "x": 6500,
+    "y": 4550,
     "neighbors": [
       "route_94",
-      "route_96"
+      "sendai"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_96",
-    "name": "盛岡・仙台間(マイナス駅)",
+    "name": "盛岡・平泉間(プラス駅)",
     "region": "東北",
-    "type": "minus",
-    "x": 6817,
-    "y": 4790,
+    "type": "plus",
+    "x": 6630,
+    "y": 3900,
     "neighbors": [
-      "route_95",
-      "sendai"
+      "morioka",
+      "route_97"
     ],
     "isDestinationCandidate": false
   },
@@ -5377,21 +5351,21 @@
     "name": "盛岡・平泉間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6935,
-    "y": 4177,
+    "x": 6630,
+    "y": 4030,
     "neighbors": [
-      "morioka",
+      "route_96",
       "route_98"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_98",
-    "name": "盛岡・平泉間(プラス駅)",
+    "name": "盛岡・平泉間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6928,
-    "y": 4323,
+    "type": "minus",
+    "x": 6630,
+    "y": 4160,
     "neighbors": [
       "route_97",
       "hiraizumi"
@@ -5400,11 +5374,11 @@
   },
   {
     "id": "route_99",
-    "name": "山形・仙台間(プラス駅)",
+    "name": "山形・仙台間(カード駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6659,
-    "y": 4923,
+    "type": "card",
+    "x": 6370,
+    "y": 4680,
     "neighbors": [
       "yamagata",
       "sendai"
@@ -5413,11 +5387,11 @@
   },
   {
     "id": "route_100",
-    "name": "山形・会津若松間(マイナス駅)",
+    "name": "山形・会津若松間(プラス駅)",
     "region": "東北",
-    "type": "minus",
-    "x": 6468,
-    "y": 5047,
+    "type": "plus",
+    "x": 6240,
+    "y": 4810,
     "neighbors": [
       "yamagata",
       "route_101"
@@ -5426,11 +5400,11 @@
   },
   {
     "id": "route_101",
-    "name": "山形・会津若松間(カード駅)",
+    "name": "山形・会津若松間(マイナス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 6415,
-    "y": 5165,
+    "type": "minus",
+    "x": 6240,
+    "y": 4940,
     "neighbors": [
       "route_100",
       "route_102"
@@ -5442,86 +5416,87 @@
     "name": "山形・会津若松間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6361,
-    "y": 5282,
+    "x": 6240,
+    "y": 5070,
     "neighbors": [
       "route_101",
-      "aizu"
+      "route_103",
+      "koriyama"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_103",
-    "name": "山形・米沢間(プラス駅)",
+    "name": "山形・会津若松間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6461,
-    "y": 5032,
+    "x": 6110,
+    "y": 5070,
     "neighbors": [
-      "yamagata",
-      "yonezawa"
+      "route_102",
+      "aizu"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_104",
-    "name": "仙台・気仙沼間(プラス駅)",
+    "name": "山形・米沢間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6887,
-    "y": 4818,
+    "type": "minus",
+    "x": 5980,
+    "y": 4680,
     "neighbors": [
-      "sendai",
-      "route_105"
+      "route_79",
+      "yonezawa"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_105",
-    "name": "仙台・気仙沼間(プラス駅)",
+    "name": "仙台・気仙沼間(カード駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6978,
-    "y": 4719,
+    "type": "card",
+    "x": 6630,
+    "y": 4290,
     "neighbors": [
-      "route_104",
-      "route_106"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_106",
-    "name": "仙台・気仙沼間(プラス駅)",
-    "region": "東北",
-    "type": "plus",
-    "x": 7069,
-    "y": 4619,
-    "neighbors": [
-      "route_105",
+      "route_93",
       "kesennuma"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_107",
-    "name": "仙台・郡山間(プラス駅)",
+    "id": "route_106",
+    "name": "仙台・いわき間(プラス駅)",
     "region": "東北",
     "type": "plus",
-    "x": 6733,
-    "y": 5052,
+    "x": 6500,
+    "y": 4810,
     "neighbors": [
       "sendai",
+      "route_107"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_107",
+    "name": "仙台・いわき間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6500,
+    "y": 4940,
+    "neighbors": [
+      "route_106",
       "route_108"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_108",
-    "name": "仙台・郡山間(カード駅)",
+    "name": "仙台・いわき間(プラス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 6669,
-    "y": 5187,
+    "type": "plus",
+    "x": 6500,
+    "y": 5070,
     "neighbors": [
       "route_107",
       "route_109"
@@ -5530,37 +5505,37 @@
   },
   {
     "id": "route_109",
-    "name": "仙台・郡山間(カード駅)",
+    "name": "仙台・いわき間(プラス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 6606,
-    "y": 5321,
+    "type": "plus",
+    "x": 6500,
+    "y": 5200,
     "neighbors": [
       "route_108",
-      "koriyama"
+      "iwaki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_110",
-    "name": "仙台・いわき間(プラス駅)",
+    "name": "郡山・宇都宮間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6798,
-    "y": 5043,
+    "type": "minus",
+    "x": 6110,
+    "y": 5200,
     "neighbors": [
-      "sendai",
+      "koriyama",
       "route_111"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_111",
-    "name": "仙台・いわき間(カード駅)",
+    "name": "郡山・宇都宮間(カード駅)",
     "region": "東北",
     "type": "card",
-    "x": 6800,
-    "y": 5169,
+    "x": 5980,
+    "y": 5200,
     "neighbors": [
       "route_110",
       "route_112"
@@ -5569,11 +5544,11 @@
   },
   {
     "id": "route_112",
-    "name": "仙台・いわき間(マイナス駅)",
+    "name": "郡山・宇都宮間(プラス駅)",
     "region": "東北",
-    "type": "minus",
-    "x": 6802,
-    "y": 5295,
+    "type": "plus",
+    "x": 5980,
+    "y": 5330,
     "neighbors": [
       "route_111",
       "route_113"
@@ -5582,154 +5557,156 @@
   },
   {
     "id": "route_113",
-    "name": "仙台・いわき間(プラス駅)",
+    "name": "郡山・宇都宮間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6803,
-    "y": 5421,
+    "type": "minus",
+    "x": 5980,
+    "y": 5460,
     "neighbors": [
       "route_112",
-      "route_114"
+      "utsunomiya",
+      "route_146"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_114",
-    "name": "仙台・いわき間(マイナス駅)",
+    "name": "いわき・水戸間(プラス駅)",
     "region": "東北",
-    "type": "minus",
-    "x": 6805,
-    "y": 5547,
+    "type": "plus",
+    "x": 6500,
+    "y": 5460,
     "neighbors": [
-      "route_113",
-      "iwaki"
+      "iwaki",
+      "route_115"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_115",
-    "name": "仙台・平泉間(カード駅)",
+    "name": "いわき・水戸間(プラス駅)",
     "region": "東北",
-    "type": "card",
-    "x": 6838,
-    "y": 4768,
+    "type": "plus",
+    "x": 6500,
+    "y": 5590,
     "neighbors": [
-      "sendai",
+      "route_114",
       "route_116"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_116",
-    "name": "仙台・平泉間(プラス駅)",
+    "name": "いわき・水戸間(マイナス駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6879,
-    "y": 4619,
+    "type": "minus",
+    "x": 6500,
+    "y": 5720,
     "neighbors": [
       "route_115",
-      "hiraizumi"
+      "route_117",
+      "route_145"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_117",
-    "name": "郡山・会津若松間(プラス駅)",
+    "name": "いわき・水戸間(カード駅)",
     "region": "東北",
-    "type": "plus",
-    "x": 6425,
-    "y": 5428,
+    "type": "card",
+    "x": 6370,
+    "y": 5720,
     "neighbors": [
-      "koriyama",
-      "aizu"
+      "route_116",
+      "mito"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_118",
-    "name": "郡山・宇都宮間(プラス駅)",
-    "region": "東北",
+    "name": "新潟・会津若松間(プラス駅)",
+    "region": "中部",
     "type": "plus",
-    "x": 6477,
-    "y": 5586,
+    "x": 5720,
+    "y": 4810,
     "neighbors": [
-      "koriyama",
+      "niigata",
       "route_119"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_119",
-    "name": "郡山・宇都宮間(カード駅)",
-    "region": "東北",
-    "type": "card",
-    "x": 6412,
-    "y": 5717,
+    "name": "新潟・会津若松間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5850,
+    "y": 4810,
     "neighbors": [
       "route_118",
-      "route_120"
+      "yonezawa"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_120",
-    "name": "郡山・宇都宮間(プラス駅)",
-    "region": "東北",
+    "name": "新潟・会津若松間(プラス駅)",
+    "region": "中部",
     "type": "plus",
-    "x": 6347,
-    "y": 5847,
+    "x": 5980,
+    "y": 4940,
     "neighbors": [
-      "route_119",
-      "utsunomiya"
+      "yonezawa",
+      "aizu"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_121",
-    "name": "いわき・水戸間(プラス駅)",
-    "region": "東北",
+    "name": "新潟・高崎間(プラス駅)",
+    "region": "中部",
     "type": "plus",
-    "x": 6734,
-    "y": 5814,
+    "x": 5590,
+    "y": 4940,
     "neighbors": [
-      "iwaki",
+      "niigata",
       "route_122"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_122",
-    "name": "いわき・水戸間(カード駅)",
-    "region": "東北",
-    "type": "card",
-    "x": 6661,
-    "y": 5954,
+    "name": "新潟・高崎間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5590,
+    "y": 5070,
     "neighbors": [
       "route_121",
-      "mito"
+      "route_123"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_123",
-    "name": "新潟・会津若松間(プラス駅)",
+    "name": "新潟・高崎間(カード駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 5961,
-    "y": 5205,
+    "type": "card",
+    "x": 5590,
+    "y": 5200,
     "neighbors": [
-      "niigata",
+      "route_122",
       "route_124"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_124",
-    "name": "新潟・会津若松間(カード駅)",
+    "name": "新潟・高崎間(プラス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 6077,
-    "y": 5270,
+    "type": "plus",
+    "x": 5590,
+    "y": 5330,
     "neighbors": [
       "route_123",
       "route_125"
@@ -5738,14 +5715,15 @@
   },
   {
     "id": "route_125",
-    "name": "新潟・会津若松間(マイナス駅)",
+    "name": "新潟・高崎間(マイナス駅)",
     "region": "中部",
     "type": "minus",
-    "x": 6192,
-    "y": 5335,
+    "x": 5590,
+    "y": 5460,
     "neighbors": [
       "route_124",
-      "aizu"
+      "route_126",
+      "nikko"
     ],
     "isDestinationCandidate": false
   },
@@ -5754,34 +5732,34 @@
     "name": "新潟・高崎間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 5843,
-    "y": 5281,
+    "x": 5590,
+    "y": 5590,
     "neighbors": [
-      "niigata",
-      "route_127"
+      "route_125",
+      "takasaki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_127",
-    "name": "新潟・高崎間(カード駅)",
+    "name": "新潟・富山間(プラス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 5840,
-    "y": 5422,
+    "type": "plus",
+    "x": 5460,
+    "y": 4810,
     "neighbors": [
-      "route_126",
+      "niigata",
       "route_128"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_128",
-    "name": "新潟・高崎間(マイナス駅)",
+    "name": "新潟・富山間(マイナス駅)",
     "region": "中部",
     "type": "minus",
-    "x": 5838,
-    "y": 5563,
+    "x": 5330,
+    "y": 4810,
     "neighbors": [
       "route_127",
       "route_129"
@@ -5790,11 +5768,11 @@
   },
   {
     "id": "route_129",
-    "name": "新潟・高崎間(プラス駅)",
+    "name": "新潟・富山間(カード駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 5836,
-    "y": 5703,
+    "type": "card",
+    "x": 5200,
+    "y": 4810,
     "neighbors": [
       "route_128",
       "route_130"
@@ -5803,11 +5781,11 @@
   },
   {
     "id": "route_130",
-    "name": "新潟・高崎間(マイナス駅)",
+    "name": "新潟・富山間(プラス駅)",
     "region": "中部",
-    "type": "minus",
-    "x": 5834,
-    "y": 5844,
+    "type": "plus",
+    "x": 5070,
+    "y": 4810,
     "neighbors": [
       "route_129",
       "route_131"
@@ -5816,14 +5794,14 @@
   },
   {
     "id": "route_131",
-    "name": "新潟・高崎間(プラス駅)",
+    "name": "新潟・富山間(マイナス駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 5831,
-    "y": 5985,
+    "type": "minus",
+    "x": 4940,
+    "y": 4810,
     "neighbors": [
       "route_130",
-      "takasaki"
+      "route_132"
     ],
     "isDestinationCandidate": false
   },
@@ -5832,21 +5810,21 @@
     "name": "新潟・富山間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 5709,
-    "y": 5247,
+    "x": 4810,
+    "y": 4810,
     "neighbors": [
-      "niigata",
+      "route_131",
       "route_133"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_133",
-    "name": "新潟・富山間(マイナス駅)",
+    "name": "新潟・富山間(プラス駅)",
     "region": "中部",
-    "type": "minus",
-    "x": 5573,
-    "y": 5354,
+    "type": "plus",
+    "x": 4680,
+    "y": 4810,
     "neighbors": [
       "route_132",
       "route_134"
@@ -5858,8 +5836,8 @@
     "name": "新潟・富山間(マイナス駅)",
     "region": "中部",
     "type": "minus",
-    "x": 5437,
-    "y": 5461,
+    "x": 4680,
+    "y": 4940,
     "neighbors": [
       "route_133",
       "route_135"
@@ -5868,11 +5846,11 @@
   },
   {
     "id": "route_135",
-    "name": "新潟・富山間(プラス駅)",
+    "name": "新潟・富山間(カード駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 5301,
-    "y": 5569,
+    "type": "card",
+    "x": 4680,
+    "y": 5070,
     "neighbors": [
       "route_134",
       "route_136"
@@ -5881,11 +5859,11 @@
   },
   {
     "id": "route_136",
-    "name": "新潟・富山間(カード駅)",
+    "name": "新潟・富山間(プラス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 5165,
-    "y": 5676,
+    "type": "plus",
+    "x": 4680,
+    "y": 5200,
     "neighbors": [
       "route_135",
       "route_137"
@@ -5894,27 +5872,27 @@
   },
   {
     "id": "route_137",
-    "name": "新潟・富山間(プラス駅)",
+    "name": "新潟・富山間(マイナス駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 5029,
-    "y": 5783,
+    "type": "minus",
+    "x": 4680,
+    "y": 5330,
     "neighbors": [
       "route_136",
-      "toyama"
+      "route_138"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_138",
-    "name": "新潟・酒田間(カード駅)",
+    "name": "新潟・富山間(プラス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 5928,
-    "y": 5016,
+    "type": "plus",
+    "x": 4680,
+    "y": 5460,
     "neighbors": [
-      "niigata",
-      "route_139"
+      "route_137",
+      "toyama"
     ],
     "isDestinationCandidate": false
   },
@@ -5923,50 +5901,50 @@
     "name": "新潟・酒田間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 6011,
-    "y": 4892,
+    "x": 5720,
+    "y": 4290,
     "neighbors": [
-      "route_138",
+      "route_87",
       "route_140"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_140",
-    "name": "新潟・酒田間(プラス駅)",
-    "region": "中部",
-    "type": "plus",
-    "x": 6095,
-    "y": 4768,
-    "neighbors": [
-      "route_139",
-      "route_141"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_141",
     "name": "新潟・酒田間(マイナス駅)",
     "region": "中部",
     "type": "minus",
-    "x": 6178,
-    "y": 4644,
+    "x": 5850,
+    "y": 4290,
     "neighbors": [
-      "route_140",
+      "route_139",
       "sakata"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_142",
-    "name": "水戸・成田間(プラス駅)",
+    "id": "route_141",
+    "name": "水戸・成田間(カード駅)",
     "region": "関東",
-    "type": "plus",
-    "x": 6569,
-    "y": 6275,
+    "type": "card",
+    "x": 6240,
+    "y": 5850,
     "neighbors": [
       "mito",
       "narita"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_142",
+    "name": "水戸・東京間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6240,
+    "y": 6110,
+    "neighbors": [
+      "narita",
+      "route_143"
     ],
     "isDestinationCandidate": false
   },
@@ -5975,63 +5953,63 @@
     "name": "水戸・東京間(マイナス駅)",
     "region": "関東",
     "type": "minus",
-    "x": 6503,
-    "y": 6194,
+    "x": 6240,
+    "y": 6240,
     "neighbors": [
-      "mito",
-      "route_144"
+      "route_142",
+      "chiba"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_144",
-    "name": "水戸・東京間(カード駅)",
-    "region": "関東",
-    "type": "card",
-    "x": 6419,
-    "y": 6293,
-    "neighbors": [
-      "route_143",
-      "route_145"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_145",
     "name": "水戸・東京間(プラス駅)",
     "region": "関東",
     "type": "plus",
-    "x": 6334,
-    "y": 6391,
+    "x": 5980,
+    "y": 6240,
     "neighbors": [
-      "route_144",
+      "chiba",
       "tokyo"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_146",
+    "id": "route_145",
     "name": "水戸・つくば間(プラス駅)",
     "region": "関東",
     "type": "plus",
-    "x": 6495,
-    "y": 6185,
+    "x": 6500,
+    "y": 5850,
     "neighbors": [
-      "mito",
+      "route_116",
       "tsukuba"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_147",
+    "id": "route_146",
     "name": "宇都宮・日光間(ナイスカード駅)",
     "region": "関東",
     "type": "nice_card",
-    "x": 6212,
-    "y": 5918,
+    "x": 5850,
+    "y": 5460,
+    "neighbors": [
+      "route_113",
+      "nikko"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_147",
+    "name": "宇都宮・大宮間(カード駅)",
+    "region": "関東",
+    "type": "card",
+    "x": 5850,
+    "y": 5590,
     "neighbors": [
       "utsunomiya",
-      "nikko"
+      "route_148"
     ],
     "isDestinationCandidate": false
   },
@@ -6040,21 +6018,21 @@
     "name": "宇都宮・大宮間(プラス駅)",
     "region": "関東",
     "type": "plus",
-    "x": 6231,
-    "y": 6102,
+    "x": 5850,
+    "y": 5720,
     "neighbors": [
-      "utsunomiya",
+      "route_147",
       "route_149"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_149",
-    "name": "宇都宮・大宮間(カード駅)",
+    "name": "宇都宮・大宮間(マイナス駅)",
     "region": "関東",
-    "type": "card",
-    "x": 6179,
-    "y": 6228,
+    "type": "minus",
+    "x": 5850,
+    "y": 5850,
     "neighbors": [
       "route_148",
       "omiya"
@@ -6063,37 +6041,11 @@
   },
   {
     "id": "route_150",
-    "name": "高崎・日光間(プラス駅)",
-    "region": "関東",
-    "type": "plus",
-    "x": 5933,
-    "y": 6037,
-    "neighbors": [
-      "takasaki",
-      "route_151"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_151",
-    "name": "高崎・日光間(プラス駅)",
-    "region": "関東",
-    "type": "plus",
-    "x": 6037,
-    "y": 5948,
-    "neighbors": [
-      "route_150",
-      "nikko"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_152",
     "name": "高崎・軽井沢間(プラス駅)",
     "region": "関東",
     "type": "plus",
-    "x": 5731,
-    "y": 6120,
+    "x": 5460,
+    "y": 5720,
     "neighbors": [
       "takasaki",
       "karuizawa"
@@ -6101,38 +6053,12 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_153",
+    "id": "route_151",
     "name": "高崎・大宮間(プラス駅)",
     "region": "関東",
     "type": "plus",
-    "x": 5929,
-    "y": 6202,
-    "neighbors": [
-      "takasaki",
-      "route_154"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_154",
-    "name": "高崎・大宮間(プラス駅)",
-    "region": "関東",
-    "type": "plus",
-    "x": 6028,
-    "y": 6277,
-    "neighbors": [
-      "route_153",
-      "omiya"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_155",
-    "name": "高崎・秩父間(プラス駅)",
-    "region": "関東",
-    "type": "plus",
-    "x": 5848,
-    "y": 6228,
+    "x": 5590,
+    "y": 5850,
     "neighbors": [
       "takasaki",
       "chichibu"
@@ -6140,12 +6066,25 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_156",
+    "id": "route_152",
+    "name": "高崎・大宮間(マイナス駅)",
+    "region": "関東",
+    "type": "minus",
+    "x": 5720,
+    "y": 5980,
+    "neighbors": [
+      "chichibu",
+      "omiya"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_153",
     "name": "大宮・東京間(カード売り場)",
     "region": "関東",
     "type": "shop",
-    "x": 6189,
-    "y": 6422,
+    "x": 5850,
+    "y": 6110,
     "neighbors": [
       "omiya",
       "tokyo"
@@ -6153,51 +6092,65 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_157",
+    "id": "route_154",
     "name": "大宮・つくば間(プラス駅)",
     "region": "関東",
     "type": "plus",
-    "x": 6265,
-    "y": 6314,
+    "x": 5980,
+    "y": 5980,
     "neighbors": [
       "omiya",
+      "route_155"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_155",
+    "name": "大宮・つくば間(マイナス駅)",
+    "region": "関東",
+    "type": "minus",
+    "x": 6110,
+    "y": 5980,
+    "neighbors": [
+      "route_154",
+      "narita",
+      "route_157"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_156",
+    "name": "大宮・つくば間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6370,
+    "y": 5980,
+    "neighbors": [
+      "narita",
       "tsukuba"
     ],
     "isDestinationCandidate": false
   },
   {
+    "id": "route_157",
+    "name": "千葉・成田間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6110,
+    "y": 6110,
+    "neighbors": [
+      "chiba",
+      "route_155"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
     "id": "route_158",
-    "name": "千葉・成田間(ワープ駅)",
+    "name": "東京・横浜間(マイナス駅)",
     "region": "関東",
-    "type": "warp",
-    "x": 6481,
-    "y": 6515,
-    "neighbors": [
-      "chiba",
-      "narita"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_159",
-    "name": "千葉・東京間(プラス駅)",
-    "region": "関東",
-    "type": "plus",
-    "x": 6331,
-    "y": 6533,
-    "neighbors": [
-      "chiba",
-      "tokyo"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_160",
-    "name": "東京・横浜間(プラス駅)",
-    "region": "関東",
-    "type": "plus",
-    "x": 6211,
-    "y": 6574,
+    "type": "minus",
+    "x": 5720,
+    "y": 6240,
     "neighbors": [
       "tokyo",
       "yokohama"
@@ -6205,106 +6158,135 @@
     "isDestinationCandidate": false
   },
   {
+    "id": "route_159",
+    "name": "東京・甲府間(カード駅)",
+    "region": "関東",
+    "type": "card",
+    "x": 5460,
+    "y": 6240,
+    "neighbors": [
+      "yokohama",
+      "route_160"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_160",
+    "name": "東京・甲府間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 5330,
+    "y": 6240,
+    "neighbors": [
+      "route_159",
+      "kofu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
     "id": "route_161",
-    "name": "東京・甲府間(マイナス駅)",
+    "name": "横浜・鎌倉間(マイナス駅)",
     "region": "関東",
     "type": "minus",
-    "x": 6119,
-    "y": 6499,
+    "x": 5590,
+    "y": 6370,
     "neighbors": [
-      "tokyo",
-      "route_162"
+      "yokohama",
+      "atami",
+      "route_362",
+      "route_363"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_162",
-    "name": "東京・甲府間(カード駅)",
+    "name": "横浜・鎌倉間(プラス駅)",
     "region": "関東",
-    "type": "card",
-    "x": 5989,
-    "y": 6508,
+    "type": "plus",
+    "x": 5720,
+    "y": 6500,
     "neighbors": [
-      "route_161",
-      "route_163"
+      "atami",
+      "kamakura"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_163",
-    "name": "東京・甲府間(プラス駅)",
-    "region": "関東",
+    "name": "熱海・静岡間(プラス駅)",
+    "region": "中部",
     "type": "plus",
-    "x": 5860,
-    "y": 6517,
+    "x": 5590,
+    "y": 6630,
     "neighbors": [
-      "route_162",
+      "atami",
       "route_164"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_164",
-    "name": "東京・甲府間(カード駅)",
-    "region": "関東",
-    "type": "card",
-    "x": 5730,
-    "y": 6526,
+    "name": "熱海・静岡間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5460,
+    "y": 6630,
     "neighbors": [
       "route_163",
-      "kofu"
+      "route_165"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_165",
-    "name": "横浜・鎌倉間(プラス駅)",
-    "region": "関東",
-    "type": "plus",
-    "x": 6121,
-    "y": 6733,
-    "neighbors": [
-      "yokohama",
-      "kamakura"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_166",
-    "name": "熱海・鎌倉間(カード駅)",
+    "name": "熱海・静岡間(カード駅)",
     "region": "中部",
     "type": "card",
-    "x": 5971,
-    "y": 6870,
+    "x": 5330,
+    "y": 6630,
     "neighbors": [
-      "atami",
-      "kamakura"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_167",
-    "name": "熱海・静岡間(プラス駅)",
-    "region": "中部",
-    "type": "plus",
-    "x": 5689,
-    "y": 6947,
-    "neighbors": [
-      "atami",
+      "route_164",
       "shizuoka"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_168",
+    "id": "route_166",
     "name": "熱海・箱根間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 5850,
-    "y": 6842,
+    "x": 5460,
+    "y": 6500,
     "neighbors": [
       "atami",
+      "route_167"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_167",
+    "name": "熱海・箱根間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5330,
+    "y": 6500,
+    "neighbors": [
+      "route_166",
       "hakone"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_168",
+    "name": "甲府・松本間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5330,
+    "y": 5980,
+    "neighbors": [
+      "kofu",
+      "route_169",
+      "route_175"
     ],
     "isDestinationCandidate": false
   },
@@ -6313,21 +6295,21 @@
     "name": "甲府・松本間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 5496,
-    "y": 6415,
+    "x": 5330,
+    "y": 5850,
     "neighbors": [
-      "kofu",
+      "route_168",
       "route_170"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_170",
-    "name": "甲府・松本間(カード駅)",
+    "name": "甲府・松本間(マイナス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 5392,
-    "y": 6295,
+    "type": "minus",
+    "x": 5200,
+    "y": 5850,
     "neighbors": [
       "route_169",
       "matsumoto"
@@ -6339,8 +6321,8 @@
     "name": "甲府・静岡間(カード駅)",
     "region": "中部",
     "type": "card",
-    "x": 5569,
-    "y": 6678,
+    "x": 5200,
+    "y": 6110,
     "neighbors": [
       "kofu",
       "route_172"
@@ -6349,63 +6331,63 @@
   },
   {
     "id": "route_172",
-    "name": "甲府・静岡間(カード駅)",
+    "name": "甲府・静岡間(プラス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 5538,
-    "y": 6820,
+    "type": "plus",
+    "x": 5200,
+    "y": 6240,
     "neighbors": [
       "route_171",
-      "shizuoka"
+      "route_173"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_173",
-    "name": "甲府・秩父間(カード駅)",
+    "name": "甲府・静岡間(マイナス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 5733,
-    "y": 6433,
+    "type": "minus",
+    "x": 5200,
+    "y": 6370,
     "neighbors": [
-      "kofu",
-      "chichibu"
+      "route_172",
+      "route_174"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_174",
-    "name": "長野・軽井沢間(プラス駅)",
+    "name": "甲府・静岡間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 5518,
-    "y": 6017,
+    "x": 5200,
+    "y": 6500,
     "neighbors": [
-      "nagano",
-      "karuizawa"
+      "route_173",
+      "shizuoka"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_175",
-    "name": "長野・松本間(プラス駅)",
+    "name": "甲府・秩父間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 5346,
-    "y": 6048,
+    "x": 5460,
+    "y": 5980,
     "neighbors": [
-      "nagano",
-      "matsumoto"
+      "route_168",
+      "chichibu"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_176",
-    "name": "長野・富山間(ナイスカード駅)",
+    "name": "長野・軽井沢間(マイナス駅)",
     "region": "中部",
-    "type": "nice_card",
-    "x": 5276,
-    "y": 5913,
+    "type": "minus",
+    "x": 5200,
+    "y": 5590,
     "neighbors": [
       "nagano",
       "route_177"
@@ -6414,63 +6396,89 @@
   },
   {
     "id": "route_177",
-    "name": "長野・富山間(カード駅)",
+    "name": "長野・軽井沢間(カード駅)",
     "region": "中部",
     "type": "card",
-    "x": 5148,
-    "y": 5906,
+    "x": 5330,
+    "y": 5590,
     "neighbors": [
       "route_176",
-      "route_178"
+      "karuizawa"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_178",
-    "name": "長野・富山間(マイナス駅)",
+    "name": "長野・松本間(プラス駅)",
     "region": "中部",
-    "type": "minus",
-    "x": 5021,
-    "y": 5898,
+    "type": "plus",
+    "x": 5070,
+    "y": 5720,
     "neighbors": [
-      "route_177",
-      "toyama"
+      "nagano",
+      "matsumoto"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_179",
-    "name": "松本・高山間(マイナス駅)",
+    "name": "長野・富山間(マイナス駅)",
     "region": "中部",
     "type": "minus",
-    "x": 5163,
-    "y": 6196,
+    "x": 4940,
+    "y": 5590,
     "neighbors": [
-      "matsumoto",
+      "nagano",
       "route_180"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_180",
-    "name": "松本・高山間(プラス駅)",
+    "name": "長野・富山間(ナイスカード駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 5039,
-    "y": 6216,
+    "type": "nice_card",
+    "x": 4810,
+    "y": 5590,
     "neighbors": [
       "route_179",
-      "takayama"
+      "toyama"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_181",
-    "name": "富山・高山間(マイナス駅)",
+    "name": "松本・高山間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4940,
+    "y": 5850,
+    "neighbors": [
+      "matsumoto",
+      "route_182"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_182",
+    "name": "松本・高山間(マイナス駅)",
     "region": "中部",
     "type": "minus",
-    "x": 4904,
-    "y": 6064,
+    "x": 4810,
+    "y": 5850,
+    "neighbors": [
+      "route_181",
+      "takayama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_183",
+    "name": "富山・高山間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4680,
+    "y": 5720,
     "neighbors": [
       "toyama",
       "takayama"
@@ -6478,12 +6486,12 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_182",
+    "id": "route_184",
     "name": "富山・金沢間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 4750,
-    "y": 5934,
+    "x": 4550,
+    "y": 5590,
     "neighbors": [
       "toyama",
       "kanazawa"
@@ -6491,38 +6499,12 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_183",
-    "name": "金沢・福井間(プラス駅)",
-    "region": "中部",
-    "type": "plus",
-    "x": 4531,
-    "y": 6080,
-    "neighbors": [
-      "kanazawa",
-      "route_184"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_184",
-    "name": "金沢・福井間(カード駅)",
-    "region": "中部",
-    "type": "card",
-    "x": 4454,
-    "y": 6184,
-    "neighbors": [
-      "route_183",
-      "fukui"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
     "id": "route_185",
-    "name": "金沢・輪島間(プラス駅)",
+    "name": "金沢・福井間(マイナス駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 4638,
-    "y": 5848,
+    "type": "minus",
+    "x": 4290,
+    "y": 5590,
     "neighbors": [
       "kanazawa",
       "route_186"
@@ -6531,11 +6513,11 @@
   },
   {
     "id": "route_186",
-    "name": "金沢・輪島間(ナイスカード駅)",
+    "name": "金沢・福井間(プラス駅)",
     "region": "中部",
-    "type": "nice_card",
-    "x": 4670,
-    "y": 5720,
+    "type": "plus",
+    "x": 4160,
+    "y": 5590,
     "neighbors": [
       "route_185",
       "route_187"
@@ -6544,362 +6526,381 @@
   },
   {
     "id": "route_187",
-    "name": "金沢・輪島間(プラス駅)",
+    "name": "金沢・福井間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 4701,
-    "y": 5591,
+    "x": 4160,
+    "y": 5720,
     "neighbors": [
       "route_186",
-      "wajima"
+      "route_188"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_188",
-    "name": "福井・岐阜間(カード駅)",
+    "name": "金沢・福井間(マイナス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 4470,
-    "y": 6417,
+    "type": "minus",
+    "x": 4160,
+    "y": 5850,
     "neighbors": [
-      "fukui",
-      "route_189"
+      "route_187",
+      "fukui"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_189",
-    "name": "福井・岐阜間(カード駅)",
+    "name": "金沢・輪島間(カード駅)",
     "region": "中部",
     "type": "card",
-    "x": 4562,
-    "y": 6546,
+    "x": 4420,
+    "y": 5460,
     "neighbors": [
-      "route_188",
-      "gifu"
+      "kanazawa",
+      "route_190"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_190",
-    "name": "福井・大津間(プラス駅)",
+    "name": "金沢・輪島間(ナイスカード駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 4354,
-    "y": 6417,
+    "type": "nice_card",
+    "x": 4420,
+    "y": 5330,
     "neighbors": [
-      "fukui",
+      "route_189",
       "route_191"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_191",
-    "name": "福井・大津間(カード駅)",
+    "name": "金沢・輪島間(マイナス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 4331,
-    "y": 6547,
+    "type": "minus",
+    "x": 4420,
+    "y": 5200,
     "neighbors": [
       "route_190",
-      "route_192"
+      "wajima"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_192",
-    "name": "福井・大津間(カード駅)",
+    "name": "福井・岐阜間(プラス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 4307,
-    "y": 6678,
+    "type": "plus",
+    "x": 4290,
+    "y": 5980,
     "neighbors": [
-      "route_191",
+      "fukui",
       "route_193"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_193",
-    "name": "福井・大津間(プラス駅)",
+    "name": "福井・岐阜間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 4284,
-    "y": 6808,
+    "x": 4420,
+    "y": 5980,
     "neighbors": [
       "route_192",
-      "otsu"
+      "route_194"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_194",
-    "name": "静岡・浜松間(プラス駅)",
+    "name": "福井・岐阜間(マイナス駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 5393,
-    "y": 7017,
+    "type": "minus",
+    "x": 4420,
+    "y": 6110,
     "neighbors": [
-      "shizuoka",
+      "route_193",
       "route_195"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_195",
-    "name": "静岡・浜松間(カード駅)",
+    "name": "福井・岐阜間(カード駅)",
     "region": "中部",
     "type": "card",
-    "x": 5278,
-    "y": 7070,
+    "x": 4420,
+    "y": 6240,
     "neighbors": [
       "route_194",
-      "hamamatsu"
+      "gifu"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_196",
-    "name": "浜松・豊橋間(プラス駅)",
+    "name": "福井・大津間(プラス駅)",
     "region": "中部",
     "type": "plus",
-    "x": 5073,
-    "y": 7106,
+    "x": 4160,
+    "y": 6110,
     "neighbors": [
-      "hamamatsu",
-      "toyohashi"
+      "fukui",
+      "route_197"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_197",
-    "name": "岐阜・高山間(プラス駅)",
+    "name": "福井・大津間(マイナス駅)",
     "region": "中部",
-    "type": "plus",
-    "x": 4719,
-    "y": 6566,
+    "type": "minus",
+    "x": 4160,
+    "y": 6240,
     "neighbors": [
-      "gifu",
+      "route_196",
       "route_198"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_198",
-    "name": "岐阜・高山間(カード駅)",
+    "name": "福井・大津間(プラス駅)",
     "region": "中部",
-    "type": "card",
-    "x": 4784,
-    "y": 6457,
+    "type": "plus",
+    "x": 4160,
+    "y": 6370,
     "neighbors": [
       "route_197",
-      "route_199"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_199",
-    "name": "岐阜・高山間(プラス駅)",
-    "region": "中部",
-    "type": "plus",
-    "x": 4849,
-    "y": 6347,
-    "neighbors": [
-      "route_198",
-      "takayama"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_200",
-    "name": "岐阜・名古屋間(プラス駅)",
-    "region": "中部",
-    "type": "plus",
-    "x": 4696,
-    "y": 6758,
-    "neighbors": [
-      "gifu",
-      "nagoya"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_201",
-    "name": "岐阜・下呂間(プラス駅)",
-    "region": "中部",
-    "type": "plus",
-    "x": 4782,
-    "y": 6559,
-    "neighbors": [
-      "gifu",
-      "gero"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_202",
-    "name": "名古屋・豊橋間(カード売り場)",
-    "region": "中部",
-    "type": "shop",
-    "x": 4860,
-    "y": 6964,
-    "neighbors": [
-      "nagoya",
-      "toyohashi"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_203",
-    "name": "名古屋・伊勢間(プラス駅)",
-    "region": "中部",
-    "type": "plus",
-    "x": 4683,
-    "y": 6979,
-    "neighbors": [
-      "nagoya",
-      "route_204"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_204",
-    "name": "名古屋・伊勢間(カード駅)",
-    "region": "中部",
-    "type": "card",
-    "x": 4629,
-    "y": 7117,
-    "neighbors": [
-      "route_203",
-      "ise"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_205",
-    "name": "名古屋・大津間(プラス駅)",
-    "region": "中部",
-    "type": "plus",
-    "x": 4578,
-    "y": 6873,
-    "neighbors": [
-      "nagoya",
-      "route_206"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_206",
-    "name": "名古屋・大津間(カード駅)",
-    "region": "中部",
-    "type": "card",
-    "x": 4419,
-    "y": 6905,
-    "neighbors": [
-      "route_205",
       "otsu"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_207",
-    "name": "伊勢・奈良間(マイナス駅)",
-    "region": "近畿",
-    "type": "minus",
-    "x": 4447,
-    "y": 7218,
-    "neighbors": [
-      "ise",
-      "route_208"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_208",
-    "name": "伊勢・奈良間(カード駅)",
-    "region": "近畿",
-    "type": "card",
-    "x": 4320,
-    "y": 7180,
-    "neighbors": [
-      "route_207",
-      "nara"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_209",
-    "name": "伊勢・白浜間(ナイスカード駅)",
-    "region": "近畿",
-    "type": "nice_card",
-    "x": 4467,
-    "y": 7340,
-    "neighbors": [
-      "ise",
-      "route_210"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_210",
-    "name": "伊勢・白浜間(プラス駅)",
-    "region": "近畿",
+    "id": "route_199",
+    "name": "静岡・浜松間(プラス駅)",
+    "region": "中部",
     "type": "plus",
-    "x": 4359,
-    "y": 7425,
+    "x": 5070,
+    "y": 6630,
     "neighbors": [
+      "shizuoka",
+      "route_200"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_200",
+    "name": "静岡・浜松間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 4940,
+    "y": 6630,
+    "neighbors": [
+      "route_199",
+      "hamamatsu",
+      "route_201"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_201",
+    "name": "浜松・豊橋間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4940,
+    "y": 6500,
+    "neighbors": [
+      "route_200",
+      "route_202"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_202",
+    "name": "浜松・豊橋間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4940,
+    "y": 6370,
+    "neighbors": [
+      "route_201",
+      "route_203"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_203",
+    "name": "浜松・豊橋間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 4810,
+    "y": 6370,
+    "neighbors": [
+      "route_202",
+      "toyohashi"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_204",
+    "name": "岐阜・高山間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4550,
+    "y": 6370,
+    "neighbors": [
+      "gifu",
+      "toyohashi",
+      "route_209"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_205",
+    "name": "岐阜・高山間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4680,
+    "y": 6240,
+    "neighbors": [
+      "toyohashi",
+      "gero"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_206",
+    "name": "岐阜・高山間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 4680,
+    "y": 5980,
+    "neighbors": [
+      "gero",
+      "takayama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_207",
+    "name": "岐阜・名古屋間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4420,
+    "y": 6500,
+    "neighbors": [
+      "gifu",
+      "route_208",
       "route_209",
       "route_211"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_211",
-    "name": "伊勢・白浜間(マイナス駅)",
-    "region": "近畿",
-    "type": "minus",
-    "x": 4251,
-    "y": 7509,
+    "id": "route_208",
+    "name": "岐阜・名古屋間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4420,
+    "y": 6630,
     "neighbors": [
-      "route_210",
-      "route_212"
+      "route_207",
+      "nagoya",
+      "route_210"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_209",
+    "name": "名古屋・豊橋間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 4550,
+    "y": 6500,
+    "neighbors": [
+      "nagoya",
+      "route_204",
+      "route_207"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_210",
+    "name": "名古屋・伊勢間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4420,
+    "y": 6760,
+    "neighbors": [
+      "route_208",
+      "ise"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_211",
+    "name": "名古屋・大津間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4290,
+    "y": 6500,
+    "neighbors": [
+      "route_207",
+      "otsu"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_212",
-    "name": "伊勢・白浜間(プラス駅)",
+    "name": "伊勢・奈良間(マイナス駅)",
     "region": "近畿",
-    "type": "plus",
-    "x": 4142,
-    "y": 7593,
+    "type": "minus",
+    "x": 4290,
+    "y": 6890,
     "neighbors": [
-      "route_211",
+      "ise",
       "route_213"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_213",
-    "name": "伊勢・白浜間(マイナス駅)",
+    "name": "伊勢・奈良間(カード駅)",
     "region": "近畿",
-    "type": "minus",
-    "x": 4034,
-    "y": 7678,
+    "type": "card",
+    "x": 4160,
+    "y": 6890,
     "neighbors": [
       "route_212",
-      "shirahama"
+      "route_214"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_214",
-    "name": "伊勢・鳥羽間(プラス駅)",
+    "name": "伊勢・奈良間(プラス駅)",
     "region": "近畿",
     "type": "plus",
-    "x": 4667,
-    "y": 7263,
+    "x": 4030,
+    "y": 6890,
+    "neighbors": [
+      "route_213",
+      "nara"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_215",
+    "name": "伊勢・白浜間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 4420,
+    "y": 7020,
     "neighbors": [
       "ise",
       "toba"
@@ -6907,64 +6908,51 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_215",
-    "name": "京都・大津間(プラス駅)",
-    "region": "近畿",
-    "type": "plus",
-    "x": 4168,
-    "y": 6938,
-    "neighbors": [
-      "kyoto",
-      "otsu"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
     "id": "route_216",
-    "name": "京都・奈良間(プラス駅)",
+    "name": "伊勢・白浜間(プラス駅)",
     "region": "近畿",
     "type": "plus",
-    "x": 4134,
-    "y": 7040,
+    "x": 4420,
+    "y": 7280,
     "neighbors": [
-      "kyoto",
-      "nara"
+      "toba",
+      "route_217"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_217",
-    "name": "京都・大阪間(カード売り場)",
+    "name": "伊勢・白浜間(ナイスカード駅)",
     "region": "近畿",
-    "type": "shop",
-    "x": 4042,
-    "y": 7037,
+    "type": "nice_card",
+    "x": 4290,
+    "y": 7280,
     "neighbors": [
-      "kyoto",
-      "osaka"
+      "route_216",
+      "route_218"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_218",
-    "name": "京都・鳥取間(マイナス駅)",
+    "name": "伊勢・白浜間(マイナス駅)",
     "region": "近畿",
     "type": "minus",
-    "x": 3954,
-    "y": 6887,
+    "x": 4160,
+    "y": 7280,
     "neighbors": [
-      "kyoto",
+      "route_217",
       "route_219"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_219",
-    "name": "京都・鳥取間(プラス駅)",
+    "name": "伊勢・白浜間(カード駅)",
     "region": "近畿",
-    "type": "plus",
-    "x": 3833,
-    "y": 6837,
+    "type": "card",
+    "x": 4030,
+    "y": 7280,
     "neighbors": [
       "route_218",
       "route_220"
@@ -6973,50 +6961,51 @@
   },
   {
     "id": "route_220",
-    "name": "京都・鳥取間(マイナス駅)",
+    "name": "伊勢・白浜間(プラス駅)",
     "region": "近畿",
-    "type": "minus",
-    "x": 3712,
-    "y": 6786,
+    "type": "plus",
+    "x": 3900,
+    "y": 7280,
     "neighbors": [
       "route_219",
-      "route_221"
+      "shirahama"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_221",
-    "name": "京都・鳥取間(プラス駅)",
+    "name": "京都・大津間(マイナス駅)",
     "region": "近畿",
-    "type": "plus",
-    "x": 3591,
-    "y": 6735,
+    "type": "minus",
+    "x": 4030,
+    "y": 6500,
     "neighbors": [
-      "route_220",
+      "kyoto",
+      "otsu",
       "route_222"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_222",
-    "name": "京都・鳥取間(カード駅)",
+    "name": "京都・奈良間(プラス駅)",
     "region": "近畿",
-    "type": "card",
-    "x": 3470,
-    "y": 6685,
+    "type": "plus",
+    "x": 4030,
+    "y": 6630,
     "neighbors": [
       "route_221",
-      "tottori"
+      "nara"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_223",
-    "name": "京都・城崎間(プラス駅)",
+    "name": "京都・大阪間(プラス駅)",
     "region": "近畿",
     "type": "plus",
-    "x": 3968,
-    "y": 6844,
+    "x": 3900,
+    "y": 6630,
     "neighbors": [
       "kyoto",
       "route_224"
@@ -7025,63 +7014,182 @@
   },
   {
     "id": "route_224",
-    "name": "京都・城崎間(カード駅)",
+    "name": "京都・大阪間(カード売り場)",
     "region": "近畿",
-    "type": "card",
-    "x": 3860,
-    "y": 6749,
+    "type": "shop",
+    "x": 3900,
+    "y": 6760,
     "neighbors": [
       "route_223",
-      "route_225"
+      "osaka",
+      "nara"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_225",
-    "name": "京都・城崎間(プラス駅)",
+    "name": "京都・鳥取間(カード駅)",
     "region": "近畿",
-    "type": "plus",
-    "x": 3753,
-    "y": 6655,
+    "type": "card",
+    "x": 3770,
+    "y": 6500,
     "neighbors": [
-      "route_224",
-      "kinosaki"
+      "kyoto",
+      "route_226"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_226",
-    "name": "奈良・大阪間(プラス駅)",
+    "name": "京都・鳥取間(プラス駅)",
     "region": "近畿",
     "type": "plus",
-    "x": 4100,
-    "y": 7139,
+    "x": 3640,
+    "y": 6500,
     "neighbors": [
-      "nara",
-      "osaka"
+      "route_225",
+      "awaji"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_227",
-    "name": "大阪・和歌山間(プラス駅)",
+    "name": "京都・鳥取間(マイナス駅)",
     "region": "近畿",
-    "type": "plus",
-    "x": 3926,
-    "y": 7281,
+    "type": "minus",
+    "x": 3380,
+    "y": 6500,
     "neighbors": [
-      "osaka",
-      "wakayama"
+      "awaji",
+      "route_228"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_228",
+    "name": "京都・鳥取間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3250,
+    "y": 6500,
+    "neighbors": [
+      "route_227",
+      "route_229"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_229",
+    "name": "京都・鳥取間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3120,
+    "y": 6500,
+    "neighbors": [
+      "route_228",
+      "route_230",
+      "route_246"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_230",
+    "name": "京都・鳥取間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 3120,
+    "y": 6370,
+    "neighbors": [
+      "route_229",
+      "tottori"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_231",
+    "name": "京都・城崎間(カード駅)",
+    "region": "近畿",
+    "type": "card",
+    "x": 3900,
+    "y": 6370,
+    "neighbors": [
+      "kyoto",
+      "route_232"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_232",
+    "name": "京都・城崎間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3900,
+    "y": 6240,
+    "neighbors": [
+      "route_231",
+      "route_233"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_233",
+    "name": "京都・城崎間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 3770,
+    "y": 6240,
+    "neighbors": [
+      "route_232",
+      "route_234"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_234",
+    "name": "京都・城崎間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3640,
+    "y": 6240,
+    "neighbors": [
+      "route_233",
+      "kinosaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_235",
+    "name": "大阪・和歌山間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3770,
+    "y": 6890,
+    "neighbors": [
+      "osaka",
+      "route_236"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_236",
+    "name": "大阪・和歌山間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 3770,
+    "y": 7020,
+    "neighbors": [
+      "route_235",
+      "wakayama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_237",
     "name": "大阪・神戸間(ワープ駅)",
     "region": "近畿",
     "type": "warp",
-    "x": 3916,
-    "y": 7136,
+    "x": 3640,
+    "y": 6760,
     "neighbors": [
       "osaka",
       "kobe"
@@ -7089,38 +7197,67 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_229",
+    "id": "route_238",
     "name": "和歌山・白浜間(プラス駅)",
     "region": "近畿",
     "type": "plus",
-    "x": 3885,
-    "y": 7594,
+    "x": 3640,
+    "y": 7150,
     "neighbors": [
       "wakayama",
+      "route_239"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_239",
+    "name": "和歌山・白浜間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 3640,
+    "y": 7280,
+    "neighbors": [
+      "route_238",
       "shirahama"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_230",
-    "name": "和歌山・徳島間(カード駅)",
+    "id": "route_240",
+    "name": "和歌山・徳島間(プラス駅)",
     "region": "近畿",
-    "type": "card",
-    "x": 3677,
-    "y": 7473,
+    "type": "plus",
+    "x": 3510,
+    "y": 7020,
     "neighbors": [
       "wakayama",
-      "tokushima"
+      "route_241",
+      "route_288",
+      "route_289"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_231",
-    "name": "神戸・淡路島間(プラス駅)",
+    "id": "route_241",
+    "name": "和歌山・徳島間(プラス駅)",
     "region": "近畿",
     "type": "plus",
-    "x": 3750,
-    "y": 7243,
+    "x": 3380,
+    "y": 7020,
+    "neighbors": [
+      "route_240",
+      "tokushima",
+      "route_284"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_242",
+    "name": "神戸・淡路島間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 3510,
+    "y": 6630,
     "neighbors": [
       "kobe",
       "awaji"
@@ -7128,285 +7265,145 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_232",
-    "name": "神戸・姫路間(プラス駅)",
+    "id": "route_243",
+    "name": "神戸・姫路間(カード駅)",
     "region": "近畿",
-    "type": "plus",
-    "x": 3704,
-    "y": 7093,
+    "type": "card",
+    "x": 3380,
+    "y": 6760,
     "neighbors": [
       "kobe",
-      "himeji"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_233",
-    "name": "姫路・岡山間(プラス駅)",
-    "region": "近畿",
-    "type": "plus",
-    "x": 3404,
-    "y": 7091,
-    "neighbors": [
-      "himeji",
-      "okayama"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_234",
-    "name": "姫路・鳥取間(カード駅)",
-    "region": "近畿",
-    "type": "card",
-    "x": 3505,
-    "y": 6911,
-    "neighbors": [
-      "himeji",
-      "route_235"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_235",
-    "name": "姫路・鳥取間(カード駅)",
-    "region": "近畿",
-    "type": "card",
-    "x": 3427,
-    "y": 6772,
-    "neighbors": [
-      "route_234",
-      "tottori"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_236",
-    "name": "鳥取・松江間(プラス駅)",
-    "region": "中国",
-    "type": "plus",
-    "x": 3196,
-    "y": 6638,
-    "neighbors": [
-      "tottori",
-      "route_237"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_237",
-    "name": "鳥取・松江間(カード駅)",
-    "region": "中国",
-    "type": "card",
-    "x": 3044,
-    "y": 6642,
-    "neighbors": [
-      "route_236",
-      "route_238"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_238",
-    "name": "鳥取・松江間(カード駅)",
-    "region": "中国",
-    "type": "card",
-    "x": 2891,
-    "y": 6646,
-    "neighbors": [
-      "route_237",
-      "matsue"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_239",
-    "name": "鳥取・城崎間(プラス駅)",
-    "region": "中国",
-    "type": "plus",
-    "x": 3497,
-    "y": 6597,
-    "neighbors": [
-      "tottori",
-      "kinosaki"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_240",
-    "name": "松江・出雲間(ナイスカード駅)",
-    "region": "中国",
-    "type": "nice_card",
-    "x": 2652,
-    "y": 6684,
-    "neighbors": [
-      "matsue",
-      "izumo"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_241",
-    "name": "松江・岡山間(マイナス駅)",
-    "region": "中国",
-    "type": "minus",
-    "x": 2835,
-    "y": 6746,
-    "neighbors": [
-      "matsue",
-      "route_242"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_242",
-    "name": "松江・岡山間(カード駅)",
-    "region": "中国",
-    "type": "card",
-    "x": 2932,
-    "y": 6843,
-    "neighbors": [
-      "route_241",
-      "route_243"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_243",
-    "name": "松江・岡山間(プラス駅)",
-    "region": "中国",
-    "type": "plus",
-    "x": 3030,
-    "y": 6939,
-    "neighbors": [
-      "route_242",
       "route_244"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_244",
-    "name": "松江・岡山間(カード駅)",
-    "region": "中国",
-    "type": "card",
-    "x": 3127,
-    "y": 7036,
+    "name": "神戸・姫路間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3250,
+    "y": 6760,
     "neighbors": [
       "route_243",
-      "okayama"
+      "himeji",
+      "route_245"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_245",
-    "name": "岡山・倉敷間(プラス駅)",
-    "region": "中国",
-    "type": "plus",
-    "x": 3143,
-    "y": 7177,
+    "name": "姫路・岡山間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 3120,
+    "y": 6760,
     "neighbors": [
+      "route_244",
       "okayama",
-      "kurashiki"
+      "route_256"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_246",
-    "name": "岡山・高松間(プラス駅)",
-    "region": "中国",
+    "name": "姫路・鳥取間(プラス駅)",
+    "region": "近畿",
     "type": "plus",
-    "x": 3235,
-    "y": 7243,
+    "x": 3120,
+    "y": 6630,
     "neighbors": [
-      "okayama",
-      "takamatsu"
+      "himeji",
+      "route_229"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_247",
-    "name": "尾道・倉敷間(カード駅)",
+    "name": "鳥取・松江間(プラス駅)",
     "region": "中国",
-    "type": "card",
-    "x": 2935,
-    "y": 7266,
+    "type": "plus",
+    "x": 2990,
+    "y": 6240,
     "neighbors": [
-      "onomichi",
-      "kurashiki"
+      "tottori",
+      "route_248",
+      "route_254"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_248",
-    "name": "尾道・今治間(ナイスカード駅)",
+    "name": "鳥取・松江間(マイナス駅)",
     "region": "中国",
-    "type": "nice_card",
-    "x": 2756,
-    "y": 7416,
+    "type": "minus",
+    "x": 2860,
+    "y": 6240,
     "neighbors": [
-      "onomichi",
-      "imabari"
+      "route_247",
+      "route_249"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_249",
-    "name": "尾道・広島間(カード売り場)",
+    "name": "鳥取・松江間(カード駅)",
     "region": "中国",
-    "type": "shop",
-    "x": 2680,
-    "y": 7314,
+    "type": "card",
+    "x": 2730,
+    "y": 6240,
     "neighbors": [
-      "onomichi",
-      "route_250"
+      "route_248",
+      "matsue"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_250",
-    "name": "尾道・広島間(プラス駅)",
+    "name": "鳥取・城崎間(プラス駅)",
     "region": "中国",
     "type": "plus",
-    "x": 2551,
-    "y": 7318,
+    "x": 3250,
+    "y": 6240,
     "neighbors": [
-      "route_249",
-      "hiroshima"
+      "tottori",
+      "route_251"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_251",
-    "name": "広島・出雲間(マイナス駅)",
+    "name": "鳥取・城崎間(マイナス駅)",
     "region": "中国",
     "type": "minus",
-    "x": 2459,
-    "y": 7171,
+    "x": 3380,
+    "y": 6240,
     "neighbors": [
-      "hiroshima",
-      "route_252"
+      "route_250",
+      "kinosaki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_252",
-    "name": "広島・出雲間(カード駅)",
+    "name": "松江・出雲間(プラス駅)",
     "region": "中国",
-    "type": "card",
-    "x": 2495,
-    "y": 7020,
+    "type": "plus",
+    "x": 2600,
+    "y": 6370,
     "neighbors": [
-      "route_251",
+      "matsue",
       "route_253"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_253",
-    "name": "広島・出雲間(プラス駅)",
+    "name": "松江・出雲間(ナイスカード駅)",
     "region": "中国",
-    "type": "plus",
-    "x": 2530,
-    "y": 6869,
+    "type": "nice_card",
+    "x": 2470,
+    "y": 6370,
     "neighbors": [
       "route_252",
       "izumo"
@@ -7415,206 +7412,207 @@
   },
   {
     "id": "route_254",
-    "name": "広島・山口間(プラス駅)",
+    "name": "松江・岡山間(マイナス駅)",
     "region": "中国",
-    "type": "plus",
-    "x": 2294,
-    "y": 7355,
+    "type": "minus",
+    "x": 2990,
+    "y": 6370,
     "neighbors": [
-      "hiroshima",
-      "route_255"
+      "route_247",
+      "kurashiki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_255",
-    "name": "広島・山口間(カード駅)",
+    "name": "松江・岡山間(カード駅)",
     "region": "中国",
     "type": "card",
-    "x": 2166,
-    "y": 7387,
+    "x": 2990,
+    "y": 6630,
     "neighbors": [
-      "route_254",
-      "route_256"
+      "kurashiki",
+      "okayama"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_256",
-    "name": "広島・山口間(プラス駅)",
+    "name": "岡山・高松間(プラス駅)",
     "region": "中国",
     "type": "plus",
-    "x": 2037,
-    "y": 7420,
+    "x": 3120,
+    "y": 6890,
     "neighbors": [
-      "route_255",
-      "yamaguchi"
+      "route_245",
+      "takamatsu"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_257",
-    "name": "広島・松山間(プラス駅)",
+    "name": "尾道・倉敷間(マイナス駅)",
     "region": "中国",
-    "type": "plus",
-    "x": 2477,
-    "y": 7436,
+    "type": "minus",
+    "x": 2730,
+    "y": 6760,
     "neighbors": [
-      "hiroshima",
+      "onomichi",
       "route_258"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_258",
-    "name": "広島・松山間(カード駅)",
+    "name": "尾道・倉敷間(プラス駅)",
     "region": "中国",
-    "type": "card",
-    "x": 2530,
-    "y": 7549,
+    "type": "plus",
+    "x": 2730,
+    "y": 6630,
     "neighbors": [
       "route_257",
-      "matsuyama"
+      "route_259"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_259",
-    "name": "山口・出雲間(カード駅)",
+    "name": "尾道・倉敷間(プラス駅)",
     "region": "中国",
-    "type": "card",
-    "x": 2002,
-    "y": 7347,
+    "type": "plus",
+    "x": 2730,
+    "y": 6500,
     "neighbors": [
-      "yamaguchi",
+      "route_258",
       "route_260"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_260",
-    "name": "山口・出雲間(カード駅)",
+    "name": "尾道・倉敷間(マイナス駅)",
     "region": "中国",
-    "type": "card",
-    "x": 2096,
-    "y": 7242,
+    "type": "minus",
+    "x": 2860,
+    "y": 6500,
     "neighbors": [
       "route_259",
-      "route_261"
+      "kurashiki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_261",
-    "name": "山口・出雲間(マイナス駅)",
+    "name": "尾道・今治間(ナイスカード駅)",
     "region": "中国",
-    "type": "minus",
-    "x": 2190,
-    "y": 7137,
+    "type": "nice_card",
+    "x": 2730,
+    "y": 7020,
     "neighbors": [
-      "route_260",
-      "route_262"
+      "onomichi",
+      "imabari"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_262",
-    "name": "山口・出雲間(プラス駅)",
+    "name": "尾道・広島間(プラス駅)",
     "region": "中国",
     "type": "plus",
-    "x": 2284,
-    "y": 7033,
+    "x": 2600,
+    "y": 6890,
     "neighbors": [
-      "route_261",
+      "onomichi",
       "route_263"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_263",
-    "name": "山口・出雲間(マイナス駅)",
+    "name": "尾道・広島間(カード売り場)",
     "region": "中国",
-    "type": "minus",
-    "x": 2378,
-    "y": 6928,
+    "type": "shop",
+    "x": 2470,
+    "y": 6890,
     "neighbors": [
       "route_262",
-      "route_264"
+      "hiroshima",
+      "route_271"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_264",
-    "name": "山口・出雲間(プラス駅)",
+    "name": "広島・出雲間(プラス駅)",
     "region": "中国",
     "type": "plus",
-    "x": 2472,
-    "y": 6823,
+    "x": 2340,
+    "y": 6760,
     "neighbors": [
-      "route_263",
-      "izumo"
+      "hiroshima",
+      "route_265"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_265",
-    "name": "山口・下関間(プラス駅)",
+    "name": "広島・出雲間(プラス駅)",
     "region": "中国",
     "type": "plus",
-    "x": 1790,
-    "y": 7497,
+    "x": 2340,
+    "y": 6630,
     "neighbors": [
-      "yamaguchi",
-      "shimonoseki"
+      "route_264",
+      "route_266"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_266",
-    "name": "下関・小倉間(プラス駅)",
+    "name": "広島・出雲間(マイナス駅)",
     "region": "中国",
-    "type": "plus",
-    "x": 1618,
-    "y": 7617,
+    "type": "minus",
+    "x": 2340,
+    "y": 6500,
     "neighbors": [
-      "shimonoseki",
-      "kokura"
+      "route_265",
+      "izumo"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_267",
-    "name": "高松・徳島間(プラス駅)",
-    "region": "四国",
-    "type": "plus",
-    "x": 3378,
-    "y": 7437,
+    "name": "広島・山口間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 2340,
+    "y": 7020,
     "neighbors": [
-      "takamatsu",
-      "tokushima"
+      "hiroshima",
+      "route_268"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_268",
-    "name": "高松・今治間(プラス駅)",
-    "region": "四国",
+    "name": "広島・山口間(プラス駅)",
+    "region": "中国",
     "type": "plus",
-    "x": 3110,
-    "y": 7395,
+    "x": 2210,
+    "y": 7020,
     "neighbors": [
-      "takamatsu",
+      "route_267",
       "route_269"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_269",
-    "name": "高松・今治間(プラス駅)",
-    "region": "四国",
-    "type": "plus",
-    "x": 2975,
-    "y": 7437,
+    "name": "広島・山口間(マイナス駅)",
+    "region": "中国",
+    "type": "minus",
+    "x": 2080,
+    "y": 7020,
     "neighbors": [
       "route_268",
       "route_270"
@@ -7623,128 +7621,129 @@
   },
   {
     "id": "route_270",
-    "name": "高松・今治間(プラス駅)",
-    "region": "四国",
+    "name": "広島・山口間(プラス駅)",
+    "region": "中国",
     "type": "plus",
-    "x": 2839,
-    "y": 7479,
+    "x": 1950,
+    "y": 7020,
     "neighbors": [
       "route_269",
-      "imabari"
+      "yamaguchi"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_271",
-    "name": "徳島・淡路島間(プラス駅)",
-    "region": "四国",
+    "name": "広島・松山間(プラス駅)",
+    "region": "中国",
     "type": "plus",
-    "x": 3593,
-    "y": 7435,
+    "x": 2470,
+    "y": 7020,
     "neighbors": [
-      "tokushima",
-      "awaji"
+      "route_263",
+      "route_272"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_272",
-    "name": "徳島・高知間(マイナス駅)",
-    "region": "四国",
+    "name": "広島・松山間(マイナス駅)",
+    "region": "中国",
     "type": "minus",
-    "x": 3378,
-    "y": 7600,
+    "x": 2470,
+    "y": 7150,
     "neighbors": [
-      "tokushima",
-      "route_273"
+      "route_271",
+      "matsuyama",
+      "route_299"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_273",
-    "name": "徳島・高知間(プラス駅)",
-    "region": "四国",
-    "type": "plus",
-    "x": 3245,
-    "y": 7679,
+    "name": "山口・出雲間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 1820,
+    "y": 6890,
     "neighbors": [
-      "route_272",
+      "yamaguchi",
       "route_274"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_274",
-    "name": "徳島・高知間(プラス駅)",
-    "region": "四国",
+    "name": "山口・出雲間(プラス駅)",
+    "region": "中国",
     "type": "plus",
-    "x": 3113,
-    "y": 7758,
+    "x": 1820,
+    "y": 6760,
     "neighbors": [
       "route_273",
-      "kochi"
+      "route_275"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_275",
-    "name": "高知・四万十間(プラス駅)",
-    "region": "四国",
-    "type": "plus",
-    "x": 2876,
-    "y": 7955,
+    "name": "山口・出雲間(マイナス駅)",
+    "region": "中国",
+    "type": "minus",
+    "x": 1820,
+    "y": 6630,
     "neighbors": [
-      "kochi",
+      "route_274",
       "route_276"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_276",
-    "name": "高知・四万十間(プラス駅)",
-    "region": "四国",
+    "name": "山口・出雲間(プラス駅)",
+    "region": "中国",
     "type": "plus",
-    "x": 2772,
-    "y": 8072,
+    "x": 1820,
+    "y": 6500,
     "neighbors": [
       "route_275",
-      "shimanto"
+      "route_277"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_277",
-    "name": "松山・今治間(カード駅)",
-    "region": "四国",
-    "type": "card",
-    "x": 2644,
-    "y": 7592,
+    "name": "山口・出雲間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 1820,
+    "y": 6370,
     "neighbors": [
-      "matsuyama",
-      "imabari"
+      "route_276",
+      "route_278"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_278",
-    "name": "松山・四万十間(プラス駅)",
-    "region": "四国",
-    "type": "plus",
-    "x": 2605,
-    "y": 7795,
+    "name": "山口・出雲間(マイナス駅)",
+    "region": "中国",
+    "type": "minus",
+    "x": 1950,
+    "y": 6370,
     "neighbors": [
-      "matsuyama",
+      "route_277",
       "route_279"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_279",
-    "name": "松山・四万十間(カード駅)",
-    "region": "四国",
+    "name": "山口・出雲間(カード駅)",
+    "region": "中国",
     "type": "card",
-    "x": 2626,
-    "y": 7927,
+    "x": 2080,
+    "y": 6370,
     "neighbors": [
       "route_278",
       "route_280"
@@ -7753,180 +7752,180 @@
   },
   {
     "id": "route_280",
-    "name": "松山・四万十間(プラス駅)",
-    "region": "四国",
+    "name": "山口・出雲間(プラス駅)",
+    "region": "中国",
     "type": "plus",
-    "x": 2647,
-    "y": 8058,
+    "x": 2210,
+    "y": 6370,
     "neighbors": [
       "route_279",
-      "shimanto"
+      "izumo"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_281",
-    "name": "松山・別府間(カード駅)",
-    "region": "四国",
-    "type": "card",
-    "x": 2465,
-    "y": 7716,
+    "name": "山口・下関間(マイナス駅)",
+    "region": "中国",
+    "type": "minus",
+    "x": 1690,
+    "y": 7020,
     "neighbors": [
-      "matsuyama",
+      "yamaguchi",
       "route_282"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_282",
-    "name": "松山・別府間(カード駅)",
-    "region": "四国",
-    "type": "card",
-    "x": 2346,
-    "y": 7769,
+    "name": "山口・下関間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 1560,
+    "y": 7020,
     "neighbors": [
       "route_281",
-      "route_283"
+      "shimonoseki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_283",
-    "name": "松山・別府間(プラス駅)",
-    "region": "四国",
+    "name": "下関・小倉間(プラス駅)",
+    "region": "中国",
     "type": "plus",
-    "x": 2228,
-    "y": 7823,
+    "x": 1430,
+    "y": 7150,
     "neighbors": [
-      "route_282",
-      "route_284"
+      "shimonoseki",
+      "kokura"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_284",
-    "name": "松山・別府間(プラス駅)",
+    "name": "高松・徳島間(マイナス駅)",
     "region": "四国",
-    "type": "plus",
-    "x": 2109,
-    "y": 7876,
+    "type": "minus",
+    "x": 3250,
+    "y": 7020,
     "neighbors": [
-      "route_283",
-      "route_285"
+      "takamatsu",
+      "route_241"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_285",
-    "name": "松山・別府間(マイナス駅)",
+    "name": "高松・今治間(カード駅)",
     "region": "四国",
-    "type": "minus",
-    "x": 1990,
-    "y": 7929,
+    "type": "card",
+    "x": 3120,
+    "y": 7150,
     "neighbors": [
-      "route_284",
-      "beppu"
+      "takamatsu",
+      "route_286"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_286",
-    "name": "松山・宇和島間(プラス駅)",
+    "name": "高松・今治間(プラス駅)",
     "region": "四国",
     "type": "plus",
-    "x": 2548,
-    "y": 7791,
+    "x": 2990,
+    "y": 7150,
     "neighbors": [
-      "matsuyama",
+      "route_285",
       "route_287"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_287",
-    "name": "松山・宇和島間(プラス駅)",
+    "name": "高松・今治間(マイナス駅)",
     "region": "四国",
-    "type": "plus",
-    "x": 2511,
-    "y": 7920,
+    "type": "minus",
+    "x": 2860,
+    "y": 7150,
     "neighbors": [
       "route_286",
-      "uwajima"
+      "imabari"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_288",
-    "name": "小倉・別府間(プラス駅)",
-    "region": "九州",
+    "name": "徳島・淡路島間(プラス駅)",
+    "region": "四国",
     "type": "plus",
-    "x": 1666,
-    "y": 7788,
+    "x": 3510,
+    "y": 7150,
     "neighbors": [
-      "kokura",
-      "route_289"
+      "tokushima",
+      "route_240"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_289",
-    "name": "小倉・別府間(プラス駅)",
-    "region": "九州",
+    "name": "徳島・淡路島間(プラス駅)",
+    "region": "四国",
     "type": "plus",
-    "x": 1768,
-    "y": 7885,
+    "x": 3510,
+    "y": 6890,
     "neighbors": [
-      "route_288",
-      "beppu"
+      "route_240",
+      "kobe"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_290",
-    "name": "小倉・博多間(カード売り場)",
-    "region": "九州",
-    "type": "shop",
-    "x": 1463,
-    "y": 7755,
+    "name": "徳島・高知間(マイナス駅)",
+    "region": "四国",
+    "type": "minus",
+    "x": 3380,
+    "y": 7280,
     "neighbors": [
-      "kokura",
-      "hakata"
+      "tokushima",
+      "route_291"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_291",
-    "name": "博多・佐賀間(ワープ駅)",
-    "region": "九州",
-    "type": "warp",
-    "x": 1331,
-    "y": 7921,
+    "name": "徳島・高知間(カード駅)",
+    "region": "四国",
+    "type": "card",
+    "x": 3380,
+    "y": 7410,
     "neighbors": [
-      "hakata",
-      "saga"
+      "route_290",
+      "route_292"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_292",
-    "name": "博多・熊本間(プラス駅)",
-    "region": "九州",
+    "name": "徳島・高知間(プラス駅)",
+    "region": "四国",
     "type": "plus",
-    "x": 1400,
-    "y": 7941,
+    "x": 3250,
+    "y": 7410,
     "neighbors": [
-      "hakata",
+      "route_291",
       "route_293"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_293",
-    "name": "博多・熊本間(カード駅)",
-    "region": "九州",
-    "type": "card",
-    "x": 1438,
-    "y": 8063,
+    "name": "徳島・高知間(マイナス駅)",
+    "region": "四国",
+    "type": "minus",
+    "x": 3120,
+    "y": 7410,
     "neighbors": [
       "route_292",
       "route_294"
@@ -7935,76 +7934,130 @@
   },
   {
     "id": "route_294",
-    "name": "博多・熊本間(プラス駅)",
-    "region": "九州",
+    "name": "徳島・高知間(プラス駅)",
+    "region": "四国",
     "type": "plus",
-    "x": 1475,
-    "y": 8186,
+    "x": 2990,
+    "y": 7410,
     "neighbors": [
       "route_293",
-      "kumamoto"
+      "kochi"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_295",
-    "name": "佐賀・長崎間(プラス駅)",
-    "region": "九州",
+    "name": "高知・四万十間(プラス駅)",
+    "region": "四国",
     "type": "plus",
-    "x": 1225,
-    "y": 8128,
+    "x": 2730,
+    "y": 7410,
     "neighbors": [
-      "saga",
+      "kochi",
       "route_296"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_296",
-    "name": "佐賀・長崎間(プラス駅)",
-    "region": "九州",
-    "type": "plus",
-    "x": 1151,
-    "y": 8234,
+    "name": "高知・四万十間(マイナス駅)",
+    "region": "四国",
+    "type": "minus",
+    "x": 2600,
+    "y": 7410,
     "neighbors": [
       "route_295",
-      "nagasaki"
+      "route_297"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_297",
-    "name": "佐賀・佐世保間(プラス駅)",
-    "region": "九州",
-    "type": "plus",
-    "x": 1149,
-    "y": 8054,
+    "name": "高知・四万十間(カード駅)",
+    "region": "四国",
+    "type": "card",
+    "x": 2470,
+    "y": 7410,
     "neighbors": [
-      "saga",
-      "sasebo"
+      "route_296",
+      "route_298",
+      "matsuyama"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_298",
-    "name": "長崎・佐世保間(プラス駅)",
-    "region": "九州",
+    "name": "高知・四万十間(プラス駅)",
+    "region": "四国",
     "type": "plus",
-    "x": 1037,
-    "y": 8212,
+    "x": 2470,
+    "y": 7540,
     "neighbors": [
-      "nagasaki",
-      "sasebo"
+      "route_297",
+      "shimanto",
+      "route_300"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_299",
-    "name": "大分・別府間(プラス駅)",
-    "region": "九州",
+    "name": "松山・今治間(マイナス駅)",
+    "region": "四国",
+    "type": "minus",
+    "x": 2600,
+    "y": 7150,
+    "neighbors": [
+      "route_272",
+      "imabari"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_300",
+    "name": "松山・別府間(プラス駅)",
+    "region": "四国",
     "type": "plus",
-    "x": 1953,
-    "y": 8026,
+    "x": 2340,
+    "y": 7540,
+    "neighbors": [
+      "route_298",
+      "uwajima"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_301",
+    "name": "松山・別府間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2080,
+    "y": 7540,
+    "neighbors": [
+      "uwajima",
+      "route_302"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_302",
+    "name": "松山・別府間(マイナス駅)",
+    "region": "四国",
+    "type": "minus",
+    "x": 1950,
+    "y": 7540,
+    "neighbors": [
+      "route_301",
+      "oita"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_303",
+    "name": "松山・別府間(カード駅)",
+    "region": "四国",
+    "type": "card",
+    "x": 1690,
+    "y": 7540,
     "neighbors": [
       "oita",
       "beppu"
@@ -8012,77 +8065,25 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_300",
-    "name": "大分・熊本間(マイナス駅)",
-    "region": "九州",
-    "type": "minus",
-    "x": 1904,
-    "y": 8129,
-    "neighbors": [
-      "oita",
-      "route_301"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_301",
-    "name": "大分・熊本間(カード駅)",
-    "region": "九州",
-    "type": "card",
-    "x": 1774,
-    "y": 8189,
-    "neighbors": [
-      "route_300",
-      "route_302"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_302",
-    "name": "大分・熊本間(プラス駅)",
-    "region": "九州",
-    "type": "plus",
-    "x": 1643,
-    "y": 8248,
-    "neighbors": [
-      "route_301",
-      "kumamoto"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_303",
-    "name": "大分・宮崎間(プラス駅)",
-    "region": "九州",
-    "type": "plus",
-    "x": 2009,
-    "y": 8201,
-    "neighbors": [
-      "oita",
-      "route_304"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
     "id": "route_304",
-    "name": "大分・宮崎間(カード駅)",
-    "region": "九州",
-    "type": "card",
-    "x": 1983,
-    "y": 8333,
+    "name": "松山・宇和島間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2340,
+    "y": 7280,
     "neighbors": [
-      "route_303",
+      "matsuyama",
       "route_305"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_305",
-    "name": "大分・宮崎間(プラス駅)",
-    "region": "九州",
-    "type": "plus",
-    "x": 1958,
-    "y": 8465,
+    "name": "松山・宇和島間(マイナス駅)",
+    "region": "四国",
+    "type": "minus",
+    "x": 2210,
+    "y": 7280,
     "neighbors": [
       "route_304",
       "route_306"
@@ -8091,349 +8092,359 @@
   },
   {
     "id": "route_306",
-    "name": "大分・宮崎間(マイナス駅)",
-    "region": "九州",
-    "type": "minus",
-    "x": 1933,
-    "y": 8596,
+    "name": "松山・宇和島間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2210,
+    "y": 7410,
     "neighbors": [
       "route_305",
-      "route_307"
+      "uwajima"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_307",
-    "name": "大分・宮崎間(プラス駅)",
+    "name": "小倉・別府間(プラス駅)",
     "region": "九州",
     "type": "plus",
-    "x": 1907,
-    "y": 8728,
+    "x": 1300,
+    "y": 7280,
     "neighbors": [
-      "route_306",
-      "miyazaki"
+      "kokura",
+      "hakata"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_308",
-    "name": "大分・阿蘇間(プラス駅)",
+    "name": "小倉・別府間(マイナス駅)",
     "region": "九州",
-    "type": "plus",
-    "x": 1880,
-    "y": 8142,
+    "type": "minus",
+    "x": 1300,
+    "y": 7540,
     "neighbors": [
-      "oita",
-      "aso"
+      "hakata",
+      "route_309",
+      "saga"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_309",
-    "name": "熊本・鹿児島間(プラス駅)",
+    "name": "小倉・別府間(カード駅)",
     "region": "九州",
-    "type": "plus",
-    "x": 1499,
-    "y": 8433,
+    "type": "card",
+    "x": 1430,
+    "y": 7540,
     "neighbors": [
-      "kumamoto",
-      "route_310"
-    ],
-    "isDestinationCandidate": false
-  },
-  {
-    "id": "route_310",
-    "name": "熊本・鹿児島間(カード売り場)",
-    "region": "九州",
-    "type": "shop",
-    "x": 1485,
-    "y": 8558,
-    "neighbors": [
-      "route_309",
+      "route_308",
+      "beppu",
+      "route_310",
       "route_311"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_311",
-    "name": "熊本・鹿児島間(プラス駅)",
+    "id": "route_310",
+    "name": "博多・熊本間(プラス駅)",
     "region": "九州",
     "type": "plus",
-    "x": 1472,
-    "y": 8683,
+    "x": 1430,
+    "y": 7410,
     "neighbors": [
-      "route_310",
+      "hakata",
+      "route_309"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_311",
+    "name": "博多・熊本間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 1430,
+    "y": 7670,
+    "neighbors": [
+      "route_309",
       "route_312"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_312",
-    "name": "熊本・鹿児島間(プラス駅)",
+    "name": "博多・熊本間(プラス駅)",
     "region": "九州",
     "type": "plus",
-    "x": 1458,
-    "y": 8808,
+    "x": 1430,
+    "y": 7800,
     "neighbors": [
       "route_311",
-      "route_313"
+      "kumamoto",
+      "route_330"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_313",
-    "name": "熊本・鹿児島間(プラス駅)",
+    "name": "佐賀・長崎間(プラス駅)",
     "region": "九州",
     "type": "plus",
-    "x": 1444,
-    "y": 8933,
+    "x": 1300,
+    "y": 7800,
     "neighbors": [
-      "route_312",
-      "kagoshima"
+      "saga",
+      "route_314"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_314",
-    "name": "熊本・阿蘇間(プラス駅)",
+    "name": "佐賀・長崎間(マイナス駅)",
     "region": "九州",
-    "type": "plus",
-    "x": 1620,
-    "y": 8262,
+    "type": "minus",
+    "x": 1300,
+    "y": 7930,
     "neighbors": [
+      "route_313",
+      "route_315",
       "kumamoto",
-      "aso"
+      "route_326"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_315",
-    "name": "宮崎・鹿児島間(プラス駅)",
+    "name": "佐賀・長崎間(カード駅)",
     "region": "九州",
-    "type": "plus",
-    "x": 1731,
-    "y": 8926,
+    "type": "card",
+    "x": 1170,
+    "y": 7930,
     "neighbors": [
-      "miyazaki",
-      "route_316"
+      "route_314",
+      "nagasaki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_316",
-    "name": "宮崎・鹿児島間(カード駅)",
+    "name": "佐賀・佐世保間(プラス駅)",
     "region": "九州",
-    "type": "card",
-    "x": 1581,
-    "y": 8992,
+    "type": "plus",
+    "x": 1170,
+    "y": 7670,
     "neighbors": [
-      "route_315",
-      "kagoshima"
+      "saga",
+      "route_317"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_317",
-    "name": "鹿児島・那覇間(ナイスカード駅)",
+    "name": "佐賀・佐世保間(マイナス駅)",
     "region": "九州",
-    "type": "nice_card",
-    "x": 1348,
-    "y": 9212,
+    "type": "minus",
+    "x": 1040,
+    "y": 7670,
     "neighbors": [
-      "kagoshima",
+      "route_316",
+      "sasebo",
       "route_318"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_318",
-    "name": "鹿児島・那覇間(プラス駅)",
+    "name": "長崎・佐世保間(プラス駅)",
     "region": "九州",
     "type": "plus",
-    "x": 1267,
-    "y": 9366,
+    "x": 1040,
+    "y": 7800,
     "neighbors": [
-      "route_317",
-      "route_319"
+      "nagasaki",
+      "route_317"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_319",
-    "name": "鹿児島・那覇間(マイナス駅)",
+    "name": "大分・熊本間(プラス駅)",
     "region": "九州",
-    "type": "minus",
-    "x": 1185,
-    "y": 9520,
+    "type": "plus",
+    "x": 1820,
+    "y": 7670,
     "neighbors": [
-      "route_318",
+      "oita",
       "route_320"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_320",
-    "name": "鹿児島・那覇間(ワープ駅)",
+    "name": "大分・熊本間(マイナス駅)",
     "region": "九州",
-    "type": "warp",
-    "x": 1103,
-    "y": 9675,
+    "type": "minus",
+    "x": 1820,
+    "y": 7800,
     "neighbors": [
       "route_319",
-      "route_321"
+      "route_321",
+      "aso"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_321",
-    "name": "鹿児島・那覇間(プラス駅)",
+    "name": "大分・熊本間(カード駅)",
     "region": "九州",
-    "type": "plus",
-    "x": 1021,
-    "y": 9829,
+    "type": "card",
+    "x": 1820,
+    "y": 7930,
     "neighbors": [
       "route_320",
-      "route_322"
+      "route_322",
+      "route_324"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_322",
-    "name": "鹿児島・那覇間(カード駅)",
+    "name": "大分・熊本間(プラス駅)",
     "region": "九州",
-    "type": "card",
-    "x": 940,
-    "y": 9983,
+    "type": "plus",
+    "x": 1690,
+    "y": 7930,
     "neighbors": [
       "route_321",
-      "naha"
+      "route_323"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_323",
-    "name": "鹿児島・指宿間(プラス駅)",
+    "name": "大分・熊本間(マイナス駅)",
     "region": "九州",
-    "type": "plus",
-    "x": 1454,
-    "y": 9170,
+    "type": "minus",
+    "x": 1560,
+    "y": 7930,
     "neighbors": [
-      "kagoshima",
-      "ibusuki"
+      "route_322",
+      "kumamoto"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_324",
-    "name": "那覇・石垣島間(カード売り場)",
-    "region": "沖縄",
-    "type": "shop",
-    "x": 744,
-    "y": 10224,
+    "name": "大分・宮崎間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1820,
+    "y": 8060,
     "neighbors": [
-      "naha",
+      "route_321",
       "route_325"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_325",
-    "name": "那覇・石垣島間(ナイスカード駅)",
-    "region": "沖縄",
-    "type": "nice_card",
-    "x": 629,
-    "y": 10311,
+    "name": "大分・宮崎間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1820,
+    "y": 8190,
     "neighbors": [
       "route_324",
-      "route_326"
+      "miyazaki"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_326",
-    "name": "那覇・石垣島間(プラス駅)",
-    "region": "沖縄",
-    "type": "plus",
-    "x": 515,
-    "y": 10397,
+    "name": "熊本・鹿児島間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 1300,
+    "y": 8060,
     "neighbors": [
-      "route_325",
+      "route_314",
       "route_327"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_327",
-    "name": "那覇・石垣島間(プラス駅)",
-    "region": "沖縄",
-    "type": "plus",
-    "x": 400,
-    "y": 10484,
+    "name": "熊本・鹿児島間(カード売り場)",
+    "region": "九州",
+    "type": "shop",
+    "x": 1300,
+    "y": 8190,
     "neighbors": [
       "route_326",
-      "ishigaki"
+      "route_328"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_328",
-    "name": "那覇・指宿間(マイナス駅)",
-    "region": "沖縄",
-    "type": "minus",
-    "x": 946,
-    "y": 10015,
+    "name": "熊本・鹿児島間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1300,
+    "y": 8320,
     "neighbors": [
-      "naha",
-      "route_329"
+      "route_327",
+      "route_329",
+      "route_333"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_329",
-    "name": "那覇・指宿間(プラス駅)",
-    "region": "沖縄",
-    "type": "plus",
-    "x": 1035,
-    "y": 9892,
+    "name": "熊本・鹿児島間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 1300,
+    "y": 8450,
     "neighbors": [
       "route_328",
-      "route_330"
+      "kagoshima"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_330",
-    "name": "那覇・指宿間(ワープ駅)",
-    "region": "沖縄",
-    "type": "warp",
-    "x": 1123,
-    "y": 9770,
+    "name": "熊本・阿蘇間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1560,
+    "y": 7800,
     "neighbors": [
-      "route_329",
-      "route_331"
+      "route_312",
+      "aso"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_331",
-    "name": "那覇・指宿間(プラス駅)",
-    "region": "沖縄",
+    "name": "宮崎・鹿児島間(プラス駅)",
+    "region": "九州",
     "type": "plus",
-    "x": 1212,
-    "y": 9648,
+    "x": 1690,
+    "y": 8320,
     "neighbors": [
-      "route_330",
+      "miyazaki",
       "route_332"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_332",
-    "name": "那覇・指宿間(カード駅)",
-    "region": "沖縄",
-    "type": "card",
-    "x": 1300,
-    "y": 9526,
+    "name": "宮崎・鹿児島間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 1560,
+    "y": 8320,
     "neighbors": [
       "route_331",
       "route_333"
@@ -8442,37 +8453,37 @@
   },
   {
     "id": "route_333",
-    "name": "那覇・指宿間(プラス駅)",
-    "region": "沖縄",
-    "type": "plus",
-    "x": 1389,
-    "y": 9403,
+    "name": "宮崎・鹿児島間(カード駅)",
+    "region": "九州",
+    "type": "card",
+    "x": 1430,
+    "y": 8320,
     "neighbors": [
       "route_332",
-      "ibusuki"
+      "route_328"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_334",
-    "name": "知床・根室間(プラス駅)",
-    "region": "北海道",
+    "name": "鹿児島・那覇間(プラス駅)",
+    "region": "九州",
     "type": "plus",
-    "x": 9004,
-    "y": 1436,
+    "x": 1300,
+    "y": 8710,
     "neighbors": [
-      "shiretoko",
+      "kagoshima",
       "route_335"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_335",
-    "name": "知床・根室間(カード駅)",
-    "region": "北海道",
-    "type": "card",
-    "x": 9085,
-    "y": 1550,
+    "name": "鹿児島・那覇間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 1300,
+    "y": 8840,
     "neighbors": [
       "route_334",
       "route_336"
@@ -8481,89 +8492,90 @@
   },
   {
     "id": "route_336",
-    "name": "知床・根室間(プラス駅)",
-    "region": "北海道",
+    "name": "鹿児島・那覇間(プラス駅)",
+    "region": "九州",
     "type": "plus",
-    "x": 9165,
-    "y": 1665,
+    "x": 1300,
+    "y": 8970,
     "neighbors": [
       "route_335",
-      "nemuro"
+      "route_337"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_337",
-    "name": "会津若松・米沢間(マイナス駅)",
-    "region": "東北",
-    "type": "minus",
-    "x": 6355,
-    "y": 5267,
+    "name": "鹿児島・那覇間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1300,
+    "y": 9100,
     "neighbors": [
-      "aizu",
-      "yonezawa"
+      "route_336",
+      "route_338"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_338",
-    "name": "鎌倉・箱根間(プラス駅)",
-    "region": "関東",
-    "type": "plus",
-    "x": 5950,
-    "y": 6781,
+    "name": "鹿児島・那覇間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 1300,
+    "y": 9230,
     "neighbors": [
-      "kamakura",
-      "hakone"
+      "route_337",
+      "route_339"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_339",
-    "name": "高山・下呂間(プラス駅)",
-    "region": "中部",
-    "type": "plus",
-    "x": 4912,
-    "y": 6340,
+    "name": "鹿児島・那覇間(ナイスカード駅)",
+    "region": "九州",
+    "type": "nice_card",
+    "x": 1300,
+    "y": 9360,
     "neighbors": [
-      "takayama",
-      "gero"
+      "route_338",
+      "route_340"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_340",
-    "name": "白浜・鳥羽間(プラス駅)",
-    "region": "近畿",
+    "name": "鹿児島・那覇間(プラス駅)",
+    "region": "九州",
     "type": "plus",
-    "x": 4045,
-    "y": 7692,
+    "x": 1300,
+    "y": 9490,
     "neighbors": [
-      "shirahama",
+      "route_339",
       "route_341"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_341",
-    "name": "白浜・鳥羽間(マイナス駅)",
-    "region": "近畿",
+    "name": "鹿児島・那覇間(マイナス駅)",
+    "region": "九州",
     "type": "minus",
-    "x": 4164,
-    "y": 7621,
+    "x": 1300,
+    "y": 9620,
     "neighbors": [
       "route_340",
-      "route_342"
+      "route_342",
+      "route_353"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_342",
-    "name": "白浜・鳥羽間(プラス駅)",
-    "region": "近畿",
+    "name": "鹿児島・那覇間(プラス駅)",
+    "region": "九州",
     "type": "plus",
-    "x": 4283,
-    "y": 7551,
+    "x": 1170,
+    "y": 9620,
     "neighbors": [
       "route_341",
       "route_343"
@@ -8572,11 +8584,11 @@
   },
   {
     "id": "route_343",
-    "name": "白浜・鳥羽間(プラス駅)",
-    "region": "近畿",
+    "name": "鹿児島・那覇間(プラス駅)",
+    "region": "九州",
     "type": "plus",
-    "x": 4402,
-    "y": 7481,
+    "x": 1040,
+    "y": 9620,
     "neighbors": [
       "route_342",
       "route_344"
@@ -8585,39 +8597,351 @@
   },
   {
     "id": "route_344",
-    "name": "白浜・鳥羽間(カード駅)",
-    "region": "近畿",
-    "type": "card",
-    "x": 4521,
-    "y": 7411,
+    "name": "鹿児島・那覇間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 910,
+    "y": 9620,
     "neighbors": [
       "route_343",
-      "route_345"
+      "naha"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_345",
-    "name": "白浜・鳥羽間(プラス駅)",
-    "region": "近畿",
-    "type": "plus",
-    "x": 4640,
-    "y": 7340,
+    "name": "鹿児島・指宿間(カード駅)",
+    "region": "九州",
+    "type": "card",
+    "x": 1430,
+    "y": 8580,
     "neighbors": [
-      "route_344",
-      "toba"
+      "kagoshima",
+      "route_346"
     ],
     "isDestinationCandidate": false
   },
   {
     "id": "route_346",
+    "name": "鹿児島・指宿間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1430,
+    "y": 8710,
+    "neighbors": [
+      "route_345",
+      "ibusuki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_347",
+    "name": "那覇・石垣島間(マイナス駅)",
+    "region": "沖縄",
+    "type": "minus",
+    "x": 780,
+    "y": 9750,
+    "neighbors": [
+      "naha",
+      "route_348"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_348",
+    "name": "那覇・石垣島間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 780,
+    "y": 9880,
+    "neighbors": [
+      "route_347",
+      "route_349"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_349",
+    "name": "那覇・石垣島間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 780,
+    "y": 10010,
+    "neighbors": [
+      "route_348",
+      "route_350"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_350",
+    "name": "那覇・石垣島間(カード売り場)",
+    "region": "沖縄",
+    "type": "shop",
+    "x": 650,
+    "y": 10010,
+    "neighbors": [
+      "route_349",
+      "route_351"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_351",
+    "name": "那覇・石垣島間(カード駅)",
+    "region": "沖縄",
+    "type": "card",
+    "x": 520,
+    "y": 10010,
+    "neighbors": [
+      "route_350",
+      "route_352"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_352",
+    "name": "那覇・石垣島間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 390,
+    "y": 10010,
+    "neighbors": [
+      "route_351",
+      "ishigaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_353",
+    "name": "那覇・指宿間(マイナス駅)",
+    "region": "沖縄",
+    "type": "minus",
+    "x": 1430,
+    "y": 9620,
+    "neighbors": [
+      "route_341",
+      "route_354"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_354",
+    "name": "那覇・指宿間(ワープ駅)",
+    "region": "沖縄",
+    "type": "warp",
+    "x": 1430,
+    "y": 9490,
+    "neighbors": [
+      "route_353",
+      "route_355"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_355",
+    "name": "那覇・指宿間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 1430,
+    "y": 9360,
+    "neighbors": [
+      "route_354",
+      "route_356"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_356",
+    "name": "那覇・指宿間(マイナス駅)",
+    "region": "沖縄",
+    "type": "minus",
+    "x": 1430,
+    "y": 9230,
+    "neighbors": [
+      "route_355",
+      "route_357"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_357",
+    "name": "那覇・指宿間(カード駅)",
+    "region": "沖縄",
+    "type": "card",
+    "x": 1430,
+    "y": 9100,
+    "neighbors": [
+      "route_356",
+      "route_358"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_358",
+    "name": "那覇・指宿間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 1430,
+    "y": 8970,
+    "neighbors": [
+      "route_357",
+      "ibusuki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_359",
+    "name": "知床・根室間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 8450,
+    "y": 1430,
+    "neighbors": [
+      "shiretoko",
+      "route_360"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_360",
+    "name": "知床・根室間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 8450,
+    "y": 1560,
+    "neighbors": [
+      "route_359",
+      "route_33"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_361",
+    "name": "鎌倉・箱根間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 5850,
+    "y": 6370,
+    "neighbors": [
+      "kamakura",
+      "route_362"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_362",
+    "name": "鎌倉・箱根間(マイナス駅)",
+    "region": "関東",
+    "type": "minus",
+    "x": 5720,
+    "y": 6370,
+    "neighbors": [
+      "route_361",
+      "route_161"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_363",
+    "name": "鎌倉・箱根間(カード駅)",
+    "region": "関東",
+    "type": "card",
+    "x": 5460,
+    "y": 6370,
+    "neighbors": [
+      "route_161",
+      "hakone"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_364",
+    "name": "白浜・鳥羽間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3770,
+    "y": 7150,
+    "neighbors": [
+      "shirahama",
+      "route_365"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_365",
+    "name": "白浜・鳥羽間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 3900,
+    "y": 7150,
+    "neighbors": [
+      "route_364",
+      "route_366"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_366",
+    "name": "白浜・鳥羽間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4030,
+    "y": 7150,
+    "neighbors": [
+      "route_365",
+      "route_367"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_367",
+    "name": "白浜・鳥羽間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4160,
+    "y": 7150,
+    "neighbors": [
+      "route_366",
+      "route_368"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_368",
+    "name": "白浜・鳥羽間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 4290,
+    "y": 7150,
+    "neighbors": [
+      "route_367",
+      "toba"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_369",
+    "name": "四万十・宇和島間(カード駅)",
+    "region": "四国",
+    "type": "card",
+    "x": 2340,
+    "y": 7670,
+    "neighbors": [
+      "shimanto",
+      "route_370"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_370",
     "name": "四万十・宇和島間(プラス駅)",
     "region": "四国",
     "type": "plus",
-    "x": 2572,
-    "y": 8119,
+    "x": 2210,
+    "y": 7670,
     "neighbors": [
-      "shimanto",
+      "route_369",
       "uwajima"
     ],
     "isDestinationCandidate": false

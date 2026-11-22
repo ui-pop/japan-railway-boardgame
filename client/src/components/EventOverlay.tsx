@@ -85,26 +85,33 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
   // アニメーション誤タップ防止（一定時間はタップで飛ばせない保護ロック）
   const [canDismiss, setCanDismiss] = useState(false);
 
-  // ターン開始カットインバナー
+  // ターン開始アイキャッチ＆月替わり検知
   const [turnBannerPlayer, setTurnBannerPlayer] = useState<PlayerPublicState | null>(null);
+  const [isNewMonthBanner, setIsNewMonthBanner] = useState(false);
   const lastTurnCountRef = useRef<number>(0);
+  const lastMonthRef = useRef<number | undefined>(undefined);
 
-  // ターン切り替わり時のカットイン表示
+  // ターン切り替わり時の桃鉄風大型アイキャッチ表示
   useEffect(() => {
     if (!turnCount || !currentTurnPlayerId) return;
     if (turnCount !== lastTurnCountRef.current) {
       lastTurnCountRef.current = turnCount;
+      const monthChanged =
+        lastMonthRef.current !== undefined && lastMonthRef.current !== currentMonth;
+      lastMonthRef.current = currentMonth;
+
       const p = players.find((x) => x.id === currentTurnPlayerId);
       if (p) {
+        setIsNewMonthBanner(monthChanged);
         setTurnBannerPlayer(p);
         soundManager.playTurnStart();
         const t = window.setTimeout(() => {
           setTurnBannerPlayer(null);
-        }, 1750);
+        }, 2000);
         return () => window.clearTimeout(t);
       }
     }
-  }, [turnCount, currentTurnPlayerId, players]);
+  }, [turnCount, currentTurnPlayerId, currentMonth, players]);
 
   useEffect(() => {
     if (!currentEvent) return;
@@ -272,33 +279,33 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
 
   return (
     <>
-      {/* 桃鉄風 ターン開始カットインバナー */}
+      {/* 桃鉄風 ターン間大型アイキャッチ幕 */}
       {turnBannerPlayer && !currentEvent && (
-        <div className="fixed top-28 left-1/2 -translate-x-1/2 z-40 pointer-events-none w-[92%] max-w-md animate-bounce">
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/45 backdrop-blur-[2px] pointer-events-none p-4">
           <div
-            className="rounded-3xl p-4 shadow-[0_10px_35px_rgba(0,0,0,0.7)] border-2 border-white flex items-center justify-between"
+            className="w-full max-w-sm rounded-3xl p-6 text-center shadow-[0_15px_50px_rgba(0,0,0,0.75)] border-4 border-amber-300"
             style={{
-              background: `linear-gradient(135deg, ${turnBannerPlayer.color}ee, #0f172aee)`,
+              background: `linear-gradient(155deg, ${turnBannerPlayer.color}f2 0%, #1e1b4bf5 100%)`,
             }}
           >
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-white/20 border-2 border-white flex items-center justify-center text-2xl shadow">
+            {isNewMonthBanner && (
+              <div className="inline-block mb-2 px-3 py-0.5 rounded-full bg-amber-400 text-slate-950 text-xs font-black shadow">
+                📅 {currentYear}年目 {currentMonth}月に突入！
+              </div>
+            )}
+            <div className="text-xs font-extrabold text-amber-200 tracking-wider">
+              {currentYear}年目 {currentMonth}月
+            </div>
+            <div className="my-3 flex items-center justify-center gap-3">
+              <div className="w-16 h-16 rounded-2xl bg-white/20 border-3 border-white flex items-center justify-center text-4xl shadow-lg animate-bounce">
                 {turnBannerPlayer.avatar}
               </div>
-              <div>
-                <div className="text-xs font-extrabold text-amber-200">
-                  {currentYear}年目 {currentMonth}月
-                </div>
-                <div className="text-lg font-black text-white">
-                  {turnBannerPlayer.name} のターン！
-                </div>
-              </div>
             </div>
-            <div className="text-right bg-black/35 px-3 py-1.5 rounded-2xl border border-white/20">
-              <div className="text-[10px] text-slate-200 font-bold">目的地まで</div>
-              <div className="text-base font-black text-amber-300">
-                あと {turnBannerPlayer.distanceToDest} マス
-              </div>
+            <div className="text-2xl font-black text-white drop-shadow">
+              {turnBannerPlayer.name}のターン！
+            </div>
+            <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 border border-white/25 text-sm font-black text-amber-300">
+              <span>🚩 目的地まで あと {turnBannerPlayer.distanceToDest} マス</span>
             </div>
           </div>
         </div>
