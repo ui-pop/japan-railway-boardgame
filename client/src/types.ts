@@ -176,6 +176,7 @@ export interface PublicGameState {
 
 export interface GameEventSeqItem {
   type:
+    | 'turn_start'
     | 'dice_roll'
     | 'step_move'
     | 'station_effect'

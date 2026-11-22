@@ -185,11 +185,18 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
       e.type === 'random_event'
   );
   const hasStationEffect = lastEvents.some((e) => e.type === 'station_effect');
+  const hasTurnStart = lastEvents.some((e) => e.type === 'turn_start');
 
-  if (hasBigEvent) {
-    delay = 3800;
+  if (hasBigEvent && hasTurnStart) {
+    delay = 5200; // 大イベント + 次ターンアイキャッチを両方見終わるまで待つ
+  } else if (hasBigEvent) {
+    delay = 3600;
+  } else if (hasStationEffect && hasTurnStart) {
+    delay = 4500; // マス演出 + 次ターンアイキャッチを両方見終わるまで待つ
   } else if (hasDiceRoll) {
     delay = 2700; // サイコロが回って確定するまで待つ
+  } else if (hasTurnStart) {
+    delay = 2600; // ターン開始アイキャッチが終わるまで待つ
   } else if (hasStationEffect) {
     delay = 2800;
   } else if (engine.phase === 'moving') {
@@ -256,6 +263,41 @@ io.on('connection', (socket) => {
       token: result.player.token,
       roomId: engine.roomId,
       isReconnect: result.isReconnect,
+    });
+    broadcastAll();
+  });
+
+  socket.on('player:rename', (payload: { name: string; token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
+    if (!pid) return;
+    const res = engine.renamePlayer(pid, payload.name ?? '');
+    if (!res.ok) {
+      socket.emit('game:error', { message: res.error });
+      return;
+    }
+    broadcastAll();
+  });
+
+  socket.on('player:leave', (payload?: { token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
+    if (!pid) return;
+    if (engine.leavePlayer(pid)) {
+      socket.emit('player:left');
+      broadcastAll();
+    }
+  });
+
+  socket.on('player:reclaim', (payload: { playerId: string }) => {
+    const res = engine.reclaimDisconnectedPlayer(payload.playerId, socket.id);
+    if ('error' in res) {
+      socket.emit('game:error', { message: res.error });
+      return;
+    }
+    socket.emit('player:joined', {
+      playerId: res.player.id,
+      token: res.player.token,
+      roomId: engine.roomId,
+      isReconnect: true,
     });
     broadcastAll();
   });

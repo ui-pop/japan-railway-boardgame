@@ -27,6 +27,9 @@ export function App() {
     savesList,
     errorMsg,
     joinGame,
+    renamePlayer,
+    leaveLobby,
+    reclaimPlayer,
     rollDice,
     useCard,
     moveStep,
@@ -122,39 +125,112 @@ export function App() {
           )}
 
           {!myPlayerId ? (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                joinGame(playerName || '社長');
-              }}
-              className="space-y-3"
-            >
-              <div>
-                <label className="block text-xs font-bold text-slate-300 mb-1.5">
-                  社長名（ニックネーム）
-                </label>
-                <input
-                  type="text"
-                  maxLength={12}
-                  value={playerName}
-                  onChange={(e) => setPlayerName(e.target.value)}
-                  placeholder="例: たなか社長"
-                  className="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-700 text-white text-base font-bold focus:outline-none focus:border-sky-500"
-                />
+            gameState && gameState.status !== 'waiting' ? (
+              /* ゲーム進行中に画面を閉じて開き直した場合のワンタップ途中復帰 */
+              <div className="space-y-3">
+                <div className="p-3 rounded-2xl bg-amber-950/60 border border-amber-500/50 text-xs text-amber-200 font-bold text-center">
+                  ゲームは進行中です。離脱中の自分の席を選んで復帰できます！
+                </div>
+                {gameState.players.filter((p) => !p.isCpu && !p.isConnected).length === 0 ? (
+                  <div className="text-center text-xs text-slate-400 py-4">
+                    現在復帰できる離脱中の席がありません。
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    {gameState.players
+                      .filter((p) => !p.isCpu && !p.isConnected)
+                      .map((p) => (
+                        <button
+                          key={p.id}
+                          onClick={() => reclaimPlayer(p.id)}
+                          className="w-full flex items-center justify-between p-3 rounded-2xl bg-slate-800 hover:bg-slate-700 active:scale-95 border border-sky-500/60 text-left"
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <span
+                              className="w-9 h-9 rounded-full flex items-center justify-center text-lg border-2 border-white"
+                              style={{ backgroundColor: p.color }}
+                            >
+                              {p.avatar}
+                            </span>
+                            <div>
+                              <div className="text-sm font-black text-white">{p.name}</div>
+                              <div className="text-[11px] text-slate-400">
+                                目的地まで あと{p.distanceToDest}マス
+                              </div>
+                            </div>
+                          </div>
+                          <span className="px-3 py-1.5 rounded-xl bg-sky-600 text-white text-xs font-extrabold">
+                            復帰する
+                          </span>
+                        </button>
+                      ))}
+                  </div>
+                )}
               </div>
-              <button
-                type="submit"
-                disabled={!connected}
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 disabled:opacity-50 font-extrabold text-base shadow-lg active:scale-95 transition"
+            ) : (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  joinGame(playerName || '社長');
+                }}
+                className="space-y-3"
               >
-                ゲームに参加する！
-              </button>
-            </form>
+                <div>
+                  <label className="block text-xs font-bold text-slate-300 mb-1.5">
+                    社長名（末尾に自動で「社長」が付きます）
+                  </label>
+                  <input
+                    type="text"
+                    maxLength={10}
+                    value={playerName}
+                    onChange={(e) => setPlayerName(e.target.value)}
+                    placeholder="例: たなか"
+                    className="w-full px-4 py-3 rounded-2xl bg-slate-950 border border-slate-700 text-white text-base font-bold focus:outline-none focus:border-sky-500"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={!connected}
+                  className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 disabled:opacity-50 font-extrabold text-base shadow-lg active:scale-95 transition"
+                >
+                  ゲームに参加する！
+                </button>
+              </form>
+            )
           ) : (
-            <div className="text-center space-y-3">
-              <div className="p-3 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-sm font-bold text-emerald-300">
+            /* 待機画面：名前変更・退出が可能 */
+            <div className="space-y-3">
+              <div className="p-3 rounded-2xl bg-emerald-950/60 border border-emerald-500/40 text-sm font-bold text-emerald-300 text-center">
                 参加完了！ホストの開始を待っています…
               </div>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  renamePlayer(playerName);
+                }}
+                className="flex gap-2"
+              >
+                <input
+                  type="text"
+                  maxLength={10}
+                  value={playerName}
+                  onChange={(e) => setPlayerName(e.target.value)}
+                  placeholder="新しい名前"
+                  className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white font-bold focus:outline-none focus:border-sky-500"
+                />
+                <button
+                  type="submit"
+                  className="px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-xs font-extrabold text-white"
+                >
+                  名前変更
+                </button>
+              </form>
+              <button
+                onClick={leaveLobby}
+                className="w-full py-2.5 rounded-xl bg-rose-950/80 hover:bg-rose-800 border border-rose-600/50 text-xs font-bold text-rose-200"
+              >
+                ロビーから退出する
+              </button>
             </div>
           )}
 

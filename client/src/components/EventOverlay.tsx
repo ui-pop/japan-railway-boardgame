@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Trophy } from 'lucide-react';
 import type { GameEventSeqItem, PlayerPublicState, StampBroadcast } from '../types';
 import { soundManager } from '../utils/sound';
@@ -66,10 +66,6 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
   players,
   stamps,
   lowDataMode,
-  currentTurnPlayerId,
-  turnCount,
-  currentYear,
-  currentMonth,
   onConsumeEvent,
 }) => {
   const currentEvent = eventQueue[0];
@@ -82,45 +78,14 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
   const [isSpinningMoney, setIsSpinningMoney] = useState(false);
   const [displayAmount, setDisplayAmount] = useState<number>(0);
 
-  // ターン開始アイキャッチ＆月替わり検知
-  const [turnBannerPlayer, setTurnBannerPlayer] = useState<PlayerPublicState | null>(null);
-  const [isNewMonthBanner, setIsNewMonthBanner] = useState(false);
-  const lastTurnCountRef = useRef<number>(0);
-  const lastMonthRef = useRef<number | undefined>(undefined);
-  const bannerTimerRef = useRef<number | null>(null);
-
-  // ターン切り替わり時の桃鉄風大型アイキャッチ表示（前のイベントが全部終わってから表示）
-  useEffect(() => {
-    if (!turnCount || !currentTurnPlayerId) return;
-    if (eventQueue.length > 0) return;
-    if (turnCount !== lastTurnCountRef.current) {
-      lastTurnCountRef.current = turnCount;
-      const monthChanged =
-        lastMonthRef.current !== undefined && lastMonthRef.current !== currentMonth;
-      lastMonthRef.current = currentMonth;
-
-      const p = players.find((x) => x.id === currentTurnPlayerId);
-      if (p) {
-        setIsNewMonthBanner(monthChanged);
-        setTurnBannerPlayer(p);
-        soundManager.playTurnStart();
-        if (bannerTimerRef.current) window.clearTimeout(bannerTimerRef.current);
-        bannerTimerRef.current = window.setTimeout(() => {
-          setTurnBannerPlayer(null);
-          bannerTimerRef.current = null;
-        }, 1900);
-      }
-    }
-  }, [turnCount, currentTurnPlayerId, currentMonth, players, eventQueue.length]);
-
-  useEffect(() => {
-    return () => {
-      if (bannerTimerRef.current) window.clearTimeout(bannerTimerRef.current);
-    };
-  }, []);
-
   useEffect(() => {
     if (!currentEvent) return;
+
+    if (currentEvent.type === 'turn_start') {
+      soundManager.playTurnStart();
+      const timer = window.setTimeout(onConsumeEvent, lowDataMode ? 1100 : 1950);
+      return () => window.clearTimeout(timer);
+    }
 
     if (currentEvent.type === 'dice_roll') {
       const targetRolls = (currentEvent.payload.rolls as number[]) ?? [1];
@@ -263,38 +228,6 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
 
   return (
     <>
-      {/* 桃鉄風 ターン間大型アイキャッチ幕 */}
-      {turnBannerPlayer && !currentEvent && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/45 backdrop-blur-[2px] pointer-events-none p-4">
-          <div
-            className="w-full max-w-sm rounded-3xl p-6 text-center shadow-[0_15px_50px_rgba(0,0,0,0.75)] border-4 border-amber-300"
-            style={{
-              background: `linear-gradient(155deg, ${turnBannerPlayer.color}f2 0%, #1e1b4bf5 100%)`,
-            }}
-          >
-            {isNewMonthBanner && (
-              <div className="inline-block mb-2 px-3 py-0.5 rounded-full bg-amber-400 text-slate-950 text-xs font-black shadow">
-                📅 {currentYear}年目 {currentMonth}月に突入！
-              </div>
-            )}
-            <div className="text-xs font-extrabold text-amber-200 tracking-wider">
-              {currentYear}年目 {currentMonth}月
-            </div>
-            <div className="my-3 flex items-center justify-center gap-3">
-              <div className="w-16 h-16 rounded-2xl bg-white/20 border-3 border-white flex items-center justify-center text-4xl shadow-lg animate-bounce">
-                {turnBannerPlayer.avatar}
-              </div>
-            </div>
-            <div className="text-2xl font-black text-white drop-shadow">
-              {turnBannerPlayer.name}のターン！
-            </div>
-            <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 border border-white/25 text-sm font-black text-amber-300">
-              <span>🚩 目的地まで あと {turnBannerPlayer.distanceToDest} マス</span>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* 画面右上のスタンプポップアップ */}
       <div className="fixed top-28 right-3 z-40 flex flex-col gap-1.5 pointer-events-none">
         {stamps.map((s) => (
@@ -316,6 +249,34 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
       {/* イベントカットイン（スキップ不可・順番に最後まで再生） */}
       {currentEvent && currentEvent.type !== 'step_move' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[3px] p-4">
+          {currentEvent.type === 'turn_start' && (
+            <div
+              className="w-full max-w-sm rounded-3xl p-6 text-center shadow-[0_15px_50px_rgba(0,0,0,0.75)] border-4 border-amber-300"
+              style={{
+                background: `linear-gradient(155deg, ${String(currentEvent.payload.color ?? '#0284c7')}f2 0%, #1e1b4bf5 100%)`,
+              }}
+            >
+              {Boolean(currentEvent.payload.isNewMonth) && (
+                <div className="inline-block mb-2 px-3 py-0.5 rounded-full bg-amber-400 text-slate-950 text-xs font-black shadow">
+                  📅 {String(currentEvent.payload.year)}年目 {String(currentEvent.payload.month)}月に突入！
+                </div>
+              )}
+              <div className="text-xs font-extrabold text-amber-200 tracking-wider">
+                {String(currentEvent.payload.year)}年目 {String(currentEvent.payload.month)}月
+              </div>
+              <div className="my-3 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-2xl bg-white/20 border-3 border-white flex items-center justify-center text-4xl shadow-lg animate-bounce">
+                  {String(currentEvent.payload.avatar ?? '🚄')}
+                </div>
+              </div>
+              <div className="text-2xl font-black text-white drop-shadow">
+                {String(currentEvent.payload.playerName ?? actor?.name ?? '')}のターン！
+              </div>
+              <div className="mt-3 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 border border-white/25 text-sm font-black text-amber-300">
+                <span>🚩 目的地まで あと {String(currentEvent.payload.distanceToDest ?? 0)} マス</span>
+              </div>
+            </div>
+          )}
           {currentEvent.type === 'dice_roll' && (
             <div className="bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 border-4 border-amber-400 rounded-3xl px-8 py-7 text-center shadow-[0_0_50px_rgba(251,191,36,0.4)] max-w-sm w-full">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-sm text-amber-200 font-extrabold mb-3">

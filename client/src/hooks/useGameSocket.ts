@@ -96,6 +96,13 @@ export function useGameSocket(isAdmin: boolean) {
       setErrorMsg(data.message);
     });
 
+    socket.on('player:left', () => {
+      localStorage.removeItem(TOKEN_KEY);
+      setMyPlayerId(null);
+      setMyCards([]);
+      setErrorMsg(null);
+    });
+
     socket.on('game:reset_session', () => {
       if (!isAdmin) {
         localStorage.removeItem(TOKEN_KEY);
@@ -136,6 +143,26 @@ export function useGameSocket(isAdmin: boolean) {
       name: trimmed,
       token: localStorage.getItem(TOKEN_KEY) ?? undefined,
     });
+  }, []);
+
+  const renamePlayer = useCallback((name: string) => {
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    localStorage.setItem(NAME_KEY, trimmed);
+    socketRef.current?.emit('player:rename', {
+      name: trimmed,
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
+  }, []);
+
+  const leaveLobby = useCallback(() => {
+    socketRef.current?.emit('player:leave', {
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
+  }, []);
+
+  const reclaimPlayer = useCallback((playerId: string) => {
+    socketRef.current?.emit('player:reclaim', { playerId });
   }, []);
 
   const rollDice = useCallback(() => {
@@ -287,6 +314,9 @@ export function useGameSocket(isAdmin: boolean) {
     errorMsg,
     clearError: () => setErrorMsg(null),
     joinGame,
+    renamePlayer,
+    leaveLobby,
+    reclaimPlayer,
     rollDice,
     useCard,
     moveStep,

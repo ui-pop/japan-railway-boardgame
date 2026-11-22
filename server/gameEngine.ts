@@ -236,6 +236,38 @@ export class GameEngine {
     return { player: newPlayer, isReconnect: false };
   }
 
+  public renamePlayer(playerId: string, newName: string): { ok: boolean; error?: string } {
+    if (this.status !== 'waiting') {
+      return { ok: false, error: 'ゲーム開始後は名前を変更できません。' };
+    }
+    const p = this.players.find((x) => x.id === playerId);
+    if (!p) return { ok: false, error: 'プレイヤーが見つかりません。' };
+    p.name = this.formatPresidentName(newName, p.seatIndex);
+    return { ok: true };
+  }
+
+  public leavePlayer(playerId: string): boolean {
+    if (this.status !== 'waiting') return false;
+    return this.removePlayer(playerId);
+  }
+
+  public reclaimDisconnectedPlayer(
+    playerId: string,
+    socketId: string
+  ): { player: PlayerInternalState } | { error: string } {
+    const p = this.players.find((x) => x.id === playerId);
+    if (!p || p.isCpu) {
+      return { error: '指定されたプレイヤー席が見つかりません。' };
+    }
+    if (p.isConnected) {
+      return { error: 'この席はすでに接続中です。' };
+    }
+    p.socketId = socketId;
+    p.isConnected = true;
+    p.isMasterOverrideCpu = false;
+    return { player: p };
+  }
+
   public disconnectSocket(socketId: string): PlayerInternalState | null {
     const player = this.players.find((p) => p.socketId === socketId);
     if (!player) return null;
@@ -273,7 +305,26 @@ export class GameEngine {
     this.previousTurnSnapshot = this.createSnapshot();
     this.saveManager.saveAutosave(this.previousTurnSnapshot);
 
-    return { ok: true, events: [] };
+    const first = this.getCurrentPlayer();
+    const startEvents: GameEventSeqItem[] = first
+      ? [
+          {
+            type: 'turn_start',
+            playerId: first.id,
+            payload: {
+              year: this.currentYear,
+              month: this.currentMonth,
+              playerName: first.name,
+              avatar: first.avatar,
+              color: first.color,
+              distanceToDest: first.distanceToDest,
+              isNewMonth: true,
+            },
+          },
+        ]
+      : [];
+
+    return { ok: true, events: startEvents };
   }
 
   public getCurrentPlayer(): PlayerInternalState | undefined {
@@ -1238,6 +1289,7 @@ export class GameEngine {
     }
 
     // 次のプレイヤーへ
+    const prevMonth = this.currentMonth;
     this.currentTurnIndex += 1;
     if (this.currentTurnIndex >= this.players.length) {
       this.currentTurnIndex = 0;
@@ -1311,6 +1363,23 @@ export class GameEngine {
     const snap = this.createSnapshot();
     this.previousTurnSnapshot = snap;
     this.saveManager.saveAutosave(snap);
+
+    // 毎ターン必ずアイキャッチイベントをキュー末尾に追加
+    if (nextPlayer) {
+      events.push({
+        type: 'turn_start',
+        playerId: nextPlayer.id,
+        payload: {
+          year: this.currentYear,
+          month: this.currentMonth,
+          playerName: nextPlayer.name,
+          avatar: nextPlayer.avatar,
+          color: nextPlayer.color,
+          distanceToDest: nextPlayer.distanceToDest,
+          isNewMonth: this.currentMonth !== prevMonth,
+        },
+      });
+    }
 
     return events;
   }
