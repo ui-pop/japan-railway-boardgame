@@ -2,11 +2,14 @@
   "name": "japan-railway-boardgame",
   "version": "1.0.0",
   "description": "スマホ完結型・大規模日本縦断鉄道ボードゲーム",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "dev:server": "tsx watch server/index.ts",
     "dev:client": "npm --prefix client run dev",
-    "render-build": "npm install && npm --prefix client install && npm run build",
+    "render-build": "npm install --include=dev && npm --prefix client install --include=dev && npm run build",
     "build": "npm --prefix client run build && tsc -p tsconfig.json",
     "start": "node dist/server/index.js"
   },
