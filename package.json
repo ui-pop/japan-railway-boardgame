@@ -1,0 +1,30 @@
+{
+  "name": "japan-railway-boardgame",
+  "version": "1.0.0",
+  "description": "スマホ完結型・大規模日本縦断鉄道ボードゲーム",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "tsx watch server/index.ts",
+    "dev:client": "npm --prefix client run dev",
+    "render-build": "npm install && npm --prefix client install && npm run build",
+    "build": "npm --prefix client run build && tsc -p tsconfig.json",
+    "start": "node dist/server/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "@types/qrcode": "^1.5.5",
+    "@types/uuid": "^10.0.0",
+    "concurrently": "^9.1.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+client/node_modules/
+dist/
+client/dist/
+saves/
+cloudflared.exe
+tunnel_url.txt
+*.log
+.DS_Store

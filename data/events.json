@@ -1,0 +1,525 @@
+{
+  "nuisanceCharacter": {
+    "name": "ケチケチ大王",
+    "icon": "👹",
+    "actions": [
+      {
+        "id": "steal_money",
+        "title": "お小遣い没収！",
+        "description": "ケチケチ大王が財布から勝手に現金を抜き取った！",
+        "type": "money_loss",
+        "minAmount": 800,
+        "maxAmount": 2500,
+        "weight": 20
+      },
+      {
+        "id": "buy_junk",
+        "title": "謎の骨董品を勝手に購入！",
+        "description": "ケチケチ大王が「掘り出し物だ！」と言ってガラクタを高値で買わせた！",
+        "type": "money_loss",
+        "minAmount": 1500,
+        "maxAmount": 3500,
+        "weight": 18
+      },
+      {
+        "id": "treat_everyone",
+        "title": "みんなに豪華ディナーをおごる！",
+        "description": "ケチケチ大王が気前よく他の全社長へ高級ディナーをごちそうしてしまった！",
+        "type": "treat_everyone",
+        "perPlayerAmount": 800,
+        "weight": 14
+      },
+      {
+        "id": "treat_sushi",
+        "title": "回転寿司で特上を爆食い！",
+        "description": "ケチケチ大王が特上ネタばかり100皿たいらげた！会計が大変なことに！",
+        "type": "money_loss",
+        "minAmount": 1200,
+        "maxAmount": 2800,
+        "weight": 15
+      },
+      {
+        "id": "discard_card",
+        "title": "カードをシュレッダー！",
+        "description": "ケチケチ大王が手持ちカードを1枚破り捨ててしまった！",
+        "type": "discard_card",
+        "weight": 12
+      },
+      {
+        "id": "give_card_rival",
+        "title": "ライバルへカードをおすそ分け！",
+        "description": "ケチケチ大王が手持ちカードを1枚、勝手にライバル社長へプレゼントしてしまった！",
+        "type": "give_card_rival",
+        "weight": 10
+      },
+      {
+        "id": "downgrade_property",
+        "title": "勝手に物件をリフォーム失敗！",
+        "description": "ケチケチ大王の謎リフォームで物件の増資レベルが下がってしまった！",
+        "type": "downgrade_property",
+        "weight": 10
+      },
+      {
+        "id": "warp_away",
+        "title": "お邪魔ワープ！",
+        "description": "ケチケチ大王が勝手に切符を使い、どこか遠くの駅へ連れて行ってしまった！",
+        "type": "warp_away",
+        "weight": 10
+      },
+      {
+        "id": "buy_cards_junk",
+        "title": "勝手にカード屋で散財！",
+        "description": "ケチケチ大王が2,000万円を使ってカードを1枚買ってきた！",
+        "type": "buy_random_card",
+        "minAmount": 2000,
+        "weight": 10
+      },
+      {
+        "id": "gacha_addict",
+        "title": "スマホガチャに天井課金！",
+        "description": "ケチケチ大王が社長のスマホで勝手に課金しまくった！",
+        "type": "money_loss",
+        "minAmount": 2500,
+        "maxAmount": 4500,
+        "weight": 9
+      },
+      {
+        "id": "sell_property",
+        "title": "物件を叩き売り！",
+        "description": "ケチケチ大王が所持物件の1つを半額で勝手に売却してしまった！",
+        "type": "sell_property",
+        "weight": 6
+      },
+      {
+        "id": "big_loss",
+        "title": "ケチケチ大王の大散財！",
+        "description": "ケチケチ大王が豪華クルーズを勝手に予約！莫大な請求書が届いた！",
+        "type": "money_loss",
+        "minAmount": 4000,
+        "maxAmount": 7500,
+        "weight": 5
+      },
+      {
+        "id": "treat_vip_all",
+        "title": "👑 全社長へ大盤振る舞い！",
+        "description": "ケチケチ大王が「わしのおごりじゃ！」と全社長に大金を配り歩いた！",
+        "type": "treat_everyone",
+        "perPlayerAmount": 1500,
+        "weight": 4
+      },
+      {
+        "id": "lucky_slip",
+        "title": "ケチケチ大王が財布を落とした！",
+        "description": "ケチケチ大王がうっかりへそくりを落とした！逆に臨時収入をゲット！",
+        "type": "money_gain",
+        "minAmount": 1000,
+        "maxAmount": 1500,
+        "weight": 4
+      },
+      {
+        "id": "do_nothing",
+        "title": "ケチケチ大王は爆睡中…",
+        "description": "ケチケチ大王は気持ちよさそうに昼寝している。今回は何も起きなかった！",
+        "type": "nothing",
+        "weight": 6
+      }
+    ]
+  },
+  "stationValues": {
+    "plusBase": [1000, 1500, 2000, 3000, 5000],
+    "minusBase": [1000, 1500, 2000, 3000, 4000],
+    "destinationBonusBase": 10000
+  },
+  "seasonalEvents": [
+    {
+      "id": "new_year_bonus",
+      "months": [1],
+      "title": "🎍 お正月お年玉ボーナス",
+      "icon": "🎍",
+      "description": "新年おめでとう！全社長にお年玉が配られました。",
+      "effectType": "all_cash_bonus",
+      "amount": 1500
+    },
+    {
+      "id": "exam_season",
+      "months": [1, 2],
+      "title": "✏️ 全国受験シーズン特需",
+      "icon": "✏️",
+      "description": "受験生と家族の移動が増加！観光・商業物件に臨時収入。",
+      "effectType": "category_bonus",
+      "categories": ["観光", "商業"],
+      "bonusRate": 0.2
+    },
+    {
+      "id": "winter_snow",
+      "months": [2, 12],
+      "title": "❄️ 大寒波・豪雪警報",
+      "icon": "❄️",
+      "description": "日本海側を中心に大雪！除雪作業のため全社長に維持費が発生。",
+      "effectType": "all_cash_loss",
+      "amount": 1000
+    },
+    {
+      "id": "valentine_boom",
+      "months": [2],
+      "title": "🍫 バレンタイン菓子特需",
+      "icon": "🍫",
+      "description": "全国でスイーツが大売れ！食品物件を持つ社長に臨時ボーナス。",
+      "effectType": "category_bonus",
+      "categories": ["食品"],
+      "bonusRate": 0.25
+    },
+    {
+      "id": "graduation_trip",
+      "months": [3],
+      "title": "🎓 卒業旅行シーズン",
+      "icon": "🎓",
+      "description": "学生の卒業旅行で大賑わい！観光物件に臨時収入。",
+      "effectType": "category_bonus",
+      "categories": ["観光"],
+      "bonusRate": 0.25
+    },
+    {
+      "id": "spring_sale",
+      "months": [3],
+      "title": "🛍️ 年度末大決算セール",
+      "icon": "🛍️",
+      "description": "全国の商業施設が過去最高の売上！商業・工業物件に臨時ボーナス。",
+      "effectType": "category_bonus",
+      "categories": ["商業", "工業"],
+      "bonusRate": 0.25
+    },
+    {
+      "id": "sakura_boom",
+      "months": [4],
+      "title": "🌸 春のお花見ブーム",
+      "icon": "🌸",
+      "description": "桜前線北上！観光・食品物件を持つ社長に臨時配当。",
+      "effectType": "category_bonus",
+      "categories": ["観光", "食品"],
+      "bonusRate": 0.25
+    },
+    {
+      "id": "inbound_spring",
+      "months": [4, 10],
+      "title": "✈️ インバウンド外国人観光客が過去最高！",
+      "icon": "✈️",
+      "description": "海外からの旅行客が日本各地を満喫！観光・食品物件に大ボーナス。",
+      "effectType": "category_bonus",
+      "categories": ["観光", "食品"],
+      "bonusRate": 0.3
+    },
+    {
+      "id": "gw_rush",
+      "months": [5],
+      "title": "🎏 ゴールデンウィーク行楽特需",
+      "icon": "🎏",
+      "description": "大型連休で全国大移動！観光・商業物件に臨時ボーナス。",
+      "effectType": "category_bonus",
+      "categories": ["観光", "商業"],
+      "bonusRate": 0.3
+    },
+    {
+      "id": "rainy_season",
+      "months": [6],
+      "title": "☔ 梅雨の長雨",
+      "icon": "☔",
+      "description": "長雨で客足が減少…全社長に少しの維持費が発生。",
+      "effectType": "all_cash_loss",
+      "amount": 700
+    },
+    {
+      "id": "summer_bonus_sale",
+      "months": [6],
+      "title": "💼 夏のボーナス商戦",
+      "icon": "💼",
+      "description": "ボーナス支給で消費が活発化！商業・工業物件に臨時収入。",
+      "effectType": "category_bonus",
+      "categories": ["商業", "工業"],
+      "bonusRate": 0.25
+    },
+    {
+      "id": "summer_fireworks",
+      "months": [7],
+      "title": "🎆 全国夏祭り・花火大会",
+      "icon": "🎆",
+      "description": "各地の花火大会が大盛況！観光・食品物件に臨時ボーナス。",
+      "effectType": "category_bonus",
+      "categories": ["観光", "食品"],
+      "bonusRate": 0.25
+    },
+    {
+      "id": "heatwave_ice",
+      "months": [7, 8],
+      "title": "🍧 記録的猛暑！冷菓・ドリンク特需",
+      "icon": "🍧",
+      "description": "連日の猛暑でグルメ・飲料が大売れ！食品・農林物件に臨時配当。",
+      "effectType": "category_bonus",
+      "categories": ["食品", "農林"],
+      "bonusRate": 0.25
+    },
+    {
+      "id": "typhoon",
+      "months": [8, 9],
+      "title": "🌀 大型台風上陸",
+      "icon": "🌀",
+      "description": "暴風雨で線路の点検・復旧費が発生！全社長が臨時出費。",
+      "effectType": "all_cash_loss",
+      "amount": 1300
+    },
+    {
+      "id": "obon_rush",
+      "months": [8],
+      "title": "🏖️ お盆帰省＆夏休みラッシュ",
+      "icon": "🏖️",
+      "description": "新幹線が満席！全社長に鉄道運賃ボーナス。",
+      "effectType": "all_cash_bonus",
+      "amount": 1200
+    },
+    {
+      "id": "music_fes",
+      "months": [8, 9],
+      "title": "🎸 全国大型夏フェス開催",
+      "icon": "🎸",
+      "description": "各地の音楽フェスに観客殺到！観光・商業物件に臨時ボーナス。",
+      "effectType": "category_bonus",
+      "categories": ["観光", "商業"],
+      "bonusRate": 0.25
+    },
+    {
+      "id": "autumn_harvest",
+      "months": [10],
+      "title": "🌾 実りの秋・大豊作まつり",
+      "icon": "🌾",
+      "description": "今年は歴史的な大豊作！農林・水産物件を持つ社長に臨時配当。",
+      "effectType": "category_bonus",
+      "categories": ["農林", "水産"],
+      "bonusRate": 0.35
+    },
+    {
+      "id": "baseball_series",
+      "months": [10, 11],
+      "title": "⚾ プロ野球日本シリーズ大熱狂！",
+      "icon": "⚾",
+      "description": "全国が熱狂し優勝セール開催！商業・食品物件に臨時収入。",
+      "effectType": "category_bonus",
+      "categories": ["商業", "食品"],
+      "bonusRate": 0.25
+    },
+    {
+      "id": "autumn_leaves",
+      "months": [11],
+      "title": "🍁 紅葉狩り観光シーズン",
+      "icon": "🍁",
+      "description": "紅葉の名所が観光客で満員！観光物件に臨時収入。",
+      "effectType": "category_bonus",
+      "categories": ["観光"],
+      "bonusRate": 0.3
+    },
+    {
+      "id": "christmas_boom",
+      "months": [12],
+      "title": "🎄 クリスマス・年末商戦",
+      "icon": "🎄",
+      "description": "年末セールが大爆発！商業・食品物件に臨時ボーナス。",
+      "effectType": "category_bonus",
+      "categories": ["商業", "食品"],
+      "bonusRate": 0.3
+    }
+  ],
+  "randomEvents": [
+    {
+      "id": "viral_hit",
+      "title": "📱 SNSで大バズり！",
+      "icon": "✨",
+      "effectType": "property_hit",
+      "weight": 18
+    },
+    {
+      "id": "tv_gourmet",
+      "title": "📺 グルメ番組で紹介！",
+      "icon": "📺",
+      "effectType": "category_hit",
+      "categories": ["食品", "水産"],
+      "weight": 15
+    },
+    {
+      "id": "anime_pilgrimage",
+      "title": "🎬 大ヒットアニメの聖地に認定！",
+      "icon": "🎬",
+      "effectType": "category_hit",
+      "categories": ["観光", "商業"],
+      "weight": 13
+    },
+    {
+      "id": "youtuber_visit",
+      "title": "🎥 人気動画クリエイターが来店！",
+      "icon": "🎥",
+      "effectType": "property_hit",
+      "weight": 13
+    },
+    {
+      "id": "furusato_tax",
+      "title": "🎁 ふるさと納税返礼品ブーム！",
+      "icon": "🎁",
+      "effectType": "category_hit",
+      "categories": ["農林", "水産"],
+      "weight": 14
+    },
+    {
+      "id": "tech_innovation",
+      "title": "⚙️ ものづくり技術大賞を受賞！",
+      "icon": "⚙️",
+      "effectType": "category_hit",
+      "categories": ["工業", "商業"],
+      "weight": 12
+    },
+    {
+      "id": "redevelopment",
+      "title": "🏗️ 駅前再開発で大発展！",
+      "icon": "🏗️",
+      "effectType": "free_upgrade",
+      "weight": 10
+    },
+    {
+      "id": "world_heritage",
+      "title": "🏛️ 世界遺産登録で観光客急増！",
+      "icon": "🏛️",
+      "effectType": "free_upgrade",
+      "weight": 8
+    },
+    {
+      "id": "local_hero_card",
+      "title": "🦸 ご当地ヒーローの応援！",
+      "icon": "🦸",
+      "effectType": "free_card",
+      "weight": 14
+    },
+    {
+      "id": "express_ticket",
+      "title": "🚄 幻の特急券を発見！",
+      "icon": "🚄",
+      "effectType": "express_card",
+      "weight": 10
+    },
+    {
+      "id": "ekiben_grandprix",
+      "title": "🍱 全国駅弁大会で金賞受賞！",
+      "icon": "🍱",
+      "effectType": "cash_bonus",
+      "amount": 1800,
+      "weight": 13
+    },
+    {
+      "id": "b_gourmet_win",
+      "title": "🍜 ご当地グルメ大会優勝！",
+      "icon": "🍜",
+      "effectType": "cash_bonus",
+      "amount": 1500,
+      "weight": 14
+    },
+    {
+      "id": "mascot_grandprix",
+      "title": "🐻 ゆるキャラグランプリ優勝！",
+      "icon": "🐻",
+      "effectType": "cash_bonus",
+      "amount": 2000,
+      "weight": 11
+    },
+    {
+      "id": "new_line_open",
+      "title": "🛤️ 新路線開通の祝賀ボーナス！",
+      "icon": "🛤️",
+      "effectType": "cash_bonus",
+      "amount": 2200,
+      "weight": 10
+    },
+    {
+      "id": "economic_boom",
+      "title": "📈 鉄道株が急上昇！",
+      "icon": "📈",
+      "effectType": "cash_bonus",
+      "amount": 2500,
+      "weight": 10
+    },
+    {
+      "id": "lottery_win",
+      "title": "🎰 ジャンボ宝くじ当選！",
+      "icon": "🎰",
+      "effectType": "lottery",
+      "amount": 4000,
+      "weight": 5
+    },
+    {
+      "id": "hot_spring",
+      "title": "♨️ 秘湯の温泉を掘り当てた！",
+      "icon": "♨️",
+      "effectType": "cash_bonus",
+      "amount": 4500,
+      "weight": 4
+    },
+    {
+      "id": "ufo_sighting",
+      "title": "🛸 謎のUFO目撃で町おこし特需！",
+      "icon": "🛸",
+      "effectType": "cash_bonus",
+      "amount": 3000,
+      "weight": 5
+    },
+    {
+      "id": "fuel_cost",
+      "title": "⛽ 燃料費が高騰…",
+      "icon": "⛽",
+      "effectType": "cash_loss",
+      "amount": 1000,
+      "weight": 10
+    },
+    {
+      "id": "train_maintenance",
+      "title": "🛠️ 車両の緊急メンテナンス",
+      "icon": "🛠️",
+      "effectType": "cash_loss",
+      "amount": 800,
+      "weight": 12
+    },
+    {
+      "id": "guerrilla_rain",
+      "title": "⛈️ 突発ゲリラ豪雨！",
+      "icon": "⛈️",
+      "effectType": "cash_loss",
+      "amount": 1200,
+      "weight": 9
+    },
+    {
+      "id": "shareholder_meeting",
+      "title": "📋 臨時株主総会の開催費用",
+      "icon": "📋",
+      "effectType": "cash_loss",
+      "amount": 900,
+      "weight": 9
+    },
+    {
+      "id": "signal_trouble",
+      "title": "🚦 信号機トラブルで振替輸送費",
+      "icon": "🚦",
+      "effectType": "cash_loss",
+      "amount": 1100,
+      "weight": 8
+    },
+    {
+      "id": "pickpocket_ginji",
+      "title": "🕵️ スリの銀次が現れた！",
+      "icon": "🕵️",
+      "effectType": "pickpocket",
+      "weight": 6
+    }
+  ],
+  "stamps": [
+    { "id": "nice", "label": "ナイス！", "icon": "👍", "color": "#22c55e" },
+    { "id": "yamete", "label": "やめてくれ！", "icon": "😱", "color": "#ef4444" },
+    { "id": "warai", "label": "押し付け笑いｗ", "icon": "😈", "color": "#a855f7" },
+    { "id": "gg", "label": "お見事！", "icon": "🎉", "color": "#eab308" },
+    { "id": "hurry", "label": "早く振って〜", "icon": "🎲", "color": "#3b82f6" },
+    { "id": "rich", "label": "大富豪！", "icon": "💎", "color": "#06b6d4" }
+  ]
+}

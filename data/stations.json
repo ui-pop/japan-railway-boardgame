@@ -1,0 +1,8625 @@
+[
+  {
+    "id": "wakkanai",
+    "name": "稚内",
+    "region": "北海道",
+    "type": "property",
+    "x": 7218,
+    "y": 490,
+    "neighbors": [
+      "route_1"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "wakkanai_1",
+        "name": "宗谷岬タラバガニ直売所",
+        "category": "水産",
+        "price": 1000,
+        "rate": 0.7
+      },
+      {
+        "id": "wakkanai_2",
+        "name": "利尻昆布加工工場",
+        "category": "水産",
+        "price": 2000,
+        "rate": 0.6
+      },
+      {
+        "id": "wakkanai_3",
+        "name": "最北端エゾバフンウニ漁",
+        "category": "水産",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "wakkanai_4",
+        "name": "稚内風力発電ファーム",
+        "category": "工業",
+        "price": 7000,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "abashiri",
+    "name": "網走",
+    "region": "北海道",
+    "type": "property",
+    "x": 8564,
+    "y": 1352,
+    "neighbors": [
+      "route_7",
+      "route_8",
+      "route_14"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "abashiri_1",
+        "name": "オホーツクホタテ養殖場",
+        "category": "水産",
+        "price": 2000,
+        "rate": 0.6
+      },
+      {
+        "id": "abashiri_2",
+        "name": "網走監獄歴史ミュージアム",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.55
+      },
+      {
+        "id": "abashiri_3",
+        "name": "流氷観光砕氷船",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "asahikawa",
+    "name": "旭川",
+    "region": "北海道",
+    "type": "property",
+    "x": 7576,
+    "y": 1507,
+    "neighbors": [
+      "route_6",
+      "route_13",
+      "route_18",
+      "route_19"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "asahikawa_1",
+        "name": "旭川醤油ラーメン本店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "asahikawa_2",
+        "name": "旭川木工家具工房",
+        "category": "工業",
+        "price": 2500,
+        "rate": 0.55
+      },
+      {
+        "id": "asahikawa_3",
+        "name": "旭山動物園パーク",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "furano",
+    "name": "富良野",
+    "region": "北海道",
+    "type": "property",
+    "x": 7582,
+    "y": 1773,
+    "neighbors": [
+      "route_18",
+      "route_23"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "furano_1",
+        "name": "富良野オムカレー食堂",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.7
+      },
+      {
+        "id": "furano_2",
+        "name": "ラベンダー観光農園",
+        "category": "観光",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "furano_3",
+        "name": "夕張・富良野赤肉メロン畑",
+        "category": "農林",
+        "price": 3500,
+        "rate": 0.6
+      }
+    ]
+  },
+  {
+    "id": "kushiro",
+    "name": "釧路",
+    "region": "北海道",
+    "type": "property",
+    "x": 8622,
+    "y": 1996,
+    "neighbors": [
+      "route_17",
+      "route_25",
+      "route_29",
+      "route_32"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "kushiro_1",
+        "name": "釧路炉端焼き屋台村",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.7
+      },
+      {
+        "id": "kushiro_2",
+        "name": "勝手丼・和商市場",
+        "category": "水産",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "kushiro_3",
+        "name": "釧路湿原ノロッコ観光鉄道",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "obihiro",
+    "name": "帯広",
+    "region": "北海道",
+    "type": "property",
+    "x": 8008,
+    "y": 2034,
+    "neighbors": [
+      "route_24",
+      "route_31",
+      "route_36",
+      "route_41"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "obihiro_1",
+        "name": "十勝炭火豚丼専門店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "obihiro_2",
+        "name": "六花バターサンド菓子工房",
+        "category": "食品",
+        "price": 3000,
+        "rate": 0.6
+      },
+      {
+        "id": "obihiro_3",
+        "name": "十勝大平原チーズ牧場",
+        "category": "農林",
+        "price": 4500,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "otaru",
+    "name": "小樽",
+    "region": "北海道",
+    "type": "property",
+    "x": 6859,
+    "y": 1866,
+    "neighbors": [
+      "route_45"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "otaru_1",
+        "name": "小樽寿司屋通り名店",
+        "category": "水産",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "otaru_2",
+        "name": "小樽運河オルゴール堂",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "otaru_3",
+        "name": "北一硝子クラフト工房",
+        "category": "商業",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "otaru_4",
+        "name": "ドゥーブルチーズケーキ本店",
+        "category": "食品",
+        "price": 4000,
+        "rate": 0.6
+      }
+    ]
+  },
+  {
+    "id": "sapporo",
+    "name": "札幌",
+    "region": "北海道",
+    "type": "property",
+    "x": 7046,
+    "y": 1947,
+    "neighbors": [
+      "route_22",
+      "route_45",
+      "route_46",
+      "route_47"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "sapporo_1",
+        "name": "すすきの味噌ラーメン横丁",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.75
+      },
+      {
+        "id": "sapporo_2",
+        "name": "スープカレー専門店",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.7
+      },
+      {
+        "id": "sapporo_3",
+        "name": "北海道銘菓チョコ工場",
+        "category": "食品",
+        "price": 4500,
+        "rate": 0.6
+      },
+      {
+        "id": "sapporo_4",
+        "name": "サッポロジンギスカンビール園",
+        "category": "観光",
+        "price": 6000,
+        "rate": 0.55
+      },
+      {
+        "id": "sapporo_5",
+        "name": "大通時計台ITパーク",
+        "category": "商業",
+        "price": 12000,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "tomakomai",
+    "name": "苫小牧",
+    "region": "北海道",
+    "type": "property",
+    "x": 7176,
+    "y": 2213,
+    "neighbors": [
+      "route_40",
+      "route_46",
+      "route_48"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "tomakomai_1",
+        "name": "名物ホッキカレー食堂",
+        "category": "水産",
+        "price": 1000,
+        "rate": 0.7
+      },
+      {
+        "id": "tomakomai_2",
+        "name": "苫小牧製紙パルプ工場",
+        "category": "工業",
+        "price": 6000,
+        "rate": 0.45
+      },
+      {
+        "id": "tomakomai_3",
+        "name": "新千歳フェリー物流港",
+        "category": "商業",
+        "price": 8000,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "hakodate",
+    "name": "函館",
+    "region": "北海道",
+    "type": "property",
+    "x": 6724,
+    "y": 2747,
+    "neighbors": [
+      "route_49",
+      "route_51"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "hakodate_1",
+        "name": "函館朝市活イカ食堂",
+        "category": "水産",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "hakodate_2",
+        "name": "ご当地チャイニーズバーガー店",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.75
+      },
+      {
+        "id": "hakodate_3",
+        "name": "五稜郭歴史タワー",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "hakodate_4",
+        "name": "函館山百万ドルロープウェイ",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ],
+    "hero": {
+      "id": "hijikata",
+      "name": "土方歳三",
+      "icon": "⚔️",
+      "effectType": "give_express",
+      "description": "独占で味方に！確率で急行・特急系カードを授けてくれる！"
+    }
+  },
+  {
+    "id": "aomori",
+    "name": "青森",
+    "region": "東北",
+    "type": "property",
+    "x": 6729,
+    "y": 3336,
+    "neighbors": [
+      "route_53",
+      "route_54",
+      "route_56",
+      "route_57"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "aomori_1",
+        "name": "津軽完熟ふじりんご農園",
+        "category": "農林",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "aomori_2",
+        "name": "青森のっけ丼市場",
+        "category": "水産",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "aomori_3",
+        "name": "ねぶた祭ミュージアム",
+        "category": "観光",
+        "price": 3000,
+        "rate": 0.55
+      },
+      {
+        "id": "aomori_4",
+        "name": "大間一本釣りマグロ漁船",
+        "category": "水産",
+        "price": 5500,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "hachinohe",
+    "name": "八戸",
+    "region": "東北",
+    "type": "property",
+    "x": 7119,
+    "y": 3528,
+    "neighbors": [
+      "route_55",
+      "route_61",
+      "route_64"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "hachinohe_1",
+        "name": "八戸せんべい汁食堂",
+        "category": "食品",
+        "price": 800,
+        "rate": 0.8
+      },
+      {
+        "id": "hachinohe_2",
+        "name": "八食センター海鮮市場",
+        "category": "水産",
+        "price": 2000,
+        "rate": 0.6
+      },
+      {
+        "id": "hachinohe_3",
+        "name": "八戸前沖サバ缶詰工場",
+        "category": "水産",
+        "price": 3000,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "akita",
+    "name": "秋田",
+    "region": "東北",
+    "type": "property",
+    "x": 6396,
+    "y": 4018,
+    "neighbors": [
+      "route_70",
+      "route_73",
+      "route_76",
+      "route_82",
+      "route_88"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "akita_1",
+        "name": "比内地鶏きりたんぽ鍋料亭",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "akita_2",
+        "name": "稲庭手延べうどん製麺所",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "akita_3",
+        "name": "あきたこまち米穀組合",
+        "category": "農林",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "akita_4",
+        "name": "男鹿なまはげ伝承館",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "morioka",
+    "name": "盛岡",
+    "region": "東北",
+    "type": "property",
+    "x": 6942,
+    "y": 4030,
+    "neighbors": [
+      "route_60",
+      "route_63",
+      "route_75",
+      "route_91",
+      "route_97"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "morioka_1",
+        "name": "老舗わんこそば本店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "morioka_2",
+        "name": "盛岡冷麺・じゃじゃ麺館",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "morioka_3",
+        "name": "南部鉄器鋳物工房",
+        "category": "工業",
+        "price": 3000,
+        "rate": 0.55
+      },
+      {
+        "id": "morioka_4",
+        "name": "小岩井まきば牧場",
+        "category": "農林",
+        "price": 4500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "yamagata",
+    "name": "山形",
+    "region": "東北",
+    "type": "property",
+    "x": 6521,
+    "y": 4929,
+    "neighbors": [
+      "route_81",
+      "route_99",
+      "route_100",
+      "route_103"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "yamagata_1",
+        "name": "冷やしラーメン・芋煮処",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "yamagata_2",
+        "name": "佐藤錦さくらんぼ果樹園",
+        "category": "農林",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "yamagata_3",
+        "name": "蔵王樹氷温泉スキー場",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "yamagata_4",
+        "name": "米沢牛すき焼き老舗",
+        "category": "食品",
+        "price": 6000,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "sendai",
+    "name": "仙台",
+    "region": "東北",
+    "type": "property",
+    "x": 6796,
+    "y": 4917,
+    "neighbors": [
+      "route_96",
+      "route_99",
+      "route_104",
+      "route_107",
+      "route_110",
+      "route_115"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "sendai_1",
+        "name": "ずんだ餅・ずんだシェイク店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "sendai_2",
+        "name": "笹かまぼこ手焼き工房",
+        "category": "水産",
+        "price": 1800,
+        "rate": 0.65
+      },
+      {
+        "id": "sendai_3",
+        "name": "厚切り牛タン炭火焼通り",
+        "category": "食品",
+        "price": 3500,
+        "rate": 0.6
+      },
+      {
+        "id": "sendai_4",
+        "name": "松島遊覧船クルーズ",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "sendai_5",
+        "name": "杜の都野球スタジアム",
+        "category": "商業",
+        "price": 9000,
+        "rate": 0.45
+      }
+    ],
+    "hero": {
+      "id": "masamune",
+      "name": "伊達政宗",
+      "icon": "🌙",
+      "effectType": "steal_money_all",
+      "description": "独占で味方に！確率で他の全社長から軍資金を徴収してくれる！"
+    }
+  },
+  {
+    "id": "koriyama",
+    "name": "郡山",
+    "region": "東北",
+    "type": "property",
+    "x": 6542,
+    "y": 5456,
+    "neighbors": [
+      "route_109",
+      "route_117",
+      "route_118"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "koriyama_1",
+        "name": "喜多方朝ラーメン名店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "koriyama_2",
+        "name": "福島あかつき桃農園",
+        "category": "農林",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "koriyama_3",
+        "name": "会津塗・赤べこ民芸工房",
+        "category": "商業",
+        "price": 2500,
+        "rate": 0.55
+      },
+      {
+        "id": "koriyama_4",
+        "name": "磐梯熱海温泉旅館",
+        "category": "観光",
+        "price": 4000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "iwaki",
+    "name": "いわき",
+    "region": "東北",
+    "type": "property",
+    "x": 6807,
+    "y": 5673,
+    "neighbors": [
+      "route_114",
+      "route_121"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "iwaki_1",
+        "name": "小名浜あんこう鍋料亭",
+        "category": "水産",
+        "price": 1500,
+        "rate": 0.65
+      },
+      {
+        "id": "iwaki_2",
+        "name": "アクアマリン環境水族館",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "iwaki_3",
+        "name": "常磐ハワイアン温泉リゾート",
+        "category": "観光",
+        "price": 7000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "niigata",
+    "name": "新潟",
+    "region": "中部",
+    "type": "property",
+    "x": 5845,
+    "y": 5140,
+    "neighbors": [
+      "route_87",
+      "route_123",
+      "route_126",
+      "route_132",
+      "route_138"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "niigata_1",
+        "name": "笹団子・柿の種工場",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "niigata_2",
+        "name": "燕三条ステンレス洋食器工場",
+        "category": "工業",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "niigata_3",
+        "name": "魚沼産コシヒカリ水田",
+        "category": "農林",
+        "price": 4000,
+        "rate": 0.6
+      },
+      {
+        "id": "niigata_4",
+        "name": "越後淡麗辛口酒蔵",
+        "category": "食品",
+        "price": 5000,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "mito",
+    "name": "水戸",
+    "region": "関東",
+    "type": "property",
+    "x": 6588,
+    "y": 6095,
+    "neighbors": [
+      "route_122",
+      "route_142",
+      "route_143",
+      "route_146"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "mito_1",
+        "name": "水戸わら納豆製造所",
+        "category": "食品",
+        "price": 800,
+        "rate": 0.8
+      },
+      {
+        "id": "mito_2",
+        "name": "干し芋・メロン直売農園",
+        "category": "農林",
+        "price": 1800,
+        "rate": 0.65
+      },
+      {
+        "id": "mito_3",
+        "name": "偕楽園・ネモフィラ海浜公園",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "utsunomiya",
+    "name": "宇都宮",
+    "region": "関東",
+    "type": "property",
+    "x": 6282,
+    "y": 5977,
+    "neighbors": [
+      "route_120",
+      "route_147",
+      "route_148"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "utsunomiya_1",
+        "name": "宇都宮焼き餃子専門店街",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.8
+      },
+      {
+        "id": "utsunomiya_2",
+        "name": "とちおとめ・スカイベリー苺園",
+        "category": "農林",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "utsunomiya_3",
+        "name": "日光東照宮ゆば懐石旅館",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "takasaki",
+    "name": "高崎",
+    "region": "関東",
+    "type": "property",
+    "x": 5829,
+    "y": 6126,
+    "neighbors": [
+      "route_131",
+      "route_150",
+      "route_152",
+      "route_153",
+      "route_155"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "takasaki_1",
+        "name": "高崎だるま弁当工場",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "takasaki_2",
+        "name": "下仁田こんにゃくパーク",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "takasaki_3",
+        "name": "富岡製糸場観光センター",
+        "category": "観光",
+        "price": 3000,
+        "rate": 0.55
+      },
+      {
+        "id": "takasaki_4",
+        "name": "草津湯畑温泉リゾート",
+        "category": "観光",
+        "price": 6500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "omiya",
+    "name": "大宮",
+    "region": "関東",
+    "type": "property",
+    "x": 6128,
+    "y": 6353,
+    "neighbors": [
+      "route_149",
+      "route_154",
+      "route_156",
+      "route_157"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "omiya_1",
+        "name": "川越さつまいも菓子横丁",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "omiya_2",
+        "name": "草加手焼き煎餅本舗",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "omiya_3",
+        "name": "大宮鉄道ミュージアム",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "omiya_4",
+        "name": "さいたまスーパーイベント会場",
+        "category": "商業",
+        "price": 9000,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "chiba",
+    "name": "千葉",
+    "region": "関東",
+    "type": "property",
+    "x": 6412,
+    "y": 6576,
+    "neighbors": [
+      "route_158",
+      "route_159"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "chiba_1",
+        "name": "八街ブランド落花生工場",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.7
+      },
+      {
+        "id": "chiba_2",
+        "name": "銚子醤油醸造所",
+        "category": "食品",
+        "price": 3000,
+        "rate": 0.6
+      },
+      {
+        "id": "chiba_3",
+        "name": "鴨川シャチ水族館",
+        "category": "観光",
+        "price": 5000,
+        "rate": 0.5
+      },
+      {
+        "id": "chiba_4",
+        "name": "浦安夢のテーマパーク",
+        "category": "観光",
+        "price": 22000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "tokyo",
+    "name": "東京",
+    "region": "関東",
+    "type": "property",
+    "x": 6249,
+    "y": 6490,
+    "neighbors": [
+      "route_145",
+      "route_156",
+      "route_159",
+      "route_160",
+      "route_161"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "tokyo_1",
+        "name": "月島・浅草もんじゃ焼き屋",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.75
+      },
+      {
+        "id": "tokyo_2",
+        "name": "豊洲・築地場外寿司名店",
+        "category": "水産",
+        "price": 4000,
+        "rate": 0.65
+      },
+      {
+        "id": "tokyo_3",
+        "name": "秋葉原サブカル電気街ビル",
+        "category": "商業",
+        "price": 10000,
+        "rate": 0.5
+      },
+      {
+        "id": "tokyo_4",
+        "name": "渋谷スクランブルファッション棟",
+        "category": "商業",
+        "price": 16000,
+        "rate": 0.48
+      },
+      {
+        "id": "tokyo_5",
+        "name": "東京スカイツリー展望タウン",
+        "category": "観光",
+        "price": 24000,
+        "rate": 0.45
+      },
+      {
+        "id": "tokyo_6",
+        "name": "丸の内メガバンク本社ビル",
+        "category": "商業",
+        "price": 40000,
+        "rate": 0.4
+      }
+    ],
+    "hero": {
+      "id": "ieyasu",
+      "name": "徳川家康",
+      "icon": "🏯",
+      "effectType": "cash_gift",
+      "description": "独占で味方に！確率で幕府の埋蔵金（臨時ボーナス）を授けてくれる！"
+    }
+  },
+  {
+    "id": "yokohama",
+    "name": "横浜",
+    "region": "関東",
+    "type": "property",
+    "x": 6172,
+    "y": 6657,
+    "neighbors": [
+      "route_160",
+      "route_165"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "yokohama_1",
+        "name": "横浜中華街肉まん大飯店",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.7
+      },
+      {
+        "id": "yokohama_2",
+        "name": "名物シウマイ弁当工場",
+        "category": "食品",
+        "price": 3000,
+        "rate": 0.65
+      },
+      {
+        "id": "yokohama_3",
+        "name": "湘南しらす丼・鎌倉大仏茶屋",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.6
+      },
+      {
+        "id": "yokohama_4",
+        "name": "みなとみらい大観覧車パーク",
+        "category": "観光",
+        "price": 9500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "atami",
+    "name": "熱海",
+    "region": "中部",
+    "type": "property",
+    "x": 5871,
+    "y": 6931,
+    "neighbors": [
+      "route_166",
+      "route_167",
+      "route_168"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "atami_1",
+        "name": "熱海温泉まんじゅう本舗",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "atami_2",
+        "name": "伊豆干物・金目鯛直売所",
+        "category": "水産",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "atami_3",
+        "name": "箱根・熱海絶景オーシャン旅館",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "kofu",
+    "name": "甲府",
+    "region": "中部",
+    "type": "property",
+    "x": 5600,
+    "y": 6535,
+    "neighbors": [
+      "route_164",
+      "route_169",
+      "route_171",
+      "route_173"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "kofu_1",
+        "name": "甲州かぼちゃほうとう鍋屋",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "kofu_2",
+        "name": "信玄きな粉黒蜜餅本舗",
+        "category": "食品",
+        "price": 1800,
+        "rate": 0.7
+      },
+      {
+        "id": "kofu_3",
+        "name": "勝沼シャインマスカット＆ワイン蔵",
+        "category": "農林",
+        "price": 4000,
+        "rate": 0.6
+      },
+      {
+        "id": "kofu_4",
+        "name": "富士五湖絶叫テーマパーク",
+        "category": "観光",
+        "price": 8000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "nagano",
+    "name": "長野",
+    "region": "中部",
+    "type": "property",
+    "x": 5403,
+    "y": 5921,
+    "neighbors": [
+      "route_174",
+      "route_175",
+      "route_176"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "nagano_1",
+        "name": "信州戸隠手打ちそば処",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "nagano_2",
+        "name": "おやき・野沢菜漬物本舗",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "nagano_3",
+        "name": "善光寺門前宿坊ホテル",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "nagano_4",
+        "name": "軽井沢・白馬高原リゾート",
+        "category": "観光",
+        "price": 7000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "matsumoto",
+    "name": "松本",
+    "region": "中部",
+    "type": "property",
+    "x": 5288,
+    "y": 6175,
+    "neighbors": [
+      "route_170",
+      "route_175",
+      "route_179"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "matsumoto_1",
+        "name": "松本名物山賊焼き食堂",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "matsumoto_2",
+        "name": "安曇野湧水わさび農場",
+        "category": "農林",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "matsumoto_3",
+        "name": "精密時計・光学機器工場",
+        "category": "工業",
+        "price": 6000,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "toyama",
+    "name": "富山",
+    "region": "中部",
+    "type": "property",
+    "x": 4893,
+    "y": 5890,
+    "neighbors": [
+      "route_137",
+      "route_178",
+      "route_181",
+      "route_182"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "toyama_1",
+        "name": "富山ブラックラーメン店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "toyama_2",
+        "name": "伝統ますのすし本舗",
+        "category": "食品",
+        "price": 1800,
+        "rate": 0.7
+      },
+      {
+        "id": "toyama_3",
+        "name": "富山湾白エビ・ホタルイカ漁",
+        "category": "水産",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "toyama_4",
+        "name": "立山黒部アルペンケーブル",
+        "category": "観光",
+        "price": 6500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "kanazawa",
+    "name": "金沢",
+    "region": "中部",
+    "type": "property",
+    "x": 4607,
+    "y": 5977,
+    "neighbors": [
+      "route_182",
+      "route_183",
+      "route_185"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "kanazawa_1",
+        "name": "金沢金箔ソフト＆カレー店",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "kanazawa_2",
+        "name": "近江町市場のどぐろ寿司",
+        "category": "水産",
+        "price": 3000,
+        "rate": 0.65
+      },
+      {
+        "id": "kanazawa_3",
+        "name": "兼六園・ひがし茶屋街老舗",
+        "category": "観光",
+        "price": 5000,
+        "rate": 0.55
+      },
+      {
+        "id": "kanazawa_4",
+        "name": "輪島塗・加賀友禅伝統工房",
+        "category": "商業",
+        "price": 7500,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "fukui",
+    "name": "福井",
+    "region": "中部",
+    "type": "property",
+    "x": 4378,
+    "y": 6287,
+    "neighbors": [
+      "route_184",
+      "route_188",
+      "route_190"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "fukui_1",
+        "name": "ソースカツ丼・越前おろしそば",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "fukui_2",
+        "name": "鯖江チタン眼鏡フレーム工場",
+        "category": "工業",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "fukui_3",
+        "name": "越前ズワイガニ専門店",
+        "category": "水産",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "fukui_4",
+        "name": "勝山恐竜化石ミュージアム",
+        "category": "観光",
+        "price": 5000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "shizuoka",
+    "name": "静岡",
+    "region": "中部",
+    "type": "property",
+    "x": 5507,
+    "y": 6963,
+    "neighbors": [
+      "route_167",
+      "route_172",
+      "route_194"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "shizuoka_1",
+        "name": "静岡おでん・富士宮やきそば横丁",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "shizuoka_2",
+        "name": "牧之原深蒸し緑茶農園",
+        "category": "農林",
+        "price": 2000,
+        "rate": 0.7
+      },
+      {
+        "id": "shizuoka_3",
+        "name": "駿河湾桜えび・マグロ港",
+        "category": "水産",
+        "price": 3500,
+        "rate": 0.6
+      },
+      {
+        "id": "shizuoka_4",
+        "name": "静岡ホビー・プラモデル工場",
+        "category": "工業",
+        "price": 6000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "hamamatsu",
+    "name": "浜松",
+    "region": "中部",
+    "type": "property",
+    "x": 5164,
+    "y": 7124,
+    "neighbors": [
+      "route_195",
+      "route_196"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "hamamatsu_1",
+        "name": "浜松円盤焼き餃子店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "hamamatsu_2",
+        "name": "うなぎパイ菓子工場",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "hamamatsu_3",
+        "name": "浜名湖うなぎ養殖場",
+        "category": "水産",
+        "price": 4000,
+        "rate": 0.55
+      },
+      {
+        "id": "hamamatsu_4",
+        "name": "世界グランドピアノ楽器工場",
+        "category": "工業",
+        "price": 9000,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "gifu",
+    "name": "岐阜",
+    "region": "中部",
+    "type": "property",
+    "x": 4654,
+    "y": 6676,
+    "neighbors": [
+      "route_189",
+      "route_197",
+      "route_200",
+      "route_201"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "gifu_1",
+        "name": "高山醤油ラーメン・五平餅屋",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "gifu_2",
+        "name": "長良川鵜飼い遊覧船",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "gifu_3",
+        "name": "飛騨牛網焼き老舗亭",
+        "category": "食品",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "gifu_4",
+        "name": "白川郷合掌造り観光村",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "nagoya",
+    "name": "名古屋",
+    "region": "中部",
+    "type": "property",
+    "x": 4737,
+    "y": 6840,
+    "neighbors": [
+      "route_200",
+      "route_202",
+      "route_203",
+      "route_205"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "nagoya_1",
+        "name": "小倉トースト喫茶＆味噌煮込み",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "nagoya_2",
+        "name": "矢場味噌カツ＆手羽先通り",
+        "category": "食品",
+        "price": 3000,
+        "rate": 0.65
+      },
+      {
+        "id": "nagoya_3",
+        "name": "櫃まぶし老舗うなぎ料亭",
+        "category": "食品",
+        "price": 5000,
+        "rate": 0.6
+      },
+      {
+        "id": "nagoya_4",
+        "name": "名古屋城金シャチ観光パーク",
+        "category": "観光",
+        "price": 7000,
+        "rate": 0.5
+      },
+      {
+        "id": "nagoya_5",
+        "name": "世界自動車メーカー大工場",
+        "category": "工業",
+        "price": 28000,
+        "rate": 0.45
+      }
+    ],
+    "hero": {
+      "id": "nobunaga",
+      "name": "織田信長",
+      "icon": "🔥",
+      "effectType": "steal_money_all",
+      "description": "独占で味方に！確率で天下布武の力でライバルから資金を奪う！"
+    }
+  },
+  {
+    "id": "ise",
+    "name": "伊勢",
+    "region": "近畿",
+    "type": "property",
+    "x": 4575,
+    "y": 7256,
+    "neighbors": [
+      "route_204",
+      "route_207",
+      "route_209",
+      "route_214"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "ise_1",
+        "name": "おかげ横丁赤福もち茶屋",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.8
+      },
+      {
+        "id": "ise_2",
+        "name": "伊勢うどん・てこね寿司処",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "ise_3",
+        "name": "英虞湾アコヤ真珠養殖いかだ",
+        "category": "水産",
+        "price": 5000,
+        "rate": 0.55
+      },
+      {
+        "id": "ise_4",
+        "name": "松阪牛すき焼き本家",
+        "category": "食品",
+        "price": 7500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "kyoto",
+    "name": "京都",
+    "region": "近畿",
+    "type": "property",
+    "x": 4075,
+    "y": 6938,
+    "neighbors": [
+      "route_215",
+      "route_216",
+      "route_217",
+      "route_218",
+      "route_223"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "kyoto_1",
+        "name": "宇治抹茶パフェ・スイーツ庵",
+        "category": "食品",
+        "price": 1800,
+        "rate": 0.75
+      },
+      {
+        "id": "kyoto_2",
+        "name": "聖護院八ツ橋・京漬物本舗",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "kyoto_3",
+        "name": "清水・祇園舞妓茶屋",
+        "category": "観光",
+        "price": 6000,
+        "rate": 0.55
+      },
+      {
+        "id": "kyoto_4",
+        "name": "嵐山老舗高級料亭旅館",
+        "category": "観光",
+        "price": 11000,
+        "rate": 0.5
+      },
+      {
+        "id": "kyoto_5",
+        "name": "世界ゲームソフト開発本社",
+        "category": "商業",
+        "price": 20000,
+        "rate": 0.45
+      }
+    ],
+    "hero": {
+      "id": "hideyoshi",
+      "name": "豊臣秀吉",
+      "icon": "👑",
+      "effectType": "cash_gift",
+      "description": "独占で味方に！確率で黄金の茶室から大金をプレゼント！"
+    }
+  },
+  {
+    "id": "nara",
+    "name": "奈良",
+    "region": "近畿",
+    "type": "property",
+    "x": 4192,
+    "y": 7142,
+    "neighbors": [
+      "route_208",
+      "route_216",
+      "route_226"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "nara_1",
+        "name": "奈良公園鹿せんべい売店",
+        "category": "観光",
+        "price": 500,
+        "rate": 0.85
+      },
+      {
+        "id": "nara_2",
+        "name": "三輪そうめん・柿の葉寿司本舗",
+        "category": "食品",
+        "price": 1800,
+        "rate": 0.7
+      },
+      {
+        "id": "nara_3",
+        "name": "吉野杉林業＆古都ホテル",
+        "category": "農林",
+        "price": 4000,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "osaka",
+    "name": "大阪",
+    "region": "近畿",
+    "type": "property",
+    "x": 4008,
+    "y": 7136,
+    "neighbors": [
+      "route_217",
+      "route_226",
+      "route_227",
+      "route_228"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "osaka_1",
+        "name": "道頓堀たこ焼き屋台",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.85
+      },
+      {
+        "id": "osaka_2",
+        "name": "新世界二度漬け禁止串カツ屋",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.75
+      },
+      {
+        "id": "osaka_3",
+        "name": "名物豚まん・お好み焼き工場",
+        "category": "食品",
+        "price": 3500,
+        "rate": 0.65
+      },
+      {
+        "id": "osaka_4",
+        "name": "なんばお笑い大劇場",
+        "category": "観光",
+        "price": 7000,
+        "rate": 0.55
+      },
+      {
+        "id": "osaka_5",
+        "name": "ベイエリア映画テーマパーク",
+        "category": "観光",
+        "price": 22000,
+        "rate": 0.48
+      }
+    ],
+    "hero": {
+      "id": "rikyu",
+      "name": "千利休",
+      "icon": "🍵",
+      "effectType": "shield_gift",
+      "description": "独占で味方に！確率で「バリアカード」を授けてくれる！"
+    }
+  },
+  {
+    "id": "wakayama",
+    "name": "和歌山",
+    "region": "近畿",
+    "type": "property",
+    "x": 3843,
+    "y": 7425,
+    "neighbors": [
+      "route_227",
+      "route_229",
+      "route_230"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "wakayama_1",
+        "name": "濃厚和歌山ラーメン屋台",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "wakayama_2",
+        "name": "有田みかん大農園",
+        "category": "農林",
+        "price": 1800,
+        "rate": 0.7
+      },
+      {
+        "id": "wakayama_3",
+        "name": "紀州南高梅干し加工工場",
+        "category": "食品",
+        "price": 3000,
+        "rate": 0.6
+      },
+      {
+        "id": "wakayama_4",
+        "name": "白浜パンダアドベンチャー園",
+        "category": "観光",
+        "price": 6500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "kobe",
+    "name": "神戸",
+    "region": "近畿",
+    "type": "property",
+    "x": 3824,
+    "y": 7136,
+    "neighbors": [
+      "route_228",
+      "route_231",
+      "route_232"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "kobe_1",
+        "name": "明石焼き・そばめし処",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "kobe_2",
+        "name": "北野異人館洋菓子工房",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "kobe_3",
+        "name": "灘五郷日本酒大蔵元",
+        "category": "食品",
+        "price": 5000,
+        "rate": 0.55
+      },
+      {
+        "id": "kobe_4",
+        "name": "神戸ビーフ鉄板ステーキ館",
+        "category": "食品",
+        "price": 8500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "himeji",
+    "name": "姫路",
+    "region": "近畿",
+    "type": "property",
+    "x": 3583,
+    "y": 7049,
+    "neighbors": [
+      "route_232",
+      "route_233",
+      "route_234"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "himeji_1",
+        "name": "生姜醤油姫路おでん処",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "himeji_2",
+        "name": "播州手延べそうめん工場",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "himeji_3",
+        "name": "世界遺産白鷺城観光パーク",
+        "category": "観光",
+        "price": 4000,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "tottori",
+    "name": "鳥取",
+    "region": "中国",
+    "type": "property",
+    "x": 3349,
+    "y": 6634,
+    "neighbors": [
+      "route_222",
+      "route_235",
+      "route_236",
+      "route_239"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "tottori_1",
+        "name": "鳥取二十世紀梨果樹園",
+        "category": "農林",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "tottori_2",
+        "name": "境港紅ズワイガニ直売所",
+        "category": "水産",
+        "price": 3000,
+        "rate": 0.6
+      },
+      {
+        "id": "tottori_3",
+        "name": "鳥取砂丘ラクダ遊覧リゾート",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "matsue",
+    "name": "松江",
+    "region": "中国",
+    "type": "property",
+    "x": 2738,
+    "y": 6650,
+    "neighbors": [
+      "route_238",
+      "route_240",
+      "route_241"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "matsue_1",
+        "name": "出雲割子そば老舗処",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "matsue_2",
+        "name": "宍道湖大和しじみ漁協",
+        "category": "水産",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "matsue_3",
+        "name": "玉造美肌温泉＆縁結び旅館",
+        "category": "観光",
+        "price": 5000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "okayama",
+    "name": "岡山",
+    "region": "中国",
+    "type": "property",
+    "x": 3224,
+    "y": 7132,
+    "neighbors": [
+      "route_233",
+      "route_244",
+      "route_245",
+      "route_246"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "okayama_1",
+        "name": "元祖きびだんご本舗",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.8
+      },
+      {
+        "id": "okayama_2",
+        "name": "晴れの国白桃＆マスカット園",
+        "category": "農林",
+        "price": 3500,
+        "rate": 0.6
+      },
+      {
+        "id": "okayama_3",
+        "name": "児島ジーンズデニム工場",
+        "category": "工業",
+        "price": 5000,
+        "rate": 0.55
+      },
+      {
+        "id": "okayama_4",
+        "name": "倉敷美観地区美術館ホテル",
+        "category": "観光",
+        "price": 6000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "onomichi",
+    "name": "尾道",
+    "region": "中国",
+    "type": "property",
+    "x": 2808,
+    "y": 7310,
+    "neighbors": [
+      "route_247",
+      "route_248",
+      "route_249"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "onomichi_1",
+        "name": "尾道背脂醤油ラーメン店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "onomichi_2",
+        "name": "瀬戸田レモン＆はっさく農園",
+        "category": "農林",
+        "price": 1800,
+        "rate": 0.65
+      },
+      {
+        "id": "onomichi_3",
+        "name": "しまなみ海道サイクリング拠点",
+        "category": "観光",
+        "price": 3000,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "hiroshima",
+    "name": "広島",
+    "region": "中国",
+    "type": "property",
+    "x": 2423,
+    "y": 7322,
+    "neighbors": [
+      "route_250",
+      "route_251",
+      "route_254",
+      "route_257"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "hiroshima_1",
+        "name": "広島重ね焼きお好み焼き村",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.8
+      },
+      {
+        "id": "hiroshima_2",
+        "name": "宮島もみじ饅頭老舗本舗",
+        "category": "食品",
+        "price": 2200,
+        "rate": 0.7
+      },
+      {
+        "id": "hiroshima_3",
+        "name": "瀬戸内広島牡蠣養殖いかだ",
+        "category": "水産",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "hiroshima_4",
+        "name": "広島自動車＆造船工場",
+        "category": "工業",
+        "price": 12000,
+        "rate": 0.45
+      }
+    ],
+    "hero": {
+      "id": "motonari",
+      "name": "毛利元就",
+      "icon": "🏹",
+      "effectType": "give_express",
+      "description": "独占で味方に！三本の矢の計で特急カードをプレゼント！"
+    }
+  },
+  {
+    "id": "yamaguchi",
+    "name": "山口",
+    "region": "中国",
+    "type": "property",
+    "x": 1908,
+    "y": 7452,
+    "neighbors": [
+      "route_256",
+      "route_259",
+      "route_265"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "yamaguchi_1",
+        "name": "川棚名物熱々瓦そば茶屋",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.7
+      },
+      {
+        "id": "yamaguchi_2",
+        "name": "外郎（ういろう）和菓子本舗",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "yamaguchi_3",
+        "name": "秋芳洞・錦帯橋観光センター",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "yamaguchi_4",
+        "name": "山口銘酒純米大吟醸蔵",
+        "category": "食品",
+        "price": 5500,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "shimonoseki",
+    "name": "下関",
+    "region": "中国",
+    "type": "property",
+    "x": 1672,
+    "y": 7542,
+    "neighbors": [
+      "route_265",
+      "route_266"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "shimonoseki_1",
+        "name": "唐戸市場寿司バトル屋台",
+        "category": "水産",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "shimonoseki_2",
+        "name": "本場下関トラフグ料亭",
+        "category": "水産",
+        "price": 5500,
+        "rate": 0.55
+      },
+      {
+        "id": "shimonoseki_3",
+        "name": "関門海峡海響館リゾート",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "takamatsu",
+    "name": "高松",
+    "region": "四国",
+    "type": "property",
+    "x": 3245,
+    "y": 7353,
+    "neighbors": [
+      "route_246",
+      "route_267",
+      "route_268"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "takamatsu_1",
+        "name": "本場讃岐釜玉うどん製麺所",
+        "category": "食品",
+        "price": 800,
+        "rate": 0.85
+      },
+      {
+        "id": "takamatsu_2",
+        "name": "丸亀スパイシー骨付鳥店",
+        "category": "食品",
+        "price": 1800,
+        "rate": 0.7
+      },
+      {
+        "id": "takamatsu_3",
+        "name": "小豆島オリーブオイル農園",
+        "category": "農林",
+        "price": 3500,
+        "rate": 0.6
+      },
+      {
+        "id": "takamatsu_4",
+        "name": "瀬戸内現代アート島フェリー",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "tokushima",
+    "name": "徳島",
+    "region": "四国",
+    "type": "property",
+    "x": 3510,
+    "y": 7521,
+    "neighbors": [
+      "route_230",
+      "route_267",
+      "route_271",
+      "route_272"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "tokushima_1",
+        "name": "濃厚茶系徳島ラーメン店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "tokushima_2",
+        "name": "鳴門金時スイートポテト工房",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "tokushima_3",
+        "name": "阿波すだち柑橘農園",
+        "category": "農林",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "tokushima_4",
+        "name": "鳴門うずしお観潮船",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "kochi",
+    "name": "高知",
+    "region": "四国",
+    "type": "property",
+    "x": 2980,
+    "y": 7837,
+    "neighbors": [
+      "route_274",
+      "route_275"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "kochi_1",
+        "name": "ひろめ市場カツオ藁焼き処",
+        "category": "水産",
+        "price": 1500,
+        "rate": 0.75
+      },
+      {
+        "id": "kochi_2",
+        "name": "馬路村ゆずポン酢加工工場",
+        "category": "農林",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "kochi_3",
+        "name": "四万十川天然うなぎ屋",
+        "category": "水産",
+        "price": 4000,
+        "rate": 0.55
+      }
+    ],
+    "hero": {
+      "id": "ryoma",
+      "name": "坂本龍馬",
+      "icon": "🌊",
+      "effectType": "move_closer",
+      "description": "独占で味方に！海援隊の船で目的地近くへ運んでくれる！"
+    }
+  },
+  {
+    "id": "matsuyama",
+    "name": "松山",
+    "region": "四国",
+    "type": "property",
+    "x": 2584,
+    "y": 7663,
+    "neighbors": [
+      "route_258",
+      "route_277",
+      "route_278",
+      "route_281",
+      "route_286"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "matsuyama_1",
+        "name": "蛇口みかんジュース・タルト店",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "matsuyama_2",
+        "name": "宇和島鯛めし郷土料理店",
+        "category": "水産",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "matsuyama_3",
+        "name": "今治高級ブランドタオル工場",
+        "category": "工業",
+        "price": 4000,
+        "rate": 0.55
+      },
+      {
+        "id": "matsuyama_4",
+        "name": "道後温泉本館老舗ホテル",
+        "category": "観光",
+        "price": 7500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "kokura",
+    "name": "小倉",
+    "region": "九州",
+    "type": "property",
+    "x": 1563,
+    "y": 7691,
+    "neighbors": [
+      "route_266",
+      "route_288",
+      "route_290"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "kokura_1",
+        "name": "小倉発祥焼きうどん食堂",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "kokura_2",
+        "name": "門司港レトロ焼きカレー館",
+        "category": "食品",
+        "price": 1800,
+        "rate": 0.7
+      },
+      {
+        "id": "kokura_3",
+        "name": "北九州製鉄＆ロボット工場",
+        "category": "工業",
+        "price": 8000,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "hakata",
+    "name": "博多",
+    "region": "九州",
+    "type": "property",
+    "x": 1362,
+    "y": 7818,
+    "neighbors": [
+      "route_290",
+      "route_291",
+      "route_292"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "hakata_1",
+        "name": "中洲屋台豚骨ラーメン店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.85
+      },
+      {
+        "id": "hakata_2",
+        "name": "博多もつ鍋＆水炊き料亭",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "hakata_3",
+        "name": "博多辛子明太子本舗",
+        "category": "水産",
+        "price": 3500,
+        "rate": 0.65
+      },
+      {
+        "id": "hakata_4",
+        "name": "博多あまおう苺大農園",
+        "category": "農林",
+        "price": 4000,
+        "rate": 0.6
+      },
+      {
+        "id": "hakata_5",
+        "name": "天神・キャナル巨大商業モール",
+        "category": "商業",
+        "price": 13000,
+        "rate": 0.45
+      }
+    ],
+    "hero": {
+      "id": "kanbei",
+      "name": "黒田官兵衛",
+      "icon": "🧠",
+      "effectType": "shield_gift",
+      "description": "独占で味方に！名軍師の策でバリアカードを授けてくれる！"
+    }
+  },
+  {
+    "id": "saga",
+    "name": "佐賀",
+    "region": "九州",
+    "type": "property",
+    "x": 1300,
+    "y": 8023,
+    "neighbors": [
+      "route_291",
+      "route_295",
+      "route_297"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "saga_1",
+        "name": "シシリアンライス＆丸ぼうろ店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "saga_2",
+        "name": "呼子透明イカ活造り料亭",
+        "category": "水産",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "saga_3",
+        "name": "有田焼・伊万里焼伝統窯元",
+        "category": "工業",
+        "price": 4000,
+        "rate": 0.55
+      },
+      {
+        "id": "saga_4",
+        "name": "嬉野美肌茶温泉旅館",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "nagasaki",
+    "name": "長崎",
+    "region": "九州",
+    "type": "property",
+    "x": 1076,
+    "y": 8339,
+    "neighbors": [
+      "route_296",
+      "route_298"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "nagasaki_1",
+        "name": "長崎ちゃんぽん・皿うどん本店",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "nagasaki_2",
+        "name": "佐世保ジャンボバーガー店",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.75
+      },
+      {
+        "id": "nagasaki_3",
+        "name": "五三焼長崎カステラ本家",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "nagasaki_4",
+        "name": "オランダ王国花テーマパーク",
+        "category": "観光",
+        "price": 10000,
+        "rate": 0.48
+      }
+    ]
+  },
+  {
+    "id": "oita",
+    "name": "大分",
+    "region": "九州",
+    "type": "property",
+    "x": 2034,
+    "y": 8069,
+    "neighbors": [
+      "route_299",
+      "route_300",
+      "route_303",
+      "route_308"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "oita_1",
+        "name": "中津からあげ＆とり天専門店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.8
+      },
+      {
+        "id": "oita_2",
+        "name": "大分かぼす＆関サバ直売所",
+        "category": "水産",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "oita_3",
+        "name": "由布院高級隠れ家温泉宿",
+        "category": "観光",
+        "price": 6000,
+        "rate": 0.55
+      },
+      {
+        "id": "oita_4",
+        "name": "別府地獄めぐり温泉リゾート",
+        "category": "観光",
+        "price": 7500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "kumamoto",
+    "name": "熊本",
+    "region": "九州",
+    "type": "property",
+    "x": 1513,
+    "y": 8308,
+    "neighbors": [
+      "route_294",
+      "route_302",
+      "route_309",
+      "route_314"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "kumamoto_1",
+        "name": "熊本からし蓮根＆いきなり団子",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "kumamoto_2",
+        "name": "霜降り特選馬刺し料亭",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "kumamoto_3",
+        "name": "阿蘇ジャージー牛乳牧場",
+        "category": "農林",
+        "price": 4000,
+        "rate": 0.6
+      },
+      {
+        "id": "kumamoto_4",
+        "name": "黒川温泉・天草イルカクルーズ",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "miyazaki",
+    "name": "宮崎",
+    "region": "九州",
+    "type": "property",
+    "x": 1882,
+    "y": 8860,
+    "neighbors": [
+      "route_307",
+      "route_315"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "miyazaki_1",
+        "name": "本場チキン南蛮＆冷や汁食堂",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "miyazaki_2",
+        "name": "みやざき地頭鶏炭火焼店",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.7
+      },
+      {
+        "id": "miyazaki_3",
+        "name": "太陽のタマゴ完熟マンゴー園",
+        "category": "農林",
+        "price": 4500,
+        "rate": 0.6
+      },
+      {
+        "id": "miyazaki_4",
+        "name": "南国シーガイアゴルフリゾート",
+        "category": "観光",
+        "price": 8000,
+        "rate": 0.48
+      }
+    ]
+  },
+  {
+    "id": "kagoshima",
+    "name": "鹿児島",
+    "region": "九州",
+    "type": "property",
+    "x": 1430,
+    "y": 9058,
+    "neighbors": [
+      "route_313",
+      "route_316",
+      "route_317",
+      "route_323"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "kagoshima_1",
+        "name": "天文館氷白くまカフェ",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.8
+      },
+      {
+        "id": "kagoshima_2",
+        "name": "さつま揚げ・かるかん本舗",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "kagoshima_3",
+        "name": "鹿児島黒豚しゃぶしゃぶ本家",
+        "category": "食品",
+        "price": 3000,
+        "rate": 0.65
+      },
+      {
+        "id": "kagoshima_4",
+        "name": "本場芋焼酎大蔵元",
+        "category": "食品",
+        "price": 4500,
+        "rate": 0.6
+      },
+      {
+        "id": "kagoshima_5",
+        "name": "指宿砂むし温泉＆桜島フェリー",
+        "category": "観光",
+        "price": 6000,
+        "rate": 0.5
+      }
+    ],
+    "hero": {
+      "id": "saigo",
+      "name": "西郷隆盛",
+      "icon": "🐕",
+      "effectType": "cash_gift",
+      "description": "独占で味方に！確率で薩摩の臨時ボーナスを授けてくれる！"
+    }
+  },
+  {
+    "id": "naha",
+    "name": "那覇",
+    "region": "沖縄",
+    "type": "property",
+    "x": 858,
+    "y": 10137,
+    "neighbors": [
+      "route_322",
+      "route_324",
+      "route_328"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "naha_1",
+        "name": "国際通りソーキそば名店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.8
+      },
+      {
+        "id": "naha_2",
+        "name": "紅いもタルト＆ちんすこう工場",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "naha_3",
+        "name": "沖縄泡盛古酒蔵元",
+        "category": "食品",
+        "price": 3500,
+        "rate": 0.6
+      },
+      {
+        "id": "naha_4",
+        "name": "石垣牛＆アグー豚焼肉亭",
+        "category": "食品",
+        "price": 5000,
+        "rate": 0.55
+      },
+      {
+        "id": "naha_5",
+        "name": "美ら海水族館アイランドリゾート",
+        "category": "観光",
+        "price": 14000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "shiretoko",
+    "name": "知床",
+    "region": "北海道",
+    "type": "property",
+    "x": 8923,
+    "y": 1321,
+    "neighbors": [
+      "route_7",
+      "route_28",
+      "route_334"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "shiretoko_1",
+        "name": "オホーツク流氷ウォーク",
+        "category": "観光",
+        "price": 2000,
+        "rate": 0.6
+      },
+      {
+        "id": "shiretoko_2",
+        "name": "羅臼昆布＆鮭いくら工場",
+        "category": "水産",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "shiretoko_3",
+        "name": "世界自然遺産ネイチャーホテル",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "noboribetsu",
+    "name": "登別",
+    "region": "北海道",
+    "type": "property",
+    "x": 6916,
+    "y": 2325,
+    "neighbors": [
+      "route_48",
+      "route_50"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "noboribetsu_1",
+        "name": "地獄谷硫黄温泉旅館",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "noboribetsu_2",
+        "name": "のぼりべつクマ牧場",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "noboribetsu_3",
+        "name": "室蘭やきとり＆カレーラーメン",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      }
+    ]
+  },
+  {
+    "id": "hirosaki",
+    "name": "弘前",
+    "region": "東北",
+    "type": "property",
+    "x": 6583,
+    "y": 3472,
+    "neighbors": [
+      "route_56",
+      "route_72"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "hirosaki_1",
+        "name": "弘前アップルパイ工房",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "hirosaki_2",
+        "name": "津軽三味線ライブ酒場",
+        "category": "観光",
+        "price": 1800,
+        "rate": 0.65
+      },
+      {
+        "id": "hirosaki_3",
+        "name": "弘前公園桜まつり茶屋",
+        "category": "観光",
+        "price": 3000,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "kesennuma",
+    "name": "気仙沼",
+    "region": "東北",
+    "type": "property",
+    "x": 7160,
+    "y": 4520,
+    "neighbors": [
+      "route_69",
+      "route_106"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "kesennuma_1",
+        "name": "気仙沼フカヒレ姿煮料亭",
+        "category": "水産",
+        "price": 3500,
+        "rate": 0.6
+      },
+      {
+        "id": "kesennuma_2",
+        "name": "三陸カツオ・サンマ水揚げ港",
+        "category": "水産",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "kesennuma_3",
+        "name": "気仙沼ホルモン焼き屋",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      }
+    ]
+  },
+  {
+    "id": "aizu",
+    "name": "会津若松",
+    "region": "東北",
+    "type": "property",
+    "x": 6308,
+    "y": 5400,
+    "neighbors": [
+      "route_102",
+      "route_117",
+      "route_125",
+      "route_337"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "aizu_1",
+        "name": "会津ソースカツ丼名店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "aizu_2",
+        "name": "鶴ヶ城・白虎隊歴史館",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "aizu_3",
+        "name": "会津清酒・大吟醸蔵元",
+        "category": "食品",
+        "price": 4000,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "nikko",
+    "name": "日光",
+    "region": "関東",
+    "type": "property",
+    "x": 6141,
+    "y": 5859,
+    "neighbors": [
+      "route_147",
+      "route_151"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "nikko_1",
+        "name": "日光名物ゆば懐石料理店",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "nikko_2",
+        "name": "中禅寺湖＆華厳の滝リゾート",
+        "category": "観光",
+        "price": 5000,
+        "rate": 0.55
+      },
+      {
+        "id": "nikko_3",
+        "name": "日光江戸テーマパーク",
+        "category": "観光",
+        "price": 6500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "narita",
+    "name": "成田",
+    "region": "関東",
+    "type": "property",
+    "x": 6549,
+    "y": 6454,
+    "neighbors": [
+      "route_142",
+      "route_158"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "narita_1",
+        "name": "成田山表参道うなぎ老舗",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "narita_2",
+        "name": "国際エアポート免税モール",
+        "category": "商業",
+        "price": 12000,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "kamakura",
+    "name": "鎌倉",
+    "region": "関東",
+    "type": "property",
+    "x": 6070,
+    "y": 6809,
+    "neighbors": [
+      "route_165",
+      "route_166",
+      "route_338"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "kamakura_1",
+        "name": "江ノ島生しらす丼食堂",
+        "category": "水産",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "kamakura_2",
+        "name": "鳩サブレ・和菓子本店",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "kamakura_3",
+        "name": "古都鎌倉オーシャンホテル",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "karuizawa",
+    "name": "軽井沢",
+    "region": "中部",
+    "type": "property",
+    "x": 5632,
+    "y": 6113,
+    "neighbors": [
+      "route_152",
+      "route_174"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "karuizawa_1",
+        "name": "旧軽井沢ベーカリー＆ジャム",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "karuizawa_2",
+        "name": "軽井沢森のアウトレットモール",
+        "category": "商業",
+        "price": 8500,
+        "rate": 0.5
+      },
+      {
+        "id": "karuizawa_3",
+        "name": "高級高原別荘リゾートホテル",
+        "category": "観光",
+        "price": 10000,
+        "rate": 0.48
+      }
+    ]
+  },
+  {
+    "id": "takayama",
+    "name": "高山",
+    "region": "中部",
+    "type": "property",
+    "x": 4914,
+    "y": 6237,
+    "neighbors": [
+      "route_180",
+      "route_181",
+      "route_199",
+      "route_339"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "takayama_1",
+        "name": "飛騨高山古い町並み酒蔵",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "takayama_2",
+        "name": "飛騨牛にぎり寿司屋台",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.75
+      },
+      {
+        "id": "takayama_3",
+        "name": "奥飛騨露天風呂温泉郷",
+        "category": "観光",
+        "price": 5000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "toyohashi",
+    "name": "豊橋",
+    "region": "中部",
+    "type": "property",
+    "x": 4982,
+    "y": 7087,
+    "neighbors": [
+      "route_196",
+      "route_202"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "toyohashi_1",
+        "name": "豊橋ヤマサちくわ工場",
+        "category": "水産",
+        "price": 1200,
+        "rate": 0.7
+      },
+      {
+        "id": "toyohashi_2",
+        "name": "豊橋カレーうどん＆うずら農園",
+        "category": "農林",
+        "price": 1500,
+        "rate": 0.7
+      }
+    ]
+  },
+  {
+    "id": "otsu",
+    "name": "大津",
+    "region": "近畿",
+    "type": "property",
+    "x": 4260,
+    "y": 6938,
+    "neighbors": [
+      "route_193",
+      "route_206",
+      "route_215"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "otsu_1",
+        "name": "琵琶湖ミシガン遊覧船",
+        "category": "観光",
+        "price": 3000,
+        "rate": 0.55
+      },
+      {
+        "id": "otsu_2",
+        "name": "日本三大和牛・近江牛専門店",
+        "category": "食品",
+        "price": 6500,
+        "rate": 0.55
+      },
+      {
+        "id": "otsu_3",
+        "name": "クラブバームクーヘン工場",
+        "category": "食品",
+        "price": 3500,
+        "rate": 0.65
+      }
+    ]
+  },
+  {
+    "id": "shirahama",
+    "name": "白浜",
+    "region": "近畿",
+    "type": "property",
+    "x": 3926,
+    "y": 7762,
+    "neighbors": [
+      "route_213",
+      "route_229",
+      "route_340"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "shirahama_1",
+        "name": "南紀白浜クエ鍋料亭",
+        "category": "水産",
+        "price": 3000,
+        "rate": 0.6
+      },
+      {
+        "id": "shirahama_2",
+        "name": "白良浜シーサイドリゾート",
+        "category": "観光",
+        "price": 6000,
+        "rate": 0.5
+      },
+      {
+        "id": "shirahama_3",
+        "name": "熊野古道温泉ホテル",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.55
+      }
+    ]
+  },
+  {
+    "id": "awaji",
+    "name": "淡路島",
+    "region": "近畿",
+    "type": "property",
+    "x": 3676,
+    "y": 7349,
+    "neighbors": [
+      "route_231",
+      "route_271"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "awaji_1",
+        "name": "淡路島あま〜い玉ねぎ農園",
+        "category": "農林",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "awaji_2",
+        "name": "淡路島ご当地バーガー店",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "awaji_3",
+        "name": "淡路花さじき＆アニメパーク",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "kurashiki",
+    "name": "倉敷",
+    "region": "中国",
+    "type": "property",
+    "x": 3062,
+    "y": 7221,
+    "neighbors": [
+      "route_245",
+      "route_247"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "kurashiki_1",
+        "name": "倉敷美観地区川舟流し",
+        "category": "観光",
+        "price": 2000,
+        "rate": 0.6
+      },
+      {
+        "id": "kurashiki_2",
+        "name": "ぶっかけうどん＆桃パフェ店",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "kurashiki_3",
+        "name": "大原西洋美術館ホテル",
+        "category": "観光",
+        "price": 5000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "izumo",
+    "name": "出雲",
+    "region": "中国",
+    "type": "property",
+    "x": 2566,
+    "y": 6718,
+    "neighbors": [
+      "route_240",
+      "route_253",
+      "route_264"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "izumo_1",
+        "name": "出雲大社門前ぜんざい茶屋",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "izumo_2",
+        "name": "島根和牛＆のどぐろ料亭",
+        "category": "食品",
+        "price": 4000,
+        "rate": 0.55
+      },
+      {
+        "id": "izumo_3",
+        "name": "縁結びリゾート旅館",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "imabari",
+    "name": "今治",
+    "region": "四国",
+    "type": "property",
+    "x": 2704,
+    "y": 7521,
+    "neighbors": [
+      "route_248",
+      "route_270",
+      "route_277"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "imabari_1",
+        "name": "今治焼豚玉子飯食堂",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "imabari_2",
+        "name": "世界品質今治タオル工場",
+        "category": "工業",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "imabari_3",
+        "name": "造船ドック＆海事パーク",
+        "category": "工業",
+        "price": 7500,
+        "rate": 0.45
+      }
+    ]
+  },
+  {
+    "id": "shimanto",
+    "name": "四万十",
+    "region": "四国",
+    "type": "property",
+    "x": 2668,
+    "y": 8190,
+    "neighbors": [
+      "route_276",
+      "route_280",
+      "route_346"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "shimanto_1",
+        "name": "日本最後の清流天然うなぎ店",
+        "category": "水産",
+        "price": 3000,
+        "rate": 0.6
+      },
+      {
+        "id": "shimanto_2",
+        "name": "四万十カヌー＆沈下橋ツアー",
+        "category": "観光",
+        "price": 2000,
+        "rate": 0.6
+      }
+    ]
+  },
+  {
+    "id": "beppu",
+    "name": "別府",
+    "region": "九州",
+    "type": "property",
+    "x": 1871,
+    "y": 7982,
+    "neighbors": [
+      "route_285",
+      "route_289",
+      "route_299"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "beppu_1",
+        "name": "地獄蒸しプリン＆温泉卵屋",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "beppu_2",
+        "name": "別府冷麺・とり天本店",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "beppu_3",
+        "name": "湯けむり別府八湯大ホテル",
+        "category": "観光",
+        "price": 7000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "ishigaki",
+    "name": "石垣島",
+    "region": "沖縄",
+    "type": "property",
+    "x": 286,
+    "y": 10571,
+    "neighbors": [
+      "route_327"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "ishigaki_1",
+        "name": "八重山ソーキそば＆泡盛バー",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "ishigaki_2",
+        "name": "特選石垣牛炭火焼肉店",
+        "category": "食品",
+        "price": 5000,
+        "rate": 0.6
+      },
+      {
+        "id": "ishigaki_3",
+        "name": "川平湾マンタダイビングリゾート",
+        "category": "観光",
+        "price": 10000,
+        "rate": 0.5
+      }
+    ]
+  },
+  {
+    "id": "nemuro",
+    "name": "根室",
+    "region": "北海道",
+    "type": "property",
+    "neighbors": [
+      "route_35",
+      "route_336"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "nemuro_1",
+        "name": "花咲ガニ直売市場",
+        "category": "水産",
+        "price": 2000,
+        "rate": 0.65
+      },
+      {
+        "id": "nemuro_2",
+        "name": "根室エスカロップ洋食店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "nemuro_3",
+        "name": "納沙布岬灯台リゾート",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      }
+    ],
+    "x": 9246,
+    "y": 1779
+  },
+  {
+    "id": "yubari",
+    "name": "夕張",
+    "region": "北海道",
+    "type": "property",
+    "neighbors": [
+      "route_44",
+      "route_47"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "yubari_1",
+        "name": "夕張メロン特選農園",
+        "category": "農林",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "yubari_2",
+        "name": "夕張石炭歴史村",
+        "category": "観光",
+        "price": 2000,
+        "rate": 0.55
+      },
+      {
+        "id": "yubari_3",
+        "name": "メロン熊グッズ工房",
+        "category": "商業",
+        "price": 1000,
+        "rate": 0.75
+      }
+    ],
+    "x": 7384,
+    "y": 1953
+  },
+  {
+    "id": "hiraizumi",
+    "name": "平泉",
+    "region": "東北",
+    "type": "property",
+    "neighbors": [
+      "route_98",
+      "route_116"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "hiraizumi_1",
+        "name": "中尊寺金色堂観光ガイド",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "hiraizumi_2",
+        "name": "奥州もち膳老舗茶屋",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "hiraizumi_3",
+        "name": "前沢牛ステーキハウス",
+        "category": "食品",
+        "price": 5000,
+        "rate": 0.55
+      }
+    ],
+    "x": 6921,
+    "y": 4470
+  },
+  {
+    "id": "sakata",
+    "name": "酒田",
+    "region": "東北",
+    "type": "property",
+    "neighbors": [
+      "route_90",
+      "route_141"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "sakata_1",
+        "name": "酒田ワンタン麺名店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "sakata_2",
+        "name": "山居倉庫米穀ミュージアム",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "sakata_3",
+        "name": "庄内米・だだちゃ豆農園",
+        "category": "農林",
+        "price": 3000,
+        "rate": 0.6
+      }
+    ],
+    "x": 6261,
+    "y": 4520
+  },
+  {
+    "id": "yonezawa",
+    "name": "米沢",
+    "region": "東北",
+    "type": "property",
+    "neighbors": [
+      "route_103",
+      "route_337"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "yonezawa_1",
+        "name": "米沢牛すき焼き本家",
+        "category": "食品",
+        "price": 5000,
+        "rate": 0.55
+      },
+      {
+        "id": "yonezawa_2",
+        "name": "米沢細ちぢれラーメン店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "yonezawa_3",
+        "name": "上杉神社歴史資料館",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.55
+      }
+    ],
+    "x": 6401,
+    "y": 5134
+  },
+  {
+    "id": "tsukuba",
+    "name": "つくば",
+    "region": "関東",
+    "type": "property",
+    "neighbors": [
+      "route_146",
+      "route_157"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "tsukuba_1",
+        "name": "つくば宇宙センター展示館",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.5
+      },
+      {
+        "id": "tsukuba_2",
+        "name": "筑波山ケーブルカー",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "tsukuba_3",
+        "name": "先端ロボット研究パーク",
+        "category": "工業",
+        "price": 9000,
+        "rate": 0.45
+      }
+    ],
+    "x": 6401,
+    "y": 6274
+  },
+  {
+    "id": "chichibu",
+    "name": "秩父",
+    "region": "関東",
+    "type": "property",
+    "neighbors": [
+      "route_155",
+      "route_173"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "chichibu_1",
+        "name": "秩父わらじカツ丼食堂",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "chichibu_2",
+        "name": "羊山芝桜公園リゾート",
+        "category": "観光",
+        "price": 3000,
+        "rate": 0.6
+      },
+      {
+        "id": "chichibu_3",
+        "name": "秩父ウイスキー蒸溜所",
+        "category": "食品",
+        "price": 5500,
+        "rate": 0.55
+      }
+    ],
+    "x": 5866,
+    "y": 6330
+  },
+  {
+    "id": "hakone",
+    "name": "箱根",
+    "region": "関東",
+    "type": "property",
+    "neighbors": [
+      "route_168",
+      "route_338"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "hakone_1",
+        "name": "大涌谷黒たまご茶屋",
+        "category": "食品",
+        "price": 800,
+        "rate": 0.8
+      },
+      {
+        "id": "hakone_2",
+        "name": "芦ノ湖海賊船クルーズ",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "hakone_3",
+        "name": "箱根寄木細工工芸館",
+        "category": "商業",
+        "price": 2500,
+        "rate": 0.6
+      },
+      {
+        "id": "hakone_4",
+        "name": "箱根湯本老舗高級温泉宿",
+        "category": "観光",
+        "price": 8000,
+        "rate": 0.5
+      }
+    ],
+    "x": 5829,
+    "y": 6752
+  },
+  {
+    "id": "wajima",
+    "name": "輪島",
+    "region": "中部",
+    "type": "property",
+    "neighbors": [
+      "route_187"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "wajima_1",
+        "name": "輪島朝市海産物通り",
+        "category": "水産",
+        "price": 1500,
+        "rate": 0.7
+      },
+      {
+        "id": "wajima_2",
+        "name": "伝統輪島塗漆器工房",
+        "category": "商業",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "wajima_3",
+        "name": "能登千枚田＆温泉旅館",
+        "category": "観光",
+        "price": 4000,
+        "rate": 0.55
+      }
+    ],
+    "x": 4732,
+    "y": 5462
+  },
+  {
+    "id": "gero",
+    "name": "下呂",
+    "region": "中部",
+    "type": "property",
+    "neighbors": [
+      "route_201",
+      "route_339"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "gero_1",
+        "name": "下呂温泉温玉ソフト店",
+        "category": "食品",
+        "price": 1000,
+        "rate": 0.75
+      },
+      {
+        "id": "gero_2",
+        "name": "日本三名泉下呂大旅館",
+        "category": "観光",
+        "price": 6500,
+        "rate": 0.5
+      }
+    ],
+    "x": 4909,
+    "y": 6442
+  },
+  {
+    "id": "toba",
+    "name": "鳥羽",
+    "region": "近畿",
+    "type": "property",
+    "neighbors": [
+      "route_214",
+      "route_345"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "toba_1",
+        "name": "鳥羽ジュゴン水族館",
+        "category": "観光",
+        "price": 5000,
+        "rate": 0.55
+      },
+      {
+        "id": "toba_2",
+        "name": "伊勢海老＆鮑活魚料亭",
+        "category": "水産",
+        "price": 4500,
+        "rate": 0.6
+      },
+      {
+        "id": "toba_3",
+        "name": "ミキモト真珠島パーク",
+        "category": "観光",
+        "price": 6000,
+        "rate": 0.5
+      }
+    ],
+    "x": 4759,
+    "y": 7270
+  },
+  {
+    "id": "kinosaki",
+    "name": "城崎",
+    "region": "近畿",
+    "type": "property",
+    "neighbors": [
+      "route_225",
+      "route_239"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "kinosaki_1",
+        "name": "城崎七つの外湯めぐり宿",
+        "category": "観光",
+        "price": 5500,
+        "rate": 0.55
+      },
+      {
+        "id": "kinosaki_2",
+        "name": "但馬牛＆松葉ガニ料亭",
+        "category": "水産",
+        "price": 4500,
+        "rate": 0.6
+      },
+      {
+        "id": "kinosaki_3",
+        "name": "玄武洞ジオパーク",
+        "category": "観光",
+        "price": 2000,
+        "rate": 0.6
+      }
+    ],
+    "x": 3645,
+    "y": 6560
+  },
+  {
+    "id": "uwajima",
+    "name": "宇和島",
+    "region": "四国",
+    "type": "property",
+    "neighbors": [
+      "route_287",
+      "route_346"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "uwajima_1",
+        "name": "宇和島じゃこ天揚げたて店",
+        "category": "水産",
+        "price": 800,
+        "rate": 0.8
+      },
+      {
+        "id": "uwajima_2",
+        "name": "宇和海真珠＆鯛養殖場",
+        "category": "水産",
+        "price": 4000,
+        "rate": 0.55
+      },
+      {
+        "id": "uwajima_3",
+        "name": "宇和島闘牛アリーナ",
+        "category": "観光",
+        "price": 2500,
+        "rate": 0.55
+      }
+    ],
+    "x": 2475,
+    "y": 8048
+  },
+  {
+    "id": "sasebo",
+    "name": "佐世保",
+    "region": "九州",
+    "type": "property",
+    "neighbors": [
+      "route_297",
+      "route_298"
+    ],
+    "isDestinationCandidate": false,
+    "properties": [
+      {
+        "id": "sasebo_1",
+        "name": "佐世保海軍バーガー本店",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      },
+      {
+        "id": "sasebo_2",
+        "name": "九十九島遊覧パール船",
+        "category": "観光",
+        "price": 3500,
+        "rate": 0.55
+      },
+      {
+        "id": "sasebo_3",
+        "name": "佐世保レモンステーキ館",
+        "category": "食品",
+        "price": 2500,
+        "rate": 0.65
+      }
+    ],
+    "x": 998,
+    "y": 8085
+  },
+  {
+    "id": "aso",
+    "name": "阿蘇",
+    "region": "九州",
+    "type": "property",
+    "neighbors": [
+      "route_308",
+      "route_314"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "aso_1",
+        "name": "阿蘇あか牛丼専門店",
+        "category": "食品",
+        "price": 1500,
+        "rate": 0.75
+      },
+      {
+        "id": "aso_2",
+        "name": "阿蘇カルデラ大草原牧場",
+        "category": "農林",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "aso_3",
+        "name": "阿蘇ファーム温泉リゾート",
+        "category": "観光",
+        "price": 6000,
+        "rate": 0.5
+      }
+    ],
+    "x": 1726,
+    "y": 8215
+  },
+  {
+    "id": "ibusuki",
+    "name": "指宿",
+    "region": "九州",
+    "type": "property",
+    "neighbors": [
+      "route_323",
+      "route_333"
+    ],
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "ibusuki_1",
+        "name": "天然砂むし温泉スパ",
+        "category": "観光",
+        "price": 4500,
+        "rate": 0.55
+      },
+      {
+        "id": "ibusuki_2",
+        "name": "枕崎・指宿本枯節工場",
+        "category": "水産",
+        "price": 2500,
+        "rate": 0.65
+      },
+      {
+        "id": "ibusuki_3",
+        "name": "開聞岳そうめん流し処",
+        "category": "食品",
+        "price": 1200,
+        "rate": 0.75
+      }
+    ],
+    "x": 1477,
+    "y": 9281
+  },
+  {
+    "id": "route_1",
+    "name": "稚内・旭川間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7269,
+    "y": 635,
+    "neighbors": [
+      "wakkanai",
+      "route_2"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_2",
+    "name": "稚内・旭川間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 7320,
+    "y": 781,
+    "neighbors": [
+      "route_1",
+      "route_3"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_3",
+    "name": "稚内・旭川間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7371,
+    "y": 926,
+    "neighbors": [
+      "route_2",
+      "route_4"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_4",
+    "name": "稚内・旭川間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 7423,
+    "y": 1071,
+    "neighbors": [
+      "route_3",
+      "route_5"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_5",
+    "name": "稚内・旭川間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7474,
+    "y": 1216,
+    "neighbors": [
+      "route_4",
+      "route_6"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_6",
+    "name": "稚内・旭川間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 7525,
+    "y": 1362,
+    "neighbors": [
+      "route_5",
+      "asahikawa"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_7",
+    "name": "網走・知床間(ナイスカード駅)",
+    "region": "北海道",
+    "type": "nice_card",
+    "x": 8744,
+    "y": 1337,
+    "neighbors": [
+      "abashiri",
+      "shiretoko"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_8",
+    "name": "網走・旭川間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 8423,
+    "y": 1374,
+    "neighbors": [
+      "abashiri",
+      "route_9"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_9",
+    "name": "網走・旭川間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 8282,
+    "y": 1396,
+    "neighbors": [
+      "route_8",
+      "route_10"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_10",
+    "name": "網走・旭川間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 8141,
+    "y": 1418,
+    "neighbors": [
+      "route_9",
+      "route_11"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_11",
+    "name": "網走・旭川間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7999,
+    "y": 1441,
+    "neighbors": [
+      "route_10",
+      "route_12"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_12",
+    "name": "網走・旭川間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 7858,
+    "y": 1463,
+    "neighbors": [
+      "route_11",
+      "route_13"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_13",
+    "name": "網走・旭川間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7717,
+    "y": 1485,
+    "neighbors": [
+      "route_12",
+      "asahikawa"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_14",
+    "name": "網走・釧路間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 8576,
+    "y": 1481,
+    "neighbors": [
+      "abashiri",
+      "route_15"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_15",
+    "name": "網走・釧路間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 8587,
+    "y": 1610,
+    "neighbors": [
+      "route_14",
+      "route_16"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_16",
+    "name": "網走・釧路間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 8599,
+    "y": 1738,
+    "neighbors": [
+      "route_15",
+      "route_17"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_17",
+    "name": "網走・釧路間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 8610,
+    "y": 1867,
+    "neighbors": [
+      "route_16",
+      "kushiro"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_18",
+    "name": "旭川・富良野間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7579,
+    "y": 1640,
+    "neighbors": [
+      "asahikawa",
+      "furano"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_19",
+    "name": "旭川・札幌間(カード売り場)",
+    "region": "北海道",
+    "type": "shop",
+    "x": 7470,
+    "y": 1595,
+    "neighbors": [
+      "asahikawa",
+      "route_20"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_20",
+    "name": "旭川・札幌間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7364,
+    "y": 1683,
+    "neighbors": [
+      "route_19",
+      "route_21"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_21",
+    "name": "旭川・札幌間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 7258,
+    "y": 1771,
+    "neighbors": [
+      "route_20",
+      "route_22"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_22",
+    "name": "旭川・札幌間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7152,
+    "y": 1859,
+    "neighbors": [
+      "route_21",
+      "sapporo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_23",
+    "name": "富良野・帯広間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 7724,
+    "y": 1860,
+    "neighbors": [
+      "furano",
+      "route_24"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_24",
+    "name": "富良野・帯広間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 7866,
+    "y": 1947,
+    "neighbors": [
+      "route_23",
+      "obihiro"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_25",
+    "name": "釧路・知床間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 8682,
+    "y": 1861,
+    "neighbors": [
+      "kushiro",
+      "route_26"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_26",
+    "name": "釧路・知床間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 8742,
+    "y": 1726,
+    "neighbors": [
+      "route_25",
+      "route_27"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_27",
+    "name": "釧路・知床間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 8803,
+    "y": 1591,
+    "neighbors": [
+      "route_26",
+      "route_28"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_28",
+    "name": "釧路・知床間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 8863,
+    "y": 1456,
+    "neighbors": [
+      "route_27",
+      "shiretoko"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_29",
+    "name": "釧路・帯広間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 8469,
+    "y": 2006,
+    "neighbors": [
+      "kushiro",
+      "route_30"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_30",
+    "name": "釧路・帯広間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 8315,
+    "y": 2015,
+    "neighbors": [
+      "route_29",
+      "route_31"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_31",
+    "name": "釧路・帯広間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 8162,
+    "y": 2025,
+    "neighbors": [
+      "route_30",
+      "obihiro"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_32",
+    "name": "釧路・根室間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 8747,
+    "y": 1953,
+    "neighbors": [
+      "kushiro",
+      "route_33"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_33",
+    "name": "釧路・根室間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 8872,
+    "y": 1909,
+    "neighbors": [
+      "route_32",
+      "route_34"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_34",
+    "name": "釧路・根室間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 8996,
+    "y": 1866,
+    "neighbors": [
+      "route_33",
+      "route_35"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_35",
+    "name": "釧路・根室間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 9121,
+    "y": 1822,
+    "neighbors": [
+      "route_34",
+      "nemuro"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_36",
+    "name": "帯広・苫小牧間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 7869,
+    "y": 2064,
+    "neighbors": [
+      "obihiro",
+      "route_37"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_37",
+    "name": "帯広・苫小牧間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 7731,
+    "y": 2094,
+    "neighbors": [
+      "route_36",
+      "route_38"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_38",
+    "name": "帯広・苫小牧間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7592,
+    "y": 2124,
+    "neighbors": [
+      "route_37",
+      "route_39"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_39",
+    "name": "帯広・苫小牧間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7453,
+    "y": 2153,
+    "neighbors": [
+      "route_38",
+      "route_40"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_40",
+    "name": "帯広・苫小牧間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 7315,
+    "y": 2183,
+    "neighbors": [
+      "route_39",
+      "tomakomai"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_41",
+    "name": "帯広・夕張間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7883,
+    "y": 2018,
+    "neighbors": [
+      "obihiro",
+      "route_42"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_42",
+    "name": "帯広・夕張間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 7758,
+    "y": 2002,
+    "neighbors": [
+      "route_41",
+      "route_43"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_43",
+    "name": "帯広・夕張間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7634,
+    "y": 1985,
+    "neighbors": [
+      "route_42",
+      "route_44"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_44",
+    "name": "帯広・夕張間(マイナス駅)",
+    "region": "北海道",
+    "type": "minus",
+    "x": 7509,
+    "y": 1969,
+    "neighbors": [
+      "route_43",
+      "yubari"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_45",
+    "name": "小樽・札幌間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 6953,
+    "y": 1907,
+    "neighbors": [
+      "otaru",
+      "sapporo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_46",
+    "name": "札幌・苫小牧間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7111,
+    "y": 2080,
+    "neighbors": [
+      "sapporo",
+      "tomakomai"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_47",
+    "name": "札幌・夕張間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7215,
+    "y": 1950,
+    "neighbors": [
+      "sapporo",
+      "yubari"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_48",
+    "name": "苫小牧・登別間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 7046,
+    "y": 2269,
+    "neighbors": [
+      "tomakomai",
+      "noboribetsu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_49",
+    "name": "函館・登別間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 6788,
+    "y": 2606,
+    "neighbors": [
+      "hakodate",
+      "route_50"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_50",
+    "name": "函館・登別間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 6852,
+    "y": 2466,
+    "neighbors": [
+      "route_49",
+      "noboribetsu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_51",
+    "name": "函館・青森間(ナイスカード駅)",
+    "region": "北海道",
+    "type": "nice_card",
+    "x": 6725,
+    "y": 2894,
+    "neighbors": [
+      "hakodate",
+      "route_52"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_52",
+    "name": "函館・青森間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 6727,
+    "y": 3042,
+    "neighbors": [
+      "route_51",
+      "route_53"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_53",
+    "name": "函館・青森間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 6728,
+    "y": 3189,
+    "neighbors": [
+      "route_52",
+      "aomori"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_54",
+    "name": "青森・八戸間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6859,
+    "y": 3400,
+    "neighbors": [
+      "aomori",
+      "route_55"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_55",
+    "name": "青森・八戸間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6989,
+    "y": 3464,
+    "neighbors": [
+      "route_54",
+      "hachinohe"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_56",
+    "name": "青森・弘前間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6656,
+    "y": 3404,
+    "neighbors": [
+      "aomori",
+      "hirosaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_57",
+    "name": "青森・盛岡間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6772,
+    "y": 3475,
+    "neighbors": [
+      "aomori",
+      "route_58"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_58",
+    "name": "青森・盛岡間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6814,
+    "y": 3614,
+    "neighbors": [
+      "route_57",
+      "route_59"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_59",
+    "name": "青森・盛岡間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6857,
+    "y": 3752,
+    "neighbors": [
+      "route_58",
+      "route_60"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_60",
+    "name": "青森・盛岡間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6899,
+    "y": 3891,
+    "neighbors": [
+      "route_59",
+      "morioka"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_61",
+    "name": "八戸・盛岡間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 7075,
+    "y": 3654,
+    "neighbors": [
+      "hachinohe",
+      "route_62"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_62",
+    "name": "八戸・盛岡間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 7031,
+    "y": 3779,
+    "neighbors": [
+      "route_61",
+      "route_63"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_63",
+    "name": "八戸・盛岡間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6986,
+    "y": 3905,
+    "neighbors": [
+      "route_62",
+      "morioka"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_64",
+    "name": "八戸・気仙沼間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 7125,
+    "y": 3670,
+    "neighbors": [
+      "hachinohe",
+      "route_65"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_65",
+    "name": "八戸・気仙沼間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 7131,
+    "y": 3811,
+    "neighbors": [
+      "route_64",
+      "route_66"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_66",
+    "name": "八戸・気仙沼間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 7137,
+    "y": 3953,
+    "neighbors": [
+      "route_65",
+      "route_67"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_67",
+    "name": "八戸・気仙沼間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 7142,
+    "y": 4095,
+    "neighbors": [
+      "route_66",
+      "route_68"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_68",
+    "name": "八戸・気仙沼間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 7148,
+    "y": 4237,
+    "neighbors": [
+      "route_67",
+      "route_69"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_69",
+    "name": "八戸・気仙沼間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 7154,
+    "y": 4378,
+    "neighbors": [
+      "route_68",
+      "kesennuma"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_70",
+    "name": "秋田・弘前間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6443,
+    "y": 3882,
+    "neighbors": [
+      "akita",
+      "route_71"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_71",
+    "name": "秋田・弘前間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6490,
+    "y": 3745,
+    "neighbors": [
+      "route_70",
+      "route_72"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_72",
+    "name": "秋田・弘前間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6536,
+    "y": 3609,
+    "neighbors": [
+      "route_71",
+      "hirosaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_73",
+    "name": "秋田・盛岡間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6533,
+    "y": 4021,
+    "neighbors": [
+      "akita",
+      "route_74"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_74",
+    "name": "秋田・盛岡間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6669,
+    "y": 4024,
+    "neighbors": [
+      "route_73",
+      "route_75"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_75",
+    "name": "秋田・盛岡間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6806,
+    "y": 4027,
+    "neighbors": [
+      "route_74",
+      "morioka"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_76",
+    "name": "秋田・山形間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6414,
+    "y": 4148,
+    "neighbors": [
+      "akita",
+      "route_77"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_77",
+    "name": "秋田・山形間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6432,
+    "y": 4278,
+    "neighbors": [
+      "route_76",
+      "route_78"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_78",
+    "name": "秋田・山形間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6450,
+    "y": 4408,
+    "neighbors": [
+      "route_77",
+      "route_79"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_79",
+    "name": "秋田・山形間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6467,
+    "y": 4539,
+    "neighbors": [
+      "route_78",
+      "route_80"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_80",
+    "name": "秋田・山形間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6485,
+    "y": 4669,
+    "neighbors": [
+      "route_79",
+      "route_81"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_81",
+    "name": "秋田・山形間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6503,
+    "y": 4799,
+    "neighbors": [
+      "route_80",
+      "yamagata"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_82",
+    "name": "秋田・新潟間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6317,
+    "y": 4178,
+    "neighbors": [
+      "akita",
+      "route_83"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_83",
+    "name": "秋田・新潟間(ナイスカード駅)",
+    "region": "東北",
+    "type": "nice_card",
+    "x": 6239,
+    "y": 4339,
+    "neighbors": [
+      "route_82",
+      "route_84"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_84",
+    "name": "秋田・新潟間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6160,
+    "y": 4499,
+    "neighbors": [
+      "route_83",
+      "route_85"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_85",
+    "name": "秋田・新潟間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6081,
+    "y": 4659,
+    "neighbors": [
+      "route_84",
+      "route_86"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_86",
+    "name": "秋田・新潟間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6002,
+    "y": 4819,
+    "neighbors": [
+      "route_85",
+      "route_87"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_87",
+    "name": "秋田・新潟間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 5924,
+    "y": 4980,
+    "neighbors": [
+      "route_86",
+      "niigata"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_88",
+    "name": "秋田・酒田間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6362,
+    "y": 4144,
+    "neighbors": [
+      "akita",
+      "route_89"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_89",
+    "name": "秋田・酒田間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6329,
+    "y": 4269,
+    "neighbors": [
+      "route_88",
+      "route_90"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_90",
+    "name": "秋田・酒田間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6295,
+    "y": 4395,
+    "neighbors": [
+      "route_89",
+      "sakata"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_91",
+    "name": "盛岡・仙台間(カード売り場)",
+    "region": "東北",
+    "type": "shop",
+    "x": 6921,
+    "y": 4157,
+    "neighbors": [
+      "morioka",
+      "route_92"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_92",
+    "name": "盛岡・仙台間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6900,
+    "y": 4283,
+    "neighbors": [
+      "route_91",
+      "route_93"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_93",
+    "name": "盛岡・仙台間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6879,
+    "y": 4410,
+    "neighbors": [
+      "route_92",
+      "route_94"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_94",
+    "name": "盛岡・仙台間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6859,
+    "y": 4537,
+    "neighbors": [
+      "route_93",
+      "route_95"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_95",
+    "name": "盛岡・仙台間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6838,
+    "y": 4664,
+    "neighbors": [
+      "route_94",
+      "route_96"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_96",
+    "name": "盛岡・仙台間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6817,
+    "y": 4790,
+    "neighbors": [
+      "route_95",
+      "sendai"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_97",
+    "name": "盛岡・平泉間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6935,
+    "y": 4177,
+    "neighbors": [
+      "morioka",
+      "route_98"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_98",
+    "name": "盛岡・平泉間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6928,
+    "y": 4323,
+    "neighbors": [
+      "route_97",
+      "hiraizumi"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_99",
+    "name": "山形・仙台間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6659,
+    "y": 4923,
+    "neighbors": [
+      "yamagata",
+      "sendai"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_100",
+    "name": "山形・会津若松間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6468,
+    "y": 5047,
+    "neighbors": [
+      "yamagata",
+      "route_101"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_101",
+    "name": "山形・会津若松間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6415,
+    "y": 5165,
+    "neighbors": [
+      "route_100",
+      "route_102"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_102",
+    "name": "山形・会津若松間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6361,
+    "y": 5282,
+    "neighbors": [
+      "route_101",
+      "aizu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_103",
+    "name": "山形・米沢間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6461,
+    "y": 5032,
+    "neighbors": [
+      "yamagata",
+      "yonezawa"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_104",
+    "name": "仙台・気仙沼間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6887,
+    "y": 4818,
+    "neighbors": [
+      "sendai",
+      "route_105"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_105",
+    "name": "仙台・気仙沼間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6978,
+    "y": 4719,
+    "neighbors": [
+      "route_104",
+      "route_106"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_106",
+    "name": "仙台・気仙沼間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 7069,
+    "y": 4619,
+    "neighbors": [
+      "route_105",
+      "kesennuma"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_107",
+    "name": "仙台・郡山間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6733,
+    "y": 5052,
+    "neighbors": [
+      "sendai",
+      "route_108"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_108",
+    "name": "仙台・郡山間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6669,
+    "y": 5187,
+    "neighbors": [
+      "route_107",
+      "route_109"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_109",
+    "name": "仙台・郡山間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6606,
+    "y": 5321,
+    "neighbors": [
+      "route_108",
+      "koriyama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_110",
+    "name": "仙台・いわき間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6798,
+    "y": 5043,
+    "neighbors": [
+      "sendai",
+      "route_111"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_111",
+    "name": "仙台・いわき間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6800,
+    "y": 5169,
+    "neighbors": [
+      "route_110",
+      "route_112"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_112",
+    "name": "仙台・いわき間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6802,
+    "y": 5295,
+    "neighbors": [
+      "route_111",
+      "route_113"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_113",
+    "name": "仙台・いわき間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6803,
+    "y": 5421,
+    "neighbors": [
+      "route_112",
+      "route_114"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_114",
+    "name": "仙台・いわき間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6805,
+    "y": 5547,
+    "neighbors": [
+      "route_113",
+      "iwaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_115",
+    "name": "仙台・平泉間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6838,
+    "y": 4768,
+    "neighbors": [
+      "sendai",
+      "route_116"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_116",
+    "name": "仙台・平泉間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6879,
+    "y": 4619,
+    "neighbors": [
+      "route_115",
+      "hiraizumi"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_117",
+    "name": "郡山・会津若松間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6425,
+    "y": 5428,
+    "neighbors": [
+      "koriyama",
+      "aizu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_118",
+    "name": "郡山・宇都宮間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6477,
+    "y": 5586,
+    "neighbors": [
+      "koriyama",
+      "route_119"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_119",
+    "name": "郡山・宇都宮間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6412,
+    "y": 5717,
+    "neighbors": [
+      "route_118",
+      "route_120"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_120",
+    "name": "郡山・宇都宮間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6347,
+    "y": 5847,
+    "neighbors": [
+      "route_119",
+      "utsunomiya"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_121",
+    "name": "いわき・水戸間(プラス駅)",
+    "region": "東北",
+    "type": "plus",
+    "x": 6734,
+    "y": 5814,
+    "neighbors": [
+      "iwaki",
+      "route_122"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_122",
+    "name": "いわき・水戸間(カード駅)",
+    "region": "東北",
+    "type": "card",
+    "x": 6661,
+    "y": 5954,
+    "neighbors": [
+      "route_121",
+      "mito"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_123",
+    "name": "新潟・会津若松間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5961,
+    "y": 5205,
+    "neighbors": [
+      "niigata",
+      "route_124"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_124",
+    "name": "新潟・会津若松間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 6077,
+    "y": 5270,
+    "neighbors": [
+      "route_123",
+      "route_125"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_125",
+    "name": "新潟・会津若松間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 6192,
+    "y": 5335,
+    "neighbors": [
+      "route_124",
+      "aizu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_126",
+    "name": "新潟・高崎間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5843,
+    "y": 5281,
+    "neighbors": [
+      "niigata",
+      "route_127"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_127",
+    "name": "新潟・高崎間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5840,
+    "y": 5422,
+    "neighbors": [
+      "route_126",
+      "route_128"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_128",
+    "name": "新潟・高崎間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5838,
+    "y": 5563,
+    "neighbors": [
+      "route_127",
+      "route_129"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_129",
+    "name": "新潟・高崎間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5836,
+    "y": 5703,
+    "neighbors": [
+      "route_128",
+      "route_130"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_130",
+    "name": "新潟・高崎間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5834,
+    "y": 5844,
+    "neighbors": [
+      "route_129",
+      "route_131"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_131",
+    "name": "新潟・高崎間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5831,
+    "y": 5985,
+    "neighbors": [
+      "route_130",
+      "takasaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_132",
+    "name": "新潟・富山間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5709,
+    "y": 5247,
+    "neighbors": [
+      "niigata",
+      "route_133"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_133",
+    "name": "新潟・富山間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5573,
+    "y": 5354,
+    "neighbors": [
+      "route_132",
+      "route_134"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_134",
+    "name": "新潟・富山間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5437,
+    "y": 5461,
+    "neighbors": [
+      "route_133",
+      "route_135"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_135",
+    "name": "新潟・富山間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5301,
+    "y": 5569,
+    "neighbors": [
+      "route_134",
+      "route_136"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_136",
+    "name": "新潟・富山間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5165,
+    "y": 5676,
+    "neighbors": [
+      "route_135",
+      "route_137"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_137",
+    "name": "新潟・富山間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5029,
+    "y": 5783,
+    "neighbors": [
+      "route_136",
+      "toyama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_138",
+    "name": "新潟・酒田間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5928,
+    "y": 5016,
+    "neighbors": [
+      "niigata",
+      "route_139"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_139",
+    "name": "新潟・酒田間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 6011,
+    "y": 4892,
+    "neighbors": [
+      "route_138",
+      "route_140"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_140",
+    "name": "新潟・酒田間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 6095,
+    "y": 4768,
+    "neighbors": [
+      "route_139",
+      "route_141"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_141",
+    "name": "新潟・酒田間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 6178,
+    "y": 4644,
+    "neighbors": [
+      "route_140",
+      "sakata"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_142",
+    "name": "水戸・成田間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6569,
+    "y": 6275,
+    "neighbors": [
+      "mito",
+      "narita"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_143",
+    "name": "水戸・東京間(マイナス駅)",
+    "region": "関東",
+    "type": "minus",
+    "x": 6503,
+    "y": 6194,
+    "neighbors": [
+      "mito",
+      "route_144"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_144",
+    "name": "水戸・東京間(カード駅)",
+    "region": "関東",
+    "type": "card",
+    "x": 6419,
+    "y": 6293,
+    "neighbors": [
+      "route_143",
+      "route_145"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_145",
+    "name": "水戸・東京間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6334,
+    "y": 6391,
+    "neighbors": [
+      "route_144",
+      "tokyo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_146",
+    "name": "水戸・つくば間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6495,
+    "y": 6185,
+    "neighbors": [
+      "mito",
+      "tsukuba"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_147",
+    "name": "宇都宮・日光間(ナイスカード駅)",
+    "region": "関東",
+    "type": "nice_card",
+    "x": 6212,
+    "y": 5918,
+    "neighbors": [
+      "utsunomiya",
+      "nikko"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_148",
+    "name": "宇都宮・大宮間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6231,
+    "y": 6102,
+    "neighbors": [
+      "utsunomiya",
+      "route_149"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_149",
+    "name": "宇都宮・大宮間(カード駅)",
+    "region": "関東",
+    "type": "card",
+    "x": 6179,
+    "y": 6228,
+    "neighbors": [
+      "route_148",
+      "omiya"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_150",
+    "name": "高崎・日光間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 5933,
+    "y": 6037,
+    "neighbors": [
+      "takasaki",
+      "route_151"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_151",
+    "name": "高崎・日光間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6037,
+    "y": 5948,
+    "neighbors": [
+      "route_150",
+      "nikko"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_152",
+    "name": "高崎・軽井沢間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 5731,
+    "y": 6120,
+    "neighbors": [
+      "takasaki",
+      "karuizawa"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_153",
+    "name": "高崎・大宮間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 5929,
+    "y": 6202,
+    "neighbors": [
+      "takasaki",
+      "route_154"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_154",
+    "name": "高崎・大宮間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6028,
+    "y": 6277,
+    "neighbors": [
+      "route_153",
+      "omiya"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_155",
+    "name": "高崎・秩父間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 5848,
+    "y": 6228,
+    "neighbors": [
+      "takasaki",
+      "chichibu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_156",
+    "name": "大宮・東京間(カード売り場)",
+    "region": "関東",
+    "type": "shop",
+    "x": 6189,
+    "y": 6422,
+    "neighbors": [
+      "omiya",
+      "tokyo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_157",
+    "name": "大宮・つくば間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6265,
+    "y": 6314,
+    "neighbors": [
+      "omiya",
+      "tsukuba"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_158",
+    "name": "千葉・成田間(ワープ駅)",
+    "region": "関東",
+    "type": "warp",
+    "x": 6481,
+    "y": 6515,
+    "neighbors": [
+      "chiba",
+      "narita"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_159",
+    "name": "千葉・東京間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6331,
+    "y": 6533,
+    "neighbors": [
+      "chiba",
+      "tokyo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_160",
+    "name": "東京・横浜間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6211,
+    "y": 6574,
+    "neighbors": [
+      "tokyo",
+      "yokohama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_161",
+    "name": "東京・甲府間(マイナス駅)",
+    "region": "関東",
+    "type": "minus",
+    "x": 6119,
+    "y": 6499,
+    "neighbors": [
+      "tokyo",
+      "route_162"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_162",
+    "name": "東京・甲府間(カード駅)",
+    "region": "関東",
+    "type": "card",
+    "x": 5989,
+    "y": 6508,
+    "neighbors": [
+      "route_161",
+      "route_163"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_163",
+    "name": "東京・甲府間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 5860,
+    "y": 6517,
+    "neighbors": [
+      "route_162",
+      "route_164"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_164",
+    "name": "東京・甲府間(カード駅)",
+    "region": "関東",
+    "type": "card",
+    "x": 5730,
+    "y": 6526,
+    "neighbors": [
+      "route_163",
+      "kofu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_165",
+    "name": "横浜・鎌倉間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 6121,
+    "y": 6733,
+    "neighbors": [
+      "yokohama",
+      "kamakura"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_166",
+    "name": "熱海・鎌倉間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5971,
+    "y": 6870,
+    "neighbors": [
+      "atami",
+      "kamakura"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_167",
+    "name": "熱海・静岡間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5689,
+    "y": 6947,
+    "neighbors": [
+      "atami",
+      "shizuoka"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_168",
+    "name": "熱海・箱根間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5850,
+    "y": 6842,
+    "neighbors": [
+      "atami",
+      "hakone"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_169",
+    "name": "甲府・松本間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5496,
+    "y": 6415,
+    "neighbors": [
+      "kofu",
+      "route_170"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_170",
+    "name": "甲府・松本間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5392,
+    "y": 6295,
+    "neighbors": [
+      "route_169",
+      "matsumoto"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_171",
+    "name": "甲府・静岡間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5569,
+    "y": 6678,
+    "neighbors": [
+      "kofu",
+      "route_172"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_172",
+    "name": "甲府・静岡間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5538,
+    "y": 6820,
+    "neighbors": [
+      "route_171",
+      "shizuoka"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_173",
+    "name": "甲府・秩父間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5733,
+    "y": 6433,
+    "neighbors": [
+      "kofu",
+      "chichibu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_174",
+    "name": "長野・軽井沢間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5518,
+    "y": 6017,
+    "neighbors": [
+      "nagano",
+      "karuizawa"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_175",
+    "name": "長野・松本間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5346,
+    "y": 6048,
+    "neighbors": [
+      "nagano",
+      "matsumoto"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_176",
+    "name": "長野・富山間(ナイスカード駅)",
+    "region": "中部",
+    "type": "nice_card",
+    "x": 5276,
+    "y": 5913,
+    "neighbors": [
+      "nagano",
+      "route_177"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_177",
+    "name": "長野・富山間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5148,
+    "y": 5906,
+    "neighbors": [
+      "route_176",
+      "route_178"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_178",
+    "name": "長野・富山間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5021,
+    "y": 5898,
+    "neighbors": [
+      "route_177",
+      "toyama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_179",
+    "name": "松本・高山間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 5163,
+    "y": 6196,
+    "neighbors": [
+      "matsumoto",
+      "route_180"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_180",
+    "name": "松本・高山間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5039,
+    "y": 6216,
+    "neighbors": [
+      "route_179",
+      "takayama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_181",
+    "name": "富山・高山間(マイナス駅)",
+    "region": "中部",
+    "type": "minus",
+    "x": 4904,
+    "y": 6064,
+    "neighbors": [
+      "toyama",
+      "takayama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_182",
+    "name": "富山・金沢間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4750,
+    "y": 5934,
+    "neighbors": [
+      "toyama",
+      "kanazawa"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_183",
+    "name": "金沢・福井間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4531,
+    "y": 6080,
+    "neighbors": [
+      "kanazawa",
+      "route_184"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_184",
+    "name": "金沢・福井間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4454,
+    "y": 6184,
+    "neighbors": [
+      "route_183",
+      "fukui"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_185",
+    "name": "金沢・輪島間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4638,
+    "y": 5848,
+    "neighbors": [
+      "kanazawa",
+      "route_186"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_186",
+    "name": "金沢・輪島間(ナイスカード駅)",
+    "region": "中部",
+    "type": "nice_card",
+    "x": 4670,
+    "y": 5720,
+    "neighbors": [
+      "route_185",
+      "route_187"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_187",
+    "name": "金沢・輪島間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4701,
+    "y": 5591,
+    "neighbors": [
+      "route_186",
+      "wajima"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_188",
+    "name": "福井・岐阜間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4470,
+    "y": 6417,
+    "neighbors": [
+      "fukui",
+      "route_189"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_189",
+    "name": "福井・岐阜間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4562,
+    "y": 6546,
+    "neighbors": [
+      "route_188",
+      "gifu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_190",
+    "name": "福井・大津間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4354,
+    "y": 6417,
+    "neighbors": [
+      "fukui",
+      "route_191"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_191",
+    "name": "福井・大津間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4331,
+    "y": 6547,
+    "neighbors": [
+      "route_190",
+      "route_192"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_192",
+    "name": "福井・大津間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4307,
+    "y": 6678,
+    "neighbors": [
+      "route_191",
+      "route_193"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_193",
+    "name": "福井・大津間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4284,
+    "y": 6808,
+    "neighbors": [
+      "route_192",
+      "otsu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_194",
+    "name": "静岡・浜松間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5393,
+    "y": 7017,
+    "neighbors": [
+      "shizuoka",
+      "route_195"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_195",
+    "name": "静岡・浜松間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 5278,
+    "y": 7070,
+    "neighbors": [
+      "route_194",
+      "hamamatsu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_196",
+    "name": "浜松・豊橋間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 5073,
+    "y": 7106,
+    "neighbors": [
+      "hamamatsu",
+      "toyohashi"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_197",
+    "name": "岐阜・高山間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4719,
+    "y": 6566,
+    "neighbors": [
+      "gifu",
+      "route_198"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_198",
+    "name": "岐阜・高山間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4784,
+    "y": 6457,
+    "neighbors": [
+      "route_197",
+      "route_199"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_199",
+    "name": "岐阜・高山間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4849,
+    "y": 6347,
+    "neighbors": [
+      "route_198",
+      "takayama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_200",
+    "name": "岐阜・名古屋間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4696,
+    "y": 6758,
+    "neighbors": [
+      "gifu",
+      "nagoya"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_201",
+    "name": "岐阜・下呂間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4782,
+    "y": 6559,
+    "neighbors": [
+      "gifu",
+      "gero"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_202",
+    "name": "名古屋・豊橋間(カード売り場)",
+    "region": "中部",
+    "type": "shop",
+    "x": 4860,
+    "y": 6964,
+    "neighbors": [
+      "nagoya",
+      "toyohashi"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_203",
+    "name": "名古屋・伊勢間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4683,
+    "y": 6979,
+    "neighbors": [
+      "nagoya",
+      "route_204"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_204",
+    "name": "名古屋・伊勢間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4629,
+    "y": 7117,
+    "neighbors": [
+      "route_203",
+      "ise"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_205",
+    "name": "名古屋・大津間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4578,
+    "y": 6873,
+    "neighbors": [
+      "nagoya",
+      "route_206"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_206",
+    "name": "名古屋・大津間(カード駅)",
+    "region": "中部",
+    "type": "card",
+    "x": 4419,
+    "y": 6905,
+    "neighbors": [
+      "route_205",
+      "otsu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_207",
+    "name": "伊勢・奈良間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 4447,
+    "y": 7218,
+    "neighbors": [
+      "ise",
+      "route_208"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_208",
+    "name": "伊勢・奈良間(カード駅)",
+    "region": "近畿",
+    "type": "card",
+    "x": 4320,
+    "y": 7180,
+    "neighbors": [
+      "route_207",
+      "nara"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_209",
+    "name": "伊勢・白浜間(ナイスカード駅)",
+    "region": "近畿",
+    "type": "nice_card",
+    "x": 4467,
+    "y": 7340,
+    "neighbors": [
+      "ise",
+      "route_210"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_210",
+    "name": "伊勢・白浜間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4359,
+    "y": 7425,
+    "neighbors": [
+      "route_209",
+      "route_211"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_211",
+    "name": "伊勢・白浜間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 4251,
+    "y": 7509,
+    "neighbors": [
+      "route_210",
+      "route_212"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_212",
+    "name": "伊勢・白浜間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4142,
+    "y": 7593,
+    "neighbors": [
+      "route_211",
+      "route_213"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_213",
+    "name": "伊勢・白浜間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 4034,
+    "y": 7678,
+    "neighbors": [
+      "route_212",
+      "shirahama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_214",
+    "name": "伊勢・鳥羽間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4667,
+    "y": 7263,
+    "neighbors": [
+      "ise",
+      "toba"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_215",
+    "name": "京都・大津間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4168,
+    "y": 6938,
+    "neighbors": [
+      "kyoto",
+      "otsu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_216",
+    "name": "京都・奈良間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4134,
+    "y": 7040,
+    "neighbors": [
+      "kyoto",
+      "nara"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_217",
+    "name": "京都・大阪間(カード売り場)",
+    "region": "近畿",
+    "type": "shop",
+    "x": 4042,
+    "y": 7037,
+    "neighbors": [
+      "kyoto",
+      "osaka"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_218",
+    "name": "京都・鳥取間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 3954,
+    "y": 6887,
+    "neighbors": [
+      "kyoto",
+      "route_219"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_219",
+    "name": "京都・鳥取間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3833,
+    "y": 6837,
+    "neighbors": [
+      "route_218",
+      "route_220"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_220",
+    "name": "京都・鳥取間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 3712,
+    "y": 6786,
+    "neighbors": [
+      "route_219",
+      "route_221"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_221",
+    "name": "京都・鳥取間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3591,
+    "y": 6735,
+    "neighbors": [
+      "route_220",
+      "route_222"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_222",
+    "name": "京都・鳥取間(カード駅)",
+    "region": "近畿",
+    "type": "card",
+    "x": 3470,
+    "y": 6685,
+    "neighbors": [
+      "route_221",
+      "tottori"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_223",
+    "name": "京都・城崎間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3968,
+    "y": 6844,
+    "neighbors": [
+      "kyoto",
+      "route_224"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_224",
+    "name": "京都・城崎間(カード駅)",
+    "region": "近畿",
+    "type": "card",
+    "x": 3860,
+    "y": 6749,
+    "neighbors": [
+      "route_223",
+      "route_225"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_225",
+    "name": "京都・城崎間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3753,
+    "y": 6655,
+    "neighbors": [
+      "route_224",
+      "kinosaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_226",
+    "name": "奈良・大阪間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4100,
+    "y": 7139,
+    "neighbors": [
+      "nara",
+      "osaka"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_227",
+    "name": "大阪・和歌山間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3926,
+    "y": 7281,
+    "neighbors": [
+      "osaka",
+      "wakayama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_228",
+    "name": "大阪・神戸間(ワープ駅)",
+    "region": "近畿",
+    "type": "warp",
+    "x": 3916,
+    "y": 7136,
+    "neighbors": [
+      "osaka",
+      "kobe"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_229",
+    "name": "和歌山・白浜間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3885,
+    "y": 7594,
+    "neighbors": [
+      "wakayama",
+      "shirahama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_230",
+    "name": "和歌山・徳島間(カード駅)",
+    "region": "近畿",
+    "type": "card",
+    "x": 3677,
+    "y": 7473,
+    "neighbors": [
+      "wakayama",
+      "tokushima"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_231",
+    "name": "神戸・淡路島間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3750,
+    "y": 7243,
+    "neighbors": [
+      "kobe",
+      "awaji"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_232",
+    "name": "神戸・姫路間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3704,
+    "y": 7093,
+    "neighbors": [
+      "kobe",
+      "himeji"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_233",
+    "name": "姫路・岡山間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 3404,
+    "y": 7091,
+    "neighbors": [
+      "himeji",
+      "okayama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_234",
+    "name": "姫路・鳥取間(カード駅)",
+    "region": "近畿",
+    "type": "card",
+    "x": 3505,
+    "y": 6911,
+    "neighbors": [
+      "himeji",
+      "route_235"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_235",
+    "name": "姫路・鳥取間(カード駅)",
+    "region": "近畿",
+    "type": "card",
+    "x": 3427,
+    "y": 6772,
+    "neighbors": [
+      "route_234",
+      "tottori"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_236",
+    "name": "鳥取・松江間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 3196,
+    "y": 6638,
+    "neighbors": [
+      "tottori",
+      "route_237"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_237",
+    "name": "鳥取・松江間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 3044,
+    "y": 6642,
+    "neighbors": [
+      "route_236",
+      "route_238"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_238",
+    "name": "鳥取・松江間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 2891,
+    "y": 6646,
+    "neighbors": [
+      "route_237",
+      "matsue"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_239",
+    "name": "鳥取・城崎間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 3497,
+    "y": 6597,
+    "neighbors": [
+      "tottori",
+      "kinosaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_240",
+    "name": "松江・出雲間(ナイスカード駅)",
+    "region": "中国",
+    "type": "nice_card",
+    "x": 2652,
+    "y": 6684,
+    "neighbors": [
+      "matsue",
+      "izumo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_241",
+    "name": "松江・岡山間(マイナス駅)",
+    "region": "中国",
+    "type": "minus",
+    "x": 2835,
+    "y": 6746,
+    "neighbors": [
+      "matsue",
+      "route_242"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_242",
+    "name": "松江・岡山間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 2932,
+    "y": 6843,
+    "neighbors": [
+      "route_241",
+      "route_243"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_243",
+    "name": "松江・岡山間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 3030,
+    "y": 6939,
+    "neighbors": [
+      "route_242",
+      "route_244"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_244",
+    "name": "松江・岡山間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 3127,
+    "y": 7036,
+    "neighbors": [
+      "route_243",
+      "okayama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_245",
+    "name": "岡山・倉敷間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 3143,
+    "y": 7177,
+    "neighbors": [
+      "okayama",
+      "kurashiki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_246",
+    "name": "岡山・高松間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 3235,
+    "y": 7243,
+    "neighbors": [
+      "okayama",
+      "takamatsu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_247",
+    "name": "尾道・倉敷間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 2935,
+    "y": 7266,
+    "neighbors": [
+      "onomichi",
+      "kurashiki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_248",
+    "name": "尾道・今治間(ナイスカード駅)",
+    "region": "中国",
+    "type": "nice_card",
+    "x": 2756,
+    "y": 7416,
+    "neighbors": [
+      "onomichi",
+      "imabari"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_249",
+    "name": "尾道・広島間(カード売り場)",
+    "region": "中国",
+    "type": "shop",
+    "x": 2680,
+    "y": 7314,
+    "neighbors": [
+      "onomichi",
+      "route_250"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_250",
+    "name": "尾道・広島間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 2551,
+    "y": 7318,
+    "neighbors": [
+      "route_249",
+      "hiroshima"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_251",
+    "name": "広島・出雲間(マイナス駅)",
+    "region": "中国",
+    "type": "minus",
+    "x": 2459,
+    "y": 7171,
+    "neighbors": [
+      "hiroshima",
+      "route_252"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_252",
+    "name": "広島・出雲間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 2495,
+    "y": 7020,
+    "neighbors": [
+      "route_251",
+      "route_253"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_253",
+    "name": "広島・出雲間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 2530,
+    "y": 6869,
+    "neighbors": [
+      "route_252",
+      "izumo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_254",
+    "name": "広島・山口間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 2294,
+    "y": 7355,
+    "neighbors": [
+      "hiroshima",
+      "route_255"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_255",
+    "name": "広島・山口間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 2166,
+    "y": 7387,
+    "neighbors": [
+      "route_254",
+      "route_256"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_256",
+    "name": "広島・山口間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 2037,
+    "y": 7420,
+    "neighbors": [
+      "route_255",
+      "yamaguchi"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_257",
+    "name": "広島・松山間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 2477,
+    "y": 7436,
+    "neighbors": [
+      "hiroshima",
+      "route_258"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_258",
+    "name": "広島・松山間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 2530,
+    "y": 7549,
+    "neighbors": [
+      "route_257",
+      "matsuyama"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_259",
+    "name": "山口・出雲間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 2002,
+    "y": 7347,
+    "neighbors": [
+      "yamaguchi",
+      "route_260"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_260",
+    "name": "山口・出雲間(カード駅)",
+    "region": "中国",
+    "type": "card",
+    "x": 2096,
+    "y": 7242,
+    "neighbors": [
+      "route_259",
+      "route_261"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_261",
+    "name": "山口・出雲間(マイナス駅)",
+    "region": "中国",
+    "type": "minus",
+    "x": 2190,
+    "y": 7137,
+    "neighbors": [
+      "route_260",
+      "route_262"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_262",
+    "name": "山口・出雲間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 2284,
+    "y": 7033,
+    "neighbors": [
+      "route_261",
+      "route_263"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_263",
+    "name": "山口・出雲間(マイナス駅)",
+    "region": "中国",
+    "type": "minus",
+    "x": 2378,
+    "y": 6928,
+    "neighbors": [
+      "route_262",
+      "route_264"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_264",
+    "name": "山口・出雲間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 2472,
+    "y": 6823,
+    "neighbors": [
+      "route_263",
+      "izumo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_265",
+    "name": "山口・下関間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 1790,
+    "y": 7497,
+    "neighbors": [
+      "yamaguchi",
+      "shimonoseki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_266",
+    "name": "下関・小倉間(プラス駅)",
+    "region": "中国",
+    "type": "plus",
+    "x": 1618,
+    "y": 7617,
+    "neighbors": [
+      "shimonoseki",
+      "kokura"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_267",
+    "name": "高松・徳島間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 3378,
+    "y": 7437,
+    "neighbors": [
+      "takamatsu",
+      "tokushima"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_268",
+    "name": "高松・今治間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 3110,
+    "y": 7395,
+    "neighbors": [
+      "takamatsu",
+      "route_269"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_269",
+    "name": "高松・今治間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2975,
+    "y": 7437,
+    "neighbors": [
+      "route_268",
+      "route_270"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_270",
+    "name": "高松・今治間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2839,
+    "y": 7479,
+    "neighbors": [
+      "route_269",
+      "imabari"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_271",
+    "name": "徳島・淡路島間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 3593,
+    "y": 7435,
+    "neighbors": [
+      "tokushima",
+      "awaji"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_272",
+    "name": "徳島・高知間(マイナス駅)",
+    "region": "四国",
+    "type": "minus",
+    "x": 3378,
+    "y": 7600,
+    "neighbors": [
+      "tokushima",
+      "route_273"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_273",
+    "name": "徳島・高知間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 3245,
+    "y": 7679,
+    "neighbors": [
+      "route_272",
+      "route_274"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_274",
+    "name": "徳島・高知間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 3113,
+    "y": 7758,
+    "neighbors": [
+      "route_273",
+      "kochi"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_275",
+    "name": "高知・四万十間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2876,
+    "y": 7955,
+    "neighbors": [
+      "kochi",
+      "route_276"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_276",
+    "name": "高知・四万十間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2772,
+    "y": 8072,
+    "neighbors": [
+      "route_275",
+      "shimanto"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_277",
+    "name": "松山・今治間(カード駅)",
+    "region": "四国",
+    "type": "card",
+    "x": 2644,
+    "y": 7592,
+    "neighbors": [
+      "matsuyama",
+      "imabari"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_278",
+    "name": "松山・四万十間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2605,
+    "y": 7795,
+    "neighbors": [
+      "matsuyama",
+      "route_279"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_279",
+    "name": "松山・四万十間(カード駅)",
+    "region": "四国",
+    "type": "card",
+    "x": 2626,
+    "y": 7927,
+    "neighbors": [
+      "route_278",
+      "route_280"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_280",
+    "name": "松山・四万十間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2647,
+    "y": 8058,
+    "neighbors": [
+      "route_279",
+      "shimanto"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_281",
+    "name": "松山・別府間(カード駅)",
+    "region": "四国",
+    "type": "card",
+    "x": 2465,
+    "y": 7716,
+    "neighbors": [
+      "matsuyama",
+      "route_282"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_282",
+    "name": "松山・別府間(カード駅)",
+    "region": "四国",
+    "type": "card",
+    "x": 2346,
+    "y": 7769,
+    "neighbors": [
+      "route_281",
+      "route_283"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_283",
+    "name": "松山・別府間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2228,
+    "y": 7823,
+    "neighbors": [
+      "route_282",
+      "route_284"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_284",
+    "name": "松山・別府間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2109,
+    "y": 7876,
+    "neighbors": [
+      "route_283",
+      "route_285"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_285",
+    "name": "松山・別府間(マイナス駅)",
+    "region": "四国",
+    "type": "minus",
+    "x": 1990,
+    "y": 7929,
+    "neighbors": [
+      "route_284",
+      "beppu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_286",
+    "name": "松山・宇和島間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2548,
+    "y": 7791,
+    "neighbors": [
+      "matsuyama",
+      "route_287"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_287",
+    "name": "松山・宇和島間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2511,
+    "y": 7920,
+    "neighbors": [
+      "route_286",
+      "uwajima"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_288",
+    "name": "小倉・別府間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1666,
+    "y": 7788,
+    "neighbors": [
+      "kokura",
+      "route_289"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_289",
+    "name": "小倉・別府間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1768,
+    "y": 7885,
+    "neighbors": [
+      "route_288",
+      "beppu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_290",
+    "name": "小倉・博多間(カード売り場)",
+    "region": "九州",
+    "type": "shop",
+    "x": 1463,
+    "y": 7755,
+    "neighbors": [
+      "kokura",
+      "hakata"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_291",
+    "name": "博多・佐賀間(ワープ駅)",
+    "region": "九州",
+    "type": "warp",
+    "x": 1331,
+    "y": 7921,
+    "neighbors": [
+      "hakata",
+      "saga"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_292",
+    "name": "博多・熊本間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1400,
+    "y": 7941,
+    "neighbors": [
+      "hakata",
+      "route_293"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_293",
+    "name": "博多・熊本間(カード駅)",
+    "region": "九州",
+    "type": "card",
+    "x": 1438,
+    "y": 8063,
+    "neighbors": [
+      "route_292",
+      "route_294"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_294",
+    "name": "博多・熊本間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1475,
+    "y": 8186,
+    "neighbors": [
+      "route_293",
+      "kumamoto"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_295",
+    "name": "佐賀・長崎間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1225,
+    "y": 8128,
+    "neighbors": [
+      "saga",
+      "route_296"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_296",
+    "name": "佐賀・長崎間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1151,
+    "y": 8234,
+    "neighbors": [
+      "route_295",
+      "nagasaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_297",
+    "name": "佐賀・佐世保間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1149,
+    "y": 8054,
+    "neighbors": [
+      "saga",
+      "sasebo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_298",
+    "name": "長崎・佐世保間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1037,
+    "y": 8212,
+    "neighbors": [
+      "nagasaki",
+      "sasebo"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_299",
+    "name": "大分・別府間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1953,
+    "y": 8026,
+    "neighbors": [
+      "oita",
+      "beppu"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_300",
+    "name": "大分・熊本間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 1904,
+    "y": 8129,
+    "neighbors": [
+      "oita",
+      "route_301"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_301",
+    "name": "大分・熊本間(カード駅)",
+    "region": "九州",
+    "type": "card",
+    "x": 1774,
+    "y": 8189,
+    "neighbors": [
+      "route_300",
+      "route_302"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_302",
+    "name": "大分・熊本間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1643,
+    "y": 8248,
+    "neighbors": [
+      "route_301",
+      "kumamoto"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_303",
+    "name": "大分・宮崎間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 2009,
+    "y": 8201,
+    "neighbors": [
+      "oita",
+      "route_304"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_304",
+    "name": "大分・宮崎間(カード駅)",
+    "region": "九州",
+    "type": "card",
+    "x": 1983,
+    "y": 8333,
+    "neighbors": [
+      "route_303",
+      "route_305"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_305",
+    "name": "大分・宮崎間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1958,
+    "y": 8465,
+    "neighbors": [
+      "route_304",
+      "route_306"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_306",
+    "name": "大分・宮崎間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 1933,
+    "y": 8596,
+    "neighbors": [
+      "route_305",
+      "route_307"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_307",
+    "name": "大分・宮崎間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1907,
+    "y": 8728,
+    "neighbors": [
+      "route_306",
+      "miyazaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_308",
+    "name": "大分・阿蘇間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1880,
+    "y": 8142,
+    "neighbors": [
+      "oita",
+      "aso"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_309",
+    "name": "熊本・鹿児島間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1499,
+    "y": 8433,
+    "neighbors": [
+      "kumamoto",
+      "route_310"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_310",
+    "name": "熊本・鹿児島間(カード売り場)",
+    "region": "九州",
+    "type": "shop",
+    "x": 1485,
+    "y": 8558,
+    "neighbors": [
+      "route_309",
+      "route_311"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_311",
+    "name": "熊本・鹿児島間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1472,
+    "y": 8683,
+    "neighbors": [
+      "route_310",
+      "route_312"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_312",
+    "name": "熊本・鹿児島間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1458,
+    "y": 8808,
+    "neighbors": [
+      "route_311",
+      "route_313"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_313",
+    "name": "熊本・鹿児島間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1444,
+    "y": 8933,
+    "neighbors": [
+      "route_312",
+      "kagoshima"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_314",
+    "name": "熊本・阿蘇間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1620,
+    "y": 8262,
+    "neighbors": [
+      "kumamoto",
+      "aso"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_315",
+    "name": "宮崎・鹿児島間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1731,
+    "y": 8926,
+    "neighbors": [
+      "miyazaki",
+      "route_316"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_316",
+    "name": "宮崎・鹿児島間(カード駅)",
+    "region": "九州",
+    "type": "card",
+    "x": 1581,
+    "y": 8992,
+    "neighbors": [
+      "route_315",
+      "kagoshima"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_317",
+    "name": "鹿児島・那覇間(ナイスカード駅)",
+    "region": "九州",
+    "type": "nice_card",
+    "x": 1348,
+    "y": 9212,
+    "neighbors": [
+      "kagoshima",
+      "route_318"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_318",
+    "name": "鹿児島・那覇間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1267,
+    "y": 9366,
+    "neighbors": [
+      "route_317",
+      "route_319"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_319",
+    "name": "鹿児島・那覇間(マイナス駅)",
+    "region": "九州",
+    "type": "minus",
+    "x": 1185,
+    "y": 9520,
+    "neighbors": [
+      "route_318",
+      "route_320"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_320",
+    "name": "鹿児島・那覇間(ワープ駅)",
+    "region": "九州",
+    "type": "warp",
+    "x": 1103,
+    "y": 9675,
+    "neighbors": [
+      "route_319",
+      "route_321"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_321",
+    "name": "鹿児島・那覇間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1021,
+    "y": 9829,
+    "neighbors": [
+      "route_320",
+      "route_322"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_322",
+    "name": "鹿児島・那覇間(カード駅)",
+    "region": "九州",
+    "type": "card",
+    "x": 940,
+    "y": 9983,
+    "neighbors": [
+      "route_321",
+      "naha"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_323",
+    "name": "鹿児島・指宿間(プラス駅)",
+    "region": "九州",
+    "type": "plus",
+    "x": 1454,
+    "y": 9170,
+    "neighbors": [
+      "kagoshima",
+      "ibusuki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_324",
+    "name": "那覇・石垣島間(カード売り場)",
+    "region": "沖縄",
+    "type": "shop",
+    "x": 744,
+    "y": 10224,
+    "neighbors": [
+      "naha",
+      "route_325"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_325",
+    "name": "那覇・石垣島間(ナイスカード駅)",
+    "region": "沖縄",
+    "type": "nice_card",
+    "x": 629,
+    "y": 10311,
+    "neighbors": [
+      "route_324",
+      "route_326"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_326",
+    "name": "那覇・石垣島間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 515,
+    "y": 10397,
+    "neighbors": [
+      "route_325",
+      "route_327"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_327",
+    "name": "那覇・石垣島間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 400,
+    "y": 10484,
+    "neighbors": [
+      "route_326",
+      "ishigaki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_328",
+    "name": "那覇・指宿間(マイナス駅)",
+    "region": "沖縄",
+    "type": "minus",
+    "x": 946,
+    "y": 10015,
+    "neighbors": [
+      "naha",
+      "route_329"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_329",
+    "name": "那覇・指宿間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 1035,
+    "y": 9892,
+    "neighbors": [
+      "route_328",
+      "route_330"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_330",
+    "name": "那覇・指宿間(ワープ駅)",
+    "region": "沖縄",
+    "type": "warp",
+    "x": 1123,
+    "y": 9770,
+    "neighbors": [
+      "route_329",
+      "route_331"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_331",
+    "name": "那覇・指宿間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 1212,
+    "y": 9648,
+    "neighbors": [
+      "route_330",
+      "route_332"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_332",
+    "name": "那覇・指宿間(カード駅)",
+    "region": "沖縄",
+    "type": "card",
+    "x": 1300,
+    "y": 9526,
+    "neighbors": [
+      "route_331",
+      "route_333"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_333",
+    "name": "那覇・指宿間(プラス駅)",
+    "region": "沖縄",
+    "type": "plus",
+    "x": 1389,
+    "y": 9403,
+    "neighbors": [
+      "route_332",
+      "ibusuki"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_334",
+    "name": "知床・根室間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 9004,
+    "y": 1436,
+    "neighbors": [
+      "shiretoko",
+      "route_335"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_335",
+    "name": "知床・根室間(カード駅)",
+    "region": "北海道",
+    "type": "card",
+    "x": 9085,
+    "y": 1550,
+    "neighbors": [
+      "route_334",
+      "route_336"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_336",
+    "name": "知床・根室間(プラス駅)",
+    "region": "北海道",
+    "type": "plus",
+    "x": 9165,
+    "y": 1665,
+    "neighbors": [
+      "route_335",
+      "nemuro"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_337",
+    "name": "会津若松・米沢間(マイナス駅)",
+    "region": "東北",
+    "type": "minus",
+    "x": 6355,
+    "y": 5267,
+    "neighbors": [
+      "aizu",
+      "yonezawa"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_338",
+    "name": "鎌倉・箱根間(プラス駅)",
+    "region": "関東",
+    "type": "plus",
+    "x": 5950,
+    "y": 6781,
+    "neighbors": [
+      "kamakura",
+      "hakone"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_339",
+    "name": "高山・下呂間(プラス駅)",
+    "region": "中部",
+    "type": "plus",
+    "x": 4912,
+    "y": 6340,
+    "neighbors": [
+      "takayama",
+      "gero"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_340",
+    "name": "白浜・鳥羽間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4045,
+    "y": 7692,
+    "neighbors": [
+      "shirahama",
+      "route_341"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_341",
+    "name": "白浜・鳥羽間(マイナス駅)",
+    "region": "近畿",
+    "type": "minus",
+    "x": 4164,
+    "y": 7621,
+    "neighbors": [
+      "route_340",
+      "route_342"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_342",
+    "name": "白浜・鳥羽間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4283,
+    "y": 7551,
+    "neighbors": [
+      "route_341",
+      "route_343"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_343",
+    "name": "白浜・鳥羽間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4402,
+    "y": 7481,
+    "neighbors": [
+      "route_342",
+      "route_344"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_344",
+    "name": "白浜・鳥羽間(カード駅)",
+    "region": "近畿",
+    "type": "card",
+    "x": 4521,
+    "y": 7411,
+    "neighbors": [
+      "route_343",
+      "route_345"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_345",
+    "name": "白浜・鳥羽間(プラス駅)",
+    "region": "近畿",
+    "type": "plus",
+    "x": 4640,
+    "y": 7340,
+    "neighbors": [
+      "route_344",
+      "toba"
+    ],
+    "isDestinationCandidate": false
+  },
+  {
+    "id": "route_346",
+    "name": "四万十・宇和島間(プラス駅)",
+    "region": "四国",
+    "type": "plus",
+    "x": 2572,
+    "y": 8119,
+    "neighbors": [
+      "shimanto",
+      "uwajima"
+    ],
+    "isDestinationCandidate": false
+  }
+]
