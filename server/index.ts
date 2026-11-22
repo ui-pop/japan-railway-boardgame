@@ -95,7 +95,7 @@ function getLocalIpAddresses(): { ips: string[]; details: { name: string; ip: st
 
 app.get('/api/master', (_req, res) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
-  res.json({ stations, cards, eventsData });
+  res.json({ stations: engine.stations, cards, eventsData });
 });
 
 app.get('/api/network-info', (_req, res) => {
@@ -175,6 +175,7 @@ function calculateEventsDurationMs(events: GameEventSeqItem[]): number {
     else if (e.type === 'dice_roll') total += 2500;
     else if (e.type === 'station_effect') total += 2550;
     else if (e.type === 'turn_start') total += 2100;
+    else if (e.type === 'rate_curse_roulette') total += 4300;
     else if (
       e.type === 'destination_reached' ||
       e.type === 'monopoly_achieved' ||
@@ -576,6 +577,40 @@ io.on('connection', (socket) => {
 
   socket.on('admin:set_nuisance', (payload: { playerId: string | null }) => {
     engine.adminSetNuisance(payload.playerId);
+    broadcastAll();
+  });
+
+  socket.on(
+    'admin:set_nuisance_form',
+    (payload: { form: 'normal' | 'mini' | 'king' | 'happy' | 'rate_curse' }) => {
+      engine.adminSetNuisanceForm(payload.form);
+      broadcastAll();
+    }
+  );
+
+  socket.on('admin:set_economy', (payload: { phase: 'boom' | 'normal' | 'recession' }) => {
+    engine.adminSetEconomyPhase(payload.phase);
+    broadcastAll();
+  });
+
+  socket.on('admin:update_rules', (payload: Record<string, unknown>) => {
+    engine.adminUpdateRules(payload);
+    broadcastAll();
+  });
+
+  socket.on(
+    'admin:update_station',
+    (payload: { stationId: string; type: 'property' | 'plus' | 'minus' | 'card' | 'nice_card' | 'shop' | 'warp'; name?: string }) => {
+      if (engine.adminUpdateStation(payload.stationId, payload.type, payload.name)) {
+        io.emit('stations:sync', engine.stations);
+        broadcastAll();
+      }
+    }
+  );
+
+  socket.on('admin:reset_stations', () => {
+    engine.adminResetStations();
+    io.emit('stations:sync', engine.stations);
     broadcastAll();
   });
 

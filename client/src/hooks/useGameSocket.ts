@@ -75,6 +75,10 @@ export function useGameSocket(isAdmin: boolean) {
       setGameState(state);
     });
 
+    socket.on('stations:sync', (nextStations: StationDef[]) => {
+      setStations(nextStations);
+    });
+
     socket.on('player:private_sync', (data: { playerId: string; cards: string[] }) => {
       setMyPlayerId(data.playerId);
       setMyCards(data.cards);
@@ -324,6 +328,32 @@ export function useGameSocket(isAdmin: boolean) {
     socketRef.current?.emit('admin:set_nuisance', { playerId });
   }, []);
 
+  const adminSetNuisanceForm = useCallback(
+    (form: 'normal' | 'mini' | 'king' | 'happy' | 'rate_curse') => {
+      socketRef.current?.emit('admin:set_nuisance_form', { form });
+    },
+    []
+  );
+
+  const adminSetEconomy = useCallback((phase: 'boom' | 'normal' | 'recession') => {
+    socketRef.current?.emit('admin:set_economy', { phase });
+  }, []);
+
+  const adminUpdateRules = useCallback((partial: Record<string, unknown>) => {
+    socketRef.current?.emit('admin:update_rules', partial);
+  }, []);
+
+  const adminUpdateStation = useCallback(
+    (stationId: string, type: string, name?: string) => {
+      socketRef.current?.emit('admin:update_station', { stationId, type, name });
+    },
+    []
+  );
+
+  const adminResetStations = useCallback(() => {
+    socketRef.current?.emit('admin:reset_stations');
+  }, []);
+
   const adminAddLocalRule = useCallback((rule: Record<string, unknown>) => {
     socketRef.current?.emit('admin:add_local_rule', rule);
   }, []);
@@ -389,6 +419,11 @@ export function useGameSocket(isAdmin: boolean) {
     adminChangeDest,
     adminBroadcastMessage,
     adminSetNuisance,
+    adminSetNuisanceForm,
+    adminSetEconomy,
+    adminUpdateRules,
+    adminUpdateStation,
+    adminResetStations,
     adminAddLocalRule,
     adminToggleLocalRule,
     adminDeleteLocalRule,

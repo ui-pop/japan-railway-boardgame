@@ -553,11 +553,13 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
               const formIcon =
                 gs.nuisanceForm === 'king'
                   ? '🔥'
-                  : gs.nuisanceForm === 'mini'
-                    ? '👶'
-                    : gs.nuisanceForm === 'happy'
-                      ? '😇'
-                      : '👹';
+                  : gs.nuisanceForm === 'rate_curse'
+                    ? '📉'
+                    : gs.nuisanceForm === 'mini'
+                      ? '👶'
+                      : gs.nuisanceForm === 'happy'
+                        ? '😇'
+                        : '👹';
               ctx.font = '22px sans-serif';
               ctx.fillText(formIcon, px + 18, py - 18);
             }
@@ -816,7 +818,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           全体
         </button>
         <div className="text-[10px] text-center font-mono text-white/80 bg-black/40 rounded-full px-2 py-0.5">
-          v4.1
+          v4.2
         </div>
       </div>
     </div>

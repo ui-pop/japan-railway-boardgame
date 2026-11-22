@@ -78,6 +78,11 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
   const [isSpinningMoney, setIsSpinningMoney] = useState(false);
   const [displayAmount, setDisplayAmount] = useState<number>(0);
 
+  // 割合ケチケチのサイコロ＆収益率ルーレットステート
+  const [curseStage, setCurseStage] = useState<'dice' | 'roulette' | 'result'>('dice');
+  const [curseDice, setCurseDice] = useState<number[]>([1, 1]);
+  const [curseSlotIndex, setCurseSlotIndex] = useState<number>(0);
+
   useEffect(() => {
     if (!currentEvent) return;
 
@@ -137,6 +142,66 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
       return () => {
         window.clearInterval(rollInterval);
         window.clearTimeout(revealTimer);
+        window.clearTimeout(endTimer);
+      };
+    }
+
+    if (currentEvent.type === 'rate_curse_roulette') {
+      const targetDice = (currentEvent.payload.dice as number[]) ?? [1, 1];
+      const targetPercent = Number(currentEvent.payload.cursePercent ?? -50);
+      const rateSlots = [-10, -50, -80, -100];
+      const finalSlotIdx = Math.max(0, rateSlots.indexOf(targetPercent));
+
+      if (lowDataMode) {
+        setCurseDice(targetDice);
+        setCurseSlotIndex(finalSlotIdx);
+        setCurseStage('result');
+        soundManager.playNuisance();
+        const timer = window.setTimeout(onConsumeEvent, 2000);
+        return () => window.clearTimeout(timer);
+      }
+
+      setCurseStage('dice');
+      setCurseDice([1, 1]);
+      let tick = 0;
+      const diceInterval = window.setInterval(() => {
+        tick++;
+        soundManager.playDiceTick(tick);
+        setCurseDice([
+          Math.floor(Math.random() * 6) + 1,
+          Math.floor(Math.random() * 6) + 1,
+        ]);
+      }, 85);
+
+      let rouletteInterval: number | undefined;
+      const toRouletteTimer = window.setTimeout(() => {
+        window.clearInterval(diceInterval);
+        setCurseDice(targetDice);
+        setCurseStage('roulette');
+        soundManager.playDiceResult();
+
+        let rTick = 0;
+        rouletteInterval = window.setInterval(() => {
+          rTick++;
+          soundManager.playDiceTick(rTick);
+          setCurseSlotIndex(rTick % 4);
+        }, 90);
+      }, 1050);
+
+      const toResultTimer = window.setTimeout(() => {
+        if (rouletteInterval !== undefined) window.clearInterval(rouletteInterval);
+        setCurseSlotIndex(finalSlotIdx);
+        setCurseStage('result');
+        soundManager.playNuisance();
+      }, 2250);
+
+      const endTimer = window.setTimeout(onConsumeEvent, 4200);
+
+      return () => {
+        window.clearInterval(diceInterval);
+        if (rouletteInterval !== undefined) window.clearInterval(rouletteInterval);
+        window.clearTimeout(toRouletteTimer);
+        window.clearTimeout(toResultTimer);
         window.clearTimeout(endTimer);
       };
     }
@@ -454,6 +519,86 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
               <p className="text-sm text-white font-bold mt-3 leading-relaxed bg-black/40 p-3.5 rounded-2xl border border-white/20 whitespace-pre-wrap">
                 {String(currentEvent.payload.message ?? '')}
               </p>
+            </div>
+          )}
+
+          {currentEvent.type === 'rate_curse_roulette' && (
+            <div className="animate-event-shake bg-gradient-to-b from-fuchsia-950 via-purple-950 to-slate-950 border-4 border-fuchsia-400 rounded-3xl px-6 py-6 text-center shadow-[0_0_55px_rgba(217,70,239,0.55)] max-w-sm w-full space-y-3">
+              <div className="text-4xl animate-bounce">📉👹</div>
+              <div className="text-lg font-black text-fuchsia-300">
+                割合ケチケチのマイナスルーレット！
+              </div>
+              <div className="text-xs text-slate-200 font-bold">
+                対象：{actor?.name}（サイコロ2個＝物件件数）
+              </div>
+
+              {/* サイコロ2個 */}
+              <div className="flex items-center justify-center gap-3 py-1">
+                {curseDice.map((val, i) => (
+                  <DiceFace key={i} value={val} isRolling={curseStage === 'dice'} index={i} />
+                ))}
+              </div>
+              {curseStage !== 'dice' && (
+                <div className="text-sm font-black text-amber-300">
+                  対象件数：最大 {String(currentEvent.payload.total)} 件！
+                </div>
+              )}
+
+              {/* -10 / -50 / -80 / -100% ルーレット */}
+              <div className="grid grid-cols-4 gap-1.5 pt-1">
+                {[-10, -50, -80, -100].map((pct, idx) => {
+                  const active = curseStage !== 'dice' && curseSlotIndex === idx;
+                  const confirmed = curseStage === 'result' && active;
+                  return (
+                    <div
+                      key={pct}
+                      className={`py-2.5 rounded-xl font-black text-sm border-2 transition-all ${
+                        confirmed
+                          ? 'bg-rose-600 border-yellow-300 text-white scale-110 shadow-[0_0_20px_rgba(244,63,94,0.85)]'
+                          : active
+                            ? 'bg-fuchsia-600 border-white text-white scale-105'
+                            : 'bg-slate-900/80 border-slate-700 text-slate-400'
+                      }`}
+                    >
+                      {pct}%
+                    </div>
+                  );
+                })}
+              </div>
+
+              {curseStage === 'result' && (
+                <div className="bg-black/45 border border-rose-500/50 rounded-2xl p-2.5 text-xs text-left space-y-1">
+                  {Number(currentEvent.payload.affectedCount ?? 0) > 0 ? (
+                    <>
+                      <div className="font-black text-rose-300 text-center">
+                        {String(currentEvent.payload.affectedCount)}件の収益率が2期連続で{' '}
+                        {String(currentEvent.payload.cursePercent)}% に！！
+                      </div>
+                      <div className="text-[11px] text-slate-200 flex flex-wrap gap-1 justify-center pt-1">
+                        {((currentEvent.payload.affectedNames as string[]) ?? [])
+                          .slice(0, 6)
+                          .map((name, i) => (
+                            <span
+                              key={i}
+                              className="px-2 py-0.5 rounded-full bg-rose-950/90 border border-rose-500/40"
+                            >
+                              {name}
+                            </span>
+                          ))}
+                        {((currentEvent.payload.affectedNames as string[]) ?? []).length > 6 && (
+                          <span className="px-2 py-0.5 text-rose-300 font-bold">
+                            他{((currentEvent.payload.affectedNames as string[]) ?? []).length - 6}件
+                          </span>
+                        )}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="font-black text-rose-300 text-center">
+                      物件がないため -{formatMoney(Number(currentEvent.payload.fallbackPenalty ?? 0))} を奪われた！
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
 

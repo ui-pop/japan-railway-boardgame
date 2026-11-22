@@ -19,10 +19,12 @@ import {
 } from 'lucide-react';
 import type {
   CardDef,
+  EconomyPhase,
   EventsData,
   LocalRuleEffect,
   LocalRuleTarget,
   LocalRuleTrigger,
+  NuisanceForm,
   PublicGameState,
   SaveFileInfo,
   StationDef,
@@ -54,6 +56,11 @@ interface AdminPanelProps {
   onChangeDest: (stationId?: string) => void;
   onBroadcastMessage: (title: string, message: string, targetPlayerId?: string) => void;
   onSetNuisance: (playerId: string | null) => void;
+  onSetNuisanceForm: (form: NuisanceForm) => void;
+  onSetEconomy: (phase: EconomyPhase) => void;
+  onUpdateRules: (partial: Record<string, unknown>) => void;
+  onUpdateStation: (stationId: string, type: StationType, name?: string) => void;
+  onResetStations: () => void;
   onAddLocalRule: (rule: Record<string, unknown>) => void;
   onToggleLocalRule: (ruleId: string) => void;
   onDeleteLocalRule: (ruleId: string) => void;
@@ -85,13 +92,24 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   onChangeDest,
   onBroadcastMessage,
   onSetNuisance,
+  onSetNuisanceForm,
+  onSetEconomy,
+  onUpdateRules,
+  onUpdateStation,
+  onResetStations,
   onAddLocalRule,
   onToggleLocalRule,
   onDeleteLocalRule,
   onSaveNamed,
   onLoadSave,
 }) => {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'rules' | 'local_rules' | 'god'>('dashboard');
+  const [activeTab, setActiveTab] = useState<
+    'dashboard' | 'rules' | 'local_rules' | 'map_editor' | 'god'
+  >('dashboard');
+  const [mapFilterRegion, setMapFilterRegion] = useState('ALL');
+  const [mapFilterType, setMapFilterType] = useState('ALL');
+  const [mapSearch, setMapSearch] = useState('');
+  const [editingNameMap, setEditingNameMap] = useState<Record<string, string>>({});
   const [totalYears, setTotalYears] = useState(3);
   const [initialMoney, setInitialMoney] = useState(10000);
   const [cpuCount, setCpuCount] = useState(1);
@@ -204,8 +222,19 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
               🚄 日本縦断鉄道ボードゲーム 管理ダッシュボード
             </h1>
             <div className="text-xs text-slate-400 mt-1 flex flex-wrap items-center gap-3">
-              <span>全{stations.length}マス（100都市・351物件）</span>
+              <span>
+                全{stations.length}マス（{stations.filter((s) => s.type === 'property').length}都市）
+              </span>
               <span>カード全{cardsMaster.length}種</span>
+              {gameState && (
+                <span className="font-bold text-emerald-300">
+                  {gameState.economyPhase === 'boom'
+                    ? '📈 好景気'
+                    : gameState.economyPhase === 'recession'
+                      ? '📉 不景気'
+                      : '📊 通常景気'}
+                </span>
+              )}
               {destStation && (
                 <span className="text-amber-300 font-bold">
                   🚩 現在の目的地: {destStation.name}（{destStation.region}）
@@ -265,6 +294,16 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             }`}
           >
             ⚖️ ローカルルール設定 ({gameState?.localRules?.filter((r) => r.enabled).length ?? 0})
+          </button>
+          <button
+            onClick={() => setActiveTab('map_editor')}
+            className={`px-4 py-2.5 rounded-xl text-sm font-extrabold flex items-center gap-2 border transition ${
+              activeTab === 'map_editor'
+                ? 'bg-cyan-600 border-cyan-400 text-white shadow-lg'
+                : 'bg-slate-900 border-slate-700 text-cyan-300 hover:bg-slate-800'
+            }`}
+          >
+            🗺️ マス編集（マップ設定）
           </button>
           <button
             onClick={() => setActiveTab('god')}
@@ -447,6 +486,39 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       ゲーム開始
                     </button>
                   </div>
+
+                  {/* ルールON/OFF設定 */}
+                  {gameState && (
+                    <div className="pt-3 border-t border-slate-800 space-y-2">
+                      <div className="text-xs font-bold text-slate-300">🎛️ ルールON/OFF（進行中も変更可）</div>
+                      <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+                        {[
+                          { key: 'exactDestination', label: '🚩 目的地ぴったり到達' },
+                          { key: 'enableRateCurse', label: '📉 割合ケチケチ変身' },
+                          { key: 'enableEconomyCycle', label: '📈 景気変動（好/不景気）' },
+                          { key: 'enablePickpocket', label: '🕵️ スリの銀次' },
+                        ].map((item) => {
+                          const on =
+                            (gameState.config as unknown as Record<string, boolean | undefined>)[
+                              item.key
+                            ] !== false;
+                          return (
+                            <button
+                              key={item.key}
+                              onClick={() => onUpdateRules({ [item.key]: !on })}
+                              className={`px-2.5 py-2 rounded-xl font-bold border text-left transition ${
+                                on
+                                  ? 'bg-emerald-950/70 border-emerald-500/60 text-emerald-200'
+                                  : 'bg-slate-950 border-slate-800 text-slate-500'
+                              }`}
+                            >
+                              {item.label}: {on ? 'ON' : 'OFF'}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </section>
               </div>
 
@@ -1274,7 +1346,132 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
           </div>
         )}
 
-        {/* ========== タブ3: 神の手（マスター介入） ========== */}
+        {/* ========== タブ4: マス編集（マップ設定） ========== */}
+        {activeTab === 'map_editor' && (
+          <section className="bg-slate-900 border border-cyan-500/40 rounded-2xl p-5 space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-black text-cyan-300">
+                  🗺️ マップ各マスの種別・駅名設定（全{stations.length}マス）
+                </h2>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  変更すると全プレイヤーのマップへ即座に反映され、サーバーに保存されます。
+                </p>
+              </div>
+              <button
+                onClick={onResetStations}
+                className="px-3.5 py-2 rounded-xl bg-rose-900/80 hover:bg-rose-700 border border-rose-500/50 text-xs font-extrabold text-rose-100"
+              >
+                ↺ 全マスを初期状態に戻す
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+              <input
+                type="text"
+                value={mapSearch}
+                onChange={(e) => setMapSearch(e.target.value)}
+                placeholder="駅名・IDで検索（例: 寝屋川、米子、宇治、堺、北山）"
+                className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white"
+              />
+              <select
+                value={mapFilterRegion}
+                onChange={(e) => setMapFilterRegion(e.target.value)}
+                className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white"
+              >
+                <option value="ALL">全地方</option>
+                {Array.from(new Set(stations.map((s) => s.region))).map((reg) => (
+                  <option key={reg} value={reg}>
+                    {reg}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={mapFilterType}
+                onChange={(e) => setMapFilterType(e.target.value)}
+                className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white"
+              >
+                <option value="ALL">全マス種別</option>
+                <option value="property">🏢 物件駅（都市駅）</option>
+                <option value="plus">🔵 プラス駅</option>
+                <option value="minus">🔴 マイナス駅</option>
+                <option value="card">🟡 カード駅</option>
+                <option value="nice_card">✨ ナイスカード駅</option>
+                <option value="shop">🛒 カード売り場</option>
+                <option value="warp">🟣 ワープ駅</option>
+              </select>
+            </div>
+
+            <div className="space-y-2 max-h-[540px] overflow-y-auto pr-1">
+              {stations
+                .filter((s) => {
+                  if (mapFilterRegion !== 'ALL' && s.region !== mapFilterRegion) return false;
+                  if (mapFilterType !== 'ALL' && s.type !== mapFilterType) return false;
+                  if (mapSearch.trim()) {
+                    const q = mapSearch.trim().toLowerCase();
+                    if (!s.name.toLowerCase().includes(q) && !s.id.toLowerCase().includes(q)) {
+                      return false;
+                    }
+                  }
+                  return true;
+                })
+                .slice(0, 120)
+                .map((st) => {
+                  const editedName = editingNameMap[st.id] ?? st.name;
+                  return (
+                    <div
+                      key={st.id}
+                      className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs"
+                    >
+                      <div className="flex items-center gap-2 min-w-[200px] flex-1">
+                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px] font-bold">
+                          {st.region}
+                        </span>
+                        <input
+                          type="text"
+                          value={editedName}
+                          onChange={(e) =>
+                            setEditingNameMap((prev) => ({ ...prev, [st.id]: e.target.value }))
+                          }
+                          className="flex-1 min-w-[120px] px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-700 text-white font-bold"
+                        />
+                        <span className="text-[10px] text-slate-500 font-mono hidden md:inline">
+                          {st.id}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <select
+                          value={st.type}
+                          onChange={(e) =>
+                            onUpdateStation(st.id, e.target.value as StationType, editedName)
+                          }
+                          className="px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-600 text-white font-bold"
+                        >
+                          <option value="property">🏢 物件駅</option>
+                          <option value="plus">🔵 プラス駅</option>
+                          <option value="minus">🔴 マイナス駅</option>
+                          <option value="card">🟡 カード駅</option>
+                          <option value="nice_card">✨ ナイスカード</option>
+                          <option value="shop">🛒 カード売り場</option>
+                          <option value="warp">🟣 ワープ駅</option>
+                        </select>
+                        {editedName !== st.name && (
+                          <button
+                            onClick={() => onUpdateStation(st.id, st.type, editedName)}
+                            className="px-2.5 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold"
+                          >
+                            名前保存
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </section>
+        )}
+
+        {/* ========== タブ5: 神の手（マスター介入） ========== */}
         {activeTab === 'god' && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <section className="bg-slate-900 border border-purple-500/40 rounded-2xl p-5 space-y-5">
@@ -1442,6 +1639,64 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     <Flag className="w-3.5 h-3.5" />
                     目的地をランダム変更
                   </button>
+                </div>
+
+                {/* ケチケチ大王の形態変更 */}
+                <div className="pt-1 space-y-1.5">
+                  <div className="text-[11px] font-bold text-purple-300">
+                    🎭 ケチケチ大王の変身形態を強制変更（現在: {gameState?.nuisanceForm ?? 'normal'}）
+                  </div>
+                  <div className="grid grid-cols-5 gap-1.5">
+                    {(
+                      [
+                        { form: 'normal', label: '👹通常' },
+                        { form: 'mini', label: '👶プチ' },
+                        { form: 'rate_curse', label: '📉割合' },
+                        { form: 'king', label: '🔥キング' },
+                        { form: 'happy', label: '😇ハッピー' },
+                      ] as const
+                    ).map((item) => (
+                      <button
+                        key={item.form}
+                        onClick={() => onSetNuisanceForm(item.form)}
+                        className={`py-1.5 rounded-lg text-[11px] font-extrabold border transition ${
+                          gameState?.nuisanceForm === item.form
+                            ? 'bg-fuchsia-600 border-fuchsia-300 text-white'
+                            : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* 景気コントロール */}
+                <div className="pt-1 space-y-1.5">
+                  <div className="text-[11px] font-bold text-emerald-300">
+                    📈 景気コントロール
+                  </div>
+                  <div className="grid grid-cols-3 gap-1.5">
+                    {(
+                      [
+                        { phase: 'boom', label: '📈 好景気' },
+                        { phase: 'normal', label: '📊 通常' },
+                        { phase: 'recession', label: '📉 不景気' },
+                      ] as const
+                    ).map((item) => (
+                      <button
+                        key={item.phase}
+                        onClick={() => onSetEconomy(item.phase)}
+                        className={`py-1.5 rounded-lg text-xs font-extrabold border transition ${
+                          gameState?.economyPhase === item.phase
+                            ? 'bg-emerald-600 border-emerald-300 text-white'
+                            : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
                 <div className="flex gap-2">
                   <select

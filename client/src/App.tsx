@@ -58,6 +58,11 @@ export function App() {
     adminChangeDest,
     adminBroadcastMessage,
     adminSetNuisance,
+    adminSetNuisanceForm,
+    adminSetEconomy,
+    adminUpdateRules,
+    adminUpdateStation,
+    adminResetStations,
     adminAddLocalRule,
     adminToggleLocalRule,
     adminDeleteLocalRule,
@@ -104,6 +109,11 @@ export function App() {
         onChangeDest={adminChangeDest}
         onBroadcastMessage={adminBroadcastMessage}
         onSetNuisance={adminSetNuisance}
+        onSetNuisanceForm={adminSetNuisanceForm}
+        onSetEconomy={adminSetEconomy}
+        onUpdateRules={adminUpdateRules}
+        onUpdateStation={adminUpdateStation}
+        onResetStations={adminResetStations}
         onAddLocalRule={adminAddLocalRule}
         onToggleLocalRule={adminToggleLocalRule}
         onDeleteLocalRule={adminDeleteLocalRule}

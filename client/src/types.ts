@@ -79,6 +79,8 @@ export interface OwnedProperty {
   stationId: string;
   ownerId: string;
   level: number;
+  curseRate?: number;
+  curseRemainingSettlements?: number;
 }
 
 export type TurnPhase =
@@ -116,6 +118,10 @@ export interface GameConfig {
   initialMoney: number;
   cpuCount: number;
   maxPlayers: number;
+  exactDestination?: boolean;
+  enableRateCurse?: boolean;
+  enableEconomyCycle?: boolean;
+  enablePickpocket?: boolean;
 }
 
 export type LocalRuleTrigger =
@@ -156,7 +162,8 @@ export interface LocalRuleDef {
   message: string;
 }
 
-export type NuisanceForm = 'normal' | 'mini' | 'king' | 'happy';
+export type NuisanceForm = 'normal' | 'mini' | 'king' | 'happy' | 'rate_curse';
+export type EconomyPhase = 'boom' | 'normal' | 'recession';
 
 export interface PublicGameState {
   roomId: string;
@@ -175,6 +182,7 @@ export interface PublicGameState {
   ownedProperties: Record<string, OwnedProperty>;
   nuisanceTargetPlayerId: string | null;
   nuisanceForm: NuisanceForm;
+  economyPhase: EconomyPhase;
   lastEventMessage: string;
   eventLogs: string[];
   localRules: LocalRuleDef[];
@@ -195,6 +203,7 @@ export interface GameEventSeqItem {
     | 'monopoly_achieved'
     | 'nuisance_attach'
     | 'nuisance_action'
+    | 'rate_curse_roulette'
     | 'card_used'
     | 'random_event'
     | 'admin_message'

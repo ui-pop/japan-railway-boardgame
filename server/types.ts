@@ -122,6 +122,8 @@ export interface OwnedProperty {
   stationId: string;
   ownerId: string;
   level: number; // 1: 通常, 2: 増資1, 3: 増資2
+  curseRate?: number; // 割合ケチケチによる期間限定マイナス収益率 (-0.1, -0.5, -0.8, -1.0)
+  curseRemainingSettlements?: number; // 残り決算回数（0で自動解除）
 }
 
 export type TurnPhase =
@@ -165,6 +167,10 @@ export interface GameConfig {
   initialMoney: number;
   cpuCount: number;
   maxPlayers: number;
+  exactDestination?: boolean;   // 目的地ぴったり到達必須 (デフォルトON)
+  enableRateCurse?: boolean;    // 割合ケチケチ有効 (デフォルトON)
+  enableEconomyCycle?: boolean; // 景気変動（好景気・不景気）有効 (デフォルトON)
+  enablePickpocket?: boolean;   // スリの銀次有効 (デフォルトON)
 }
 
 export type LocalRuleTrigger =
@@ -205,7 +211,14 @@ export interface LocalRuleDef {
   message: string;       // 発動時メッセージ ({player} で社長名に置換)
 }
 
-export type NuisanceForm = 'normal' | 'mini' | 'king' | 'happy';
+export type NuisanceForm = 'normal' | 'mini' | 'king' | 'happy' | 'rate_curse';
+export type EconomyPhase = 'boom' | 'normal' | 'recession';
+
+export interface StationOverride {
+  stationId: string;
+  type: StationType;
+  name?: string;
+}
 
 export interface PublicGameState {
   roomId: string;
@@ -224,6 +237,7 @@ export interface PublicGameState {
   ownedProperties: Record<string, OwnedProperty>; // key: propertyId
   nuisanceTargetPlayerId: string | null;
   nuisanceForm: NuisanceForm;
+  economyPhase: EconomyPhase;
   lastEventMessage: string;
   eventLogs: string[];
   localRules: LocalRuleDef[];
@@ -244,6 +258,7 @@ export interface GameEventSeqItem {
     | 'monopoly_achieved'
     | 'nuisance_attach'
     | 'nuisance_action'
+    | 'rate_curse_roulette'
     | 'card_used'
     | 'random_event'
     | 'admin_message'

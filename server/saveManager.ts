@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { LocalRuleDef, SavedGameSnapshot } from './types';
+import { LocalRuleDef, SavedGameSnapshot, StationOverride } from './types';
 
 export class SaveManager {
   private savesDir: string;
@@ -50,7 +50,11 @@ export class SaveManager {
 
   public listSaves(): { fileName: string; label: string; savedAt: string; year: number; month: number }[] {
     if (!fs.existsSync(this.savesDir)) return [];
-    const files = fs.readdirSync(this.savesDir).filter((f) => f.endsWith('.json'));
+    const files = fs
+      .readdirSync(this.savesDir)
+      .filter(
+        (f) => f.endsWith('.json') && f !== 'local_rules.json' && f !== 'station_overrides.json'
+      );
     const results: { fileName: string; label: string; savedAt: string; year: number; month: number }[] = [];
 
     for (const file of files) {
@@ -84,6 +88,21 @@ export class SaveManager {
       return JSON.parse(fs.readFileSync(filePath, 'utf-8')) as LocalRuleDef[];
     } catch {
       return [];
+    }
+  }
+
+  public saveStationOverrides(overrides: Record<string, StationOverride>): void {
+    const filePath = path.join(this.savesDir, 'station_overrides.json');
+    fs.writeFileSync(filePath, JSON.stringify(overrides, null, 2), 'utf-8');
+  }
+
+  public loadStationOverrides(): Record<string, StationOverride> {
+    const filePath = path.join(this.savesDir, 'station_overrides.json');
+    if (!fs.existsSync(filePath)) return {};
+    try {
+      return JSON.parse(fs.readFileSync(filePath, 'utf-8')) as Record<string, StationOverride>;
+    } catch {
+      return {};
     }
   }
 }

@@ -3,6 +3,7 @@ import { Pathfinder } from './pathfinder';
 import { SaveManager } from './saveManager';
 import {
   CardDef,
+  EconomyPhase,
   EventsData,
   GameConfig,
   GameEventSeqItem,
@@ -15,6 +16,8 @@ import {
   PublicGameState,
   SavedGameSnapshot,
   StationDef,
+  StationOverride,
+  StationType,
   TurnPhase,
 } from './types';
 
@@ -83,6 +86,7 @@ export class GameEngine {
   public ownedProperties: Record<string, OwnedProperty> = {};
   public nuisanceTargetPlayerId: string | null = null;
   public nuisanceForm: NuisanceForm = 'normal';
+  public economyPhase: EconomyPhase = 'normal';
   private _lastEventMessage = 'ゲーム開始を待っています…';
   public eventLogs: string[] = [];
   public localRules: LocalRuleDef[] = [];
@@ -104,8 +108,10 @@ export class GameEngine {
   }
 
   private previousTurnSnapshot: SavedGameSnapshot | null = null;
-  private stations: StationDef[];
+  private baseStations: StationDef[];
+  public stations: StationDef[];
   private stationMap: Map<string, StationDef>;
+  private stationOverrides: Record<string, StationOverride> = {};
   private cards: CardDef[];
   private cardMap: Map<string, CardDef>;
   private eventsData: EventsData;
@@ -121,20 +127,54 @@ export class GameEngine {
     config?: Partial<GameConfig>
   ) {
     this.roomId = roomId;
-    this.stations = stations;
-    this.stationMap = new Map(stations.map((s) => [s.id, s]));
+    this.baseStations = JSON.parse(JSON.stringify(stations));
+    this.stations = JSON.parse(JSON.stringify(stations));
+    this.stationMap = new Map(this.stations.map((s) => [s.id, s]));
     this.cards = cards;
     this.cardMap = new Map(cards.map((c) => [c.id, c]));
     this.eventsData = eventsData;
-    this.pathfinder = new Pathfinder(stations);
     this.saveManager = saveManager;
     this.localRules = saveManager.loadLocalRules();
+    this.stationOverrides = saveManager.loadStationOverrides();
+    this.applyAllStationOverrides();
+    this.pathfinder = new Pathfinder(this.stations);
     this.config = {
       totalYears: config?.totalYears ?? 3,
       initialMoney: config?.initialMoney ?? 10000, // 1億円 (10,000万円)
       cpuCount: config?.cpuCount ?? 0,
       maxPlayers: config?.maxPlayers ?? 8,
+      exactDestination: config?.exactDestination ?? true,
+      enableRateCurse: config?.enableRateCurse ?? true,
+      enableEconomyCycle: config?.enableEconomyCycle ?? true,
+      enablePickpocket: config?.enablePickpocket ?? true,
     };
+  }
+
+  private applyStationOverrideToDef(st: StationDef, ov: StationOverride): void {
+    st.type = ov.type;
+    if (ov.name && ov.name.trim()) {
+      st.name = ov.name.trim();
+    }
+    if (st.type === 'property') {
+      st.isDestinationCandidate = true;
+      if (!st.properties || st.properties.length === 0) {
+        const cleanName = st.name.replace(/\(.*?\)/g, '').trim() || 'ご当地';
+        st.properties = [
+          { id: `${st.id}_p1`, name: `${cleanName}名物食堂`, category: '食品', price: 1000, rate: 0.7 },
+          { id: `${st.id}_p2`, name: `${cleanName}観光ホテル`, category: '観光', price: 4000, rate: 0.2 },
+          { id: `${st.id}_p3`, name: `${cleanName}駅前デパート`, category: '商業', price: 10000, rate: 0.12 },
+        ];
+      }
+    } else {
+      st.isDestinationCandidate = false;
+    }
+  }
+
+  private applyAllStationOverrides(): void {
+    for (const ov of Object.values(this.stationOverrides)) {
+      const st = this.stationMap.get(ov.stationId);
+      if (st) this.applyStationOverrideToDef(st, ov);
+    }
   }
 
   public resetGame(newConfig: Partial<GameConfig>): void {
@@ -143,6 +183,10 @@ export class GameEngine {
       initialMoney: newConfig.initialMoney ?? this.config.initialMoney,
       cpuCount: newConfig.cpuCount ?? 0,
       maxPlayers: 8,
+      exactDestination: newConfig.exactDestination ?? this.config.exactDestination ?? true,
+      enableRateCurse: newConfig.enableRateCurse ?? this.config.enableRateCurse ?? true,
+      enableEconomyCycle: newConfig.enableEconomyCycle ?? this.config.enableEconomyCycle ?? true,
+      enablePickpocket: newConfig.enablePickpocket ?? this.config.enablePickpocket ?? true,
     };
     this.status = 'waiting';
     this.currentYear = 1;
@@ -160,6 +204,7 @@ export class GameEngine {
     this.ownedProperties = {};
     this.nuisanceTargetPlayerId = null;
     this.nuisanceForm = 'normal';
+    this.economyPhase = 'normal';
     this.lastEventMessage = '新しいゲームが作成されました！参加者を待っています。';
     this.turnCount = 0;
     this.previousTurnSnapshot = null;
@@ -902,8 +947,10 @@ export class GameEngine {
       },
     ];
 
-    // 目的地到達チェック（本家仕様：残り歩数ちょうど0で到達必須！）
-    if (nextStationId === this.destinationStationId && this.remainingSteps === 0) {
+    // 目的地到達チェック（exactDestination ONなら残り歩数0必須、OFFなら通過でも到達）
+    const mustBeExact = this.config.exactDestination !== false;
+    if (nextStationId === this.destinationStationId && (!mustBeExact || this.remainingSteps === 0)) {
+      this.remainingSteps = 0;
       if (this.lastDestinationWinnerId === player.id) {
         this.consecutiveDestCount += 1;
       } else {
@@ -1050,8 +1097,14 @@ export class GameEngine {
       const baseList = this.eventsData.stationValues.plusBase;
       const base = baseList[Math.floor(Math.random() * baseList.length)];
       const seasonMult = isSummer ? 1.5 : isWinter ? 0.6 : 1.0;
-      const seasonTag = isSummer ? '☀️ 夏のプラス駅ボーナス！' : isWinter ? '❄️ 冬は収入ひかえめ' : '';
-      const amount = Math.round((base * yearMultiplier * seasonMult) / 100) * 100;
+      const econMult = this.economyPhase === 'boom' ? 1.5 : 1.0;
+      const seasonTag = [
+        isSummer ? '☀️ 夏のボーナス' : isWinter ? '❄️ 冬はひかえめ' : '',
+        this.economyPhase === 'boom' ? '📈 好景気×1.5' : '',
+      ]
+        .filter(Boolean)
+        .join(' / ');
+      const amount = Math.round((base * yearMultiplier * seasonMult * econMult) / 100) * 100;
       player.money += amount;
       this.lastEventMessage = `🔵 ${player.name}がプラス駅「${station.name}」に到着！ +${amount.toLocaleString()}万円！${seasonTag ? ` (${seasonTag})` : ''}`;
       events.push({
@@ -1070,8 +1123,14 @@ export class GameEngine {
       const baseList = this.eventsData.stationValues.minusBase;
       const base = baseList[Math.floor(Math.random() * baseList.length)];
       const seasonMult = isWinter ? 1.8 : isSummer ? 0.6 : 1.0;
-      const seasonTag = isWinter ? '❄️ 冬の厳しい出費…' : isSummer ? '☀️ 夏は出費ひかえめ' : '';
-      const amount = Math.round((base * yearMultiplier * seasonMult) / 100) * 100;
+      const econMult = this.economyPhase === 'recession' ? 1.5 : 1.0;
+      const seasonTag = [
+        isWinter ? '❄️ 冬の厳しい出費' : isSummer ? '☀️ 夏はひかえめ' : '',
+        this.economyPhase === 'recession' ? '📉 不景気×1.5' : '',
+      ]
+        .filter(Boolean)
+        .join(' / ');
+      const amount = Math.round((base * yearMultiplier * seasonMult * econMult) / 100) * 100;
       player.money -= amount;
       this.lastEventMessage = `🔴 ${player.name}がマイナス駅「${station.name}」に到着… -${amount.toLocaleString()}万円${seasonTag ? ` (${seasonTag})` : ''}`;
       events.push({
@@ -1258,6 +1317,7 @@ export class GameEngine {
 
   // 本家名物「スリの銀次」遭遇判定（現金5,000万円以上でプラス/マイナス駅到着時に5%）
   private maybeTriggerPickpocket(player: PlayerInternalState): GameEventSeqItem | null {
+    if (this.config.enablePickpocket === false) return null;
     if (player.money < 5000 || Math.random() >= 0.05) return null;
     const shieldIdx = player.cards.findIndex((id) => id === 'shield' || id === 'king_shield');
     if (shieldIdx !== -1) {
@@ -1456,10 +1516,11 @@ export class GameEngine {
 
     // お邪魔キャラの変身＆悪行発動チェック（1回休みのターンは何も起きない）
     if (!skipped && player.hasNuisance) {
-      // 一定確率で変身（プチ・キング・ハッピー）または通常へ戻る
-      if (this.nuisanceForm === 'normal' && Math.random() < 0.22) {
+      // 一定確率で変身（プチ・キング・割合・ハッピー）または通常へ戻る
+      if (this.nuisanceForm === 'normal' && Math.random() < 0.28) {
         const r = Math.random();
-        if (r < 0.45) {
+        const allowRateCurse = this.config.enableRateCurse !== false;
+        if (r < 0.32) {
           this.nuisanceForm = 'mini';
           events.push({
             type: 'random_event',
@@ -1471,7 +1532,19 @@ export class GameEngine {
               isPositive: true,
             },
           });
-        } else if (r < 0.85) {
+        } else if (allowRateCurse && r < 0.62) {
+          this.nuisanceForm = 'rate_curse';
+          events.push({
+            type: 'nuisance_action',
+            playerId: player.id,
+            payload: {
+              blocked: false,
+              title: '📉 割合ケチケチに変身！！',
+              description: `不気味な電卓の音…！ケチケチ大王が所持物件の収益率をマイナスにする「割合ケチケチ」に変身した！！`,
+              icon: '📉',
+            },
+          });
+        } else if (r < 0.88) {
           this.nuisanceForm = 'king';
           events.push({
             type: 'nuisance_action',
@@ -1496,7 +1569,7 @@ export class GameEngine {
             },
           });
         }
-      } else if (this.nuisanceForm !== 'normal' && Math.random() < 0.35) {
+      } else if (this.nuisanceForm !== 'normal' && Math.random() < 0.32) {
         this.nuisanceForm = 'normal';
       }
 
@@ -1539,10 +1612,68 @@ export class GameEngine {
               blocked: true,
               title: 'バリアカード発動！',
               description: `${player.name}はバリアカードで${
-                this.nuisanceForm === 'king' ? 'キングケチケチ' : this.eventsData.nuisanceCharacter.name
+                this.nuisanceForm === 'king'
+                  ? 'キングケチケチ'
+                  : this.nuisanceForm === 'rate_curse'
+                    ? '割合ケチケチ'
+                    : this.eventsData.nuisanceCharacter.name
               }の悪行を防いだ！`,
             },
           });
+        } else if (this.nuisanceForm === 'rate_curse') {
+          // 割合ケチケチ：サイコロ2個を振り、合計件数の所持物件の収益率を -10/-50/-80/-100% のルーレットで期間限定マイナス化！
+          const d1 = Math.floor(Math.random() * 6) + 1;
+          const d2 = Math.floor(Math.random() * 6) + 1;
+          const totalCount = d1 + d2;
+          const rateOptions = [-0.1, -0.5, -0.8, -1.0];
+          const chosenRate = rateOptions[Math.floor(Math.random() * rateOptions.length)];
+          const chosenPercent = Math.round(chosenRate * 100);
+          const myProps = this.getPlayerProperties(player.id);
+
+          if (myProps.length > 0) {
+            // シャッフルして最大 totalCount 件を呪う（決算2回分）
+            const shuffled = [...myProps].sort(() => Math.random() - 0.5);
+            const targets = shuffled.slice(0, Math.min(totalCount, shuffled.length));
+            const affectedNames: string[] = [];
+            for (const owned of targets) {
+              owned.curseRate = chosenRate;
+              owned.curseRemainingSettlements = 2;
+              const st = this.stationMap.get(owned.stationId);
+              const def = st?.properties?.find((p) => p.id === owned.propertyId);
+              affectedNames.push(`${st?.name ?? ''}・${def?.name ?? '物件'}`);
+            }
+            this.lastEventMessage = `📉 割合ケチケチ発動！サイコロ[${d1}+${d2}=${totalCount}件]→ ${targets.length}件の収益率が2期連続で ${chosenPercent}% に！！`;
+            events.push({
+              type: 'rate_curse_roulette',
+              playerId: player.id,
+              payload: {
+                dice: [d1, d2],
+                total: totalCount,
+                affectedCount: targets.length,
+                curseRate: chosenRate,
+                cursePercent: chosenPercent,
+                affectedNames,
+                remainingSettlements: 2,
+              },
+            });
+          } else {
+            const penalty = totalCount * 200;
+            player.money -= penalty;
+            this.lastEventMessage = `📉 割合ケチケチ発動！物件がなかったためサイコロ[${d1}+${d2}=${totalCount}]×200万＝-${penalty.toLocaleString()}万円を奪われた！`;
+            events.push({
+              type: 'rate_curse_roulette',
+              playerId: player.id,
+              payload: {
+                dice: [d1, d2],
+                total: totalCount,
+                affectedCount: 0,
+                curseRate: chosenRate,
+                cursePercent: chosenPercent,
+                affectedNames: [],
+                fallbackPenalty: penalty,
+              },
+            });
+          }
         } else if (this.nuisanceForm === 'king') {
           const kingRoll = Math.random();
           if (kingRoll < 0.45) {
@@ -1805,6 +1936,37 @@ export class GameEngine {
           return events;
         } else {
           this.currentYear += 1;
+          // 新年度に景気変動抽選（好景気30% / 通常45% / 不景気25%）
+          if (this.config.enableEconomyCycle !== false) {
+            const er = Math.random();
+            const nextEcon: EconomyPhase = er < 0.3 ? 'boom' : er < 0.75 ? 'normal' : 'recession';
+            if (nextEcon !== this.economyPhase) {
+              this.economyPhase = nextEcon;
+              const econTitle =
+                nextEcon === 'boom'
+                  ? '📈 日本列島・好景気に突入！'
+                  : nextEcon === 'recession'
+                    ? '📉 日本列島・不景気に突入…'
+                    : '📊 景気が通常へ戻りました';
+              const econDesc =
+                nextEcon === 'boom'
+                  ? 'プラス駅1.5倍＆物件収益1.2倍のチャンス！'
+                  : nextEcon === 'recession'
+                    ? 'マイナス駅1.5倍＆物件収益0.8倍…慎重に進もう！'
+                    : '経済は安定した通常状態へ戻りました。';
+              this.lastEventMessage = econTitle;
+              events.push({
+                type: 'random_event',
+                playerId: player.id,
+                payload: {
+                  title: econTitle,
+                  icon: nextEcon === 'boom' ? '📈' : nextEcon === 'recession' ? '📉' : '📊',
+                  description: econDesc,
+                  isPositive: nextEcon !== 'recession',
+                },
+              });
+            }
+          }
         }
       }
 
@@ -1960,12 +2122,26 @@ export class GameEngine {
       propAssets[p.id] = 0;
     });
 
+    const econMult =
+      this.economyPhase === 'boom' ? 1.2 : this.economyPhase === 'recession' ? 0.8 : 1.0;
+
     for (const owned of Object.values(this.ownedProperties)) {
       const station = this.stationMap.get(owned.stationId);
       const prop = station?.properties?.find((p) => p.id === owned.propertyId);
       if (!prop) continue;
-      const isMono = this.isStationMonopolizedBy(owned.stationId, owned.ownerId);
-      const income = calcAnnualIncome(prop.price, prop.rate, owned.level, isMono);
+      let income = 0;
+      if (owned.curseRate !== undefined) {
+        // 割合ケチケチの呪い中：マイナス収益！
+        income = Math.round(prop.price * owned.level * owned.curseRate);
+        owned.curseRemainingSettlements = (owned.curseRemainingSettlements ?? 1) - 1;
+        if (owned.curseRemainingSettlements <= 0) {
+          delete owned.curseRate;
+          delete owned.curseRemainingSettlements;
+        }
+      } else {
+        const isMono = this.isStationMonopolizedBy(owned.stationId, owned.ownerId);
+        income = Math.round(calcAnnualIncome(prop.price, prop.rate, owned.level, isMono) * econMult);
+      }
       incomes[owned.ownerId] = (incomes[owned.ownerId] ?? 0) + income;
       propAssets[owned.ownerId] =
         (propAssets[owned.ownerId] ?? 0) + investedValue(prop.price, owned.level);
@@ -2176,7 +2352,62 @@ export class GameEngine {
       }
     }
     this.nuisanceTargetPlayerId = null;
+    this.nuisanceForm = 'normal';
     this.lastEventMessage = `👑 管理者操作: ケチケチ大王を解除しました。`;
+  }
+
+  public adminSetNuisanceForm(form: NuisanceForm): void {
+    this.nuisanceForm = form;
+    const labels: Record<NuisanceForm, string> = {
+      normal: '👹 通常（ケチケチ大王）',
+      mini: '👶 プチケチ',
+      king: '🔥 キングケチケチ',
+      rate_curse: '📉 割合ケチケチ',
+      happy: '😇 ハッピー大王',
+    };
+    this.lastEventMessage = `👑 管理者操作: ケチケチ大王の形態を「${labels[form]}」へ変更しました！`;
+  }
+
+  public adminSetEconomyPhase(phase: EconomyPhase): void {
+    this.economyPhase = phase;
+    const labels: Record<EconomyPhase, string> = {
+      boom: '📈 好景気',
+      normal: '📊 通常',
+      recession: '📉 不景気',
+    };
+    this.lastEventMessage = `👑 管理者操作: 景気を「${labels[phase]}」へ変更しました！`;
+  }
+
+  public adminUpdateRules(partial: Partial<GameConfig>): void {
+    if (partial.exactDestination !== undefined) this.config.exactDestination = Boolean(partial.exactDestination);
+    if (partial.enableRateCurse !== undefined) this.config.enableRateCurse = Boolean(partial.enableRateCurse);
+    if (partial.enableEconomyCycle !== undefined) this.config.enableEconomyCycle = Boolean(partial.enableEconomyCycle);
+    if (partial.enablePickpocket !== undefined) this.config.enablePickpocket = Boolean(partial.enablePickpocket);
+    this.lastEventMessage = `👑 管理者操作: ゲームルール設定を更新しました。`;
+  }
+
+  public adminUpdateStation(stationId: string, type: StationType, name?: string): boolean {
+    const st = this.stationMap.get(stationId);
+    if (!st) return false;
+    const ov: StationOverride = {
+      stationId,
+      type,
+      name: name?.trim() || undefined,
+    };
+    this.stationOverrides[stationId] = ov;
+    this.applyStationOverrideToDef(st, ov);
+    this.saveManager.saveStationOverrides(this.stationOverrides);
+    this.lastEventMessage = `🗺️ 管理者操作: マス「${st.name}」を ${type} に変更しました！`;
+    return true;
+  }
+
+  public adminResetStations(): void {
+    this.stationOverrides = {};
+    this.saveManager.saveStationOverrides({});
+    this.stations = JSON.parse(JSON.stringify(this.baseStations));
+    this.stationMap = new Map(this.stations.map((s) => [s.id, s]));
+    this.pathfinder = new Pathfinder(this.stations);
+    this.lastEventMessage = `🗺️ 管理者操作: 全マスの設定を初期状態へ戻しました。`;
   }
 
   // --- カスタムローカルルール管理＆評価 ---
@@ -2646,6 +2877,7 @@ export class GameEngine {
       ownedProperties: this.ownedProperties,
       nuisanceTargetPlayerId: this.nuisanceTargetPlayerId,
       nuisanceForm: this.nuisanceForm,
+      economyPhase: this.economyPhase,
       lastEventMessage: this.lastEventMessage,
       eventLogs: this.eventLogs,
       localRules: this.localRules,

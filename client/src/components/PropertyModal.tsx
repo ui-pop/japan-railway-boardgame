@@ -74,6 +74,8 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
       rate: number;
       level: number;
       isMonopolized: boolean;
+      curseRate?: number;
+      curseRemainingSettlements?: number;
       annualIncome: number;
       sellValue: number;
     }[] = [];
@@ -87,10 +89,12 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
         st.properties && st.properties.length > 0
           ? st.properties.every((p) => gameState.ownedProperties[p.id]?.ownerId === myPlayerId)
           : false;
-      const effectiveRate = prop.rate + (owned.level - 1) * 0.05;
-      const annualIncome = Math.round(
-        prop.price * owned.level * effectiveRate * (isMono ? 2.0 : 1.0)
-      );
+      const effectiveRate =
+        owned.curseRate !== undefined ? owned.curseRate : prop.rate + (owned.level - 1) * 0.05;
+      const annualIncome =
+        owned.curseRate !== undefined
+          ? Math.round(prop.price * owned.level * owned.curseRate)
+          : Math.round(prop.price * owned.level * effectiveRate * (isMono ? 2.0 : 1.0));
       const sellValue = Math.floor(prop.price * owned.level * 0.5);
       result.push({
         propertyId: owned.propertyId,
@@ -101,6 +105,8 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
         rate: effectiveRate,
         level: owned.level,
         isMonopolized: isMono,
+        curseRate: owned.curseRate,
+        curseRemainingSettlements: owned.curseRemainingSettlements,
         annualIncome,
         sellValue,
       });
@@ -255,14 +261,24 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
                     <div className="text-[11px] text-sky-400 font-bold">
                       {item.stationName}駅 ・ {item.category}
                     </div>
-                    <div className="text-sm font-bold text-white">
-                      {item.propName}{' '}
+                    <div className="text-sm font-bold text-white flex items-center gap-1.5 flex-wrap">
+                      <span>{item.propName}</span>
                       <span className="text-amber-400 text-xs">Lv.{item.level}</span>
+                      {item.curseRate !== undefined && (
+                        <span className="px-1.5 py-0.5 rounded bg-rose-900/90 border border-rose-500 text-rose-200 text-[10px] font-black">
+                          📉 呪い {Math.round(item.curseRate * 100)}% (あと{item.curseRemainingSettlements ?? 1}期)
+                        </span>
+                      )}
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-xs font-bold text-emerald-400">
-                      +{formatMoney(item.annualIncome)}/年
+                    <div
+                      className={`text-xs font-bold ${
+                        item.annualIncome < 0 ? 'text-rose-400' : 'text-emerald-400'
+                      }`}
+                    >
+                      {item.annualIncome >= 0 ? '+' : ''}
+                      {formatMoney(item.annualIncome)}/年
                     </div>
                     <div className="text-[10px] text-slate-400">
                       評価額 {formatMoney(item.price * item.level)}

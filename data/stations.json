@@ -1648,9 +1648,9 @@
     "y": 6500,
     "neighbors": [
       "route_221",
-      "route_223",
+      "neyagawa",
       "route_225",
-      "route_231"
+      "kitayama"
     ],
     "isDestinationCandidate": true,
     "properties": [
@@ -1707,7 +1707,7 @@
     "y": 6760,
     "neighbors": [
       "route_214",
-      "route_222",
+      "uji",
       "route_224"
     ],
     "isDestinationCandidate": false,
@@ -1744,7 +1744,7 @@
     "y": 6760,
     "neighbors": [
       "route_224",
-      "route_235",
+      "sakai",
       "route_237"
     ],
     "isDestinationCandidate": true,
@@ -6982,35 +6982,81 @@
     "neighbors": [
       "kyoto",
       "otsu",
-      "route_222"
+      "uji"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_222",
-    "name": "京都・奈良間(プラス駅)",
+    "id": "uji",
+    "name": "宇治",
     "region": "近畿",
-    "type": "plus",
+    "type": "property",
     "x": 4030,
     "y": 6630,
     "neighbors": [
       "route_221",
       "nara"
     ],
-    "isDestinationCandidate": false
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "uji_1",
+        "name": "宇治抹茶老舗本舗",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.6
+      },
+      {
+        "id": "uji_2",
+        "name": "平等院ミュージアム",
+        "category": "観光",
+        "price": 5000,
+        "rate": 0.25
+      },
+      {
+        "id": "uji_3",
+        "name": "宇治川鵜飼遊覧船",
+        "category": "観光",
+        "price": 3000,
+        "rate": 0.25
+      }
+    ]
   },
   {
-    "id": "route_223",
-    "name": "京都・大阪間(プラス駅)",
+    "id": "neyagawa",
+    "name": "寝屋川",
     "region": "近畿",
-    "type": "plus",
+    "type": "property",
     "x": 3900,
     "y": 6630,
     "neighbors": [
       "kyoto",
       "route_224"
     ],
-    "isDestinationCandidate": false
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "neyagawa_1",
+        "name": "まさや&あきHouse",
+        "category": "商業",
+        "price": 5000,
+        "rate": 0.25
+      },
+      {
+        "id": "neyagawa_2",
+        "name": "寝屋川駅前商店街",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.6
+      },
+      {
+        "id": "neyagawa_3",
+        "name": "成田山不動尊参道",
+        "category": "観光",
+        "price": 3000,
+        "rate": 0.25
+      }
+    ]
   },
   {
     "id": "route_224",
@@ -7020,7 +7066,7 @@
     "x": 3900,
     "y": 6760,
     "neighbors": [
-      "route_223",
+      "neyagawa",
       "osaka",
       "nara"
     ],
@@ -7106,17 +7152,40 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_231",
-    "name": "京都・城崎間(カード駅)",
+    "id": "kitayama",
+    "name": "北山",
     "region": "近畿",
-    "type": "card",
+    "type": "property",
     "x": 3900,
     "y": 6370,
     "neighbors": [
       "kyoto",
       "route_232"
     ],
-    "isDestinationCandidate": false
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "kitayama_1",
+        "name": "京都府立虫こぶ大学",
+        "category": "観光",
+        "price": 8000,
+        "rate": 0.2
+      },
+      {
+        "id": "kitayama_2",
+        "name": "北山洋菓子スイーツ通り",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.6
+      },
+      {
+        "id": "kitayama_3",
+        "name": "京都府立植物園",
+        "category": "農林",
+        "price": 3000,
+        "rate": 0.15
+      }
+    ]
   },
   {
     "id": "route_232",
@@ -7126,7 +7195,7 @@
     "x": 3900,
     "y": 6240,
     "neighbors": [
-      "route_231",
+      "kitayama",
       "route_233"
     ],
     "isDestinationCandidate": false
@@ -7158,17 +7227,40 @@
     "isDestinationCandidate": false
   },
   {
-    "id": "route_235",
-    "name": "大阪・和歌山間(プラス駅)",
+    "id": "sakai",
+    "name": "堺",
     "region": "近畿",
-    "type": "plus",
+    "type": "property",
     "x": 3770,
     "y": 6890,
     "neighbors": [
       "osaka",
       "route_236"
     ],
-    "isDestinationCandidate": false
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "sakai_1",
+        "name": "タワーマンション",
+        "category": "商業",
+        "price": 20000,
+        "rate": 0.12
+      },
+      {
+        "id": "sakai_2",
+        "name": "堺打刃物工房",
+        "category": "工業",
+        "price": 10000,
+        "rate": 0.1
+      },
+      {
+        "id": "sakai_3",
+        "name": "仁徳天皇陵古墳パーク",
+        "category": "観光",
+        "price": 4000,
+        "rate": 0.25
+      }
+    ]
   },
   {
     "id": "route_236",
@@ -7178,7 +7270,7 @@
     "x": 3770,
     "y": 7020,
     "neighbors": [
-      "route_235",
+      "sakai",
       "wakayama"
     ],
     "isDestinationCandidate": false
@@ -7327,23 +7419,46 @@
     "y": 6240,
     "neighbors": [
       "tottori",
-      "route_248",
+      "yonago",
       "route_254"
     ],
     "isDestinationCandidate": false
   },
   {
-    "id": "route_248",
-    "name": "鳥取・松江間(マイナス駅)",
+    "id": "yonago",
+    "name": "米子",
     "region": "中国",
-    "type": "minus",
+    "type": "property",
     "x": 2860,
     "y": 6240,
     "neighbors": [
       "route_247",
       "route_249"
     ],
-    "isDestinationCandidate": false
+    "isDestinationCandidate": true,
+    "properties": [
+      {
+        "id": "yonago_1",
+        "name": "米子西高校",
+        "category": "観光",
+        "price": 3000,
+        "rate": 0.25
+      },
+      {
+        "id": "yonago_2",
+        "name": "境港ズワイガニ市場",
+        "category": "水産",
+        "price": 2000,
+        "rate": 0.3
+      },
+      {
+        "id": "yonago_3",
+        "name": "皆生温泉老舗旅館",
+        "category": "観光",
+        "price": 6000,
+        "rate": 0.15
+      }
+    ]
   },
   {
     "id": "route_249",
@@ -7353,7 +7468,7 @@
     "x": 2730,
     "y": 6240,
     "neighbors": [
-      "route_248",
+      "yonago",
       "matsue"
     ],
     "isDestinationCandidate": false
