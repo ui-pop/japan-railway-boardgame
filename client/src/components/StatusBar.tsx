@@ -154,22 +154,20 @@ export const StatusBar: React.FC<StatusBarProps> = ({
           </button>
         )}
 
-        {/* ライブテロップ */}
+        {/* 流れるライブテロップ（常駐固定ではなく右から左へ流れる） */}
         {gameState.status === 'playing' && currentTurnPlayer && (
-          <div className="mt-1.5 flex items-center justify-between text-xs px-1">
-            <div className="flex items-center gap-1.5 truncate text-slate-800">
+          <div className="mt-1.5 overflow-hidden bg-slate-900/90 rounded-lg py-1 px-2 border border-red-600/50">
+            <div className="animate-ticker text-xs font-bold text-amber-200">
               <span
-                className="inline-block w-2.5 h-2.5 rounded-full animate-pulse shrink-0"
+                className="inline-block w-2 h-2 rounded-full mr-1.5 align-middle"
                 style={{ backgroundColor: currentTurnPlayer.color }}
               />
-              <span className="font-black">
+              <span className="font-black text-white mr-3">
                 {currentTurnPlayer.id === myPlayerId
-                  ? 'あなたのターン！'
-                  : `${currentTurnPlayer.name}が行動中…`}
+                  ? '🚃 あなたのターン！'
+                  : `🚃 ${currentTurnPlayer.name}が行動中…`}
               </span>
-              <span className="text-slate-600 font-semibold truncate ml-1">
-                {gameState.lastEventMessage}
-              </span>
+              <span className="text-amber-200">{gameState.lastEventMessage}</span>
             </div>
           </div>
         )}

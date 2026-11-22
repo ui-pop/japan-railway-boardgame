@@ -33,7 +33,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
     zoom: 0.55,
   });
   const [cameraTick, setCameraTick] = useState(0);
-  const [cameraMode, setCameraMode] = useState<'auto' | 'free'>('auto');
+  const [cameraMode, setCameraMode] = useState<'auto' | 'dest' | 'all' | 'free'>('auto');
   const [inspectedStation, setInspectedStation] = useState<StationDef | null>(null);
 
   // 各プレイヤーコマの描画用補間座標
@@ -91,12 +91,12 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
     lastFocusSeqRef.current = focusTargetTrigger.seq;
 
     if (focusTargetTrigger.type === 'all') {
-      setCameraMode('free');
+      setCameraMode('all');
       focusWholeJapan();
     } else if (focusTargetTrigger.type === 'dest') {
       const dest = stationMap.get(gameState.destinationStationId);
       if (dest) {
-        setCameraMode('free');
+        setCameraMode('dest');
         focusOnPoint(dest.x, dest.y, Math.max(cameraRef.current.zoom, 0.65), true);
       }
     } else if (focusTargetTrigger.type === 'me') {
@@ -108,6 +108,19 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       }
     }
   }, [focusTargetTrigger, focusOnPoint, focusWholeJapan, gameState, myPlayerId, stationMap]);
+
+  // ターンが切り替わった瞬間・サイコロを振って移動開始した瞬間に自動で自機追従へ戻す
+  const lastAutoResetKeyRef = useRef<string>('');
+  useEffect(() => {
+    if (!gameState) return;
+    const key = `${gameState.turnCount}_${gameState.phase === 'moving' ? 'm' : 'o'}`;
+    if (key !== lastAutoResetKeyRef.current) {
+      lastAutoResetKeyRef.current = key;
+      if (gameState.phase === 'action_select' || gameState.phase === 'moving') {
+        setCameraMode('auto');
+      }
+    }
+  }, [gameState?.turnCount, gameState?.phase]);
 
   // 自動追従モード：手番プレイヤーが動いたら現在のズーム倍率を保ったまま目標カメラ座標だけ更新
   useEffect(() => {
@@ -762,21 +775,29 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
             if (!gameState) return;
             const dest = stationMap.get(gameState.destinationStationId);
             if (dest) {
-              setCameraMode('free');
+              setCameraMode('dest');
               focusOnPoint(dest.x, dest.y, 0.65, true);
             }
           }}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border bg-amber-600/85 border-amber-300 text-white backdrop-blur-md"
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border backdrop-blur-md transition ${
+            cameraMode === 'dest'
+              ? 'bg-amber-500 border-amber-200 text-white'
+              : 'bg-slate-900/80 border-slate-600 text-slate-200'
+          }`}
         >
           <Compass className="w-4 h-4" />
           目的地
         </button>
         <button
           onClick={() => {
-            setCameraMode('free');
+            setCameraMode('all');
             focusWholeJapan();
           }}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border bg-slate-900/80 border-slate-600 text-slate-200 backdrop-blur-md"
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border backdrop-blur-md transition ${
+            cameraMode === 'all'
+              ? 'bg-indigo-600 border-indigo-300 text-white'
+              : 'bg-slate-900/80 border-slate-600 text-slate-200'
+          }`}
         >
           <Maximize2 className="w-4 h-4" />
           全体
