@@ -1529,8 +1529,8 @@ export class GameEngine {
         });
       }
 
-      // 到着駅が物件駅なら購入フェーズへ（買えるものがあれば）
-      if (this.canBuyOrUpgradeAtStation(player, nextStationId)) {
+      // 到着駅が物件駅なら購入可否に関わらず必ず購入画面を出す
+      if (arrivedStation?.type === 'property' && arrivedStation.properties?.length) {
         this.phase = 'property_buy';
         return { ok: true, events };
       }
@@ -1834,14 +1834,10 @@ export class GameEngine {
 
     if (station.type === 'shop') {
       events.push(...stationLocalRules);
-      if ((player.cards.length < 8 && player.money >= 400) || player.cards.length > 0) {
-        this.phase = 'card_shop';
-        this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着！カードの売買ができます。`;
-        return events;
-      } else {
-        this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着（売買不可）。`;
-        return [...events, ...this.finishTurn(player)];
-      }
+      // 購入できるアイテムがなくても必ずカード売り場画面を出す
+      this.phase = 'card_shop';
+      this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着！`;
+      return events;
     }
 
     if (station.type === 'warp') {
@@ -1870,8 +1866,8 @@ export class GameEngine {
           playerId: player.id,
           payload: { stationId: dest.id, stationName: dest.name },
         });
-        // ワープ先の物件駅で購入できるなら購入フェーズへ
-        if (this.canBuyOrUpgradeAtStation(player, dest.id)) {
+        // ワープ先の物件駅では購入可否に関わらず必ず購入画面を出す
+        if (dest.type === 'property' && dest.properties?.length) {
           this.phase = 'property_buy';
           return events;
         }
@@ -1881,14 +1877,12 @@ export class GameEngine {
 
     if (station.type === 'property') {
       events.push(...stationLocalRules);
-      if (this.canBuyOrUpgradeAtStation(player, stationId)) {
+      if (station.properties && station.properties.length > 0) {
         this.phase = 'property_buy';
-        this.lastEventMessage = `🏢 ${player.name}が物件駅「${station.name}」に到着！物件を購入できます。`;
+        this.lastEventMessage = `🏢 ${player.name}が物件駅「${station.name}」に到着！`;
         return events;
-      } else {
-        this.lastEventMessage = `🏢 ${player.name}が「${station.name}」に到着（購入・増資できる物件なし）。`;
-        return [...events, ...this.finishTurn(player)];
       }
+      return [...events, ...this.finishTurn(player)];
     }
 
     return [...events, ...stationLocalRules, ...this.finishTurn(player)];
@@ -1917,6 +1911,7 @@ export class GameEngine {
     const wasMonopolized = this.isStationMonopolizedBy(station.id, player.id);
     const boughtNames: string[] = [];
 
+    let totalSpent = 0;
     let discountUsed = false;
     for (const pid of propertyIds) {
       const prop = propMap.get(pid);
@@ -1937,6 +1932,7 @@ export class GameEngine {
       }
       if (player.money >= cost) {
         player.money -= cost;
+        totalSpent += cost;
         this.ownedProperties[pid] = {
           propertyId: pid,
           stationId: station.id,
@@ -1955,6 +1951,7 @@ export class GameEngine {
       const upgradeCost = prop.price;
       if (player.money >= upgradeCost) {
         player.money -= upgradeCost;
+        totalSpent += upgradeCost;
         owned.level += 1;
         boughtNames.push(`${prop.name}(Lv${owned.level})`);
       }
@@ -1963,6 +1960,15 @@ export class GameEngine {
     const events: GameEventSeqItem[] = [];
     if (boughtNames.length > 0) {
       this.lastEventMessage = `🏢 ${player.name}が ${boughtNames.join('、')} を購入/増資しました！`;
+      events.push({
+        type: 'property_bought',
+        playerId: player.id,
+        payload: {
+          stationName: station.name,
+          items: boughtNames,
+          totalSpent,
+        },
+      });
       if (!wasMonopolized && this.isStationMonopolizedBy(station.id, player.id)) {
         this.lastEventMessage = `👑 ${player.name}が「${station.name}駅」を独占！年間収益が2倍に！`;
         events.push({
@@ -2044,16 +2050,19 @@ export class GameEngine {
     player.cardCount = player.cards.length;
     this.lastEventMessage = `🛒 ${player.name}が「${card.name}」を${price.toLocaleString()}万円で購入しました！`;
     this.recalculateRankingsAndDistances();
+    const tradeEvent: GameEventSeqItem = {
+      type: 'shop_traded',
+      playerId: player.id,
+      payload: {
+        action: 'buy',
+        cardName: card.name,
+        cardIcon: card.icon,
+        price,
+      },
+    };
 
-    // 続けて買えるなら売り場に留まる（「買い物を終える」で終了）
-    const cheapest = Math.min(
-      ...SHOP_STOCK_IDS.map((id) => getCardShopPrice(this.cardMap.get(id)?.price, this.currentYear))
-    );
-    if (player.cards.length < 8 && player.money >= cheapest) {
-      return { ok: true, events: [] };
-    }
-    const endEvents = this.finishTurn(player);
-    return { ok: true, events: endEvents };
+    // 売り場に留まる（「買い物を終える」で終了）
+    return { ok: true, events: [tradeEvent] };
   }
 
   public sellCardAtShop(
@@ -2082,7 +2091,21 @@ export class GameEngine {
     player.money += sellPrice;
     this.recalculateRankingsAndDistances();
     this.lastEventMessage = `🛒 ${player.name}が「${card.name}」を ${sellPrice.toLocaleString()}万円で売却しました！`;
-    return { ok: true, events: [] };
+    return {
+      ok: true,
+      events: [
+        {
+          type: 'shop_traded',
+          playerId: player.id,
+          payload: {
+            action: 'sell',
+            cardName: card.name,
+            cardIcon: card.icon,
+            price: sellPrice,
+          },
+        },
+      ],
+    };
   }
 
   public skipCardShop(playerId: string): { ok: boolean; error?: string; events: GameEventSeqItem[] } {

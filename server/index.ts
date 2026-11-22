@@ -187,6 +187,10 @@ function calculateEventsDurationMs(events: GameEventSeqItem[]): number {
       total += 3200;
     } else if (e.type === 'card_used') {
       total += 2400;
+    } else if (e.type === 'property_bought') {
+      total += 2300;
+    } else if (e.type === 'shop_traded') {
+      total += 1900;
     }
   }
   return total;

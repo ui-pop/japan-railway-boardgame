@@ -270,7 +270,11 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
     } else if (currentEvent.type === 'random_event') {
       if (currentEvent.payload.isPositive === false) soundManager.playMinus();
       else soundManager.playGoal();
-    } else if (currentEvent.type === 'station_effect') {
+    } else if (
+      currentEvent.type === 'station_effect' ||
+      currentEvent.type === 'property_bought' ||
+      currentEvent.type === 'shop_traded'
+    ) {
       soundManager.playPlus();
     }
 
@@ -279,7 +283,15 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         ? 550
         : currentEvent.type === 'year_settlement' || currentEvent.type === 'game_finished'
           ? 0 // 手動で閉じる
-          : currentEvent.type === 'destination_reached' ||
+          : currentEvent.type === 'shop_traded'
+            ? lowDataMode
+              ? 900
+              : 1800
+            : currentEvent.type === 'property_bought'
+              ? lowDataMode
+                ? 1100
+                : 2200
+              : currentEvent.type === 'destination_reached' ||
               currentEvent.type === 'monopoly_achieved' ||
               currentEvent.type === 'admin_message' ||
               currentEvent.type === 'nuisance_action' ||
@@ -483,6 +495,46 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
                   🚩 次の目的地は「<span className="text-yellow-300">{String(currentEvent.payload.nextDestName)}</span>」！
                 </div>
               )}
+            </div>
+          )}
+
+          {currentEvent.type === 'property_bought' && (
+            <div className="animate-event-pop bg-gradient-to-b from-emerald-900 via-teal-950 to-slate-950 border-4 border-emerald-400 rounded-3xl px-6 py-6 text-center shadow-[0_0_50px_rgba(16,185,129,0.5)] max-w-sm w-full">
+              <div className="text-4xl mb-2">🏢✨</div>
+              <div className="text-base font-black text-emerald-300">
+                {actor?.name} が {String(currentEvent.payload.stationName ?? '')}駅で物件購入！
+              </div>
+              <div className="mt-3 flex flex-wrap justify-center gap-1.5">
+                {((currentEvent.payload.items as string[]) ?? []).map((name, i) => (
+                  <span
+                    key={i}
+                    className="px-2.5 py-1 rounded-full bg-black/40 border border-emerald-400/50 text-xs font-extrabold text-white"
+                  >
+                    {name}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-3 text-sm font-black text-amber-300">
+                合計 {formatMoney(Number(currentEvent.payload.totalSpent ?? 0))}
+              </div>
+            </div>
+          )}
+
+          {currentEvent.type === 'shop_traded' && (
+            <div className="animate-event-pop bg-gradient-to-b from-amber-800 via-orange-950 to-slate-950 border-4 border-amber-400 rounded-3xl px-6 py-6 text-center shadow-[0_0_50px_rgba(245,158,11,0.5)] max-w-xs w-full">
+              <div className="text-5xl mb-2">
+                {String(currentEvent.payload.cardIcon ?? '🛒')}
+              </div>
+              <div className="text-base font-black text-amber-200">
+                {actor?.name} がカード売り場で
+                <br />
+                「{String(currentEvent.payload.cardName ?? '')}」を
+                {currentEvent.payload.action === 'sell' ? '売却！' : '購入！'}
+              </div>
+              <div className="mt-2.5 text-sm font-black text-white">
+                {currentEvent.payload.action === 'sell' ? '+' : '-'}
+                {formatMoney(Number(currentEvent.payload.price ?? 0))}
+              </div>
             </div>
           )}
 

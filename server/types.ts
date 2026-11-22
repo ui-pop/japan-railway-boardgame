@@ -293,6 +293,8 @@ export interface GameEventSeqItem {
     | 'station_effect'
     | 'destination_reached'
     | 'monopoly_achieved'
+    | 'property_bought'
+    | 'shop_traded'
     | 'nuisance_attach'
     | 'nuisance_action'
     | 'rate_curse_roulette'
