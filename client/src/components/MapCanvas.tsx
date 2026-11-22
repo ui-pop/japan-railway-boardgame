@@ -83,9 +83,13 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
     focusOnPoint(4600, 5200, fitZoom, true);
   }, [focusOnPoint, size.height, size.width]);
 
-  // 外部トリガーからのフォーカス
+  // 外部トリガーからのフォーカス（同じseqで再実行されないようRefで管理）
+  const lastFocusSeqRef = useRef<number>(-1);
   useEffect(() => {
     if (!focusTargetTrigger || !gameState) return;
+    if (focusTargetTrigger.seq === lastFocusSeqRef.current) return;
+    lastFocusSeqRef.current = focusTargetTrigger.seq;
+
     if (focusTargetTrigger.type === 'all') {
       setCameraMode('free');
       focusWholeJapan();
