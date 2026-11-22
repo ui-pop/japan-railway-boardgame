@@ -4,55 +4,71 @@ import {
   CreditCard,
   Dices,
   Map as MapIcon,
-  Smile,
+  MessageCircle,
+  Send,
 } from 'lucide-react';
-import type { PublicGameState, StampDef } from '../types';
+import type { PublicGameState } from '../types';
 
 interface ActionDockProps {
   gameState: PublicGameState;
   myPlayerId: string | null;
-  stamps: StampDef[];
   onRollDice: () => void;
   onOpenCards: () => void;
   onFocusWholeMap: () => void;
   onOpenPropertiesInfo: () => void;
-  onSendStamp: (stampId: string) => void;
+  onSendComment: (text: string) => void;
 }
 
 export const ActionDock: React.FC<ActionDockProps> = ({
   gameState,
   myPlayerId,
-  stamps,
   onRollDice,
   onOpenCards,
   onFocusWholeMap,
   onOpenPropertiesInfo,
-  onSendStamp,
+  onSendComment,
 }) => {
-  const [stampBarOpen, setStampBarOpen] = useState(false);
+  const [commentOpen, setCommentOpen] = useState(false);
+  const [commentText, setCommentText] = useState('');
 
   const isMyTurn =
     gameState.status === 'playing' && gameState.currentTurnPlayerId === myPlayerId;
 
+  const submitComment = (e: React.FormEvent) => {
+    e.preventDefault();
+    const trimmed = commentText.trim();
+    if (!trimmed) return;
+    onSendComment(trimmed);
+    setCommentText('');
+    setCommentOpen(false);
+  };
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-30 pointer-events-none">
-      {/* スタンプ選択バー */}
-      {stampBarOpen && (
-        <div className="pointer-events-auto mx-3 mb-2 p-2 rounded-2xl bg-slate-900/95 border border-slate-700 shadow-2xl flex items-center gap-2 overflow-x-auto">
-          {stamps.map((s) => (
-            <button
-              key={s.id}
-              onClick={() => {
-                onSendStamp(s.id);
-                setStampBarOpen(false);
-              }}
-              className="shrink-0 flex flex-col items-center px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 active:scale-95 border border-slate-600"
-            >
-              <span className="text-xl">{s.icon}</span>
-              <span className="text-[10px] font-bold text-slate-200 mt-0.5">{s.label}</span>
-            </button>
-          ))}
-        </div>
+      {/* 短いコメント入力バー */}
+      {commentOpen && (
+        <form
+          onSubmit={submitComment}
+          className="pointer-events-auto mx-3 mb-2 p-2 rounded-2xl bg-slate-900/95 border border-sky-500/60 shadow-2xl flex items-center gap-2"
+        >
+          <input
+            type="text"
+            maxLength={30}
+            autoFocus
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            placeholder="ひとことコメント（30文字まで）"
+            className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-sm text-white font-bold focus:outline-none focus:border-sky-400"
+          />
+          <button
+            type="submit"
+            disabled={!commentText.trim()}
+            className="shrink-0 px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-xs font-extrabold flex items-center gap-1 active:scale-95"
+          >
+            <Send className="w-3.5 h-3.5" />
+            送信
+          </button>
+        </form>
       )}
 
       <div className="pointer-events-auto bg-gradient-to-t from-amber-100/95 to-yellow-50/95 backdrop-blur-md border-t-4 border-red-600 px-3 pt-2.5 pb-4 shadow-[0_-8px_30px_rgba(0,0,0,0.35)]">
@@ -70,10 +86,11 @@ export const ActionDock: React.FC<ActionDockProps> = ({
               </div>
             </div>
             <button
-              onClick={() => setStampBarOpen((v) => !v)}
-              className="p-3.5 rounded-2xl bg-yellow-400 border-b-4 border-amber-600 text-slate-900 active:scale-95 shadow"
+              onClick={() => setCommentOpen((v) => !v)}
+              title="コメントを送る"
+              className="p-3.5 rounded-2xl bg-sky-500 border-b-4 border-sky-700 text-white active:scale-95 shadow"
             >
-              <Smile className="w-6 h-6" />
+              <MessageCircle className="w-6 h-6" />
             </button>
           </div>
         ) : isMyTurn && gameState.phase === 'action_select' ? (
@@ -136,11 +153,11 @@ export const ActionDock: React.FC<ActionDockProps> = ({
               所持物件
             </button>
             <button
-              onClick={() => setStampBarOpen((v) => !v)}
-              className="px-4 py-3 rounded-xl bg-red-500 hover:bg-red-400 active:scale-95 border-b-4 border-red-700 text-xs font-black text-white flex items-center gap-1 shadow"
+              onClick={() => setCommentOpen((v) => !v)}
+              className="px-4 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 active:scale-95 border-b-4 border-sky-800 text-xs font-black text-white flex items-center gap-1 shadow"
             >
-              <Smile className="w-4 h-4" />
-              スタンプ
+              <MessageCircle className="w-4 h-4" />
+              コメント
             </button>
           </div>
         )}

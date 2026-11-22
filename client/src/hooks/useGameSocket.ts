@@ -2,11 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { io, Socket } from 'socket.io-client';
 import type {
   CardDef,
+  CommentBroadcast,
   EventsData,
   GameEventSeqItem,
   PublicGameState,
   SaveFileInfo,
-  StampBroadcast,
   StationDef,
 } from '../types';
 
@@ -24,7 +24,7 @@ export function useGameSocket(isAdmin: boolean) {
   const [cardsMaster, setCardsMaster] = useState<CardDef[]>([]);
   const [eventsData, setEventsData] = useState<EventsData | null>(null);
   const [eventQueue, setEventQueue] = useState<GameEventSeqItem[]>([]);
-  const [stamps, setStamps] = useState<StampBroadcast[]>([]);
+  const [comments, setComments] = useState<CommentBroadcast[]>([]);
   const [savesList, setSavesList] = useState<SaveFileInfo[]>([]);
   const [adminPlayersCards, setAdminPlayersCards] = useState<Record<string, string[]>>({});
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -121,11 +121,11 @@ export function useGameSocket(isAdmin: boolean) {
       setEventQueue((prev) => [...prev, ...events]);
     });
 
-    socket.on('game:stamp', (stamp: StampBroadcast) => {
-      setStamps((prev) => [...prev.slice(-4), stamp]);
+    socket.on('game:comment', (comment: CommentBroadcast) => {
+      setComments((prev) => [...prev.slice(-4), comment]);
       setTimeout(() => {
-        setStamps((prev) => prev.filter((s) => s.id !== stamp.id));
-      }, 3000);
+        setComments((prev) => prev.filter((c) => c.id !== comment.id));
+      }, 4500);
     });
 
     socket.on('admin:saves_list', (list: SaveFileInfo[]) => {
@@ -212,6 +212,13 @@ export function useGameSocket(isAdmin: boolean) {
     });
   }, []);
 
+  const sellCardShop = useCallback((cardIndex: number) => {
+    socketRef.current?.emit('player:sell_card_shop', {
+      cardIndex,
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
+  }, []);
+
   const skipCardShop = useCallback(() => {
     socketRef.current?.emit('player:skip_card_shop', {
       token: localStorage.getItem(TOKEN_KEY) ?? undefined,
@@ -225,9 +232,11 @@ export function useGameSocket(isAdmin: boolean) {
     });
   }, []);
 
-  const sendStamp = useCallback((stampId: string) => {
-    socketRef.current?.emit('player:send_stamp', {
-      stampId,
+  const sendComment = useCallback((text: string) => {
+    const trimmed = text.trim().slice(0, 30);
+    if (!trimmed) return;
+    socketRef.current?.emit('player:send_comment', {
+      text: trimmed,
       token: localStorage.getItem(TOKEN_KEY) ?? undefined,
     });
   }, []);
@@ -344,7 +353,7 @@ export function useGameSocket(isAdmin: boolean) {
     cardsMaster,
     eventsData,
     eventQueue,
-    stamps,
+    comments,
     savesList,
     adminPlayersCards,
     errorMsg,
@@ -359,9 +368,10 @@ export function useGameSocket(isAdmin: boolean) {
     buyProperties,
     skipBuy,
     buyCardShop,
+    sellCardShop,
     skipCardShop,
     sellDebtProperties,
-    sendStamp,
+    sendComment,
     consumeFirstEvent,
     adminCreateGame,
     adminStartGame,

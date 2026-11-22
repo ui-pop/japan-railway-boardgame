@@ -156,6 +156,8 @@ export interface LocalRuleDef {
   message: string;
 }
 
+export type NuisanceForm = 'normal' | 'mini' | 'king' | 'happy';
+
 export interface PublicGameState {
   roomId: string;
   status: 'waiting' | 'playing' | 'paused' | 'finished';
@@ -172,6 +174,7 @@ export interface PublicGameState {
   players: PlayerPublicState[];
   ownedProperties: Record<string, OwnedProperty>;
   nuisanceTargetPlayerId: string | null;
+  nuisanceForm: NuisanceForm;
   lastEventMessage: string;
   eventLogs: string[];
   localRules: LocalRuleDef[];
@@ -207,6 +210,15 @@ export interface StampBroadcast {
   playerName: string;
   playerColor: string;
   stamp: StampDef;
+}
+
+export interface CommentBroadcast {
+  id: string;
+  playerId: string;
+  playerName: string;
+  playerColor: string;
+  playerAvatar: string;
+  text: string;
 }
 
 export interface SaveFileInfo {

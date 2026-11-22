@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Trophy } from 'lucide-react';
-import type { GameEventSeqItem, PlayerPublicState, StampBroadcast } from '../types';
+import type { CommentBroadcast, GameEventSeqItem, PlayerPublicState } from '../types';
 import { soundManager } from '../utils/sound';
 import { formatMoney } from './StatusBar';
 
 interface EventOverlayProps {
   eventQueue: GameEventSeqItem[];
   players: PlayerPublicState[];
-  stamps: StampBroadcast[];
+  comments: CommentBroadcast[];
   lowDataMode: boolean;
   currentTurnPlayerId?: string;
   turnCount?: number;
@@ -64,7 +64,7 @@ const DiceFace: React.FC<{ value: number; isRolling: boolean; index: number }> =
 export const EventOverlay: React.FC<EventOverlayProps> = ({
   eventQueue,
   players,
-  stamps,
+  comments,
   lowDataMode,
   onConsumeEvent,
 }) => {
@@ -233,12 +233,12 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
     }
   }, [currentEvent, lowDataMode, onConsumeEvent]);
 
-  // スタンプ受信時の効果音
+  // コメント受信時の効果音
   useEffect(() => {
-    if (stamps.length > 0) {
+    if (comments.length > 0) {
       soundManager.playStamp();
     }
-  }, [stamps.length]);
+  }, [comments.length]);
 
   const actor = currentEvent
     ? players.find((p) => p.id === currentEvent.playerId)
@@ -246,19 +246,19 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
 
   return (
     <>
-      {/* 画面右上のスタンプポップアップ */}
-      <div className="fixed top-28 right-3 z-40 flex flex-col gap-1.5 pointer-events-none">
-        {stamps.map((s) => (
+      {/* 画面右上のひとことコメント吹き出し */}
+      <div className="fixed top-28 right-3 z-40 flex flex-col gap-1.5 max-w-[240px] pointer-events-none">
+        {comments.map((c) => (
           <div
-            key={s.id}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-slate-900/95 border border-slate-600 shadow-xl animate-bounce"
+            key={c.id}
+            className="animate-event-pop flex items-start gap-2 px-3 py-2 rounded-2xl bg-slate-900/95 border border-sky-500/50 shadow-xl"
           >
-            <span className="text-xl">{s.stamp.icon}</span>
-            <div className="text-xs">
-              <div className="font-bold" style={{ color: s.playerColor }}>
-                {s.playerName}
+            <span className="text-lg shrink-0 mt-0.5">{c.playerAvatar}</span>
+            <div className="text-xs min-w-0">
+              <div className="font-bold truncate" style={{ color: c.playerColor }}>
+                {c.playerName}
               </div>
-              <div className="text-white font-extrabold">{s.stamp.label}</div>
+              <div className="text-white font-bold break-words leading-snug">{c.text}</div>
             </div>
           </div>
         ))}
@@ -460,7 +460,9 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
           {(currentEvent.type === 'nuisance_attach' ||
             currentEvent.type === 'nuisance_action') && (
             <div className="animate-event-shake bg-gradient-to-b from-purple-950 via-slate-900 to-black border-4 border-purple-500 rounded-3xl px-6 py-7 text-center shadow-[0_0_50px_rgba(168,85,247,0.5)] max-w-sm w-full">
-              <div className="text-6xl mb-3 animate-bounce">👹</div>
+              <div className="text-6xl mb-3 animate-bounce">
+                {String(currentEvent.payload.icon ?? '👹')}
+              </div>
               <div className="text-lg font-black text-purple-300">
                 {currentEvent.type === 'nuisance_attach'
                   ? `ケチケチ大王が ${String(currentEvent.payload.targetName)} にとりついた！`

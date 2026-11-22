@@ -205,6 +205,8 @@ export interface LocalRuleDef {
   message: string;       // 発動時メッセージ ({player} で社長名に置換)
 }
 
+export type NuisanceForm = 'normal' | 'mini' | 'king' | 'happy';
+
 export interface PublicGameState {
   roomId: string;
   status: 'waiting' | 'playing' | 'paused' | 'finished';
@@ -221,6 +223,7 @@ export interface PublicGameState {
   players: PlayerPublicState[];
   ownedProperties: Record<string, OwnedProperty>; // key: propertyId
   nuisanceTargetPlayerId: string | null;
+  nuisanceForm: NuisanceForm;
   lastEventMessage: string;
   eventLogs: string[];
   localRules: LocalRuleDef[];

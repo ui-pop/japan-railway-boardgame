@@ -8,6 +8,7 @@ import {
   GameEventSeqItem,
   LocalRuleDef,
   LocalRuleTrigger,
+  NuisanceForm,
   OwnedProperty,
   PlayerInternalState,
   PlayerPublicState,
@@ -81,6 +82,7 @@ export class GameEngine {
   public players: PlayerInternalState[] = [];
   public ownedProperties: Record<string, OwnedProperty> = {};
   public nuisanceTargetPlayerId: string | null = null;
+  public nuisanceForm: NuisanceForm = 'normal';
   private _lastEventMessage = 'ゲーム開始を待っています…';
   public eventLogs: string[] = [];
   public localRules: LocalRuleDef[] = [];
@@ -157,6 +159,7 @@ export class GameEngine {
     this.players = [];
     this.ownedProperties = {};
     this.nuisanceTargetPlayerId = null;
+    this.nuisanceForm = 'normal';
     this.lastEventMessage = '新しいゲームが作成されました！参加者を待っています。';
     this.turnCount = 0;
     this.previousTurnSnapshot = null;
@@ -1058,6 +1061,8 @@ export class GameEngine {
       });
       events.push(...this.evaluateLocalRules('on_plus_station', player));
       events.push(...stationLocalRules);
+      const pickpocketEv = this.maybeTriggerPickpocket(player);
+      if (pickpocketEv) events.push(pickpocketEv);
       return [...events, ...this.finishTurn(player)];
     }
 
@@ -1076,6 +1081,8 @@ export class GameEngine {
       });
       events.push(...this.evaluateLocalRules('on_minus_station', player));
       events.push(...stationLocalRules);
+      const pickpocketEv = this.maybeTriggerPickpocket(player);
+      if (pickpocketEv) events.push(pickpocketEv);
       return [...events, ...this.finishTurn(player)];
     }
 
@@ -1112,12 +1119,12 @@ export class GameEngine {
 
     if (station.type === 'shop') {
       events.push(...stationLocalRules);
-      if (player.cards.length < 8 && player.money >= 600) {
+      if ((player.cards.length < 8 && player.money >= 600) || player.cards.length > 0) {
         this.phase = 'card_shop';
-        this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着！カードを購入できます。`;
+        this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着！カードの売買ができます。`;
         return events;
       } else {
-        this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着（購入不可）。`;
+        this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着（売買不可）。`;
         return [...events, ...this.finishTurn(player)];
       }
     }
@@ -1249,6 +1256,41 @@ export class GameEngine {
     return this.buyProperties(playerId, [], []);
   }
 
+  // 本家名物「スリの銀次」遭遇判定（現金5,000万円以上でプラス/マイナス駅到着時に5%）
+  private maybeTriggerPickpocket(player: PlayerInternalState): GameEventSeqItem | null {
+    if (player.money < 5000 || Math.random() >= 0.05) return null;
+    const shieldIdx = player.cards.findIndex((id) => id === 'shield' || id === 'king_shield');
+    if (shieldIdx !== -1) {
+      player.cards.splice(shieldIdx, 1);
+      player.cardCount = player.cards.length;
+      this.lastEventMessage = `🕵️ スリの銀次が現れたが、${player.name}はバリアカードで撃退した！`;
+      return {
+        type: 'random_event',
+        playerId: player.id,
+        payload: {
+          title: '🕵️ スリの銀次を撃退！',
+          icon: '🛡️',
+          description: `スリの銀次が狙ってきたが、${player.name}はバリアカードで完全に防いだ！`,
+          isPositive: true,
+        },
+      };
+    }
+    const stolen = Math.min(10000, Math.round((player.money * 0.25) / 100) * 100);
+    player.money -= stolen;
+    this.recalculateRankingsAndDistances();
+    this.lastEventMessage = `🕵️ スリの銀次出現！${player.name}は持ち金の25%（-${stolen.toLocaleString()}万円）をすられた！`;
+    return {
+      type: 'random_event',
+      playerId: player.id,
+      payload: {
+        title: '🕵️ スリの銀次 出現！！',
+        icon: '🕵️',
+        description: `「へへっ、いただきだ！」${player.name}は現金 ${stolen.toLocaleString()}万円をすられてしまった！`,
+        isPositive: false,
+      },
+    };
+  }
+
   public buyCardFromShop(
     playerId: string,
     cardId: string
@@ -1280,6 +1322,31 @@ export class GameEngine {
     }
     const endEvents = this.finishTurn(player);
     return { ok: true, events: endEvents };
+  }
+
+  public sellCardAtShop(
+    playerId: string,
+    cardIndex: number
+  ): { ok: boolean; error?: string; events: GameEventSeqItem[] } {
+    if (this.status !== 'playing' || this.phase !== 'card_shop') {
+      return { ok: false, error: '現在はカード売り場フェーズではありません。', events: [] };
+    }
+    const player = this.getCurrentPlayer();
+    if (!player || player.id !== playerId) {
+      return { ok: false, error: 'あなたのターンではありません。', events: [] };
+    }
+    const cardId = player.cards[cardIndex];
+    const card = cardId ? this.cardMap.get(cardId) : undefined;
+    if (!card) {
+      return { ok: false, error: '指定されたカードが見つかりません。', events: [] };
+    }
+    const sellPrice = Math.floor((card.price ?? 1500) * 0.5);
+    player.cards.splice(cardIndex, 1);
+    player.cardCount = player.cards.length;
+    player.money += sellPrice;
+    this.recalculateRankingsAndDistances();
+    this.lastEventMessage = `🛒 ${player.name}が「${card.name}」を ${sellPrice.toLocaleString()}万円で売却しました！`;
+    return { ok: true, events: [] };
   }
 
   public skipCardShop(playerId: string): { ok: boolean; error?: string; events: GameEventSeqItem[] } {
@@ -1387,22 +1454,161 @@ export class GameEngine {
   private finishTurn(player: PlayerInternalState, skipped = false): GameEventSeqItem[] {
     const events: GameEventSeqItem[] = [];
 
-    // お邪魔キャラの悪行発動チェック（1回休みのターンは何も起きない）
+    // お邪魔キャラの変身＆悪行発動チェック（1回休みのターンは何も起きない）
     if (!skipped && player.hasNuisance) {
-      const shieldIdx = player.cards.findIndex((id) => id === 'shield' || id === 'king_shield');
-      if (shieldIdx !== -1) {
-        player.cards.splice(shieldIdx, 1);
-        player.cardCount = player.cards.length;
+      // 一定確率で変身（プチ・キング・ハッピー）または通常へ戻る
+      if (this.nuisanceForm === 'normal' && Math.random() < 0.22) {
+        const r = Math.random();
+        if (r < 0.45) {
+          this.nuisanceForm = 'mini';
+          events.push({
+            type: 'random_event',
+            playerId: player.id,
+            payload: {
+              title: '👶 プチケチに変身！',
+              icon: '👶',
+              description: `ケチケチ大王がかわいい「プチケチ」に変身した！少しだけ出費が軽くなりそう！`,
+              isPositive: true,
+            },
+          });
+        } else if (r < 0.85) {
+          this.nuisanceForm = 'king';
+          events.push({
+            type: 'nuisance_action',
+            playerId: player.id,
+            payload: {
+              blocked: false,
+              title: '🔥 キングケチケチに変身！！',
+              description: `ズゴゴゴゴ…！ケチケチ大王が最凶の「キングケチケチ」に変身してしまった！！`,
+              icon: '🔥',
+            },
+          });
+        } else {
+          this.nuisanceForm = 'happy';
+          events.push({
+            type: 'random_event',
+            playerId: player.id,
+            payload: {
+              title: '😇 ハッピー大王に変身！',
+              icon: '😇',
+              description: `奇跡！ケチケチ大王が「ハッピー大王」に変身した！幸運が舞い降りるかも！？`,
+              isPositive: true,
+            },
+          });
+        }
+      } else if (this.nuisanceForm !== 'normal' && Math.random() < 0.35) {
+        this.nuisanceForm = 'normal';
+      }
+
+      if (this.nuisanceForm === 'happy') {
+        const bonus = (Math.floor(Math.random() * 3) + 2) * 1000;
+        player.money += bonus;
+        this.lastEventMessage = `😇 ハッピー大王の祝福！${player.name}に +${bonus.toLocaleString()}万円のプレゼント！`;
+        events.push({
+          type: 'random_event',
+          playerId: player.id,
+          payload: {
+            title: '😇 ハッピー大王のプレゼント！',
+            icon: '😇',
+            description: `${player.name}に幸運のおこづかい +${bonus.toLocaleString()}万円をプレゼント！`,
+            isPositive: true,
+          },
+        });
+      } else if (this.nuisanceForm === 'mini') {
+        const loss = (Math.floor(Math.random() * 4) + 3) * 100;
+        player.money -= loss;
         events.push({
           type: 'nuisance_action',
           playerId: player.id,
           payload: {
-            blocked: true,
-            title: 'バリアカード発動！',
-            description: `${player.name}はバリアカードで${this.eventsData.nuisanceCharacter.name}の悪行を防いだ！`,
+            blocked: false,
+            title: '👶 プチケチのおこづかい',
+            description: `プチケチがお菓子を買った！ (-${loss.toLocaleString()}万円)`,
+            icon: '👶',
           },
         });
       } else {
+        const shieldIdx = player.cards.findIndex((id) => id === 'shield' || id === 'king_shield');
+        if (shieldIdx !== -1) {
+          player.cards.splice(shieldIdx, 1);
+          player.cardCount = player.cards.length;
+          events.push({
+            type: 'nuisance_action',
+            playerId: player.id,
+            payload: {
+              blocked: true,
+              title: 'バリアカード発動！',
+              description: `${player.name}はバリアカードで${
+                this.nuisanceForm === 'king' ? 'キングケチケチ' : this.eventsData.nuisanceCharacter.name
+              }の悪行を防いだ！`,
+            },
+          });
+        } else if (this.nuisanceForm === 'king') {
+          const kingRoll = Math.random();
+          if (kingRoll < 0.45) {
+            const dice = Array.from({ length: 5 }, () => Math.floor(Math.random() * 6) + 1);
+            const sum = dice.reduce((a, b) => a + b, 0);
+            const loss = sum * 300;
+            player.money -= loss;
+            events.push({
+              type: 'nuisance_action',
+              playerId: player.id,
+              payload: {
+                blocked: false,
+                title: '🔥 キングのサイコロ5個大出費！！',
+                description: `サイコロ5個の出目は [${dice.join('・')}]＝合計${sum}！ ×300万で -${loss.toLocaleString()}万円を吹き飛ばされた！！`,
+                icon: '🔥',
+              },
+            });
+          } else if (kingRoll < 0.75 && player.cards.length > 0) {
+            const destroyCount = Math.min(3, player.cards.length);
+            for (let i = 0; i < destroyCount; i++) {
+              player.cards.splice(Math.floor(Math.random() * player.cards.length), 1);
+            }
+            player.cardCount = player.cards.length;
+            events.push({
+              type: 'nuisance_action',
+              playerId: player.id,
+              payload: {
+                blocked: false,
+                title: '🔥 キングのカード大粉砕！！',
+                description: `キングケチケチの炎で、${player.name}の手持ちカードが ${destroyCount}枚 焼き払われた！！`,
+                icon: '🔥',
+              },
+            });
+          } else {
+            const myProps = this.getPlayerProperties(player.id);
+            if (myProps.length > 0) {
+              const target = myProps[Math.floor(Math.random() * myProps.length)];
+              const st = this.stationMap.get(target.stationId);
+              const def = st?.properties?.find((p) => p.id === target.propertyId);
+              delete this.ownedProperties[target.propertyId];
+              events.push({
+                type: 'nuisance_action',
+                playerId: player.id,
+                payload: {
+                  blocked: false,
+                  title: '🔥 キングの物件破壊！！',
+                  description: `キングケチケチが「${def?.name ?? '物件'}」を勝手に手放してしまった！！（売却金ゼロ！）`,
+                  icon: '🔥',
+                },
+              });
+            } else {
+              const loss = 4000;
+              player.money -= loss;
+              events.push({
+                type: 'nuisance_action',
+                playerId: player.id,
+                payload: {
+                  blocked: false,
+                  title: '🔥 キングの豪遊！！',
+                  description: `キングケチケチが宇宙旅行へ行った！ (-${loss.toLocaleString()}万円)`,
+                  icon: '🔥',
+                },
+              });
+            }
+          }
+        } else {
         const actions = this.eventsData.nuisanceCharacter.actions;
         const act = this.pickWeighted(actions);
         let detail = act.description;
@@ -1529,6 +1735,7 @@ export class GameEngine {
             payload: { stationId: nuisanceWarpTo.id, stationName: nuisanceWarpTo.name },
           });
         }
+      }
       }
     }
 
@@ -2438,6 +2645,7 @@ export class GameEngine {
       players: publicPlayers,
       ownedProperties: this.ownedProperties,
       nuisanceTargetPlayerId: this.nuisanceTargetPlayerId,
+      nuisanceForm: this.nuisanceForm,
       lastEventMessage: this.lastEventMessage,
       eventLogs: this.eventLogs,
       localRules: this.localRules,

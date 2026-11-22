@@ -394,6 +394,17 @@ io.on('connection', (socket) => {
     emitEventsAndSync(res.events);
   });
 
+  socket.on('player:sell_card_shop', (payload: { cardIndex: number; token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
+    if (!pid) return;
+    const res = engine.sellCardAtShop(pid, Number(payload.cardIndex));
+    if (!res.ok) {
+      socket.emit('game:error', { message: res.error });
+      return;
+    }
+    emitEventsAndSync(res.events);
+  });
+
   socket.on('player:skip_card_shop', (payload?: { token?: string }) => {
     const pid = getSocketPlayerId(socket, payload?.token);
     if (!pid) return;
@@ -419,17 +430,22 @@ io.on('connection', (socket) => {
     }
   );
 
-  socket.on('player:send_stamp', (payload: { stampId: string; token?: string }) => {
+  let lastCommentAt = 0;
+  socket.on('player:send_comment', (payload: { text: string; token?: string }) => {
+    const now = Date.now();
+    if (now - lastCommentAt < 1200) return;
     const pid = getSocketPlayerId(socket, payload?.token);
     const player = engine.players.find((p) => p.id === pid);
-    const stamp = eventsData.stamps.find((s) => s.id === payload.stampId);
-    if (!player || !stamp) return;
-    io.emit('game:stamp', {
-      id: `${Date.now()}_${Math.random()}`,
+    const cleanText = String(payload?.text ?? '').trim().slice(0, 30);
+    if (!player || !cleanText) return;
+    lastCommentAt = now;
+    io.emit('game:comment', {
+      id: `${now}_${Math.random()}`,
       playerId: player.id,
       playerName: player.name,
       playerColor: player.color,
-      stamp,
+      playerAvatar: player.avatar,
+      text: cleanText,
     });
   });
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ShoppingBag } from 'lucide-react';
 import type { CardDef, PublicGameState } from '../types';
 import { formatMoney } from './StatusBar';
@@ -6,9 +6,11 @@ import { formatMoney } from './StatusBar';
 interface CardShopModalProps {
   gameState: PublicGameState;
   myPlayerId: string;
+  myCards: string[];
   myCardCount: number;
   cardsMaster: CardDef[];
   onBuyCard: (cardId: string) => void;
+  onSellCard: (cardIndex: number) => void;
   onSkip: () => void;
 }
 
@@ -32,11 +34,14 @@ const SHOP_STOCK_IDS = [
 export const CardShopModal: React.FC<CardShopModalProps> = ({
   gameState,
   myPlayerId,
+  myCards,
   myCardCount,
   cardsMaster,
   onBuyCard,
+  onSellCard,
   onSkip,
 }) => {
+  const [tab, setTab] = useState<'buy' | 'sell'>('buy');
   const me = gameState.players.find((p) => p.id === myPlayerId);
   const myMoney = me?.money ?? 0;
   const shopCards = SHOP_STOCK_IDS.map((id) => cardsMaster.find((c) => c.id === id)).filter(
@@ -59,40 +64,96 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
           <div className="text-xs text-amber-100 mt-1 font-bold">
             所持金: {formatMoney(myMoney)}
           </div>
+          <div className="mt-2.5 grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setTab('buy')}
+              className={`py-1.5 rounded-xl text-xs font-black transition ${
+                tab === 'buy'
+                  ? 'bg-white text-amber-900 shadow'
+                  : 'bg-black/25 text-amber-100 hover:bg-black/40'
+              }`}
+            >
+              買う（購入）
+            </button>
+            <button
+              onClick={() => setTab('sell')}
+              className={`py-1.5 rounded-xl text-xs font-black transition ${
+                tab === 'sell'
+                  ? 'bg-white text-amber-900 shadow'
+                  : 'bg-black/25 text-amber-100 hover:bg-black/40'
+              }`}
+            >
+              売る（半額売却・{myCards.length}枚）
+            </button>
+          </div>
         </div>
 
         <div className="p-4 overflow-y-auto space-y-2 flex-1">
-          {shopCards.map((card) => {
-            const price = card.price ?? 1500;
-            const canAfford = myMoney >= price && myCardCount < 8;
-            return (
-              <div
-                key={card.id}
-                className="p-3 rounded-2xl bg-slate-800/90 border border-slate-700 flex items-center justify-between gap-2.5"
-              >
-                <div className="flex items-start gap-2.5">
-                  <span className="text-2xl mt-0.5">{card.icon}</span>
-                  <div>
-                    <div className="text-sm font-extrabold text-white">{card.name}</div>
-                    <div className="text-[11px] text-slate-400 leading-snug">
-                      {card.description}
+          {tab === 'buy' ? (
+            shopCards.map((card) => {
+              const price = card.price ?? 1500;
+              const canAfford = myMoney >= price && myCardCount < 8;
+              return (
+                <div
+                  key={card.id}
+                  className="p-3 rounded-2xl bg-slate-800/90 border border-slate-700 flex items-center justify-between gap-2.5"
+                >
+                  <div className="flex items-start gap-2.5">
+                    <span className="text-2xl mt-0.5">{card.icon}</span>
+                    <div>
+                      <div className="text-sm font-extrabold text-white">{card.name}</div>
+                      <div className="text-[11px] text-slate-400 leading-snug">
+                        {card.description}
+                      </div>
                     </div>
                   </div>
+                  <button
+                    disabled={!canAfford}
+                    onClick={() => onBuyCard(card.id)}
+                    className={`shrink-0 px-3 py-2 rounded-xl text-xs font-extrabold transition ${
+                      canAfford
+                        ? 'bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950'
+                        : 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                    }`}
+                  >
+                    {formatMoney(price)}
+                  </button>
                 </div>
-                <button
-                  disabled={!canAfford}
-                  onClick={() => onBuyCard(card.id)}
-                  className={`shrink-0 px-3 py-2 rounded-xl text-xs font-extrabold transition ${
-                    canAfford
-                      ? 'bg-amber-500 hover:bg-amber-400 active:scale-95 text-slate-950'
-                      : 'bg-slate-700 text-slate-500 cursor-not-allowed'
-                  }`}
+              );
+            })
+          ) : myCards.length === 0 ? (
+            <div className="text-center text-slate-400 py-10 text-sm">
+              売却できる手持ちカードがありません。
+            </div>
+          ) : (
+            myCards.map((cid, idx) => {
+              const card = cardsMaster.find((c) => c.id === cid);
+              if (!card) return null;
+              const sellPrice = Math.floor((card.price ?? 1500) * 0.5);
+              return (
+                <div
+                  key={`${cid}_${idx}`}
+                  className="p-3 rounded-2xl bg-slate-800/90 border border-slate-700 flex items-center justify-between gap-2.5"
                 >
-                  {formatMoney(price)}
-                </button>
-              </div>
-            );
-          })}
+                  <div className="flex items-start gap-2.5">
+                    <span className="text-2xl mt-0.5">{card.icon}</span>
+                    <div>
+                      <div className="text-sm font-extrabold text-white">{card.name}</div>
+                      <div className="text-[11px] text-slate-400 leading-snug">
+                        {card.description}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => onSellCard(idx)}
+                    className="shrink-0 px-3 py-2 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white transition"
+                  >
+                    +{formatMoney(sellPrice)}
+                  </button>
+                </div>
+              );
+            })
+          )}
         </div>
 
         <div className="p-4 bg-slate-950/90 border-t border-slate-800">

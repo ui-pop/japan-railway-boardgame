@@ -23,7 +23,7 @@ export function App() {
     cardsMaster,
     eventsData,
     eventQueue,
-    stamps,
+    comments,
     savesList,
     adminPlayersCards,
     errorMsg,
@@ -37,9 +37,10 @@ export function App() {
     buyProperties,
     skipBuy,
     buyCardShop,
+    sellCardShop,
     skipCardShop,
     sellDebtProperties,
-    sendStamp,
+    sendComment,
     consumeFirstEvent,
     adminCreateGame,
     adminStartGame,
@@ -324,14 +325,13 @@ export function App() {
       <ActionDock
         gameState={gameState}
         myPlayerId={myPlayerId}
-        stamps={eventsData?.stamps ?? []}
         onRollDice={rollDice}
         onOpenCards={() => setCardModalOpen(true)}
         onFocusWholeMap={() =>
           setFocusTrigger((prev) => ({ type: 'all', seq: (prev?.seq ?? 0) + 1 }))
         }
         onOpenPropertiesInfo={() => setPortfolioModalOpen(true)}
-        onSendStamp={sendStamp}
+        onSendComment={sendComment}
       />
 
       {/* 物件購入モーダル（駅到着時） */}
@@ -366,9 +366,11 @@ export function App() {
         <CardShopModal
           gameState={gameState}
           myPlayerId={myPlayerId}
+          myCards={myCards}
           myCardCount={myCards.length}
           cardsMaster={cardsMaster}
           onBuyCard={buyCardShop}
+          onSellCard={sellCardShop}
           onSkip={skipCardShop}
         />
       )}
@@ -399,11 +401,11 @@ export function App() {
         />
       )}
 
-      {/* イベント演出・スタンプオーバーレイ */}
+      {/* イベント演出・コメントオーバーレイ */}
       <EventOverlay
         eventQueue={eventQueue}
         players={gameState.players}
-        stamps={stamps}
+        comments={comments}
         lowDataMode={lowDataMode}
         currentTurnPlayerId={gameState.currentTurnPlayerId}
         turnCount={gameState.turnCount}
