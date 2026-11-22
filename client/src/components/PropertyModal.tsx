@@ -28,7 +28,6 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
   const currentStation = stations.find((s) => s.id === me?.stationId);
 
   const [selectedBuy, setSelectedBuy] = useState<string[]>([]);
-  const [selectedUpgrade, setSelectedUpgrade] = useState<string[]>([]);
   const [selectedSell, setSelectedSell] = useState<string[]>([]);
 
   const totalCost = useMemo(() => {
@@ -38,12 +37,8 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
       const p = currentStation.properties.find((x) => x.id === pid);
       if (p) sum += p.price;
     }
-    for (const pid of selectedUpgrade) {
-      const p = currentStation.properties.find((x) => x.id === pid);
-      if (p) sum += p.price; // 本家準拠：増資コストは物件価格の100%
-    }
     return sum;
-  }, [currentStation, selectedBuy, selectedUpgrade]);
+  }, [currentStation, selectedBuy]);
 
   const remainingMoney = (me?.money ?? 0) - totalCost;
 
@@ -52,14 +47,6 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
       setSelectedBuy((prev) => prev.filter((id) => id !== pid));
     } else if (remainingMoney >= price) {
       setSelectedBuy((prev) => [...prev, pid]);
-    }
-  };
-
-  const toggleUpgrade = (pid: string, cost: number) => {
-    if (selectedUpgrade.includes(pid)) {
-      setSelectedUpgrade((prev) => prev.filter((id) => id !== pid));
-    } else if (remainingMoney >= cost) {
-      setSelectedUpgrade((prev) => [...prev, pid]);
     }
   };
 
@@ -115,12 +102,13 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
   }, [gameState.ownedProperties, myPlayerId, stations]);
 
   if (mode === 'debt_sell') {
-    const selectedRefund = myOwnedList
+    const sellableList = myOwnedList.filter((item) => item.category !== '農林');
+    const selectedRefund = sellableList
       .filter((item) => selectedSell.includes(item.propertyId))
       .reduce((acc, item) => acc + item.sellValue, 0);
     const currentMoney = me?.money ?? 0;
     const afterMoney = currentMoney + selectedRefund;
-    const canConfirm = afterMoney >= 0 || selectedSell.length >= myOwnedList.length;
+    const canConfirm = afterMoney >= 0 || selectedSell.length >= sellableList.length;
 
     const toggleSell = (pid: string) => {
       setSelectedSell((prev) =>
@@ -160,15 +148,19 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
 
           <div className="p-4 overflow-y-auto space-y-2 flex-1">
             {myOwnedList.map((item) => {
-              const checked = selectedSell.includes(item.propertyId);
+              const isFarm = item.category === '農林';
+              const checked = !isFarm && selectedSell.includes(item.propertyId);
               return (
                 <button
                   key={item.propertyId}
-                  onClick={() => toggleSell(item.propertyId)}
+                  disabled={isFarm}
+                  onClick={() => !isFarm && toggleSell(item.propertyId)}
                   className={`w-full text-left flex items-center justify-between p-3 rounded-2xl border transition ${
-                    checked
-                      ? 'bg-rose-950/80 border-rose-400 shadow'
-                      : 'bg-slate-800/80 border-slate-700 hover:bg-slate-800'
+                    isFarm
+                      ? 'bg-emerald-950/40 border-emerald-700/50 opacity-75 cursor-not-allowed'
+                      : checked
+                        ? 'bg-rose-950/80 border-rose-400 shadow'
+                        : 'bg-slate-800/80 border-slate-700 hover:bg-slate-800'
                   }`}
                 >
                   <div>
@@ -176,6 +168,11 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
                       <span>
                         {item.stationName}駅 ・ {item.category}
                       </span>
+                      {isFarm && (
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-600/30 border border-emerald-400/60 text-emerald-200 text-[10px]">
+                          🌾 売却免除
+                        </span>
+                      )}
                       {item.isMonopolized && (
                         <span className="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/50 text-amber-300 text-[10px]">
                           👑独占中
@@ -183,22 +180,28 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
                       )}
                     </div>
                     <div className="text-sm font-bold text-white">
-                      {item.propName}{' '}
-                      <span className="text-amber-400 text-xs">Lv.{item.level}</span>
+                      {item.propName}
                     </div>
                     <div className="text-[10px] text-slate-400">
-                      年間収益 +{formatMoney(item.annualIncome)}
+                      年間収益 {item.annualIncome >= 0 ? '+' : ''}
+                      {formatMoney(item.annualIncome)}
                     </div>
                   </div>
                   <div className="text-right shrink-0 pl-2">
-                    <div
-                      className={`px-2.5 py-1.5 rounded-xl text-xs font-black flex items-center gap-1 ${
-                        checked ? 'bg-rose-600 text-white' : 'bg-slate-700 text-amber-300'
-                      }`}
-                    >
-                      {checked && <Check className="w-3.5 h-3.5" />}
-                      +{formatMoney(item.sellValue)}
-                    </div>
+                    {isFarm ? (
+                      <span className="px-2.5 py-1.5 rounded-xl bg-emerald-900/70 text-emerald-200 text-[11px] font-bold">
+                        保護対象
+                      </span>
+                    ) : (
+                      <div
+                        className={`px-2.5 py-1.5 rounded-xl text-xs font-black flex items-center gap-1 ${
+                          checked ? 'bg-rose-600 text-white' : 'bg-slate-700 text-amber-300'
+                        }`}
+                      >
+                        {checked && <Check className="w-3.5 h-3.5" />}
+                        +{formatMoney(item.sellValue)}
+                      </div>
+                    )}
                   </div>
                 </button>
               );
@@ -317,15 +320,13 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
               ? gameState.players.find((p) => p.id === owned.ownerId)
               : null;
             const isMine = owned?.ownerId === myPlayerId;
-            const upgradeCost = prop.price;
             const isSelectedBuy = selectedBuy.includes(prop.id);
-            const isSelectedUp = selectedUpgrade.includes(prop.id);
 
             return (
               <div
                 key={prop.id}
                 className={`p-3 rounded-2xl border transition ${
-                  isSelectedBuy || isSelectedUp
+                  isSelectedBuy
                     ? 'bg-sky-950/80 border-sky-400'
                     : 'bg-slate-800/80 border-slate-700'
                 }`}
@@ -358,24 +359,9 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
                       {isSelectedBuy && <Check className="w-3.5 h-3.5" />}
                       {formatMoney(prop.price)}
                     </button>
-                  ) : isMine && owned.level < 3 ? (
-                    <button
-                      onClick={() => toggleUpgrade(prop.id, upgradeCost)}
-                      disabled={!isSelectedUp && remainingMoney < upgradeCost}
-                      className={`px-3 py-2 rounded-xl text-xs font-extrabold flex items-center gap-1 transition ${
-                        isSelectedUp
-                          ? 'bg-amber-500 text-white'
-                          : remainingMoney >= upgradeCost
-                            ? 'bg-amber-600 hover:bg-amber-500 text-white'
-                            : 'bg-slate-700 text-slate-500 cursor-not-allowed'
-                      }`}
-                    >
-                      {isSelectedUp && <Check className="w-3.5 h-3.5" />}
-                      増資 {formatMoney(upgradeCost)}
-                    </button>
                   ) : (
                     <span className="px-2.5 py-1.5 rounded-xl bg-slate-700/70 text-[11px] text-slate-400 font-bold">
-                      {isMine ? 'MAX Lv.3' : '他社所有'}
+                      {isMine ? '所有済み' : '他社所有'}
                     </span>
                   )}
                 </div>
@@ -392,8 +378,8 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
             買わずに終了
           </button>
           <button
-            onClick={() => onBuy(selectedBuy, selectedUpgrade)}
-            disabled={selectedBuy.length === 0 && selectedUpgrade.length === 0}
+            onClick={() => onBuy(selectedBuy, [])}
+            disabled={selectedBuy.length === 0}
             className="flex-1 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-700 disabled:text-slate-500 text-white font-extrabold text-sm shadow-lg"
           >
             購入確定 ({formatMoney(totalCost)})

@@ -52,30 +52,25 @@ export const SHOP_STOCK_IDS = [
   'card_pack',
 ];
 
-// 物件の評価額（本家準拠：購入額＋増資額、増資コストは物件価格の100%）
-function investedValue(price: number, level: number): number {
-  return price * level;
+// 物件の評価額（桃鉄スイッチ準拠：増資廃止・一括購入価格そのまま）
+function investedValue(price: number, _level = 1): number {
+  return price;
 }
 
-// 物件の年間収益（本家準拠：増資1回ごとに収益率+5%、独占で2倍）
-function calcAnnualIncome(price: number, rate: number, level: number, isMonopolized: boolean): number {
-  const effectiveRate = rate + (level - 1) * 0.05;
+// 物件の年間収益（桃鉄スイッチ準拠：価格 × 収益率、独占で2倍）
+function calcAnnualIncome(price: number, rate: number, _level: number, isMonopolized: boolean): number {
   const monoMult = isMonopolized ? 2.0 : 1.0;
-  return Math.round(price * level * effectiveRate * monoMult);
+  return Math.round(price * rate * monoMult);
 }
 
-// 本家桃鉄準拠の年数インフレ倍率（1年目=1x, 3年目=2.2x, 5年目=4.4x, 10年目=13.5x, 20年目=48.3x）
-export function getYearInflationMult(year: number): number {
-  const y = Math.max(1, year);
-  if (y === 1) return 1;
-  return Math.round((1 + (y - 1) * 0.4 + Math.pow(y - 1, 2) * 0.11) * 10) / 10;
+// インフレシステム廃止（桃鉄スイッチの固定基準値をそのまま使用）
+export function getYearInflationMult(_year: number): number {
+  return 1;
 }
 
-// カード売り場価格の年数インフレ連動（1年目は基準額、後半は緩やかに上昇）
-export function getCardShopPrice(basePrice: number | undefined, year: number): number {
-  const base = basePrice ?? 1500;
-  const mult = Math.max(1, 1 + (getYearInflationMult(year) - 1) * 0.45);
-  return Math.round((base * mult) / 100) * 100;
+// カード売り場価格（固定基準値・インフレなし）
+export function getCardShopPrice(basePrice: number | undefined, _year = 1): number {
+  return basePrice ?? 1500;
 }
 
 export class GameEngine {
@@ -519,13 +514,14 @@ export class GameEngine {
       this.visitedPathThisTurn = [player.stationId];
       this.phase = 'moving';
 
-      // 周遊カードは本家準拠で70%の確率で手元に残る！
+      // 周遊カード（リニア周遊含む）は70%の確率で手元に残る！
       let keptMsg = '';
       if (
         (card.id === 'express_shuyu' ||
           card.id === 'super_shuyu' ||
           card.id === 'shinkansen_shuyu' ||
-          card.id === 'nozomi_shuyu') &&
+          card.id === 'nozomi_shuyu' ||
+          card.id === 'super_linear') &&
         Math.random() < 0.7 &&
         player.cards.length < 8
       ) {
@@ -1216,7 +1212,7 @@ export class GameEngine {
 
     if (station.type === 'shop') {
       events.push(...stationLocalRules);
-      if ((player.cards.length < 8 && player.money >= 600) || player.cards.length > 0) {
+      if ((player.cards.length < 8 && player.money >= 400) || player.cards.length > 0) {
         this.phase = 'card_shop';
         this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着！カードの売買ができます。`;
         return events;
@@ -1279,7 +1275,7 @@ export class GameEngine {
   public buyProperties(
     playerId: string,
     propertyIds: string[],
-    upgradeIds: string[]
+    _upgradeIds: string[] = []
   ): { ok: boolean; error?: string; events: GameEventSeqItem[] } {
     if (this.status !== 'playing' || this.phase !== 'property_buy') {
       return { ok: false, error: '現在は物件購入フェーズではありません。', events: [] };
@@ -1311,18 +1307,6 @@ export class GameEngine {
           level: 1,
         };
         boughtNames.push(prop.name);
-      }
-    }
-
-    for (const pid of upgradeIds) {
-      const prop = propMap.get(pid);
-      const owned = this.ownedProperties[pid];
-      if (!prop || !owned || owned.ownerId !== player.id || owned.level >= 3) continue;
-      const upgradeCost = prop.price; // 本家準拠：増資コストは物件価格と同額
-      if (player.money >= upgradeCost) {
-        player.money -= upgradeCost;
-        owned.level += 1;
-        boughtNames.push(`${prop.name}(Lv${owned.level})`);
       }
     }
 
@@ -1438,7 +1422,8 @@ export class GameEngine {
     if (!card) {
       return { ok: false, error: '指定されたカードが見つかりません。', events: [] };
     }
-    const sellPrice = Math.floor(getCardShopPrice(card.price, this.currentYear) * 0.5);
+    // 桃鉄スイッチ公式仕様：カード売値は買値の1/4（25%）
+    const sellPrice = Math.floor(getCardShopPrice(card.price, this.currentYear) * 0.25);
     player.cards.splice(cardIndex, 1);
     player.cardCount = player.cards.length;
     player.money += sellPrice;
@@ -1464,7 +1449,16 @@ export class GameEngine {
     return Object.values(this.ownedProperties).filter((o) => o.ownerId === playerId);
   }
 
-  // 借金返済のためにプレイヤーが選んだ物件を売却する（評価額の半額）
+  // 桃鉄スイッチ公式仕様：農林物件は借金時でも売却対象外（手放さずに済む）
+  private getSellableProperties(playerId: string): OwnedProperty[] {
+    return this.getPlayerProperties(playerId).filter((o) => {
+      const st = this.stationMap.get(o.stationId);
+      const def = st?.properties?.find((p) => p.id === o.propertyId);
+      return def?.category !== '農林';
+    });
+  }
+
+  // 借金返済のためにプレイヤーが選んだ物件を売却する（評価額の半額・農林物件は保護）
   public sellPropertiesForDebt(
     playerId: string,
     propertyIds: string[]
@@ -1477,12 +1471,12 @@ export class GameEngine {
       return { ok: false, error: 'あなたのターンではありません。', events: [] };
     }
 
-    const mine = this.getPlayerProperties(player.id);
-    if (mine.length === 0) {
+    const sellable = this.getSellableProperties(player.id);
+    if (sellable.length === 0) {
       return this.finishDebtSell(player, []);
     }
 
-    // 選択された物件の売却見込みを計算し、借金解消（または全売却）を満たしているか検証
+    // 選択された物件の売却見込みを計算し、借金解消（または売却可能物件の全売却）を満たしているか検証
     const uniqueIds = Array.from(new Set(propertyIds));
     let previewRefund = 0;
     const validTargets: { owned: OwnedProperty; name: string; refund: number }[] = [];
@@ -1491,13 +1485,14 @@ export class GameEngine {
       if (!owned || owned.ownerId !== player.id) continue;
       const st = this.stationMap.get(owned.stationId);
       const def = st?.properties?.find((x) => x.id === owned.propertyId);
+      if (def?.category === '農林') continue;
       const refund = Math.floor(investedValue(def?.price ?? 1000, owned.level) * 0.5);
       previewRefund += refund;
       validTargets.push({ owned, name: def?.name ?? '物件', refund });
     }
 
     const willStillHaveDebt = player.money + previewRefund < 0;
-    const sellingAll = validTargets.length >= mine.length;
+    const sellingAll = validTargets.length >= sellable.length;
     if (willStillHaveDebt && !sellingAll) {
       return {
         ok: false,
@@ -1935,8 +1930,8 @@ export class GameEngine {
       }
     }
 
-    // 借金を抱えていて売却できる物件がある場合は、自分で売る物件を選ぶフェーズへ
-    if (!skipped && player.money < 0 && this.getPlayerProperties(player.id).length > 0) {
+    // 借金を抱えていて売却できる物件（農林以外）がある場合は、自分で売る物件を選ぶフェーズへ
+    if (!skipped && player.money < 0 && this.getSellableProperties(player.id).length > 0) {
       this.phase = 'debt_sell';
       this.debtSellContext = 'turn_end';
       this.recalculateRankingsAndDistances();
@@ -2052,8 +2047,8 @@ export class GameEngine {
       return [...events, ...skipEvents];
     }
 
-    // 他社長の攻撃等で借金になっていた場合はターン開始前に売却選択フェーズへ
-    if (nextPlayer && nextPlayer.money < 0 && this.getPlayerProperties(nextPlayer.id).length > 0) {
+    // 他社長の攻撃等で借金になっていた場合はターン開始前に売却選択フェーズへ（農林は保護）
+    if (nextPlayer && nextPlayer.money < 0 && this.getSellableProperties(nextPlayer.id).length > 0) {
       this.phase = 'debt_sell';
       this.debtSellContext = 'turn_start';
     } else {
@@ -2833,10 +2828,6 @@ export class GameEngine {
     for (const prop of station.properties) {
       const owned = this.ownedProperties[prop.id];
       if (!owned && player.money >= prop.price) return true;
-      if (owned && owned.ownerId === player.id && owned.level < 3) {
-        const upgradeCost = prop.price; // 本家準拠：増資コストは物件価格の100%
-        if (player.money >= upgradeCost) return true;
-      }
     }
     return false;
   }

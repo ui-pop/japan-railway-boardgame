@@ -191,12 +191,17 @@ export class CpuAi {
     }
 
     if (state.phase === 'debt_sell') {
-      // 独占していない安い物件から順に、借金が解消するまで売却リストを作成
-      const mine = Object.values(state.ownedProperties).filter((o) => o.ownerId === player.id);
+      // 農林物件は売却対象外。独占していない安い物件から順に借金解消まで売却
+      const mine = Object.values(state.ownedProperties).filter((o) => {
+        if (o.ownerId !== player.id) return false;
+        const st = this.stationMap.get(o.stationId);
+        const def = st?.properties?.find((x) => x.id === o.propertyId);
+        return def?.category !== '農林';
+      });
       const scored = mine.map((o) => {
         const st = this.stationMap.get(o.stationId);
         const def = st?.properties?.find((x) => x.id === o.propertyId);
-        const value = (def?.price ?? 1000) * o.level;
+        const value = def?.price ?? 1000;
         const isMono =
           st?.properties && st.properties.length > 0
             ? st.properties.every((p) => state.ownedProperties[p.id]?.ownerId === player.id)
@@ -236,21 +241,8 @@ export class CpuAi {
         }
       }
 
-      // すでに自分が持っている物件の増資も検討
-      const ownProps = station.properties.filter((p) => {
-        const owned: OwnedProperty | undefined = state.ownedProperties[p.id];
-        return owned && owned.ownerId === player.id && owned.level < 3;
-      });
-      for (const prop of ownProps) {
-        const upgradeCost = prop.price;
-        if (budget >= upgradeCost) {
-          upgradeIds.push(prop.id);
-          budget -= upgradeCost;
-        }
-      }
-
-      if (buyIds.length > 0 || upgradeIds.length > 0) {
-        return { type: 'buy_properties', propertyIds: buyIds, upgradeIds };
+      if (buyIds.length > 0) {
+        return { type: 'buy_properties', propertyIds: buyIds, upgradeIds: [] };
       }
       return { type: 'skip_buy' };
     }

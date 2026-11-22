@@ -16,21 +16,21 @@
         "name": "宗谷岬タラバガニ直売所",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "wakkanai_2",
         "name": "利尻昆布加工工場",
         "category": "水産",
-        "price": 5000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "wakkanai_3",
         "name": "最北端エゾバフンウニ漁",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "wakkanai_4",
@@ -60,21 +60,21 @@
         "name": "オホーツクホタテ養殖場",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "abashiri_2",
         "name": "網走監獄歴史ミュージアム",
         "category": "観光",
-        "price": 10000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "abashiri_3",
         "name": "流氷観光砕氷船",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -103,14 +103,14 @@
         "name": "旭山動物園パーク",
         "category": "観光",
         "price": 50000,
-        "rate": 0.1
+        "rate": 0.12
       },
       {
         "id": "asahikawa_2",
         "name": "旭川木工家具工房",
         "category": "工業",
-        "price": 150000,
-        "rate": 0.06
+        "price": 500000,
+        "rate": 0.04
       }
     ]
   },
@@ -139,15 +139,15 @@
         "id": "furano_2",
         "name": "ラベンダー観光農園",
         "category": "観光",
-        "price": 8000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "furano_3",
         "name": "夕張・富良野赤肉メロン畑",
         "category": "農林",
-        "price": 6000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       }
     ]
   },
@@ -175,15 +175,15 @@
         "id": "kushiro_2",
         "name": "勝手丼・和商市場",
         "category": "水産",
-        "price": 5000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "kushiro_3",
         "name": "釧路湿原ノロッコ観光鉄道",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -218,8 +218,8 @@
         "id": "obihiro_3",
         "name": "十勝大平原チーズ牧場",
         "category": "農林",
-        "price": 8000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       }
     ]
   },
@@ -240,14 +240,14 @@
         "name": "小樽寿司屋通り名店",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "otaru_2",
         "name": "小樽運河オルゴール堂",
         "category": "観光",
-        "price": 10000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "otaru_4",
@@ -260,7 +260,7 @@
         "id": "otaru_3",
         "name": "北一硝子クラフト工房",
         "category": "商業",
-        "price": 30000,
+        "price": 50000,
         "rate": 0.1
       }
     ]
@@ -281,38 +281,31 @@
     "properties": [
       {
         "id": "sapporo_1",
-        "name": "すすきの味噌ラーメン横丁",
+        "name": "味噌ラーメン屋",
         "category": "食品",
         "price": 1000,
-        "rate": 0.8
+        "rate": 1
       },
       {
         "id": "sapporo_2",
-        "name": "スープカレー専門店",
+        "name": "ジンギスカン屋",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.8
       },
       {
         "id": "sapporo_3",
-        "name": "北海道銘菓チョコ工場",
-        "category": "食品",
-        "price": 3000,
-        "rate": 0.5
-      },
-      {
-        "id": "sapporo_4",
-        "name": "サッポロジンギスカンビール園",
-        "category": "観光",
-        "price": 100000,
+        "name": "コンビニチェーン",
+        "category": "商業",
+        "price": 120000,
         "rate": 0.1
       },
       {
-        "id": "sapporo_5",
-        "name": "大通時計台ITパーク",
+        "id": "sapporo_4",
+        "name": "ニコリ家具店",
         "category": "商業",
-        "price": 1000000,
-        "rate": 0.06
+        "price": 160000,
+        "rate": 0.1
       }
     ]
   },
@@ -334,21 +327,21 @@
         "name": "名物ホッキカレー食堂",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "tomakomai_2",
         "name": "苫小牧製紙パルプ工場",
         "category": "工業",
-        "price": 80000,
+        "price": 100000,
         "rate": 0.06
       },
       {
         "id": "tomakomai_3",
         "name": "新千歳フェリー物流港",
         "category": "商業",
-        "price": 80000,
-        "rate": 0.1
+        "price": 300000,
+        "rate": 0.06
       }
     ]
   },
@@ -370,7 +363,7 @@
         "name": "函館朝市活イカ食堂",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "hakodate_2",
@@ -383,15 +376,15 @@
         "id": "hakodate_3",
         "name": "五稜郭歴史タワー",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "hakodate_4",
         "name": "函館山百万ドルロープウェイ",
         "category": "観光",
         "price": 50000,
-        "rate": 0.1
+        "rate": 0.12
       }
     ],
     "hero": {
@@ -421,28 +414,28 @@
         "name": "津軽完熟ふじりんご農園",
         "category": "農林",
         "price": 1000,
-        "rate": 0.15
+        "rate": 0.08
       },
       {
         "id": "aomori_2",
         "name": "青森のっけ丼市場",
         "category": "水産",
-        "price": 4000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "aomori_3",
         "name": "ねぶた祭ミュージアム",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "aomori_4",
         "name": "大間一本釣りマグロ漁船",
         "category": "水産",
-        "price": 15000,
-        "rate": 0.12
+        "price": 10000,
+        "rate": 0.15
       }
     ]
   },
@@ -470,15 +463,15 @@
         "id": "hachinohe_2",
         "name": "八食センター海鮮市場",
         "category": "水産",
-        "price": 5000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "hachinohe_3",
         "name": "八戸前沖サバ缶詰工場",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       }
     ]
   },
@@ -515,15 +508,15 @@
         "id": "akita_3",
         "name": "あきたこまち米穀組合",
         "category": "農林",
-        "price": 6000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "akita_4",
         "name": "男鹿なまはげ伝承館",
         "category": "観光",
-        "price": 10000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       }
     ]
   },
@@ -560,14 +553,14 @@
         "id": "morioka_4",
         "name": "小岩井まきば牧場",
         "category": "農林",
-        "price": 8000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "morioka_3",
         "name": "南部鉄器鋳物工房",
         "category": "工業",
-        "price": 50000,
+        "price": 100000,
         "rate": 0.06
       }
     ]
@@ -597,8 +590,8 @@
         "id": "yamagata_2",
         "name": "佐藤錦さくらんぼ果樹園",
         "category": "農林",
-        "price": 4000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "yamagata_4",
@@ -611,8 +604,8 @@
         "id": "yamagata_3",
         "name": "蔵王樹氷温泉スキー場",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -641,28 +634,28 @@
         "id": "sendai_2",
         "name": "笹かまぼこ手焼き工房",
         "category": "水産",
-        "price": 15000,
-        "rate": 0.12
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "sendai_3",
         "name": "厚切り牛タン炭火焼通り",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "sendai_4",
         "name": "松島遊覧船クルーズ",
         "category": "観光",
-        "price": 100000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "sendai_5",
         "name": "杜の都野球スタジアム",
         "category": "商業",
-        "price": 1000000,
+        "price": 300000,
         "rate": 0.06
       }
     ],
@@ -699,21 +692,21 @@
         "name": "福島あかつき桃農園",
         "category": "農林",
         "price": 3000,
-        "rate": 0.1
+        "rate": 0.08
       },
       {
         "id": "koriyama_3",
         "name": "会津塗・赤べこ民芸工房",
         "category": "商業",
-        "price": 20000,
+        "price": 50000,
         "rate": 0.1
       },
       {
         "id": "koriyama_4",
         "name": "磐梯熱海温泉旅館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -735,21 +728,21 @@
         "name": "小名浜あんこう鍋料亭",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "iwaki_2",
         "name": "アクアマリン環境水族館",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "iwaki_3",
         "name": "常磐ハワイアン温泉リゾート",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -779,7 +772,7 @@
         "id": "niigata_3",
         "name": "魚沼産コシヒカリ水田",
         "category": "農林",
-        "price": 15000,
+        "price": 3000,
         "rate": 0.08
       },
       {
@@ -793,8 +786,8 @@
         "id": "niigata_2",
         "name": "燕三条ステンレス洋食器工場",
         "category": "工業",
-        "price": 150000,
-        "rate": 0.06
+        "price": 500000,
+        "rate": 0.04
       }
     ]
   },
@@ -823,14 +816,14 @@
         "name": "干し芋・メロン直売農園",
         "category": "農林",
         "price": 3000,
-        "rate": 0.1
+        "rate": 0.08
       },
       {
         "id": "mito_3",
         "name": "偕楽園・ネモフィラ海浜公園",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -858,15 +851,15 @@
         "id": "utsunomiya_2",
         "name": "とちおとめ・スカイベリー苺園",
         "category": "農林",
-        "price": 4000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "utsunomiya_3",
         "name": "日光東照宮ゆば懐石旅館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -902,15 +895,15 @@
         "id": "takasaki_3",
         "name": "富岡製糸場観光センター",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "takasaki_4",
         "name": "草津湯畑温泉リゾート",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -947,15 +940,15 @@
         "id": "omiya_3",
         "name": "大宮鉄道ミュージアム",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "omiya_4",
         "name": "さいたまスーパーイベント会場",
         "category": "商業",
-        "price": 100000,
-        "rate": 0.1
+        "price": 300000,
+        "rate": 0.06
       }
     ]
   },
@@ -991,15 +984,15 @@
         "id": "chiba_3",
         "name": "鴨川シャチ水族館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "chiba_4",
         "name": "浦安夢のテーマパーク",
         "category": "観光",
-        "price": 100000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -1019,45 +1012,38 @@
     "properties": [
       {
         "id": "tokyo_1",
-        "name": "月島・浅草もんじゃ焼き屋",
+        "name": "江戸前寿司屋",
         "category": "食品",
         "price": 1000,
         "rate": 0.8
       },
       {
         "id": "tokyo_2",
-        "name": "豊洲・築地場外寿司名店",
-        "category": "水産",
-        "price": 40000,
-        "rate": 0.12
+        "name": "もんじゃ焼き屋",
+        "category": "食品",
+        "price": 2000,
+        "rate": 0.8
       },
       {
         "id": "tokyo_3",
-        "name": "秋葉原サブカル電気街ビル",
-        "category": "商業",
-        "price": 500000,
-        "rate": 0.06
+        "name": "新国立競技場",
+        "category": "観光",
+        "price": 14900000,
+        "rate": 0.1
       },
       {
         "id": "tokyo_4",
-        "name": "渋谷スクランブルファッション棟",
-        "category": "商業",
-        "price": 800000,
-        "rate": 0.06
+        "name": "高級ホテル",
+        "category": "観光",
+        "price": 40000000,
+        "rate": 0.03
       },
       {
         "id": "tokyo_5",
-        "name": "東京スカイツリー展望タウン",
+        "name": "東京セカイツリー",
         "category": "観光",
-        "price": 500000,
-        "rate": 0.06
-      },
-      {
-        "id": "tokyo_6",
-        "name": "丸の内メガバンク本社ビル",
-        "category": "商業",
-        "price": 5000000,
-        "rate": 0.05
+        "price": 63400000,
+        "rate": 0.1
       }
     ],
     "hero": {
@@ -1093,22 +1079,22 @@
         "id": "yokohama_2",
         "name": "名物シウマイ弁当工場",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "yokohama_3",
         "name": "湘南しらす丼・鎌倉大仏茶屋",
         "category": "観光",
-        "price": 80000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "yokohama_4",
         "name": "みなとみらい大観覧車パーク",
         "category": "観光",
-        "price": 500000,
-        "rate": 0.06
+        "price": 200000,
+        "rate": 0.08
       }
     ]
   },
@@ -1138,15 +1124,15 @@
         "id": "atami_2",
         "name": "伊豆干物・金目鯛直売所",
         "category": "水産",
-        "price": 5000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "atami_3",
         "name": "箱根・熱海絶景オーシャン旅館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -1182,15 +1168,15 @@
         "id": "kofu_3",
         "name": "勝沼シャインマスカット＆ワイン蔵",
         "category": "農林",
-        "price": 8000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "kofu_4",
         "name": "富士五湖絶叫テーマパーク",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -1226,15 +1212,15 @@
         "id": "nagano_3",
         "name": "善光寺門前宿坊ホテル",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "nagano_4",
         "name": "軽井沢・白馬高原リゾート",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -1263,14 +1249,14 @@
         "id": "matsumoto_2",
         "name": "安曇野湧水わさび農場",
         "category": "農林",
-        "price": 4000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "matsumoto_3",
         "name": "精密時計・光学機器工場",
         "category": "工業",
-        "price": 80000,
+        "price": 100000,
         "rate": 0.06
       }
     ]
@@ -1308,15 +1294,15 @@
         "id": "toyama_3",
         "name": "富山湾白エビ・ホタルイカ漁",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "toyama_4",
         "name": "立山黒部アルペンケーブル",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -1345,21 +1331,21 @@
         "id": "kanazawa_2",
         "name": "近江町市場のどぐろ寿司",
         "category": "水産",
-        "price": 15000,
-        "rate": 0.12
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "kanazawa_3",
         "name": "兼六園・ひがし茶屋街老舗",
         "category": "観光",
         "price": 50000,
-        "rate": 0.1
+        "rate": 0.12
       },
       {
         "id": "kanazawa_4",
         "name": "輪島塗・加賀友禅伝統工房",
         "category": "商業",
-        "price": 150000,
+        "price": 300000,
         "rate": 0.06
       }
     ]
@@ -1390,20 +1376,20 @@
         "name": "越前ズワイガニ専門店",
         "category": "水産",
         "price": 10000,
-        "rate": 0.2
+        "rate": 0.15
       },
       {
         "id": "fukui_4",
         "name": "勝山恐竜化石ミュージアム",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "fukui_2",
         "name": "鯖江チタン眼鏡フレーム工場",
         "category": "工業",
-        "price": 50000,
+        "price": 100000,
         "rate": 0.06
       }
     ]
@@ -1433,22 +1419,22 @@
         "id": "shizuoka_2",
         "name": "牧之原深蒸し緑茶農園",
         "category": "農林",
-        "price": 6000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "shizuoka_3",
         "name": "駿河湾桜えび・マグロ港",
         "category": "水産",
-        "price": 20000,
-        "rate": 0.12
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "shizuoka_4",
         "name": "静岡ホビー・プラモデル工場",
         "category": "工業",
-        "price": 200000,
-        "rate": 0.06
+        "price": 500000,
+        "rate": 0.04
       }
     ]
   },
@@ -1482,15 +1468,15 @@
         "id": "hamamatsu_3",
         "name": "浜名湖うなぎ養殖場",
         "category": "水産",
-        "price": 20000,
-        "rate": 0.12
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "hamamatsu_4",
         "name": "世界グランドピアノ楽器工場",
         "category": "工業",
-        "price": 300000,
-        "rate": 0.05
+        "price": 500000,
+        "rate": 0.04
       }
     ]
   },
@@ -1519,8 +1505,8 @@
         "id": "gifu_2",
         "name": "長良川鵜飼い遊覧船",
         "category": "観光",
-        "price": 10000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "gifu_3",
@@ -1533,8 +1519,8 @@
         "id": "gifu_4",
         "name": "白川郷合掌造り観光村",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -1562,29 +1548,29 @@
         "id": "nagoya_2",
         "name": "矢場味噌カツ＆手羽先通り",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "nagoya_3",
         "name": "櫃まぶし老舗うなぎ料亭",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "nagoya_4",
         "name": "名古屋城金シャチ観光パーク",
         "category": "観光",
-        "price": 150000,
-        "rate": 0.1
+        "price": 200000,
+        "rate": 0.08
       },
       {
         "id": "nagoya_5",
         "name": "世界自動車メーカー大工場",
         "category": "工業",
-        "price": 2000000,
-        "rate": 0.03
+        "price": 500000,
+        "rate": 0.04
       }
     ],
     "hero": {
@@ -1627,8 +1613,8 @@
         "id": "ise_3",
         "name": "英虞湾アコヤ真珠養殖いかだ",
         "category": "水産",
-        "price": 15000,
-        "rate": 0.12
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "ise_4",
@@ -1656,38 +1642,45 @@
     "properties": [
       {
         "id": "kyoto_1",
-        "name": "宇治抹茶パフェ・スイーツ庵",
+        "name": "あぶり餅屋",
         "category": "食品",
-        "price": 1000,
-        "rate": 0.8
+        "price": 10000,
+        "rate": 0.1
       },
       {
         "id": "kyoto_2",
-        "name": "聖護院八ツ橋・京漬物本舗",
-        "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "name": "あぶらとり紙屋",
+        "category": "商業",
+        "price": 50000,
+        "rate": 0.1
       },
       {
         "id": "kyoto_3",
-        "name": "清水・祇園舞妓茶屋",
+        "name": "鉄道博物館",
         "category": "観光",
-        "price": 100000,
-        "rate": 0.1
+        "price": 700000,
+        "rate": 0.15
       },
       {
         "id": "kyoto_4",
-        "name": "嵐山老舗高級料亭旅館",
-        "category": "観光",
-        "price": 200000,
-        "rate": 0.1
+        "name": "ゲーム開発会社",
+        "category": "商業",
+        "price": 1020000,
+        "rate": 0.2
       },
       {
         "id": "kyoto_5",
-        "name": "世界ゲームソフト開発本社",
+        "name": "自動改札機会社",
+        "category": "工業",
+        "price": 4600000,
+        "rate": 0.03
+      },
+      {
+        "id": "kyoto_6",
+        "name": "宅配便会社",
         "category": "商業",
-        "price": 1000000,
-        "rate": 0.06
+        "price": 72000000,
+        "rate": 0.04
       }
     ],
     "hero": {
@@ -1716,8 +1709,8 @@
         "id": "nara_1",
         "name": "奈良公園鹿せんべい売店",
         "category": "観光",
-        "price": 3000,
-        "rate": 0.25
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "nara_2",
@@ -1730,7 +1723,7 @@
         "id": "nara_3",
         "name": "吉野杉林業＆古都ホテル",
         "category": "農林",
-        "price": 15000,
+        "price": 3000,
         "rate": 0.08
       }
     ]
@@ -1751,38 +1744,38 @@
     "properties": [
       {
         "id": "osaka_1",
-        "name": "道頓堀たこ焼き屋台",
+        "name": "たこ焼き屋",
         "category": "食品",
         "price": 1000,
         "rate": 0.8
       },
       {
         "id": "osaka_2",
-        "name": "新世界二度漬け禁止串カツ屋",
-        "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "name": "黒門市場",
+        "category": "商業",
+        "price": 160000,
+        "rate": 0.06
       },
       {
         "id": "osaka_3",
-        "name": "名物豚まん・お好み焼き工場",
-        "category": "食品",
-        "price": 3000,
-        "rate": 0.5
-      },
-      {
-        "id": "osaka_4",
-        "name": "なんばお笑い大劇場",
-        "category": "観光",
-        "price": 150000,
+        "name": "お笑い興業",
+        "category": "商業",
+        "price": 500000,
         "rate": 0.1
       },
       {
-        "id": "osaka_5",
-        "name": "ベイエリア映画テーマパーク",
+        "id": "osaka_4",
+        "name": "トヨトミ城",
         "category": "観光",
-        "price": 3000000,
-        "rate": 0.06
+        "price": 1000000,
+        "rate": 0.01
+      },
+      {
+        "id": "osaka_5",
+        "name": "老舗デパート",
+        "category": "商業",
+        "price": 5600000,
+        "rate": 0.04
       }
     ],
     "hero": {
@@ -1818,8 +1811,8 @@
         "id": "wakayama_2",
         "name": "有田みかん大農園",
         "category": "農林",
-        "price": 6000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "wakayama_3",
@@ -1832,8 +1825,8 @@
         "id": "wakayama_4",
         "name": "白浜パンダアドベンチャー園",
         "category": "観光",
-        "price": 80000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -1863,22 +1856,22 @@
         "id": "kobe_2",
         "name": "北野異人館洋菓子工房",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "kobe_3",
         "name": "灘五郷日本酒大蔵元",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "kobe_4",
         "name": "神戸ビーフ鉄板ステーキ館",
         "category": "食品",
-        "price": 10000,
-        "rate": 0.35
+        "price": 5000,
+        "rate": 0.5
       }
     ]
   },
@@ -1913,8 +1906,8 @@
         "id": "himeji_3",
         "name": "世界遺産白鷺城観光パーク",
         "category": "観光",
-        "price": 40000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -1937,21 +1930,21 @@
         "name": "鳥取二十世紀梨果樹園",
         "category": "農林",
         "price": 1000,
-        "rate": 0.15
+        "rate": 0.08
       },
       {
         "id": "tottori_2",
         "name": "境港紅ズワイガニ直売所",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "tottori_3",
         "name": "鳥取砂丘ラクダ遊覧リゾート",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -1979,15 +1972,15 @@
         "id": "matsue_2",
         "name": "宍道湖大和しじみ漁協",
         "category": "水産",
-        "price": 5000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "matsue_3",
         "name": "玉造美肌温泉＆縁結び旅館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2006,31 +1999,38 @@
     "properties": [
       {
         "id": "okayama_1",
-        "name": "元祖きびだんご本舗",
+        "name": "きびだんご屋",
         "category": "食品",
         "price": 1000,
         "rate": 0.8
       },
       {
         "id": "okayama_2",
-        "name": "晴れの国白桃＆マスカット園",
+        "name": "白桃農園",
         "category": "農林",
-        "price": 30000,
-        "rate": 0.08
-      },
-      {
-        "id": "okayama_4",
-        "name": "倉敷美観地区美術館ホテル",
-        "category": "観光",
-        "price": 100000,
+        "price": 1000,
         "rate": 0.1
       },
       {
         "id": "okayama_3",
-        "name": "児島ジーンズデニム工場",
+        "name": "マスカット農園",
+        "category": "農林",
+        "price": 2000,
+        "rate": 0.1
+      },
+      {
+        "id": "okayama_4",
+        "name": "デニム工場",
         "category": "工業",
-        "price": 10000000,
+        "price": 50000,
         "rate": 0.05
+      },
+      {
+        "id": "okayama_5",
+        "name": "桃太郎ランド",
+        "category": "観光",
+        "price": 1000000000,
+        "rate": 0.01
       }
     ]
   },
@@ -2060,14 +2060,14 @@
         "name": "瀬戸田レモン＆はっさく農園",
         "category": "農林",
         "price": 3000,
-        "rate": 0.1
+        "rate": 0.08
       },
       {
         "id": "onomichi_3",
         "name": "しまなみ海道サイクリング拠点",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2096,22 +2096,22 @@
         "id": "hiroshima_2",
         "name": "宮島もみじ饅頭老舗本舗",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "hiroshima_3",
         "name": "瀬戸内広島牡蠣養殖いかだ",
         "category": "水産",
-        "price": 50000,
-        "rate": 0.12
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "hiroshima_4",
         "name": "広島自動車＆造船工場",
         "category": "工業",
-        "price": 1500000,
-        "rate": 0.03
+        "price": 500000,
+        "rate": 0.04
       }
     ],
     "hero": {
@@ -2154,8 +2154,8 @@
         "id": "yamaguchi_3",
         "name": "秋芳洞・錦帯橋観光センター",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "yamaguchi_4",
@@ -2184,21 +2184,21 @@
         "name": "唐戸市場寿司バトル屋台",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "shimonoseki_2",
         "name": "本場下関トラフグ料亭",
         "category": "水産",
-        "price": 15000,
-        "rate": 0.12
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "shimonoseki_3",
         "name": "関門海峡海響館リゾート",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2234,7 +2234,7 @@
         "id": "takamatsu_3",
         "name": "小豆島オリーブオイル農園",
         "category": "農林",
-        "price": 15000,
+        "price": 3000,
         "rate": 0.08
       },
       {
@@ -2242,7 +2242,7 @@
         "name": "瀬戸内現代アート島フェリー",
         "category": "観光",
         "price": 50000,
-        "rate": 0.1
+        "rate": 0.12
       }
     ]
   },
@@ -2279,14 +2279,14 @@
         "name": "阿波すだち柑橘農園",
         "category": "農林",
         "price": 3000,
-        "rate": 0.1
+        "rate": 0.08
       },
       {
         "id": "tokushima_4",
         "name": "鳴門うずしお観潮船",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2308,21 +2308,21 @@
         "name": "ひろめ市場カツオ藁焼き処",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "kochi_2",
         "name": "馬路村ゆずポン酢加工工場",
         "category": "農林",
-        "price": 4000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "kochi_3",
         "name": "四万十川天然うなぎ屋",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       }
     ],
     "hero": {
@@ -2359,21 +2359,21 @@
         "name": "宇和島鯛めし郷土料理店",
         "category": "水産",
         "price": 10000,
-        "rate": 0.2
+        "rate": 0.15
       },
       {
         "id": "matsuyama_3",
         "name": "今治高級ブランドタオル工場",
         "category": "工業",
-        "price": 150000,
-        "rate": 0.06
+        "price": 500000,
+        "rate": 0.04
       },
       {
         "id": "matsuyama_4",
         "name": "道後温泉本館老舗ホテル",
         "category": "観光",
-        "price": 80000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2445,22 +2445,22 @@
         "id": "hakata_3",
         "name": "博多辛子明太子本舗",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "hakata_4",
         "name": "博多あまおう苺大農園",
         "category": "農林",
-        "price": 8000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "hakata_5",
         "name": "天神・キャナル巨大商業モール",
         "category": "商業",
-        "price": 100000,
-        "rate": 0.1
+        "price": 300000,
+        "rate": 0.06
       }
     ],
     "hero": {
@@ -2496,21 +2496,21 @@
         "id": "saga_2",
         "name": "呼子透明イカ活造り料亭",
         "category": "水産",
-        "price": 5000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "saga_4",
         "name": "嬉野美肌茶温泉旅館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "saga_3",
         "name": "有田焼・伊万里焼伝統窯元",
         "category": "工業",
-        "price": 50000,
+        "price": 100000,
         "rate": 0.06
       }
     ]
@@ -2553,8 +2553,8 @@
         "id": "nagasaki_4",
         "name": "オランダ王国花テーマパーク",
         "category": "観光",
-        "price": 100000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2584,21 +2584,21 @@
         "name": "大分かぼす＆関サバ直売所",
         "category": "水産",
         "price": 10000,
-        "rate": 0.2
+        "rate": 0.15
       },
       {
         "id": "oita_3",
         "name": "由布院高級隠れ家温泉宿",
         "category": "観光",
         "price": 50000,
-        "rate": 0.1
+        "rate": 0.12
       },
       {
         "id": "oita_4",
         "name": "別府地獄めぐり温泉リゾート",
         "category": "観光",
-        "price": 80000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2634,7 +2634,7 @@
         "id": "kumamoto_3",
         "name": "阿蘇ジャージー牛乳牧場",
         "category": "農林",
-        "price": 15000,
+        "price": 3000,
         "rate": 0.08
       },
       {
@@ -2642,7 +2642,7 @@
         "name": "黒川温泉・天草イルカクルーズ",
         "category": "観光",
         "price": 50000,
-        "rate": 0.1
+        "rate": 0.12
       }
     ]
   },
@@ -2677,15 +2677,15 @@
         "id": "miyazaki_3",
         "name": "太陽のタマゴ完熟マンゴー園",
         "category": "農林",
-        "price": 15000,
+        "price": 3000,
         "rate": 0.08
       },
       {
         "id": "miyazaki_4",
         "name": "南国シーガイアゴルフリゾート",
         "category": "観光",
-        "price": 80000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2736,7 +2736,7 @@
         "name": "指宿砂むし温泉＆桜島フェリー",
         "category": "観光",
         "price": 50000,
-        "rate": 0.1
+        "rate": 0.12
       }
     ],
     "hero": {
@@ -2771,29 +2771,29 @@
         "id": "naha_2",
         "name": "紅いもタルト＆ちんすこう工場",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "naha_3",
         "name": "沖縄泡盛古酒蔵元",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "naha_4",
         "name": "石垣牛＆アグー豚焼肉亭",
         "category": "食品",
-        "price": 3000,
-        "rate": 0.5
+        "price": 2000,
+        "rate": 0.6
       },
       {
         "id": "naha_5",
         "name": "美ら海水族館アイランドリゾート",
         "category": "観光",
-        "price": 500000,
-        "rate": 0.06
+        "price": 200000,
+        "rate": 0.08
       }
     ]
   },
@@ -2814,22 +2814,22 @@
         "id": "shiretoko_1",
         "name": "オホーツク流氷ウォーク",
         "category": "観光",
-        "price": 3000,
-        "rate": 0.25
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "shiretoko_2",
         "name": "羅臼昆布＆鮭いくら工場",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "shiretoko_3",
         "name": "世界自然遺産ネイチャーホテル",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2857,15 +2857,15 @@
         "id": "noboribetsu_2",
         "name": "のぼりべつクマ牧場",
         "category": "観光",
-        "price": 10000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "noboribetsu_1",
         "name": "地獄谷硫黄温泉旅館",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2893,15 +2893,15 @@
         "id": "hirosaki_2",
         "name": "津軽三味線ライブ酒場",
         "category": "観光",
-        "price": 8000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "hirosaki_3",
         "name": "弘前公園桜まつり茶屋",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -2929,15 +2929,15 @@
         "id": "kesennuma_2",
         "name": "三陸カツオ・サンマ水揚げ港",
         "category": "水産",
-        "price": 5000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "kesennuma_1",
         "name": "気仙沼フカヒレ姿煮料亭",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       }
     ]
   },
@@ -2965,8 +2965,8 @@
         "id": "aizu_2",
         "name": "鶴ヶ城・白虎隊歴史館",
         "category": "観光",
-        "price": 10000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "aizu_3",
@@ -3001,15 +3001,15 @@
         "id": "nikko_2",
         "name": "中禅寺湖＆華厳の滝リゾート",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "nikko_3",
         "name": "日光江戸テーマパーク",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -3039,8 +3039,8 @@
         "id": "narita_2",
         "name": "国際エアポート免税モール",
         "category": "商業",
-        "price": 100000,
-        "rate": 0.1
+        "price": 300000,
+        "rate": 0.06
       }
     ]
   },
@@ -3062,7 +3062,7 @@
         "name": "江ノ島生しらす丼食堂",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "kamakura_2",
@@ -3075,8 +3075,8 @@
         "id": "kamakura_3",
         "name": "古都鎌倉オーシャンホテル",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -3104,15 +3104,15 @@
         "id": "karuizawa_2",
         "name": "軽井沢森のアウトレットモール",
         "category": "商業",
-        "price": 80000,
-        "rate": 0.1
+        "price": 300000,
+        "rate": 0.06
       },
       {
         "id": "karuizawa_3",
         "name": "高級高原別荘リゾートホテル",
         "category": "観光",
-        "price": 40000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -3148,8 +3148,8 @@
         "id": "takayama_3",
         "name": "奥飛騨露天風呂温泉郷",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -3172,14 +3172,14 @@
         "name": "豊橋ヤマサちくわ工場",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "toyohashi_2",
         "name": "豊橋カレーうどん＆うずら農園",
         "category": "農林",
         "price": 3000,
-        "rate": 0.1
+        "rate": 0.08
       }
     ]
   },
@@ -3208,8 +3208,8 @@
         "id": "otsu_1",
         "name": "琵琶湖ミシガン遊覧船",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "otsu_2",
@@ -3239,21 +3239,21 @@
         "name": "南紀白浜クエ鍋料亭",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "shirahama_3",
         "name": "熊野古道温泉ホテル",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "shirahama_2",
         "name": "白良浜シーサイドリゾート",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -3276,7 +3276,7 @@
         "name": "淡路島あま〜い玉ねぎ農園",
         "category": "農林",
         "price": 1000,
-        "rate": 0.15
+        "rate": 0.08
       },
       {
         "id": "awaji_2",
@@ -3289,8 +3289,8 @@
         "id": "awaji_3",
         "name": "淡路花さじき＆アニメパーク",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -3319,15 +3319,15 @@
         "id": "kurashiki_1",
         "name": "倉敷美観地区川舟流し",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "kurashiki_3",
         "name": "大原西洋美術館ホテル",
         "category": "観光",
         "price": 50000,
-        "rate": 0.1
+        "rate": 0.12
       }
     ]
   },
@@ -3363,8 +3363,8 @@
         "id": "izumo_3",
         "name": "縁結びリゾート旅館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -3393,7 +3393,7 @@
         "id": "imabari_2",
         "name": "世界品質今治タオル工場",
         "category": "工業",
-        "price": 50000,
+        "price": 100000,
         "rate": 0.06
       },
       {
@@ -3422,15 +3422,15 @@
         "id": "shimanto_2",
         "name": "四万十カヌー＆沈下橋ツアー",
         "category": "観光",
-        "price": 3000,
-        "rate": 0.25
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "shimanto_1",
         "name": "日本最後の清流天然うなぎ店",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       }
     ]
   },
@@ -3465,8 +3465,8 @@
         "id": "beppu_3",
         "name": "湯けむり別府八湯大ホテル",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -3500,8 +3500,8 @@
         "id": "ishigaki_3",
         "name": "川平湾マンタダイビングリゾート",
         "category": "観光",
-        "price": 40000,
-        "rate": 0.1
+        "price": 50000,
+        "rate": 0.12
       }
     ]
   },
@@ -3526,15 +3526,15 @@
         "id": "nemuro_1",
         "name": "花咲ガニ直売市場",
         "category": "水産",
-        "price": 5000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "nemuro_3",
         "name": "納沙布岬灯台リゾート",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ],
     "x": 8840,
@@ -3557,20 +3557,20 @@
         "name": "夕張メロン特選農園",
         "category": "農林",
         "price": 1000,
-        "rate": 0.15
+        "rate": 0.08
       },
       {
         "id": "yubari_2",
         "name": "夕張石炭歴史村",
         "category": "観光",
-        "price": 8000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "yubari_3",
         "name": "メロン熊グッズ工房",
         "category": "商業",
-        "price": 20000,
+        "price": 50000,
         "rate": 0.1
       }
     ],
@@ -3600,8 +3600,8 @@
         "id": "hiraizumi_1",
         "name": "中尊寺金色堂観光ガイド",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "hiraizumi_3",
@@ -3636,15 +3636,15 @@
         "id": "sakata_2",
         "name": "山居倉庫米穀ミュージアム",
         "category": "観光",
-        "price": 10000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "sakata_3",
         "name": "庄内米・だだちゃ豆農園",
         "category": "農林",
-        "price": 6000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       }
     ],
     "x": 5980,
@@ -3673,8 +3673,8 @@
         "id": "yonezawa_3",
         "name": "上杉神社歴史資料館",
         "category": "観光",
-        "price": 10000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "yonezawa_1",
@@ -3702,22 +3702,22 @@
         "id": "tsukuba_2",
         "name": "筑波山ケーブルカー",
         "category": "観光",
-        "price": 3000,
-        "rate": 0.25
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "tsukuba_1",
         "name": "つくば宇宙センター展示館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "tsukuba_3",
         "name": "先端ロボット研究パーク",
         "category": "工業",
-        "price": 150000,
-        "rate": 0.06
+        "price": 500000,
+        "rate": 0.04
       }
     ],
     "x": 6500,
@@ -3746,8 +3746,8 @@
         "id": "chichibu_2",
         "name": "羊山芝桜公園リゾート",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "chichibu_3",
@@ -3782,22 +3782,22 @@
         "id": "hakone_2",
         "name": "芦ノ湖海賊船クルーズ",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "hakone_3",
         "name": "箱根寄木細工工芸館",
         "category": "商業",
-        "price": 20000,
+        "price": 50000,
         "rate": 0.1
       },
       {
         "id": "hakone_4",
         "name": "箱根湯本老舗高級温泉宿",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ],
     "x": 5330,
@@ -3818,20 +3818,20 @@
         "name": "輪島朝市海産物通り",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "wajima_3",
         "name": "能登千枚田＆温泉旅館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "wajima_2",
         "name": "伝統輪島塗漆器工房",
         "category": "商業",
-        "price": 40000,
+        "price": 50000,
         "rate": 0.1
       }
     ],
@@ -3860,8 +3860,8 @@
         "id": "gero_2",
         "name": "日本三名泉下呂大旅館",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ],
     "x": 4680,
@@ -3884,21 +3884,21 @@
         "name": "伊勢海老＆鮑活魚料亭",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "toba_1",
         "name": "鳥羽ジュゴン水族館",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       },
       {
         "id": "toba_3",
         "name": "ミキモト真珠島パーク",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ],
     "x": 4420,
@@ -3919,22 +3919,22 @@
         "id": "kinosaki_3",
         "name": "玄武洞ジオパーク",
         "category": "観光",
-        "price": 3000,
-        "rate": 0.25
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "kinosaki_2",
         "name": "但馬牛＆松葉ガニ料亭",
         "category": "水産",
         "price": 10000,
-        "rate": 0.2
+        "rate": 0.15
       },
       {
         "id": "kinosaki_1",
         "name": "城崎七つの外湯めぐり宿",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ],
     "x": 3510,
@@ -3958,21 +3958,21 @@
         "name": "宇和島じゃこ天揚げたて店",
         "category": "水産",
         "price": 2000,
-        "rate": 0.3
+        "rate": 0.25
       },
       {
         "id": "uwajima_3",
         "name": "宇和島闘牛アリーナ",
         "category": "観光",
-        "price": 10000,
-        "rate": 0.15
+        "price": 5000,
+        "rate": 0.2
       },
       {
         "id": "uwajima_2",
         "name": "宇和海真珠＆鯛養殖場",
         "category": "水産",
-        "price": 8000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       }
     ],
     "x": 2210,
@@ -4006,8 +4006,8 @@
         "id": "sasebo_2",
         "name": "九十九島遊覧パール船",
         "category": "観光",
-        "price": 15000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ],
     "x": 910,
@@ -4035,15 +4035,15 @@
         "id": "aso_2",
         "name": "阿蘇カルデラ大草原牧場",
         "category": "農林",
-        "price": 8000,
-        "rate": 0.1
+        "price": 3000,
+        "rate": 0.08
       },
       {
         "id": "aso_3",
         "name": "阿蘇ファーム温泉リゾート",
         "category": "観光",
-        "price": 30000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ],
     "x": 1690,
@@ -4071,15 +4071,15 @@
         "id": "ibusuki_2",
         "name": "枕崎・指宿本枯節工場",
         "category": "水産",
-        "price": 5000,
-        "rate": 0.2
+        "price": 10000,
+        "rate": 0.15
       },
       {
         "id": "ibusuki_1",
         "name": "天然砂むし温泉スパ",
         "category": "観光",
-        "price": 20000,
-        "rate": 0.15
+        "price": 50000,
+        "rate": 0.12
       }
     ],
     "x": 1430,
