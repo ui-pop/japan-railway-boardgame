@@ -751,8 +751,12 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
         </div>
       )}
 
-      {/* 右下カメラ操作ボタン（すべてワンショットアクション・自機追従のみON表示） */}
-      <div className="absolute right-3 bottom-32 z-10 flex flex-col gap-2">
+      {/* 右下カメラ操作ボタン（ポインターイベントをCanvasへ伝播させない） */}
+      <div
+        onPointerDown={(e) => e.stopPropagation()}
+        onPointerUp={(e) => e.stopPropagation()}
+        className="absolute right-3 bottom-32 z-10 flex flex-col gap-2"
+      >
         <button
           onClick={() => {
             const me = gameState?.players.find((p) => p.id === myPlayerId);
@@ -774,18 +778,21 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
             const dest = stationMap.get(gameState.destinationStationId);
             if (dest) panTo(dest.x, dest.y, Math.max(cameraRef.current.zoom, 0.55), false);
           }}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border bg-slate-900/85 border-slate-600 text-amber-300 active:scale-95 backdrop-blur-md transition"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border bg-slate-900/85 border-slate-600 text-slate-100 active:scale-95 backdrop-blur-md transition"
         >
-          <Compass className="w-4 h-4" />
+          <Compass className="w-4 h-4 text-amber-400" />
           目的地
         </button>
         <button
           onClick={panToWholeJapan}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border bg-slate-900/85 border-slate-600 text-slate-200 active:scale-95 backdrop-blur-md transition"
+          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border bg-slate-900/85 border-slate-600 text-slate-100 active:scale-95 backdrop-blur-md transition"
         >
           <Maximize2 className="w-4 h-4" />
           全体
         </button>
+        <div className="text-[10px] text-center font-mono text-white/80 bg-black/40 rounded-full px-2 py-0.5">
+          v2.6
+        </div>
       </div>
     </div>
   );

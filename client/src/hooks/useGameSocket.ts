@@ -28,9 +28,9 @@ export function useGameSocket(isAdmin: boolean) {
   const [savesList, setSavesList] = useState<SaveFileInfo[]>([]);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // マスターデータ取得
+  // マスターデータ取得（キャッシュ無効化）
   useEffect(() => {
-    fetch('/api/master')
+    fetch(`/api/master?t=${Date.now()}`, { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => {
         setStations(data.stations ?? []);

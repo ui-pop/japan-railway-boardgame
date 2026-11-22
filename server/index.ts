@@ -94,6 +94,7 @@ function getLocalIpAddresses(): { ips: string[]; details: { name: string; ip: st
 }
 
 app.get('/api/master', (_req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
   res.json({ stations, cards, eventsData });
 });
 
@@ -113,8 +114,17 @@ app.get('/api/saves', (_req, res) => {
 });
 
 if (fs.existsSync(CLIENT_DIST_DIR)) {
-  app.use(express.static(CLIENT_DIST_DIR));
+  app.use(
+    express.static(CLIENT_DIST_DIR, {
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('index.html')) {
+          res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+        }
+      },
+    })
+  );
   app.get('*', (_req, res) => {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
     res.sendFile(path.join(CLIENT_DIST_DIR, 'index.html'));
   });
 }
