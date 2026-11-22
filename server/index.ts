@@ -216,9 +216,18 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   }, delay);
 }
 
-function getSocketPlayerId(socket: Socket): string | null {
-  const player = engine.players.find((p) => p.socketId === socket.id);
-  return player ? player.id : null;
+function getSocketPlayerId(socket: Socket, token?: string): string | null {
+  const bySocket = engine.players.find((p) => p.socketId === socket.id);
+  if (bySocket) return bySocket.id;
+  if (token) {
+    const byToken = engine.players.find((p) => p.token === token);
+    if (byToken) {
+      byToken.socketId = socket.id;
+      byToken.isConnected = true;
+      return byToken.id;
+    }
+  }
+  return null;
 }
 
 io.on('connection', (socket) => {
@@ -241,9 +250,12 @@ io.on('connection', (socket) => {
     broadcastAll();
   });
 
-  socket.on('player:roll_dice', () => {
-    const pid = getSocketPlayerId(socket);
-    if (!pid) return;
+  socket.on('player:roll_dice', (payload?: { token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
+    if (!pid) {
+      socket.emit('game:error', { message: '接続が切れました。ページを再読み込みしてください。' });
+      return;
+    }
     const res = engine.rollDice(pid);
     if (!res.ok) {
       socket.emit('game:error', { message: res.error });
@@ -252,9 +264,12 @@ io.on('connection', (socket) => {
     emitEventsAndSync(res.events);
   });
 
-  socket.on('player:use_card', (payload: { cardIndex: number; targetPlayerId?: string }) => {
-    const pid = getSocketPlayerId(socket);
-    if (!pid) return;
+  socket.on('player:use_card', (payload: { cardIndex: number; targetPlayerId?: string; token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
+    if (!pid) {
+      socket.emit('game:error', { message: '接続が切れました。ページを再読み込みしてください。' });
+      return;
+    }
     const res = engine.useCard(pid, payload.cardIndex, payload.targetPlayerId);
     if (!res.ok) {
       socket.emit('game:error', { message: res.error });
@@ -263,9 +278,12 @@ io.on('connection', (socket) => {
     emitEventsAndSync(res.events);
   });
 
-  socket.on('player:move_step', (payload: { nextStationId: string }) => {
-    const pid = getSocketPlayerId(socket);
-    if (!pid) return;
+  socket.on('player:move_step', (payload: { nextStationId: string; token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
+    if (!pid) {
+      socket.emit('game:error', { message: '接続が切れました。ページを再読み込みしてください。' });
+      return;
+    }
     const res = engine.moveStep(pid, payload.nextStationId);
     if (!res.ok) {
       socket.emit('game:error', { message: res.error });
@@ -276,8 +294,8 @@ io.on('connection', (socket) => {
 
   socket.on(
     'player:buy_properties',
-    (payload: { propertyIds: string[]; upgradeIds: string[] }) => {
-      const pid = getSocketPlayerId(socket);
+    (payload: { propertyIds: string[]; upgradeIds: string[]; token?: string }) => {
+      const pid = getSocketPlayerId(socket, payload?.token);
       if (!pid) return;
       const res = engine.buyProperties(pid, payload.propertyIds ?? [], payload.upgradeIds ?? []);
       if (!res.ok) {
@@ -288,8 +306,8 @@ io.on('connection', (socket) => {
     }
   );
 
-  socket.on('player:skip_buy', () => {
-    const pid = getSocketPlayerId(socket);
+  socket.on('player:skip_buy', (payload?: { token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
     if (!pid) return;
     const res = engine.skipBuy(pid);
     if (!res.ok) {
@@ -299,8 +317,8 @@ io.on('connection', (socket) => {
     emitEventsAndSync(res.events);
   });
 
-  socket.on('player:buy_card_shop', (payload: { cardId: string }) => {
-    const pid = getSocketPlayerId(socket);
+  socket.on('player:buy_card_shop', (payload: { cardId: string; token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
     if (!pid) return;
     const res = engine.buyCardFromShop(pid, payload.cardId);
     if (!res.ok) {
@@ -310,8 +328,8 @@ io.on('connection', (socket) => {
     emitEventsAndSync(res.events);
   });
 
-  socket.on('player:skip_card_shop', () => {
-    const pid = getSocketPlayerId(socket);
+  socket.on('player:skip_card_shop', (payload?: { token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
     if (!pid) return;
     const res = engine.skipCardShop(pid);
     if (!res.ok) {
@@ -321,8 +339,8 @@ io.on('connection', (socket) => {
     emitEventsAndSync(res.events);
   });
 
-  socket.on('player:send_stamp', (payload: { stampId: string }) => {
-    const pid = getSocketPlayerId(socket);
+  socket.on('player:send_stamp', (payload: { stampId: string; token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
     const player = engine.players.find((p) => p.id === pid);
     const stamp = eventsData.stamps.find((s) => s.id === payload.stampId);
     if (!player || !stamp) return;

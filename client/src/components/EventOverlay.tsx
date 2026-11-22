@@ -90,8 +90,9 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
   const [isNewMonthBanner, setIsNewMonthBanner] = useState(false);
   const lastTurnCountRef = useRef<number>(0);
   const lastMonthRef = useRef<number | undefined>(undefined);
+  const bannerTimerRef = useRef<number | null>(null);
 
-  // ターン切り替わり時の桃鉄風大型アイキャッチ表示
+  // ターン切り替わり時の桃鉄風大型アイキャッチ表示（players変更でタイマーが消えないようRef管理）
   useEffect(() => {
     if (!turnCount || !currentTurnPlayerId) return;
     if (turnCount !== lastTurnCountRef.current) {
@@ -105,13 +106,20 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         setIsNewMonthBanner(monthChanged);
         setTurnBannerPlayer(p);
         soundManager.playTurnStart();
-        const t = window.setTimeout(() => {
+        if (bannerTimerRef.current) window.clearTimeout(bannerTimerRef.current);
+        bannerTimerRef.current = window.setTimeout(() => {
           setTurnBannerPlayer(null);
+          bannerTimerRef.current = null;
         }, 2000);
-        return () => window.clearTimeout(t);
       }
     }
   }, [turnCount, currentTurnPlayerId, currentMonth, players]);
+
+  useEffect(() => {
+    return () => {
+      if (bannerTimerRef.current) window.clearTimeout(bannerTimerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (!currentEvent) return;

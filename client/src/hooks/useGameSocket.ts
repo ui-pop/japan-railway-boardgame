@@ -55,8 +55,8 @@ export function useGameSocket(isAdmin: boolean) {
         socket.emit('admin:subscribe');
       } else {
         const savedToken = localStorage.getItem(TOKEN_KEY);
-        const savedName = localStorage.getItem(NAME_KEY);
-        if (savedToken && savedName) {
+        const savedName = localStorage.getItem(NAME_KEY) || '社長';
+        if (savedToken) {
           socket.emit('player:join', {
             name: savedName,
             token: savedToken,
@@ -139,35 +139,58 @@ export function useGameSocket(isAdmin: boolean) {
   }, []);
 
   const rollDice = useCallback(() => {
-    socketRef.current?.emit('player:roll_dice');
+    socketRef.current?.emit('player:roll_dice', {
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
   }, []);
 
   const useCard = useCallback((cardIndex: number, targetPlayerId?: string) => {
-    socketRef.current?.emit('player:use_card', { cardIndex, targetPlayerId });
+    socketRef.current?.emit('player:use_card', {
+      cardIndex,
+      targetPlayerId,
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
   }, []);
 
   const moveStep = useCallback((nextStationId: string) => {
-    socketRef.current?.emit('player:move_step', { nextStationId });
+    socketRef.current?.emit('player:move_step', {
+      nextStationId,
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
   }, []);
 
   const buyProperties = useCallback((propertyIds: string[], upgradeIds: string[]) => {
-    socketRef.current?.emit('player:buy_properties', { propertyIds, upgradeIds });
+    socketRef.current?.emit('player:buy_properties', {
+      propertyIds,
+      upgradeIds,
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
   }, []);
 
   const skipBuy = useCallback(() => {
-    socketRef.current?.emit('player:skip_buy');
+    socketRef.current?.emit('player:skip_buy', {
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
   }, []);
 
   const buyCardShop = useCallback((cardId: string) => {
-    socketRef.current?.emit('player:buy_card_shop', { cardId });
+    socketRef.current?.emit('player:buy_card_shop', {
+      cardId,
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
   }, []);
 
   const skipCardShop = useCallback(() => {
-    socketRef.current?.emit('player:skip_card_shop');
+    socketRef.current?.emit('player:skip_card_shop', {
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
   }, []);
 
   const sendStamp = useCallback((stampId: string) => {
-    socketRef.current?.emit('player:send_stamp', { stampId });
+    socketRef.current?.emit('player:send_stamp', {
+      stampId,
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
   }, []);
 
   const consumeFirstEvent = useCallback(() => {
