@@ -167,6 +167,8 @@ function calculateEventsDurationMs(events: GameEventSeqItem[]): number {
   let total = 0;
   for (const e of events) {
     if (e.type === 'step_move') total += 600;
+    else if (e.type === 'warp_move') total += 1950;
+    else if (e.type === 'turn_fade') total += 1850;
     else if (e.type === 'dice_roll') total += 2500;
     else if (e.type === 'station_effect') total += 2550;
     else if (e.type === 'turn_start') total += 2100;

@@ -278,6 +278,11 @@ export function App() {
         isPlayingPreTurnEffect={
           eventQueue.length > 0 && eventQueue[0].type !== 'turn_start'
         }
+        warpFocusStationId={
+          eventQueue[0]?.type === 'warp_move'
+            ? String(eventQueue[0].payload.stationId ?? '')
+            : null
+        }
         onSelectNextStation={moveStep}
         focusTargetTrigger={focusTrigger}
       />

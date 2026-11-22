@@ -636,6 +636,11 @@ export class GameEngine {
         player.prevStationId = player.stationId;
         player.stationId = dest.id;
         this.lastEventMessage = `${player.name}が「${card.name}」を使用！ ${dest.name}へワープ！`;
+        events.push({
+          type: 'warp_move',
+          playerId: player.id,
+          payload: { stationId: dest.id, stationName: dest.name },
+        });
       }
       this.recalculateRankingsAndDistances();
       const endEvents = this.finishTurn(player);
@@ -716,6 +721,14 @@ export class GameEngine {
         player.prevStationId = player.stationId;
         player.stationId = target.stationId;
         this.lastEventMessage = `🌀 ${player.name}がテレポートで${target.name}のいる${this.getStationName(target.stationId)}へ飛んだ！`;
+        events.push({
+          type: 'warp_move',
+          playerId: player.id,
+          payload: {
+            stationId: target.stationId,
+            stationName: this.getStationName(target.stationId),
+          },
+        });
       } else if (card.id === 'fastball_card') {
         let destroyed = 0;
         for (let i = 0; i < 2; i++) {
@@ -1012,6 +1025,11 @@ export class GameEngine {
             description: `${player.name}は超特急ワープで「${dest.name}駅」へ瞬間移動した！`,
             isPositive: true,
           },
+        });
+        events.push({
+          type: 'warp_move',
+          playerId: player.id,
+          payload: { stationId: dest.id, stationName: dest.name },
         });
       }
       return [...events, ...this.finishTurn(player)];
@@ -1364,8 +1382,13 @@ export class GameEngine {
     this.previousTurnSnapshot = snap;
     this.saveManager.saveAutosave(snap);
 
-    // 毎ターン必ずアイキャッチイベントをキュー末尾に追加
+    // ターン終了後の余韻＆暗転フェード → 次ターンアイキャッチを必ずキュー末尾に追加
     if (nextPlayer) {
+      events.push({
+        type: 'turn_fade',
+        playerId: player.id,
+        payload: {},
+      });
       events.push({
         type: 'turn_start',
         playerId: nextPlayer.id,

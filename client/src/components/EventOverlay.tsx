@@ -87,6 +87,17 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
       return () => window.clearTimeout(timer);
     }
 
+    if (currentEvent.type === 'warp_move') {
+      soundManager.playPlus();
+      const timer = window.setTimeout(onConsumeEvent, lowDataMode ? 1000 : 1850);
+      return () => window.clearTimeout(timer);
+    }
+
+    if (currentEvent.type === 'turn_fade') {
+      const timer = window.setTimeout(onConsumeEvent, lowDataMode ? 850 : 1750);
+      return () => window.clearTimeout(timer);
+    }
+
     if (currentEvent.type === 'dice_roll') {
       const targetRolls = (currentEvent.payload.rolls as number[]) ?? [1];
       const isFixed = Boolean(currentEvent.payload.isFixed);
@@ -246,8 +257,26 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         ))}
       </div>
 
+      {/* ワープ先の確認バナー（マップを暗くせずカメラ移動を見せる） */}
+      {currentEvent && currentEvent.type === 'warp_move' && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none px-5 py-2.5 rounded-full bg-gradient-to-r from-indigo-900/95 via-purple-900/95 to-indigo-900/95 border-2 border-amber-300 shadow-[0_8px_30px_rgba(0,0,0,0.65)] text-center">
+          <div className="text-sm font-black text-amber-300 whitespace-nowrap">
+            🌀 {actor?.name ? `${actor.name}：` : ''}
+            {String(currentEvent.payload.stationName ?? '')}へワープ！
+          </div>
+        </div>
+      )}
+
+      {/* ターン終了後の余韻＆暗転フェード */}
+      {currentEvent && currentEvent.type === 'turn_fade' && (
+        <div className="fixed inset-0 z-50 bg-black pointer-events-none animate-turn-blackout" />
+      )}
+
       {/* イベントカットイン（スキップ不可・順番に最後まで再生） */}
-      {currentEvent && currentEvent.type !== 'step_move' && (
+      {currentEvent &&
+        currentEvent.type !== 'step_move' &&
+        currentEvent.type !== 'warp_move' &&
+        currentEvent.type !== 'turn_fade' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[3px] p-4">
           {currentEvent.type === 'turn_start' && (
             <div

@@ -9,6 +9,7 @@ interface MapCanvasProps {
   myPlayerId: string | null;
   lowDataMode: boolean;
   isPlayingPreTurnEffect?: boolean;
+  warpFocusStationId?: string | null;
   onSelectNextStation: (stationId: string) => void;
   focusTargetTrigger?: { type: 'me' | 'dest' | 'all'; seq: number } | null;
 }
@@ -19,6 +20,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
   myPlayerId,
   lowDataMode,
   isPlayingPreTurnEffect = false,
+  warpFocusStationId = null,
   onSelectNextStation,
   focusTargetTrigger,
 }) => {
@@ -154,9 +156,22 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
     }
   }, [gameState?.currentTurnPlayerId, gameState?.players, stationMap, panTo, isPlayingPreTurnEffect]);
 
+  // ワープ系カード・ワープ駅発動時、移動先の駅へカメラを移動して見せる
+  useEffect(() => {
+    if (!warpFocusStationId) return;
+    const st = stationMap.get(warpFocusStationId);
+    if (st) {
+      panTo(st.x, st.y, Math.max(cameraRef.current.zoom, 0.56), false);
+    }
+  }, [warpFocusStationId, stationMap, panTo]);
+
   // 追従モードONのとき、手番プレイヤーが1マス進んだらターゲット座標だけ更新（ズームは変えない！）
+  // ターン終了演出中（次プレイヤーへ切り替わる前）は次の社長へカメラを飛ばさない
   useEffect(() => {
     if (!cameraRef.current.following || !gameState) return;
+    if (lastTurnPlayerRef.current && gameState.currentTurnPlayerId !== lastTurnPlayerRef.current) {
+      return;
+    }
     const active = gameState.players.find((p) => p.id === gameState.currentTurnPlayerId);
     const st = active ? stationMap.get(active.stationId) : null;
     if (st) {
@@ -793,7 +808,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           全体
         </button>
         <div className="text-[10px] text-center font-mono text-white/80 bg-black/40 rounded-full px-2 py-0.5">
-          v2.9
+          v3.0
         </div>
       </div>
     </div>
