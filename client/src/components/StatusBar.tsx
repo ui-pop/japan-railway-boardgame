@@ -53,7 +53,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
   );
   const destStation = stations.find((s) => s.id === gameState.destinationStationId);
 
-  const sortedPlayers = [...gameState.players].sort((a, b) => a.rank - b.rank);
+  const orderedPlayers = [...gameState.players].sort((a, b) => a.seatIndex - b.seatIndex);
 
   return (
     <div className="fixed top-0 left-0 right-0 z-30 pointer-events-none">
@@ -123,17 +123,11 @@ export const StatusBar: React.FC<StatusBarProps> = ({
               </span>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="px-1.5 py-0.2 rounded bg-red-600 text-yellow-200 font-black text-xs">
-                    {me.rank}位
-                  </span>
                   <span className="text-xs text-slate-900 font-black">{me.name}</span>
                   {me.hasNuisance && <span title="ケチケチ大王憑依中">👹</span>}
                 </div>
                 <div className="text-xs text-emerald-700 font-black">
-                  現金 {formatMoney(me.money)}
-                  <span className="text-slate-500 font-bold ml-2">
-                    総資産 {formatMoney(me.totalAssets)}
-                  </span>
+                  所持金 {formatMoney(me.money)}
                 </div>
               </div>
             </div>
@@ -179,17 +173,17 @@ export const StatusBar: React.FC<StatusBarProps> = ({
         )}
       </div>
 
-      {/* 全プレイヤー一覧ドロワー */}
+      {/* 全プレイヤー一覧ドロワー（順位・総資産は非表示） */}
       {drawerOpen && (
         <div className="pointer-events-auto bg-slate-900/95 backdrop-blur-lg border-b border-slate-700 shadow-2xl p-3 max-h-[60vh] overflow-y-auto">
           <div className="text-xs font-bold text-slate-400 mb-2 flex items-center justify-between">
-            <span>全社長ランキング（{sortedPlayers.length}人）</span>
+            <span>参加社長一覧（{orderedPlayers.length}人）</span>
             <span className="flex items-center gap-1">
               <Wifi className="w-3 h-3 text-emerald-400" /> リアルタイム同期中
             </span>
           </div>
           <div className="space-y-1.5">
-            {sortedPlayers.map((p) => (
+            {orderedPlayers.map((p) => (
               <div
                 key={p.id}
                 className={`flex items-center justify-between p-2 rounded-xl border ${
@@ -199,9 +193,6 @@ export const StatusBar: React.FC<StatusBarProps> = ({
                 }`}
               >
                 <div className="flex items-center gap-2">
-                  <span className="w-5 text-center font-extrabold text-sm text-amber-300">
-                    {p.rank}
-                  </span>
                   <span
                     className="w-7 h-7 rounded-full flex items-center justify-center text-sm border border-white"
                     style={{ backgroundColor: p.color }}
@@ -236,9 +227,6 @@ export const StatusBar: React.FC<StatusBarProps> = ({
                 <div className="text-right">
                   <div className="text-xs font-bold text-emerald-400">
                     {formatMoney(p.money)}
-                  </div>
-                  <div className="text-[10px] text-slate-400">
-                    総資産 {formatMoney(p.totalAssets)}
                   </div>
                 </div>
               </div>

@@ -188,8 +188,8 @@ export function App() {
 
   const isMyTurn =
     gameState.status === 'playing' && gameState.currentTurnPlayerId === myPlayerId;
-  const showBuyModal = isMyTurn && gameState.phase === 'property_buy';
-  const showCardShopModal = isMyTurn && gameState.phase === 'card_shop';
+  const showBuyModal = isMyTurn && gameState.phase === 'property_buy' && eventQueue.length === 0;
+  const showCardShopModal = isMyTurn && gameState.phase === 'card_shop' && eventQueue.length === 0;
 
   return (
     <div className="fixed inset-0 overflow-hidden touch-none bg-slate-950">

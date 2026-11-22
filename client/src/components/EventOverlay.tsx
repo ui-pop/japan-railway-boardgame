@@ -82,9 +82,6 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
   const [isSpinningMoney, setIsSpinningMoney] = useState(false);
   const [displayAmount, setDisplayAmount] = useState<number>(0);
 
-  // アニメーション誤タップ防止（一定時間はタップで飛ばせない保護ロック）
-  const [canDismiss, setCanDismiss] = useState(false);
-
   // ターン開始アイキャッチ＆月替わり検知
   const [turnBannerPlayer, setTurnBannerPlayer] = useState<PlayerPublicState | null>(null);
   const [isNewMonthBanner, setIsNewMonthBanner] = useState(false);
@@ -92,9 +89,10 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
   const lastMonthRef = useRef<number | undefined>(undefined);
   const bannerTimerRef = useRef<number | null>(null);
 
-  // ターン切り替わり時の桃鉄風大型アイキャッチ表示（players変更でタイマーが消えないようRef管理）
+  // ターン切り替わり時の桃鉄風大型アイキャッチ表示（前のイベントが全部終わってから表示）
   useEffect(() => {
     if (!turnCount || !currentTurnPlayerId) return;
+    if (eventQueue.length > 0) return;
     if (turnCount !== lastTurnCountRef.current) {
       lastTurnCountRef.current = turnCount;
       const monthChanged =
@@ -110,10 +108,10 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         bannerTimerRef.current = window.setTimeout(() => {
           setTurnBannerPlayer(null);
           bannerTimerRef.current = null;
-        }, 2000);
+        }, 1900);
       }
     }
-  }, [turnCount, currentTurnPlayerId, currentMonth, players]);
+  }, [turnCount, currentTurnPlayerId, currentMonth, players, eventQueue.length]);
 
   useEffect(() => {
     return () => {
@@ -123,20 +121,6 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
 
   useEffect(() => {
     if (!currentEvent) return;
-
-    // 表示直後の誤タップによるスキップを防ぐ（最低1.0秒〜演出確定後0.9秒はタップ無効）
-    setCanDismiss(false);
-    const lockDuration =
-      currentEvent.type === 'dice_roll'
-        ? 1900
-        : currentEvent.type === 'station_effect' &&
-            (currentEvent.payload.stationType === 'plus' ||
-              currentEvent.payload.stationType === 'minus')
-          ? 1850
-          : 1100;
-    const dismissUnlockTimer = window.setTimeout(() => {
-      setCanDismiss(true);
-    }, lockDuration);
 
     if (currentEvent.type === 'dice_roll') {
       const targetRolls = (currentEvent.payload.rolls as number[]) ?? [1];
@@ -175,7 +159,6 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
       }, 2350);
 
       return () => {
-        window.clearTimeout(dismissUnlockTimer);
         window.clearInterval(rollInterval);
         window.clearTimeout(revealTimer);
         window.clearTimeout(endTimer);
@@ -222,7 +205,6 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
       }, 2400);
 
       return () => {
-        window.clearTimeout(dismissUnlockTimer);
         window.clearInterval(spinInterval);
         window.clearTimeout(revealTimer);
         window.clearTimeout(endTimer);
@@ -248,7 +230,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
 
     const duration =
       currentEvent.type === 'step_move'
-        ? 220
+        ? 550
         : currentEvent.type === 'year_settlement' || currentEvent.type === 'game_finished'
           ? 0 // 手動で閉じる
           : currentEvent.type === 'destination_reached' ||
@@ -256,22 +238,16 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
               currentEvent.type === 'nuisance_attach' ||
               currentEvent.type === 'random_event'
             ? lowDataMode
-              ? 1500
-              : 3200
+              ? 1600
+              : 3000
             : lowDataMode
-              ? 1100
+              ? 1200
               : 2300;
 
     if (duration > 0) {
       const timer = window.setTimeout(onConsumeEvent, duration);
-      return () => {
-        window.clearTimeout(dismissUnlockTimer);
-        window.clearTimeout(timer);
-      };
+      return () => window.clearTimeout(timer);
     }
-    return () => {
-      window.clearTimeout(dismissUnlockTimer);
-    };
   }, [currentEvent, lowDataMode, onConsumeEvent]);
 
   // スタンプ受信時の効果音
@@ -337,21 +313,9 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         ))}
       </div>
 
-      {/* イベントカットイン */}
+      {/* イベントカットイン（スキップ不可・順番に最後まで再生） */}
       {currentEvent && currentEvent.type !== 'step_move' && (
-        <div
-          onClick={() => {
-            if (
-              canDismiss &&
-              currentEvent.type !== 'game_finished' &&
-              !(currentEvent.type === 'dice_roll' && isRollingDice) &&
-              !(currentEvent.type === 'station_effect' && isSpinningMoney)
-            ) {
-              onConsumeEvent();
-            }
-          }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[3px] p-4"
-        >
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[3px] p-4">
           {currentEvent.type === 'dice_roll' && (
             <div className="bg-gradient-to-b from-slate-900 via-indigo-950 to-slate-900 border-4 border-amber-400 rounded-3xl px-8 py-7 text-center shadow-[0_0_50px_rgba(251,191,36,0.4)] max-w-sm w-full">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-sm text-amber-200 font-extrabold mb-3">

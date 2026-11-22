@@ -66,7 +66,7 @@ export const CardModal: React.FC<CardModalProps> = ({
                   <div>
                     <div className="text-sm font-bold text-white">{r.name}</div>
                     <div className="text-xs text-slate-400">
-                      {r.rank}位 ・ 目的地まで {r.distanceToDest}マス
+                      目的地まで {r.distanceToDest}マス ・ カード {r.cardCount}枚
                     </div>
                   </div>
                 </div>
