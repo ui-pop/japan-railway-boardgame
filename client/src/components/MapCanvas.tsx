@@ -24,29 +24,67 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   const [size, setSize] = useState({ width: window.innerWidth, height: window.innerHeight });
-  // カメラの現在位置と目標位置（初期フォーカス：東京付近）
-  const cameraRef = useRef({
-    x: 6220,
-    y: 6520,
-    targetX: 6220,
-    targetY: 6520,
-    zoom: 0.55,
-  });
-  const [cameraTick, setCameraTick] = useState(0);
-  const [cameraMode, setCameraMode] = useState<'auto' | 'dest' | 'all' | 'free'>('auto');
+  const [isFollowing, setIsFollowing] = useState(true);
   const [inspectedStation, setInspectedStation] = useState<StationDef | null>(null);
-
-  // 各プレイヤーコマの描画用補間座標
-  const visualPlayerPosRef = useRef<Map<string, { x: number; y: number }>>(new Map());
 
   const stationMap = useMemo(() => new Map(stations.map((s) => [s.id, s])), [stations]);
 
+  // 最新propsをrenderループから参照するためのRef（renderループを再生成しない）
+  const latestRef = useRef({
+    stations,
+    stationMap,
+    gameState,
+    myPlayerId,
+    lowDataMode,
+    size,
+  });
+  latestRef.current = { stations, stationMap, gameState, myPlayerId, lowDataMode, size };
+
+  // シンプルな一元管理カメラ状態
+  // animate=true の間だけ targetX/targetY/targetZoom へ滑らかに移動し、到着またはユーザー操作で即停止
+  const cameraRef = useRef({
+    x: 5850,
+    y: 6240,
+    zoom: 0.55,
+    targetX: 5850,
+    targetY: 6240,
+    targetZoom: 0.55,
+    animating: false,
+    following: true,
+    initialized: false,
+  });
+
+  // 各プレイヤーコマの滑らか補間座標
+  const visualPlayerPosRef = useRef<Map<string, { x: number; y: number }>>(new Map());
+
+  // ポインター操作用Ref
   const pointersRef = useRef<Map<number, { x: number; y: number }>>(new Map());
   const pointerDownPosRef = useRef<{ x: number; y: number } | null>(null);
   const movedDuringPointerRef = useRef(false);
   const lastPinchDistRef = useRef<number | null>(null);
   const lastPanRef = useRef<{ x: number; y: number } | null>(null);
 
+  // カメラ移動ヘルパー（ワンショット移動 or 追従）
+  const panTo = useCallback((wx: number, wy: number, nextZoom?: number, follow = false) => {
+    const cam = cameraRef.current;
+    cam.targetX = wx;
+    cam.targetY = wy;
+    cam.targetZoom =
+      nextZoom !== undefined ? Math.max(0.06, Math.min(2.2, nextZoom)) : cam.zoom;
+    cam.animating = true;
+    cam.following = follow;
+    setIsFollowing(follow);
+  }, []);
+
+  const panToWholeJapan = useCallback(() => {
+    const { width, height } = latestRef.current.size;
+    const zoomX = width / 9600;
+    const zoomY = height / 10600;
+    const fitZoom = Math.max(0.06, Math.min(zoomX, zoomY) * 0.92);
+    panTo(4600, 5200, fitZoom, false);
+  }, [panTo]);
+
+  // 画面リサイズ監視
   useEffect(() => {
     const handleResize = () => {
       if (containerRef.current) {
@@ -63,84 +101,70 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const focusOnPoint = useCallback((wx: number, wy: number, zoom?: number, instant = false) => {
-    cameraRef.current.targetX = wx;
-    cameraRef.current.targetY = wy;
-    if (instant) {
-      cameraRef.current.x = wx;
-      cameraRef.current.y = wy;
+  // 初回のみ東京駅（または自機位置）へ瞬時フォーカス
+  useEffect(() => {
+    if (cameraRef.current.initialized || stations.length === 0) return;
+    const me = gameState?.players.find((p) => p.id === myPlayerId);
+    const startSt = (me ? stationMap.get(me.stationId) : null) ?? stationMap.get('tokyo');
+    if (startSt) {
+      cameraRef.current.x = startSt.x;
+      cameraRef.current.y = startSt.y;
+      cameraRef.current.targetX = startSt.x;
+      cameraRef.current.targetY = startSt.y;
+      cameraRef.current.initialized = true;
     }
-    if (zoom !== undefined) {
-      cameraRef.current.zoom = Math.max(0.08, Math.min(2.2, zoom));
-    }
-    setCameraTick((t) => t + 1);
-  }, []);
+  }, [stations, gameState, myPlayerId, stationMap]);
 
-  const focusWholeJapan = useCallback(() => {
-    const zoomX = size.width / 9800;
-    const zoomY = size.height / 10800;
-    const fitZoom = Math.max(0.06, Math.min(zoomX, zoomY) * 0.92);
-    focusOnPoint(4600, 5200, fitZoom, true);
-  }, [focusOnPoint, size.height, size.width]);
-
-  // 外部トリガーからのフォーカス（同じseqで再実行されないようRefで管理）
+  // 下部ドック「マップ」ボタン等の外部トリガー（seqが変わったときだけ1回実行）
   const lastFocusSeqRef = useRef<number>(-1);
   useEffect(() => {
-    if (!focusTargetTrigger || !gameState) return;
-    if (focusTargetTrigger.seq === lastFocusSeqRef.current) return;
+    if (!focusTargetTrigger || focusTargetTrigger.seq === lastFocusSeqRef.current) return;
     lastFocusSeqRef.current = focusTargetTrigger.seq;
 
     if (focusTargetTrigger.type === 'all') {
-      setCameraMode('all');
-      focusWholeJapan();
+      panToWholeJapan();
     } else if (focusTargetTrigger.type === 'dest') {
-      const dest = stationMap.get(gameState.destinationStationId);
-      if (dest) {
-        setCameraMode('dest');
-        focusOnPoint(dest.x, dest.y, Math.max(cameraRef.current.zoom, 0.65), true);
-      }
+      const destId = latestRef.current.gameState?.destinationStationId;
+      const dest = destId ? latestRef.current.stationMap.get(destId) : null;
+      if (dest) panTo(dest.x, dest.y, Math.max(cameraRef.current.zoom, 0.55), false);
     } else if (focusTargetTrigger.type === 'me') {
-      const me = gameState.players.find((p) => p.id === myPlayerId);
-      const st = me ? stationMap.get(me.stationId) : null;
+      const gs = latestRef.current.gameState;
+      const me = gs?.players.find((p) => p.id === latestRef.current.myPlayerId);
+      const st = me ? latestRef.current.stationMap.get(me.stationId) : null;
+      if (st) panTo(st.x, st.y, Math.max(cameraRef.current.zoom, 0.6), true);
+    }
+  }, [focusTargetTrigger, panTo, panToWholeJapan]);
+
+  // ターンが別のプレイヤーへ切り替わったときだけ、自動で手番プレイヤーへ追従ONにする
+  const lastTurnPlayerRef = useRef<string>('');
+  useEffect(() => {
+    const turnPid = gameState?.currentTurnPlayerId;
+    if (!turnPid) return;
+    if (turnPid !== lastTurnPlayerRef.current) {
+      lastTurnPlayerRef.current = turnPid;
+      const active = gameState.players.find((p) => p.id === turnPid);
+      const st = active ? stationMap.get(active.stationId) : null;
       if (st) {
-        setCameraMode('auto');
-        focusOnPoint(st.x, st.y, Math.max(cameraRef.current.zoom, 0.72), true);
+        // 全体俯瞰ほど引きすぎている場合だけ見やすい倍率に戻す
+        const nextZoom = cameraRef.current.zoom < 0.25 ? 0.52 : cameraRef.current.zoom;
+        panTo(st.x, st.y, nextZoom, true);
       }
     }
-  }, [focusTargetTrigger, focusOnPoint, focusWholeJapan, gameState, myPlayerId, stationMap]);
+  }, [gameState?.currentTurnPlayerId, gameState?.players, stationMap, panTo]);
 
-  // ターンが切り替わった瞬間・サイコロを振って移動開始した瞬間に自動で自機追従へ戻す
-  const lastAutoResetKeyRef = useRef<string>('');
+  // 追従モードONのとき、手番プレイヤーが1マス進んだらターゲット座標だけ更新（ズームは変えない！）
   useEffect(() => {
-    if (!gameState) return;
-    const key = `${gameState.turnCount}_${gameState.phase === 'moving' ? 'm' : 'o'}`;
-    if (key !== lastAutoResetKeyRef.current) {
-      lastAutoResetKeyRef.current = key;
-      if (gameState.phase === 'action_select' || gameState.phase === 'moving') {
-        setCameraMode('auto');
-      }
-    }
-  }, [gameState?.turnCount, gameState?.phase]);
-
-  // 自動追従モード：手番プレイヤーが動いたら現在のズーム倍率を保ったまま目標カメラ座標だけ更新
-  useEffect(() => {
-    if (cameraMode !== 'auto' || !gameState) return;
+    if (!cameraRef.current.following || !gameState) return;
     const active = gameState.players.find((p) => p.id === gameState.currentTurnPlayerId);
     const st = active ? stationMap.get(active.stationId) : null;
     if (st) {
-      focusOnPoint(st.x, st.y, undefined, false);
+      cameraRef.current.targetX = st.x;
+      cameraRef.current.targetY = st.y;
+      cameraRef.current.animating = true;
     }
-  }, [
-    cameraMode,
-    focusOnPoint,
-    gameState?.currentTurnPlayerId,
-    gameState?.players,
-    gameState?.turnCount,
-    gameState?.remainingSteps,
-    stationMap,
-  ]);
+  }, [gameState?.players, gameState?.currentTurnPlayerId, stationMap]);
 
-  // 描画ループ
+  // 常時1本だけ走る安定した描画ループ（ドラッグやズームで再生成されない）
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -150,26 +174,39 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
     let animId = 0;
 
     const render = (time: number) => {
+      const { stations: sts, stationMap: sMap, gameState: gs, myPlayerId: myPid, lowDataMode: lowData, size: sz } =
+        latestRef.current;
+
       const dpr = window.devicePixelRatio || 1;
-      if (
-        canvas.width !== Math.floor(size.width * dpr) ||
-        canvas.height !== Math.floor(size.height * dpr)
-      ) {
-        canvas.width = Math.floor(size.width * dpr);
-        canvas.height = Math.floor(size.height * dpr);
+      const targetW = Math.floor(sz.width * dpr);
+      const targetH = Math.floor(sz.height * dpr);
+      if (canvas.width !== targetW || canvas.height !== targetH) {
+        canvas.width = targetW;
+        canvas.height = targetH;
       }
 
-      // カメラの滑らかな補間移動
+      // カメラの滑らかな補間移動（animating が true のときだけ）
       const cam = cameraRef.current;
-      if (cameraMode === 'auto' && !lowDataMode) {
-        const dx = cam.targetX - cam.x;
-        const dy = cam.targetY - cam.y;
-        if (Math.hypot(dx, dy) > 0.5) {
-          cam.x += dx * 0.14;
-          cam.y += dy * 0.14;
-        } else {
+      if (cam.animating) {
+        if (lowData) {
           cam.x = cam.targetX;
           cam.y = cam.targetY;
+          cam.zoom = cam.targetZoom;
+          cam.animating = false;
+        } else {
+          const dx = cam.targetX - cam.x;
+          const dy = cam.targetY - cam.y;
+          const dz = cam.targetZoom - cam.zoom;
+          if (Math.hypot(dx, dy) < 1 && Math.abs(dz) < 0.002) {
+            cam.x = cam.targetX;
+            cam.y = cam.targetY;
+            cam.zoom = cam.targetZoom;
+            cam.animating = false;
+          } else {
+            cam.x += dx * 0.16;
+            cam.y += dy * 0.16;
+            cam.zoom += dz * 0.16;
+          }
         }
       }
 
@@ -177,37 +214,36 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       ctx.scale(dpr, dpr);
 
       // 背景（桃鉄風の明るいコバルトブルー〜マリンブルーの海）
-      const bgGrad = ctx.createLinearGradient(0, 0, 0, size.height);
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, sz.height);
       bgGrad.addColorStop(0, '#38bdf8');
       bgGrad.addColorStop(1, '#0284c7');
       ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, size.width, size.height);
+      ctx.fillRect(0, 0, sz.width, sz.height);
 
       // カメラ変換
-      ctx.translate(size.width / 2, size.height / 2);
+      ctx.translate(sz.width / 2, sz.height / 2);
       ctx.scale(cam.zoom, cam.zoom);
       ctx.translate(-cam.x, -cam.y);
 
       // 海の経緯線グリッド
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
       ctx.lineWidth = 2;
-      for (let gx = 0; gx <= 9600; gx += 600) {
+      for (let gx = 0; gx <= 9600; gx += 650) {
         ctx.beginPath();
         ctx.moveTo(gx, 0);
-        ctx.lineTo(gx, 10600);
+        ctx.lineTo(gx, 10800);
         ctx.stroke();
       }
-      for (let gy = 0; gy <= 10600; gy += 600) {
+      for (let gy = 0; gy <= 10800; gy += 650) {
         ctx.beginPath();
         ctx.moveTo(0, gy);
         ctx.lineTo(9600, gy);
         ctx.stroke();
       }
 
-      // 緯度・経度グリッドに沿った桃鉄風カクカク日本列島（2パス描画で海岸線に砂浜の縁取りを自動生成！）
+      // 緯度・経度グリッドに沿った桃鉄風カクカク日本列島
       const pad = 16;
       const half = GRID_SIZE / 2;
-      // パス1: 砂浜（クリーム色）
       ctx.fillStyle = '#fef3c7';
       for (const [gx, gy] of JAPAN_LAND_CELLS) {
         ctx.fillRect(
@@ -217,7 +253,6 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           GRID_SIZE + pad * 2
         );
       }
-      // パス2: 明るい草原グリーン（陸地本体）
       ctx.fillStyle = '#4ade80';
       for (const [gx, gy] of JAPAN_LAND_CELLS) {
         ctx.fillRect(
@@ -228,17 +263,16 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
         );
       }
 
-      // 路線（鉄道レール：茶色の枕木＋白レール）
+      // 路線（鉄道レール：こげ茶枕木＋白レール）
       const drawnEdges = new Set<string>();
-      for (const st of stations) {
+      for (const st of sts) {
         for (const nbId of st.neighbors) {
           const edgeKey = st.id < nbId ? `${st.id}-${nbId}` : `${nbId}-${st.id}`;
           if (drawnEdges.has(edgeKey)) continue;
           drawnEdges.add(edgeKey);
-          const nb = stationMap.get(nbId);
+          const nb = sMap.get(nbId);
           if (!nb) continue;
 
-          // 外枠レール（こげ茶）
           ctx.strokeStyle = '#78350f';
           ctx.lineWidth = 11;
           ctx.lineCap = 'round';
@@ -247,7 +281,6 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           ctx.lineTo(nb.x, nb.y);
           ctx.stroke();
 
-          // 内側白線
           ctx.strokeStyle = '#ffffff';
           ctx.lineWidth = 6;
           ctx.setLineDash([10, 10]);
@@ -259,19 +292,18 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
         }
       }
 
-      const pulse = lowDataMode ? 0.5 : (Math.sin(time / 260) + 1) / 2;
+      const pulse = lowData ? 0.5 : (Math.sin(time / 260) + 1) / 2;
 
-      // マス（都市駅＆道中マス）描画
-      for (const st of stations) {
-        const isDest = gameState?.destinationStationId === st.id;
+      // マス描画
+      for (const st of sts) {
+        const isDest = gs?.destinationStationId === st.id;
         const isMyMoving =
-          gameState?.status === 'playing' &&
-          gameState?.phase === 'moving' &&
-          gameState.currentTurnPlayerId === myPlayerId;
-        const isNextAvail = isMyMoving && gameState.availableNextStations.includes(st.id);
-        const isUndoTarget = isMyMoving && gameState.undoStationId === st.id;
+          gs?.status === 'playing' &&
+          gs?.phase === 'moving' &&
+          gs.currentTurnPlayerId === myPid;
+        const isNextAvail = isMyMoving && gs.availableNextStations.includes(st.id);
+        const isUndoTarget = isMyMoving && gs.undoStationId === st.id;
 
-        // 目的地ハイライトリング
         if (isDest) {
           ctx.beginPath();
           ctx.arc(st.x, st.y, 40 + pulse * 12, 0, Math.PI * 2);
@@ -282,7 +314,6 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           ctx.stroke();
         }
 
-        // タップ可能な移動先マス・戻りマスのハイライトリング
         if (isNextAvail) {
           ctx.beginPath();
           ctx.arc(st.x, st.y, 28 + pulse * 10, 0, Math.PI * 2);
@@ -296,22 +327,18 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
         }
 
         if (st.type === 'property') {
-          // 誰かが独占しているかチェック
           let monopolyColor: string | null = null;
-          if (gameState && st.properties && st.properties.length > 0) {
-            const firstOwned = gameState.ownedProperties[st.properties[0].id];
+          if (gs && st.properties && st.properties.length > 0) {
+            const firstOwned = gs.ownedProperties[st.properties[0].id];
             if (
               firstOwned &&
-              st.properties.every(
-                (p) => gameState.ownedProperties[p.id]?.ownerId === firstOwned.ownerId
-              )
+              st.properties.every((p) => gs.ownedProperties[p.id]?.ownerId === firstOwned.ownerId)
             ) {
-              const owner = gameState.players.find((pl) => pl.id === firstOwned.ownerId);
+              const owner = gs.players.find((pl) => pl.id === firstOwned.ownerId);
               monopolyColor = owner?.color ?? null;
             }
           }
 
-          // 都市駅（桃鉄風の赤屋根駅舎プレート）
           ctx.beginPath();
           ctx.fillStyle = isDest ? '#eab308' : monopolyColor ?? '#dc2626';
           ctx.strokeStyle = '#ffffff';
@@ -326,16 +353,11 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           ctx.textBaseline = 'middle';
           ctx.fillText(monopolyColor ? '👑' : '駅', st.x, st.y + 1);
 
-          // 都市駅名看板（白地に黒太字の桃鉄駅看板スタイル！）
           ctx.font = 'bold 16px sans-serif';
           const heroIcon = st.hero ? st.hero.icon : '';
           const labelText = isDest ? `🚩${st.name}` : `${heroIcon}${st.name}`;
           const textWidth = ctx.measureText(labelText).width;
-          ctx.fillStyle = isDest
-            ? '#facc15'
-            : monopolyColor
-              ? monopolyColor
-              : '#ffffff';
+          ctx.fillStyle = isDest ? '#facc15' : monopolyColor ? monopolyColor : '#ffffff';
           ctx.strokeStyle = isDest ? '#b91c1c' : '#1e293b';
           ctx.lineWidth = 3;
           ctx.beginPath();
@@ -345,7 +367,6 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           ctx.fillStyle = monopolyColor ? '#ffffff' : '#0f172a';
           ctx.fillText(labelText, st.x, st.y + 36);
         } else {
-          // 道中の青マス・赤マス・カードマス・ナイスカードマス・カード売り場・ワープマス
           ctx.beginPath();
           if (st.type === 'shop') {
             ctx.fillStyle = '#ea580c';
@@ -386,7 +407,6 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           ctx.fillText(symbol, st.x, st.y + 1);
         }
 
-        // 戻るマスには「↩戻る」の小さなタグを上に表示
         if (isUndoTarget) {
           ctx.font = 'bold 13px sans-serif';
           const backLabel = '↩戻る';
@@ -400,24 +420,23 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
         }
       }
 
-      // 目的地への最短経路となる次マスへのゴールド誘導矢印を描画
+      // 最短経路ゴールド誘導矢印
       if (
-        gameState &&
-        gameState.status === 'playing' &&
-        gameState.phase === 'moving' &&
-        gameState.currentTurnPlayerId === myPlayerId &&
-        gameState.recommendedNextStations?.length > 0
+        gs &&
+        gs.status === 'playing' &&
+        gs.phase === 'moving' &&
+        gs.currentTurnPlayerId === myPid &&
+        gs.recommendedNextStations?.length > 0
       ) {
-        const me = gameState.players.find((p) => p.id === myPlayerId);
-        const curSt = me ? stationMap.get(me.stationId) : null;
+        const me = gs.players.find((p) => p.id === myPid);
+        const curSt = me ? sMap.get(me.stationId) : null;
         if (curSt) {
-          for (const recId of gameState.recommendedNextStations) {
-            const nextSt = stationMap.get(recId);
+          for (const recId of gs.recommendedNextStations) {
+            const nextSt = sMap.get(recId);
             if (!nextSt) continue;
             const dx = nextSt.x - curSt.x;
             const dy = nextSt.y - curSt.y;
             const angle = Math.atan2(dy, dx);
-            // 現在駅と次マスの中間あたりに脈動する矢印を配置
             const t = 0.52 + pulse * 0.12;
             const ax = curSt.x + dx * t;
             const ay = curSt.y + dy * t;
@@ -425,14 +444,12 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
             ctx.save();
             ctx.translate(ax, ay);
             ctx.rotate(angle);
-
             ctx.beginPath();
             ctx.moveTo(20, 0);
             ctx.lineTo(-10, -14);
             ctx.lineTo(-4, 0);
             ctx.lineTo(-10, 14);
             ctx.closePath();
-
             ctx.fillStyle = '#facc15';
             ctx.shadowColor = 'rgba(250, 204, 21, 0.9)';
             ctx.shadowBlur = 12;
@@ -445,17 +462,17 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
         }
       }
 
-      // プレイヤーコマ描画（滑らかな補間移動つき）
-      if (gameState) {
-        const byStation = new Map<string, typeof gameState.players>();
-        for (const p of gameState.players) {
+      // プレイヤーコマ描画
+      if (gs) {
+        const byStation = new Map<string, typeof gs.players>();
+        for (const p of gs.players) {
           const list = byStation.get(p.stationId) ?? [];
           list.push(p);
           byStation.set(p.stationId, list);
         }
 
         for (const [stId, group] of byStation.entries()) {
-          const st = stationMap.get(stId);
+          const st = sMap.get(stId);
           if (!st) continue;
           group.forEach((p, idx) => {
             const angle = (idx / Math.max(1, group.length)) * Math.PI * 2 - Math.PI / 2;
@@ -464,13 +481,12 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
             const targetPy = st.y - 26 + Math.sin(angle) * (radius * 0.6);
 
             let vPos = visualPlayerPosRef.current.get(p.id);
-            if (!vPos || lowDataMode) {
+            if (!vPos || lowData) {
               vPos = { x: targetPx, y: targetPy };
               visualPlayerPosRef.current.set(p.id, vPos);
             } else {
-              // 距離が遠すぎる場合（ワープ等）は瞬時移動、1マス移動は滑らかに補間
               const dist = Math.hypot(targetPx - vPos.x, targetPy - vPos.y);
-              if (dist > 600) {
+              if (dist > 700) {
                 vPos.x = targetPx;
                 vPos.y = targetPy;
               } else {
@@ -481,8 +497,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
 
             const px = vPos.x;
             const py = vPos.y;
-
-            const isTurn = p.id === gameState.currentTurnPlayerId;
+            const isTurn = p.id === gs.currentTurnPlayerId;
             if (isTurn) {
               ctx.beginPath();
               ctx.arc(px, py, 25 + pulse * 6, 0, Math.PI * 2);
@@ -493,7 +508,6 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
               ctx.stroke();
             }
 
-            // コマ本体
             ctx.beginPath();
             ctx.arc(px, py, 20, 0, Math.PI * 2);
             ctx.fillStyle = p.color;
@@ -507,8 +521,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
             ctx.textBaseline = 'middle';
             ctx.fillText(p.avatar, px, py + 1);
 
-            // プレイヤー名ミニバッジ（手番または自分のコマ）
-            if (isTurn || p.id === myPlayerId) {
+            if (isTurn || p.id === myPid) {
               ctx.font = 'bold 12px sans-serif';
               const nw = ctx.measureText(p.name).width;
               ctx.fillStyle = p.color;
@@ -519,7 +532,6 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
               ctx.fillText(p.name, px, py - 30);
             }
 
-            // お邪魔キャラ憑依アイコン
             if (p.hasNuisance) {
               ctx.font = '22px sans-serif';
               ctx.fillText('👹', px + 18, py - 18);
@@ -529,24 +541,24 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       }
 
       ctx.restore();
-
-      if (!lowDataMode) {
-        animId = requestAnimationFrame(render);
-      }
-    };
-
-    if (lowDataMode) {
-      render(0);
-    } else {
       animId = requestAnimationFrame(render);
-    }
-
-    return () => {
-      if (animId) cancelAnimationFrame(animId);
     };
-  }, [gameState, lowDataMode, myPlayerId, size, stationMap, stations, cameraTick, cameraMode]);
 
-  // ポインター操作（1本指ドラッグ & 2本指ピンチ & マス直接タップ移動）
+    animId = requestAnimationFrame(render);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  // ユーザー操作で追従・自動アニメーションを即解除するヘルパー
+  const stopAutoCamera = () => {
+    const cam = cameraRef.current;
+    cam.animating = false;
+    if (cam.following) {
+      cam.following = false;
+      setIsFollowing(false);
+    }
+  };
+
+  // ポインター操作（1本指ドラッグ & 2本指ピンチ & マス直接タップ）
   const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     (e.target as HTMLElement).setPointerCapture(e.pointerId);
     pointersRef.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -556,6 +568,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       movedDuringPointerRef.current = false;
     } else if (pointersRef.current.size === 2) {
       movedDuringPointerRef.current = true;
+      stopAutoCamera();
       const pts = Array.from(pointersRef.current.values());
       lastPinchDistRef.current = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
     }
@@ -571,7 +584,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           e.clientX - pointerDownPosRef.current.x,
           e.clientY - pointerDownPosRef.current.y
         );
-        if (totalMove > 12) {
+        if (totalMove > 10) {
           movedDuringPointerRef.current = true;
         }
       }
@@ -579,23 +592,22 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       const dx = e.clientX - lastPanRef.current.x;
       const dy = e.clientY - lastPanRef.current.y;
       if (movedDuringPointerRef.current) {
-        setCameraMode('free');
+        stopAutoCamera();
         cameraRef.current.x -= dx / cameraRef.current.zoom;
         cameraRef.current.y -= dy / cameraRef.current.zoom;
         cameraRef.current.targetX = cameraRef.current.x;
         cameraRef.current.targetY = cameraRef.current.y;
-        setCameraTick((t) => t + 1);
       }
       lastPanRef.current = { x: e.clientX, y: e.clientY };
     } else if (pointersRef.current.size === 2) {
       movedDuringPointerRef.current = true;
+      stopAutoCamera();
       const pts = Array.from(pointersRef.current.values());
       const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
       if (lastPinchDistRef.current) {
-        setCameraMode('free');
         const scale = dist / lastPinchDistRef.current;
-        cameraRef.current.zoom = Math.max(0.08, Math.min(2.2, cameraRef.current.zoom * scale));
-        setCameraTick((t) => t + 1);
+        cameraRef.current.zoom = Math.max(0.06, Math.min(2.2, cameraRef.current.zoom * scale));
+        cameraRef.current.targetZoom = cameraRef.current.zoom;
       }
       lastPinchDistRef.current = dist;
     }
@@ -604,9 +616,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
   const handlePointerUp = (e: React.PointerEvent<HTMLCanvasElement>) => {
     const wasTap = !movedDuringPointerRef.current && pointersRef.current.size === 1;
     pointersRef.current.delete(e.pointerId);
-    if (pointersRef.current.size < 2) {
-      lastPinchDistRef.current = null;
-    }
+    if (pointersRef.current.size < 2) lastPinchDistRef.current = null;
     if (pointersRef.current.size === 1) {
       const remaining = Array.from(pointersRef.current.values())[0];
       lastPanRef.current = { x: remaining.x, y: remaining.y };
@@ -614,23 +624,22 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       lastPanRef.current = null;
     }
 
-    // マス直接タップによる移動判定
+    if (!wasTap || !canvasRef.current) return;
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const tapX = e.clientX - rect.left;
+    const tapY = e.clientY - rect.top;
+    const cam = cameraRef.current;
+
+    // 1. 自分の移動中なら、光っている隣接マスのタップ判定を最優先
     if (
-      wasTap &&
-      canvasRef.current &&
       gameState &&
       gameState.status === 'playing' &&
       gameState.phase === 'moving' &&
       gameState.currentTurnPlayerId === myPlayerId
     ) {
-      const rect = canvasRef.current.getBoundingClientRect();
-      const tapX = e.clientX - rect.left;
-      const tapY = e.clientY - rect.top;
-      const cam = cameraRef.current;
-
       let bestStationId: string | null = null;
-      let bestDist = 54; // 指で押しやすい54px以内の判定
-
+      let bestDist = 56;
       for (const stId of gameState.availableNextStations) {
         const st = stationMap.get(stId);
         if (!st) continue;
@@ -642,7 +651,6 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           bestStationId = stId;
         }
       }
-
       if (bestStationId) {
         setInspectedStation(null);
         onSelectNextStation(bestStationId);
@@ -650,34 +658,27 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       }
     }
 
-    // 移動先以外で都市駅をタップした場合は、駅物件・ヒーロー情報をプレビュー表示
-    if (wasTap && canvasRef.current) {
-      const rect = canvasRef.current.getBoundingClientRect();
-      const tapX = e.clientX - rect.left;
-      const tapY = e.clientY - rect.top;
-      const cam = cameraRef.current;
-
-      let found: StationDef | null = null;
-      let minD = 42;
-      for (const st of stations) {
-        if (st.type !== 'property') continue;
-        const sx = (st.x - cam.x) * cam.zoom + size.width / 2;
-        const sy = (st.y - cam.y) * cam.zoom + size.height / 2;
-        const d = Math.hypot(sx - tapX, sy - tapY);
-        if (d < minD) {
-          minD = d;
-          found = st;
-        }
+    // 2. それ以外は都市駅の物件プレビュー判定
+    let found: StationDef | null = null;
+    let minD = 44;
+    for (const st of stations) {
+      if (st.type !== 'property') continue;
+      const sx = (st.x - cam.x) * cam.zoom + size.width / 2;
+      const sy = (st.y - cam.y) * cam.zoom + size.height / 2;
+      const d = Math.hypot(sx - tapX, sy - tapY);
+      if (d < minD) {
+        minD = d;
+        found = st;
       }
-      setInspectedStation(found);
     }
+    setInspectedStation(found);
   };
 
   const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
-    setCameraMode('free');
+    stopAutoCamera();
     const factor = e.deltaY < 0 ? 1.12 : 0.89;
-    cameraRef.current.zoom = Math.max(0.08, Math.min(2.2, cameraRef.current.zoom * factor));
-    setCameraTick((t) => t + 1);
+    cameraRef.current.zoom = Math.max(0.06, Math.min(2.2, cameraRef.current.zoom * factor));
+    cameraRef.current.targetZoom = cameraRef.current.zoom;
   };
 
   return (
@@ -750,21 +751,18 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
         </div>
       )}
 
-      {/* 右下カメラ切替ボタン */}
+      {/* 右下カメラ操作ボタン（すべてワンショットアクション・自機追従のみON表示） */}
       <div className="absolute right-3 bottom-32 z-10 flex flex-col gap-2">
         <button
           onClick={() => {
             const me = gameState?.players.find((p) => p.id === myPlayerId);
             const st = me ? stationMap.get(me.stationId) : null;
-            if (st) {
-              setCameraMode('auto');
-              focusOnPoint(st.x, st.y, 0.72, true);
-            }
+            if (st) panTo(st.x, st.y, Math.max(cameraRef.current.zoom, 0.55), true);
           }}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border backdrop-blur-md transition ${
-            cameraMode === 'auto'
-              ? 'bg-sky-600/90 border-sky-300 text-white'
-              : 'bg-slate-900/80 border-slate-600 text-slate-200'
+          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border backdrop-blur-md active:scale-95 transition ${
+            isFollowing
+              ? 'bg-sky-600 border-sky-200 text-white'
+              : 'bg-slate-900/85 border-slate-600 text-slate-200'
           }`}
         >
           <Crosshair className="w-4 h-4" />
@@ -774,30 +772,16 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           onClick={() => {
             if (!gameState) return;
             const dest = stationMap.get(gameState.destinationStationId);
-            if (dest) {
-              setCameraMode('dest');
-              focusOnPoint(dest.x, dest.y, 0.65, true);
-            }
+            if (dest) panTo(dest.x, dest.y, Math.max(cameraRef.current.zoom, 0.55), false);
           }}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border backdrop-blur-md transition ${
-            cameraMode === 'dest'
-              ? 'bg-amber-500 border-amber-200 text-white'
-              : 'bg-slate-900/80 border-slate-600 text-slate-200'
-          }`}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border bg-slate-900/85 border-slate-600 text-amber-300 active:scale-95 backdrop-blur-md transition"
         >
           <Compass className="w-4 h-4" />
           目的地
         </button>
         <button
-          onClick={() => {
-            setCameraMode('all');
-            focusWholeJapan();
-          }}
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border backdrop-blur-md transition ${
-            cameraMode === 'all'
-              ? 'bg-indigo-600 border-indigo-300 text-white'
-              : 'bg-slate-900/80 border-slate-600 text-slate-200'
-          }`}
+          onClick={panToWholeJapan}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-bold shadow-lg border bg-slate-900/85 border-slate-600 text-slate-200 active:scale-95 backdrop-blur-md transition"
         >
           <Maximize2 className="w-4 h-4" />
           全体
