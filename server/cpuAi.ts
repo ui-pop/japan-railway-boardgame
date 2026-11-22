@@ -14,7 +14,8 @@ export type CpuActionDecision =
   | { type: 'buy_properties'; propertyIds: string[]; upgradeIds: string[] }
   | { type: 'skip_buy' }
   | { type: 'buy_card_shop'; cardId: string }
-  | { type: 'skip_card_shop' };
+  | { type: 'skip_card_shop' }
+  | { type: 'sell_debt_properties'; propertyIds: string[] };
 
 export class CpuAi {
   private pathfinder: Pathfinder;
@@ -163,15 +164,53 @@ export class CpuAi {
           nextStationId: st?.neighbors[0] ?? player.stationId,
         };
       }
+      // 残り1マスで目的地に隣接していれば必ずぴったりゴール！
+      if (state.remainingSteps === 1 && candidates.includes(state.destinationStationId)) {
+        return { type: 'move_step', nextStationId: state.destinationStationId };
+      }
+      // 残り2マス以上で目的地通過や行き止まり（隣接1駅）に入るのを避ける
+      const filtered =
+        state.remainingSteps > 1 && candidates.length > 1
+          ? candidates.filter((id) => {
+              if (id === state.destinationStationId) return false;
+              const nbLen = this.stationMap.get(id)?.neighbors.length ?? 0;
+              return nbLen > 1;
+            })
+          : candidates;
+      const pool = filtered.length > 0 ? filtered : candidates;
       const best = this.pathfinder.getBestNextStep(
         player.stationId,
         state.destinationStationId,
-        candidates
+        pool
       );
       return {
         type: 'move_step',
-        nextStationId: best ?? candidates[0],
+        nextStationId: best ?? pool[0],
       };
+    }
+
+    if (state.phase === 'debt_sell') {
+      // 独占していない安い物件から順に、借金が解消するまで売却リストを作成
+      const mine = Object.values(state.ownedProperties).filter((o) => o.ownerId === player.id);
+      const scored = mine.map((o) => {
+        const st = this.stationMap.get(o.stationId);
+        const def = st?.properties?.find((x) => x.id === o.propertyId);
+        const value = (def?.price ?? 1000) * o.level;
+        const isMono =
+          st?.properties && st.properties.length > 0
+            ? st.properties.every((p) => state.ownedProperties[p.id]?.ownerId === player.id)
+            : false;
+        return { id: o.propertyId, value, refund: Math.floor(value * 0.5), mono: isMono ? 1 : 0 };
+      });
+      scored.sort((a, b) => a.mono - b.mono || a.value - b.value);
+      const toSell: string[] = [];
+      let bal = player.money;
+      for (const item of scored) {
+        if (bal >= 0) break;
+        toSell.push(item.id);
+        bal += item.refund;
+      }
+      return { type: 'sell_debt_properties', propertyIds: toSell };
     }
 
     if (state.phase === 'property_buy') {
@@ -202,7 +241,7 @@ export class CpuAi {
         return owned && owned.ownerId === player.id && owned.level < 3;
       });
       for (const prop of ownProps) {
-        const upgradeCost = Math.floor(prop.price * 0.8);
+        const upgradeCost = prop.price;
         if (budget >= upgradeCost) {
           upgradeIds.push(prop.id);
           budget -= upgradeCost;

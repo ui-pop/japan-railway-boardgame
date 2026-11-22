@@ -25,6 +25,7 @@ export function App() {
     eventQueue,
     stamps,
     savesList,
+    adminPlayersCards,
     errorMsg,
     joinGame,
     renamePlayer,
@@ -37,6 +38,7 @@ export function App() {
     skipBuy,
     buyCardShop,
     skipCardShop,
+    sellDebtProperties,
     sendStamp,
     consumeFirstEvent,
     adminCreateGame,
@@ -49,7 +51,11 @@ export function App() {
     adminRollback,
     adminAdjustMoney,
     adminGiveCard,
+    adminGiveCardAll,
+    adminRemoveCard,
+    adminWarpPlayer,
     adminChangeDest,
+    adminBroadcastMessage,
     adminSetNuisance,
     adminAddLocalRule,
     adminToggleLocalRule,
@@ -80,6 +86,7 @@ export function App() {
         cardsMaster={cardsMaster}
         eventsData={eventsData}
         savesList={savesList}
+        adminPlayersCards={adminPlayersCards}
         onCreateGame={adminCreateGame}
         onStartGame={adminStartGame}
         onAddCpu={adminAddCpu}
@@ -90,7 +97,11 @@ export function App() {
         onRollback={adminRollback}
         onAdjustMoney={adminAdjustMoney}
         onGiveCard={adminGiveCard}
+        onGiveCardAll={adminGiveCardAll}
+        onRemoveCard={adminRemoveCard}
+        onWarpPlayer={adminWarpPlayer}
         onChangeDest={adminChangeDest}
+        onBroadcastMessage={adminBroadcastMessage}
         onSetNuisance={adminSetNuisance}
         onAddLocalRule={adminAddLocalRule}
         onToggleLocalRule={adminToggleLocalRule}
@@ -266,6 +277,7 @@ export function App() {
     gameState.status === 'playing' && gameState.currentTurnPlayerId === myPlayerId;
   const showBuyModal = isMyTurn && gameState.phase === 'property_buy' && eventQueue.length === 0;
   const showCardShopModal = isMyTurn && gameState.phase === 'card_shop' && eventQueue.length === 0;
+  const showDebtSellModal = isMyTurn && gameState.phase === 'debt_sell' && eventQueue.length === 0;
 
   return (
     <div className="fixed inset-0 overflow-hidden touch-none bg-slate-950">
@@ -331,6 +343,20 @@ export function App() {
           stations={stations}
           onBuy={buyProperties}
           onSkip={skipBuy}
+          onClose={() => {}}
+        />
+      )}
+
+      {/* 借金返済・任意物件売却モーダル */}
+      {showDebtSellModal && (
+        <PropertyModal
+          mode="debt_sell"
+          gameState={gameState}
+          myPlayerId={myPlayerId}
+          stations={stations}
+          onBuy={buyProperties}
+          onSkip={skipBuy}
+          onSellDebt={sellDebtProperties}
           onClose={() => {}}
         />
       )}

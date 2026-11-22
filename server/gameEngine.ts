@@ -48,9 +48,16 @@ export const SHOP_STOCK_IDS = [
   'card_pack',
 ];
 
-// 物件の評価額（購入額＋増資額の合計）
+// 物件の評価額（本家準拠：購入額＋増資額、増資コストは物件価格の100%）
 function investedValue(price: number, level: number): number {
-  return price + Math.floor(price * 0.8) * (level - 1);
+  return price * level;
+}
+
+// 物件の年間収益（本家準拠：増資1回ごとに収益率+5%、独占で2倍）
+function calcAnnualIncome(price: number, rate: number, level: number, isMonopolized: boolean): number {
+  const effectiveRate = rate + (level - 1) * 0.05;
+  const monoMult = isMonopolized ? 2.0 : 1.0;
+  return Math.round(price * level * effectiveRate * monoMult);
 }
 
 export class GameEngine {
@@ -66,6 +73,11 @@ export class GameEngine {
   public visitedPathThisTurn: string[] = [];
   // 1ターンに使えるカードは1枚まで（無限連鎖防止）
   public cardUsedThisTurn = false;
+  // 借金売却フェーズの復帰先（ターン開始前 or ターン終了前）
+  private debtSellContext: 'turn_start' | 'turn_end' = 'turn_end';
+  // 連続目的地到着ボーナス管理
+  private lastDestinationWinnerId: string | null = null;
+  private consecutiveDestCount = 0;
   public players: PlayerInternalState[] = [];
   public ownedProperties: Record<string, OwnedProperty> = {};
   public nuisanceTargetPlayerId: string | null = null;
@@ -138,6 +150,10 @@ export class GameEngine {
     this.destinationStationId = this.pickRandomDestination('tokyo');
     this.remainingSteps = 0;
     this.visitedPathThisTurn = [];
+    this.cardUsedThisTurn = false;
+    this.debtSellContext = 'turn_end';
+    this.lastDestinationWinnerId = null;
+    this.consecutiveDestCount = 0;
     this.players = [];
     this.ownedProperties = {};
     this.nuisanceTargetPlayerId = null;
@@ -441,14 +457,14 @@ export class GameEngine {
       this.visitedPathThisTurn = [player.stationId];
       this.phase = 'moving';
 
-      // 周遊カードは50%の確率で手元に戻る！
+      // 周遊カードは本家準拠で70%の確率で手元に残る！
       let keptMsg = '';
       if (
         (card.id === 'express_shuyu' ||
           card.id === 'super_shuyu' ||
           card.id === 'shinkansen_shuyu' ||
           card.id === 'nozomi_shuyu') &&
-        Math.random() < 0.5 &&
+        Math.random() < 0.7 &&
         player.cards.length < 8
       ) {
         player.cards.push(card.id);
@@ -572,11 +588,17 @@ export class GameEngine {
         const endEvents = this.finishTurn(player);
         return { ok: true, events: [...events, ...endEvents] };
       } else if (card.id === 'debt_relief') {
-        if (player.money < 0) {
-          player.money = 0;
-          this.lastEventMessage = `📜 ${player.name}が徳政令カードを使用！借金がすべてチャラになった！`;
+        const cleared: string[] = [];
+        for (const p of this.players) {
+          if (p.money < 0) {
+            p.money = 0;
+            cleared.push(p.name);
+          }
+        }
+        if (cleared.length > 0) {
+          this.lastEventMessage = `📜 ${player.name}が徳政令カードを発動！ ${cleared.join('・')} の借金がすべてチャラになった！`;
         } else {
-          this.lastEventMessage = `📜 ${player.name}は徳政令カードを使ったが借金はなかった。`;
+          this.lastEventMessage = `📜 ${player.name}は徳政令カードを使ったが借金のある社長はいなかった。`;
         }
       } else if (card.id === 'exorcise_nuisance') {
         if (player.hasNuisance) {
@@ -877,27 +899,58 @@ export class GameEngine {
       },
     ];
 
-    // 目的地到達チェック
-    if (nextStationId === this.destinationStationId) {
-      this.remainingSteps = 0;
-      const bonus = this.eventsData.stationValues.destinationBonusBase + (this.currentYear - 1) * 3000;
+    // 目的地到達チェック（本家仕様：残り歩数ちょうど0で到達必須！）
+    if (nextStationId === this.destinationStationId && this.remainingSteps === 0) {
+      if (this.lastDestinationWinnerId === player.id) {
+        this.consecutiveDestCount += 1;
+      } else {
+        this.lastDestinationWinnerId = player.id;
+        this.consecutiveDestCount = 1;
+      }
+      const streakMult =
+        this.consecutiveDestCount >= 3 ? 2.0 : this.consecutiveDestCount === 2 ? 1.5 : 1.0;
+      const baseBonus =
+        this.eventsData.stationValues.destinationBonusBase + (this.currentYear - 1) * 3000;
+      const bonus = Math.round((baseBonus * streakMult) / 100) * 100;
       player.money += bonus;
-      this.lastEventMessage = `🎉 ${player.name}が目的地「${this.getStationName(nextStationId)}」に到着！ 援助金 +${bonus.toLocaleString()}万円！`;
+
+      // 次の目的地を先に決定して演出に表示する
+      const arrivedName = this.getStationName(nextStationId);
+      const arrivedStation = this.stationMap.get(nextStationId);
+      this.destinationStationId = this.pickRandomDestination(nextStationId);
+      const nextDestName = this.getStationName(this.destinationStationId);
+      this.recalculateRankingsAndDistances();
+
+      const streakLabel =
+        this.consecutiveDestCount >= 2 ? `（${this.consecutiveDestCount}回連続到着ボーナス！）` : '';
+      this.lastEventMessage = `🎉 ${player.name}が目的地「${arrivedName}」にぴったり到着！ 援助金 +${bonus.toLocaleString()}万円！${streakLabel} 次の目的地は「${nextDestName}」！`;
 
       events.push({
         type: 'destination_reached',
         playerId: player.id,
         payload: {
           stationId: nextStationId,
-          stationName: this.getStationName(nextStationId),
+          stationName: arrivedName,
           bonus,
+          streak: this.consecutiveDestCount,
+          nextDestName,
         },
       });
       events.push(...this.evaluateLocalRules('on_destination', player));
-
-      // 次の目的地を決定
-      this.destinationStationId = this.pickRandomDestination(nextStationId);
-      this.recalculateRankingsAndDistances();
+      events.push(
+        ...this.evaluateLocalRules('on_specific_station', player, {
+          stationId: nextStationId,
+          stationType: arrivedStation?.type,
+        })
+      );
+      if (arrivedStation) {
+        events.push(
+          ...this.evaluateLocalRules('on_station_type', player, {
+            stationId: nextStationId,
+            stationType: arrivedStation.type,
+          })
+        );
+      }
 
       // お邪魔キャラ憑依判定：一番目的地から遠いプレイヤー（複数なら所持金が少ない方など）に憑く
       if (this.players.length > 1) {
@@ -975,34 +1028,54 @@ export class GameEngine {
 
     const events: GameEventSeqItem[] = [];
     const yearMultiplier = 1 + (this.currentYear - 1) * 0.25;
+    const isSummer = this.currentMonth >= 6 && this.currentMonth <= 8;
+    const isWinter = this.currentMonth === 12 || this.currentMonth <= 2;
+
+    // 特定駅・特定マス種別のカスタムローカルルール評価
+    const stationLocalRules = [
+      ...this.evaluateLocalRules('on_specific_station', player, {
+        stationId: station.id,
+        stationType: station.type,
+      }),
+      ...this.evaluateLocalRules('on_station_type', player, {
+        stationId: station.id,
+        stationType: station.type,
+      }),
+    ];
 
     if (station.type === 'plus') {
       const baseList = this.eventsData.stationValues.plusBase;
       const base = baseList[Math.floor(Math.random() * baseList.length)];
-      const amount = Math.round((base * yearMultiplier) / 100) * 100;
+      const seasonMult = isSummer ? 1.5 : isWinter ? 0.6 : 1.0;
+      const seasonTag = isSummer ? '☀️ 夏のプラス駅ボーナス！' : isWinter ? '❄️ 冬は収入ひかえめ' : '';
+      const amount = Math.round((base * yearMultiplier * seasonMult) / 100) * 100;
       player.money += amount;
-      this.lastEventMessage = `🔵 ${player.name}がプラス駅「${station.name}」に到着！ +${amount.toLocaleString()}万円！`;
+      this.lastEventMessage = `🔵 ${player.name}がプラス駅「${station.name}」に到着！ +${amount.toLocaleString()}万円！${seasonTag ? ` (${seasonTag})` : ''}`;
       events.push({
         type: 'station_effect',
         playerId: player.id,
-        payload: { stationType: 'plus', stationName: station.name, amount },
+        payload: { stationType: 'plus', stationName: station.name, amount, seasonTag },
       });
       events.push(...this.evaluateLocalRules('on_plus_station', player));
+      events.push(...stationLocalRules);
       return [...events, ...this.finishTurn(player)];
     }
 
     if (station.type === 'minus') {
       const baseList = this.eventsData.stationValues.minusBase;
       const base = baseList[Math.floor(Math.random() * baseList.length)];
-      const amount = Math.round((base * yearMultiplier) / 100) * 100;
+      const seasonMult = isWinter ? 1.8 : isSummer ? 0.6 : 1.0;
+      const seasonTag = isWinter ? '❄️ 冬の厳しい出費…' : isSummer ? '☀️ 夏は出費ひかえめ' : '';
+      const amount = Math.round((base * yearMultiplier * seasonMult) / 100) * 100;
       player.money -= amount;
-      this.lastEventMessage = `🔴 ${player.name}がマイナス駅「${station.name}」に到着… -${amount.toLocaleString()}万円`;
+      this.lastEventMessage = `🔴 ${player.name}がマイナス駅「${station.name}」に到着… -${amount.toLocaleString()}万円${seasonTag ? ` (${seasonTag})` : ''}`;
       events.push({
         type: 'station_effect',
         playerId: player.id,
-        payload: { stationType: 'minus', stationName: station.name, amount: -amount },
+        payload: { stationType: 'minus', stationName: station.name, amount: -amount, seasonTag },
       });
       events.push(...this.evaluateLocalRules('on_minus_station', player));
+      events.push(...stationLocalRules);
       return [...events, ...this.finishTurn(player)];
     }
 
@@ -1033,21 +1106,24 @@ export class GameEngine {
           cardIcon: gained ? randomCard.icon : null,
         },
       });
+      events.push(...stationLocalRules);
       return [...events, ...this.finishTurn(player)];
     }
 
     if (station.type === 'shop') {
+      events.push(...stationLocalRules);
       if (player.cards.length < 8 && player.money >= 600) {
         this.phase = 'card_shop';
         this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着！カードを購入できます。`;
         return events;
       } else {
         this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着（購入不可）。`;
-        return this.finishTurn(player);
+        return [...events, ...this.finishTurn(player)];
       }
     }
 
     if (station.type === 'warp') {
+      events.push(...stationLocalRules);
       const candidates = this.stations.filter(
         (s) => s.type === 'property' && s.id !== player.stationId && s.id !== this.destinationStationId
       );
@@ -1082,17 +1158,18 @@ export class GameEngine {
     }
 
     if (station.type === 'property') {
+      events.push(...stationLocalRules);
       if (this.canBuyOrUpgradeAtStation(player, stationId)) {
         this.phase = 'property_buy';
         this.lastEventMessage = `🏢 ${player.name}が物件駅「${station.name}」に到着！物件を購入できます。`;
         return events;
       } else {
         this.lastEventMessage = `🏢 ${player.name}が「${station.name}」に到着（購入・増資できる物件なし）。`;
-        return this.finishTurn(player);
+        return [...events, ...this.finishTurn(player)];
       }
     }
 
-    return this.finishTurn(player);
+    return [...events, ...stationLocalRules, ...this.finishTurn(player)];
   }
 
   public buyProperties(
@@ -1115,7 +1192,8 @@ export class GameEngine {
     }
 
     const propMap = new Map(station.properties.map((p) => [p.id, p]));
-    let boughtNames: string[] = [];
+    const wasMonopolized = this.isStationMonopolizedBy(station.id, player.id);
+    const boughtNames: string[] = [];
 
     for (const pid of propertyIds) {
       const prop = propMap.get(pid);
@@ -1136,7 +1214,7 @@ export class GameEngine {
       const prop = propMap.get(pid);
       const owned = this.ownedProperties[pid];
       if (!prop || !owned || owned.ownerId !== player.id || owned.level >= 3) continue;
-      const upgradeCost = Math.floor(prop.price * 0.8);
+      const upgradeCost = prop.price; // 本家準拠：増資コストは物件価格と同額
       if (player.money >= upgradeCost) {
         player.money -= upgradeCost;
         owned.level += 1;
@@ -1144,14 +1222,27 @@ export class GameEngine {
       }
     }
 
+    const events: GameEventSeqItem[] = [];
     if (boughtNames.length > 0) {
       this.lastEventMessage = `🏢 ${player.name}が ${boughtNames.join('、')} を購入/増資しました！`;
+      if (!wasMonopolized && this.isStationMonopolizedBy(station.id, player.id)) {
+        this.lastEventMessage = `👑 ${player.name}が「${station.name}駅」を独占！年間収益が2倍に！`;
+        events.push({
+          type: 'monopoly_achieved',
+          playerId: player.id,
+          payload: {
+            stationName: station.name,
+            heroName: station.hero?.name ?? null,
+            heroIcon: station.hero?.icon ?? null,
+          },
+        });
+      }
     } else {
       this.lastEventMessage = `${player.name}は物件を購入しませんでした。`;
     }
 
     const endEvents = this.finishTurn(player);
-    return { ok: true, events: endEvents };
+    return { ok: true, events: [...events, ...endEvents] };
   }
 
   public skipBuy(playerId: string): { ok: boolean; error?: string; events: GameEventSeqItem[] } {
@@ -1204,49 +1295,93 @@ export class GameEngine {
     return { ok: true, events: endEvents };
   }
 
-  // 借金返済のための物件強制売却（評価額の半額で、独占していない安い物件から順に売却）
-  private settleDebts(): GameEventSeqItem[] {
-    const events: GameEventSeqItem[] = [];
-    for (const p of this.players) {
-      if (p.money >= 0) continue;
-      const sold: string[] = [];
-      let refundTotal = 0;
-      while (p.money < 0) {
-        const mine = Object.values(this.ownedProperties).filter((o) => o.ownerId === p.id);
-        if (mine.length === 0) break;
-        const scored = mine.map((o) => {
-          const st = this.stationMap.get(o.stationId);
-          const def = st?.properties?.find((x) => x.id === o.propertyId);
-          const value = investedValue(def?.price ?? 1000, o.level);
-          const mono = this.isStationMonopolizedBy(o.stationId, p.id) ? 1 : 0;
-          return { o, def, value, mono };
-        });
-        scored.sort((a, b) => a.mono - b.mono || a.value - b.value);
-        const pick = scored[0];
-        const refund = Math.floor(pick.value * 0.5);
-        p.money += refund;
-        refundTotal += refund;
-        delete this.ownedProperties[pick.o.propertyId];
-        sold.push(pick.def?.name ?? '物件');
-      }
-      if (sold.length > 0) {
-        this.lastEventMessage = `💸 ${p.name}は借金返済のため ${sold.join('、')} を売却した…`;
-        events.push({
-          type: 'random_event',
-          playerId: p.id,
-          payload: {
-            title: `💸 ${p.name} 借金のため物件売却`,
-            icon: '💸',
-            description: `借金を返すため「${sold.join('」「')}」を半額（計 ${refundTotal.toLocaleString()}万円）で手放した…${
-              p.money < 0 ? `（残る借金 ${Math.abs(p.money).toLocaleString()}万円）` : ''
-            }`,
-            isPositive: false,
-          },
-        });
-      }
+  private getPlayerProperties(playerId: string): OwnedProperty[] {
+    return Object.values(this.ownedProperties).filter((o) => o.ownerId === playerId);
+  }
+
+  // 借金返済のためにプレイヤーが選んだ物件を売却する（評価額の半額）
+  public sellPropertiesForDebt(
+    playerId: string,
+    propertyIds: string[]
+  ): { ok: boolean; error?: string; events: GameEventSeqItem[] } {
+    if (this.status !== 'playing' || this.phase !== 'debt_sell') {
+      return { ok: false, error: '現在は借金返済の物件売却フェーズではありません。', events: [] };
     }
-    if (events.length > 0) this.recalculateRankingsAndDistances();
-    return events;
+    const player = this.getCurrentPlayer();
+    if (!player || player.id !== playerId) {
+      return { ok: false, error: 'あなたのターンではありません。', events: [] };
+    }
+
+    const mine = this.getPlayerProperties(player.id);
+    if (mine.length === 0) {
+      return this.finishDebtSell(player, []);
+    }
+
+    // 選択された物件の売却見込みを計算し、借金解消（または全売却）を満たしているか検証
+    const uniqueIds = Array.from(new Set(propertyIds));
+    let previewRefund = 0;
+    const validTargets: { owned: OwnedProperty; name: string; refund: number }[] = [];
+    for (const pid of uniqueIds) {
+      const owned = this.ownedProperties[pid];
+      if (!owned || owned.ownerId !== player.id) continue;
+      const st = this.stationMap.get(owned.stationId);
+      const def = st?.properties?.find((x) => x.id === owned.propertyId);
+      const refund = Math.floor(investedValue(def?.price ?? 1000, owned.level) * 0.5);
+      previewRefund += refund;
+      validTargets.push({ owned, name: def?.name ?? '物件', refund });
+    }
+
+    const willStillHaveDebt = player.money + previewRefund < 0;
+    const sellingAll = validTargets.length >= mine.length;
+    if (willStillHaveDebt && !sellingAll) {
+      return {
+        ok: false,
+        error: '借金が0円以上になるまで（または全物件を売るまで）物件を選択してください。',
+        events: [],
+      };
+    }
+
+    const soldNames: string[] = [];
+    let refundTotal = 0;
+    for (const t of validTargets) {
+      player.money += t.refund;
+      refundTotal += t.refund;
+      delete this.ownedProperties[t.owned.propertyId];
+      soldNames.push(t.name);
+    }
+
+    this.recalculateRankingsAndDistances();
+    const events: GameEventSeqItem[] = [];
+    if (soldNames.length > 0) {
+      this.lastEventMessage = `💸 ${player.name}は借金返済のため ${soldNames.join('、')} を売却した…`;
+      events.push({
+        type: 'random_event',
+        playerId: player.id,
+        payload: {
+          title: `💸 ${player.name} 物件売却で借金返済`,
+          icon: '💸',
+          description: `「${soldNames.join('」「')}」を半額（計 +${refundTotal.toLocaleString()}万円）で売却した！${
+            player.money < 0 ? `（残る借金 ${Math.abs(player.money).toLocaleString()}万円）` : ''
+          }`,
+          isPositive: false,
+        },
+      });
+    }
+
+    return this.finishDebtSell(player, events);
+  }
+
+  private finishDebtSell(
+    player: PlayerInternalState,
+    events: GameEventSeqItem[]
+  ): { ok: boolean; events: GameEventSeqItem[] } {
+    if (this.debtSellContext === 'turn_start') {
+      this.phase = 'action_select';
+      this.debtSellContext = 'turn_end';
+      return { ok: true, events };
+    }
+    const nextEvents = this.advanceToNextTurn(player);
+    return { ok: true, events: [...events, ...nextEvents] };
   }
 
   private finishTurn(player: PlayerInternalState, skipped = false): GameEventSeqItem[] {
@@ -1417,8 +1552,20 @@ export class GameEngine {
       }
     }
 
-    // 借金を抱えた社長は物件を強制売却
-    events.push(...this.settleDebts());
+    // 借金を抱えていて売却できる物件がある場合は、自分で売る物件を選ぶフェーズへ
+    if (!skipped && player.money < 0 && this.getPlayerProperties(player.id).length > 0) {
+      this.phase = 'debt_sell';
+      this.debtSellContext = 'turn_end';
+      this.recalculateRankingsAndDistances();
+      this.lastEventMessage = `💸 ${player.name}は借金返済のため、売却する物件を選択してください！`;
+      return events;
+    }
+
+    return [...events, ...this.advanceToNextTurn(player)];
+  }
+
+  private advanceToNextTurn(player: PlayerInternalState): GameEventSeqItem[] {
+    const events: GameEventSeqItem[] = [];
 
     // 次のプレイヤーへ
     const prevMonth = this.currentMonth;
@@ -1467,7 +1614,6 @@ export class GameEngine {
     }
 
     this.turnCount += 1;
-    this.phase = 'action_select';
     this.remainingSteps = 0;
     this.visitedPathThisTurn = [];
     this.cardUsedThisTurn = false;
@@ -1490,6 +1636,15 @@ export class GameEngine {
       });
       const skipEvents = this.finishTurn(nextPlayer, true);
       return [...events, ...skipEvents];
+    }
+
+    // 他社長の攻撃等で借金になっていた場合はターン開始前に売却選択フェーズへ
+    if (nextPlayer && nextPlayer.money < 0 && this.getPlayerProperties(nextPlayer.id).length > 0) {
+      this.phase = 'debt_sell';
+      this.debtSellContext = 'turn_start';
+    } else {
+      this.phase = 'action_select';
+      this.debtSellContext = 'turn_end';
     }
 
     // ロールバック用スナップショット保存 & オートセーブ
@@ -1592,32 +1747,43 @@ export class GameEngine {
 
   private runYearEndSettlement(): Record<string, unknown> {
     const incomes: Record<string, number> = {};
-    this.players.forEach((p) => (incomes[p.id] = 0));
+    const propAssets: Record<string, number> = {};
+    this.players.forEach((p) => {
+      incomes[p.id] = 0;
+      propAssets[p.id] = 0;
+    });
 
     for (const owned of Object.values(this.ownedProperties)) {
       const station = this.stationMap.get(owned.stationId);
       const prop = station?.properties?.find((p) => p.id === owned.propertyId);
       if (!prop) continue;
-      const levelMult = owned.level === 1 ? 1 : owned.level === 2 ? 1.5 : 2.0;
-      // 独占している駅の物件は年間収益2倍！
-      const monopolyMult = this.isStationMonopolizedBy(owned.stationId, owned.ownerId) ? 2.0 : 1.0;
-      const income = Math.round(prop.price * prop.rate * levelMult * monopolyMult);
+      const isMono = this.isStationMonopolizedBy(owned.stationId, owned.ownerId);
+      const income = calcAnnualIncome(prop.price, prop.rate, owned.level, isMono);
       incomes[owned.ownerId] = (incomes[owned.ownerId] ?? 0) + income;
+      propAssets[owned.ownerId] =
+        (propAssets[owned.ownerId] ?? 0) + investedValue(prop.price, owned.level);
     }
 
-    const summary = this.players.map((p) => {
-      const inc = incomes[p.id] ?? 0;
-      p.money += inc;
-      return {
-        playerId: p.id,
-        name: p.name,
-        color: p.color,
-        income: inc,
-        moneyAfter: p.money,
-      };
-    });
+    for (const p of this.players) {
+      p.money += incomes[p.id] ?? 0;
+    }
 
     this.recalculateRankingsAndDistances();
+
+    const summary = [...this.players]
+      .sort((a, b) => a.rank - b.rank)
+      .map((p) => ({
+        playerId: p.id,
+        name: p.name,
+        avatar: p.avatar,
+        color: p.color,
+        rank: p.rank,
+        income: incomes[p.id] ?? 0,
+        moneyAfter: p.money,
+        propertyAssets: propAssets[p.id] ?? 0,
+        totalAssets: p.totalAssets,
+      }));
+
     this.lastEventMessage = `📊 ${this.currentYear}年目 年度末決算！全物件の収益が振り込まれました！`;
 
     return {
@@ -1651,6 +1817,12 @@ export class GameEngine {
 
   public getUndoStationId(): string | null {
     if (this.visitedPathThisTurn.length >= 2) {
+      const currentId = this.visitedPathThisTurn[this.visitedPathThisTurn.length - 1];
+      const currentSt = this.stationMap.get(currentId);
+      // 行き止まり駅（隣接1駅のみ）では折り返し前進（歩数消費）とし、無限ループを防ぐ
+      if (currentSt && currentSt.neighbors.length <= 1) {
+        return null;
+      }
       return this.visitedPathThisTurn[this.visitedPathThisTurn.length - 2];
     }
     return null;
@@ -1699,10 +1871,90 @@ export class GameEngine {
     return true;
   }
 
-  public adminChangeDestination(): void {
-    this.destinationStationId = this.pickRandomDestination(this.destinationStationId);
+  public adminGiveCardAll(cardId: string): number {
+    const card = this.cardMap.get(cardId);
+    if (!card) return 0;
+    let count = 0;
+    for (const p of this.players) {
+      if (p.cards.length < 8) {
+        p.cards.push(card.id);
+        p.cardCount = p.cards.length;
+        count++;
+      }
+    }
+    if (count > 0) {
+      this.lastEventMessage = `👑 管理者操作: 全社長（${count}名）へ「${card.name}」を支給しました！`;
+    }
+    return count;
+  }
+
+  public adminRemoveCard(playerId: string, cardIndex: number): boolean {
+    const p = this.players.find((x) => x.id === playerId);
+    if (!p || cardIndex < 0 || cardIndex >= p.cards.length) return false;
+    const removedId = p.cards.splice(cardIndex, 1)[0];
+    p.cardCount = p.cards.length;
+    const cName = this.cardMap.get(removedId)?.name ?? removedId;
+    this.lastEventMessage = `👑 管理者操作: ${p.name} の「${cName}」を没収しました。`;
+    return true;
+  }
+
+  public adminWarpPlayer(playerId: string, stationId: string): GameEventSeqItem[] {
+    const p = this.players.find((x) => x.id === playerId);
+    const st = this.stationMap.get(stationId);
+    if (!p || !st) return [];
+    p.prevStationId = p.stationId;
+    p.stationId = st.id;
+    this.recalculateRankingsAndDistances();
+    this.lastEventMessage = `👑 管理者操作: ${p.name} を「${st.name}」へ強制移動しました！`;
+    return [
+      {
+        type: 'warp_move',
+        playerId: p.id,
+        payload: { stationId: st.id, stationName: st.name },
+      },
+    ];
+  }
+
+  public adminChangeDestination(stationId?: string): void {
+    if (stationId && this.stationMap.has(stationId)) {
+      this.destinationStationId = stationId;
+    } else {
+      this.destinationStationId = this.pickRandomDestination(this.destinationStationId);
+    }
     this.recalculateRankingsAndDistances();
     this.lastEventMessage = `👑 管理者操作: 目的地を「${this.getStationName(this.destinationStationId)}」へ変更しました！`;
+  }
+
+  public adminBroadcastMessage(
+    title: string,
+    message: string,
+    targetPlayerId?: string
+  ): GameEventSeqItem[] {
+    const cleanTitle = title.trim() || '運営からのお知らせ';
+    const cleanMsg = message.trim();
+    if (!cleanMsg) return [];
+    const target = targetPlayerId ? this.players.find((p) => p.id === targetPlayerId) : null;
+    const prefix = target ? `【${target.name}宛て】` : '【全員へ】';
+    this.lastEventMessage = `📢 ${cleanTitle} ${prefix}${cleanMsg}`;
+    return [
+      {
+        type: 'admin_message',
+        playerId: target?.id ?? '',
+        payload: {
+          title: cleanTitle,
+          message: cleanMsg,
+          targetName: target?.name ?? null,
+        },
+      },
+    ];
+  }
+
+  public getAdminPlayersCards(): Record<string, string[]> {
+    const map: Record<string, string[]> = {};
+    for (const p of this.players) {
+      map[p.id] = [...p.cards];
+    }
+    return map;
   }
 
   public adminSetNuisance(playerId: string | null): void {
@@ -1751,7 +2003,7 @@ export class GameEngine {
   private evaluateLocalRules(
     trigger: LocalRuleTrigger,
     actor: PlayerInternalState,
-    ctx?: { rolls?: number[]; total?: number; month?: number }
+    ctx?: { rolls?: number[]; total?: number; month?: number; stationId?: string; stationType?: string }
   ): GameEventSeqItem[] {
     const results: GameEventSeqItem[] = [];
     for (const rule of this.localRules) {
@@ -1770,6 +2022,12 @@ export class GameEngine {
         } else if (rule.triggerValue > 0) {
           if (total !== rule.triggerValue && !rolls.includes(rule.triggerValue)) continue;
         }
+      }
+      if (trigger === 'on_specific_station') {
+        if (!rule.targetStationId || ctx?.stationId !== rule.targetStationId) continue;
+      }
+      if (trigger === 'on_station_type') {
+        if (!rule.targetStationType || ctx?.stationType !== rule.targetStationType) continue;
       }
 
       // 確率チェック
@@ -2091,7 +2349,7 @@ export class GameEngine {
       const owned = this.ownedProperties[prop.id];
       if (!owned && player.money >= prop.price) return true;
       if (owned && owned.ownerId === player.id && owned.level < 3) {
-        const upgradeCost = Math.floor(prop.price * 0.8);
+        const upgradeCost = prop.price; // 本家準拠：増資コストは物件価格の100%
         if (player.money >= upgradeCost) return true;
       }
     }

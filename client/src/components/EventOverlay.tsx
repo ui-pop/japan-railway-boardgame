@@ -190,8 +190,13 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
     // その他のイベントのSE再生
     if (currentEvent.type === 'step_move') {
       soundManager.playStep();
-    } else if (currentEvent.type === 'destination_reached') {
+    } else if (
+      currentEvent.type === 'destination_reached' ||
+      currentEvent.type === 'monopoly_achieved'
+    ) {
       soundManager.playGoal();
+    } else if (currentEvent.type === 'admin_message') {
+      soundManager.playTurnStart();
     } else if (
       currentEvent.type === 'nuisance_action' ||
       currentEvent.type === 'nuisance_attach'
@@ -210,6 +215,8 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         : currentEvent.type === 'year_settlement' || currentEvent.type === 'game_finished'
           ? 0 // 手動で閉じる
           : currentEvent.type === 'destination_reached' ||
+              currentEvent.type === 'monopoly_achieved' ||
+              currentEvent.type === 'admin_message' ||
               currentEvent.type === 'nuisance_action' ||
               currentEvent.type === 'nuisance_attach' ||
               currentEvent.type === 'random_event'
@@ -331,14 +338,19 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
 
           {currentEvent.type === 'station_effect' && (
             <div
-              className={`rounded-3xl px-8 py-7 text-center shadow-2xl max-w-xs w-full border-4 transition-transform ${
+              className={`animate-event-pop rounded-3xl px-8 py-7 text-center shadow-2xl max-w-xs w-full border-4 transition-transform ${
                 currentEvent.payload.stationType === 'plus'
                   ? 'bg-gradient-to-b from-sky-900 via-blue-950 to-slate-950 border-sky-400 shadow-[0_0_45px_rgba(56,189,248,0.5)]'
                   : currentEvent.payload.stationType === 'minus'
-                    ? 'bg-gradient-to-b from-rose-950 via-red-950 to-slate-950 border-rose-500 shadow-[0_0_45px_rgba(244,63,94,0.5)]'
+                    ? 'animate-event-shake bg-gradient-to-b from-rose-950 via-red-950 to-slate-950 border-rose-500 shadow-[0_0_45px_rgba(244,63,94,0.5)]'
                     : 'bg-slate-900 border-amber-400'
               }`}
             >
+              {Boolean(currentEvent.payload.seasonTag) && (
+                <div className="inline-block mb-2 px-3 py-0.5 rounded-full bg-white/15 border border-white/25 text-[11px] font-extrabold text-amber-200">
+                  {String(currentEvent.payload.seasonTag)}
+                </div>
+              )}
               {currentEvent.payload.stationType === 'plus' && (
                 <>
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-600 border-4 border-white text-white font-black text-3xl shadow-lg mb-3">
@@ -387,8 +399,13 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
           )}
 
           {currentEvent.type === 'destination_reached' && (
-            <div className="bg-gradient-to-b from-amber-500 via-amber-700 to-amber-900 border-4 border-yellow-200 rounded-3xl px-7 py-7 text-center shadow-[0_0_60px_rgba(250,204,21,0.6)] max-w-sm w-full">
+            <div className="animate-event-pop bg-gradient-to-b from-amber-500 via-amber-700 to-amber-900 border-4 border-yellow-200 rounded-3xl px-7 py-7 text-center shadow-[0_0_60px_rgba(250,204,21,0.6)] max-w-sm w-full">
               <div className="text-5xl mb-2 animate-bounce">🎊🏆🎊</div>
+              {Number(currentEvent.payload.streak ?? 1) >= 2 && (
+                <div className="inline-block mb-1.5 px-3 py-0.5 rounded-full bg-yellow-300 text-slate-950 text-xs font-black shadow">
+                  🔥 {String(currentEvent.payload.streak)}回連続到着ボーナス！
+                </div>
+              )}
               <div className="text-2xl font-black text-white mt-1">
                 {actor?.name} が目的地
                 <br />「{String(currentEvent.payload.stationName)}」に到着！
@@ -396,12 +413,53 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
               <div className="mt-4 py-2 px-4 rounded-2xl bg-black/30 border border-yellow-300/50 text-2xl font-black text-yellow-200">
                 援助金 +{formatMoney(Number(currentEvent.payload.bonus))}
               </div>
+              {Boolean(currentEvent.payload.nextDestName) && (
+                <div className="mt-3 py-1.5 px-3 rounded-xl bg-white/15 border border-yellow-200/40 text-xs font-extrabold text-white">
+                  🚩 次の目的地は「<span className="text-yellow-300">{String(currentEvent.payload.nextDestName)}</span>」！
+                </div>
+              )}
+            </div>
+          )}
+
+          {currentEvent.type === 'monopoly_achieved' && (
+            <div className="animate-event-pop bg-gradient-to-b from-yellow-500 via-amber-600 to-orange-800 border-4 border-yellow-200 rounded-3xl px-7 py-7 text-center shadow-[0_0_60px_rgba(250,204,21,0.7)] max-w-sm w-full">
+              <div className="text-5xl mb-2 animate-bounce">👑✨🏢</div>
+              <div className="text-xs font-black text-yellow-100 tracking-wider">MONOPOLY!</div>
+              <div className="text-2xl font-black text-white mt-1">
+                {actor?.name} が<br />「{String(currentEvent.payload.stationName)}駅」を独占！
+              </div>
+              <div className="mt-3 py-2 px-4 rounded-2xl bg-black/35 border border-yellow-200/50 text-base font-black text-yellow-200">
+                この駅の年間収益が 2倍 に！
+              </div>
+              {Boolean(currentEvent.payload.heroName) && (
+                <div className="mt-2.5 text-xs font-extrabold text-white bg-white/15 py-1.5 px-3 rounded-xl">
+                  {String(currentEvent.payload.heroIcon ?? '⚔️')} 歴史ヒーロー「
+                  {String(currentEvent.payload.heroName)}」が味方になった！
+                </div>
+              )}
+            </div>
+          )}
+
+          {currentEvent.type === 'admin_message' && (
+            <div className="animate-event-pop bg-gradient-to-b from-purple-900 via-indigo-950 to-slate-950 border-4 border-amber-300 rounded-3xl px-7 py-7 text-center shadow-[0_0_60px_rgba(168,85,247,0.65)] max-w-sm w-full">
+              <div className="text-5xl mb-2 animate-bounce">📢</div>
+              {Boolean(currentEvent.payload.targetName) && (
+                <div className="inline-block mb-1.5 px-3 py-0.5 rounded-full bg-amber-400 text-slate-950 text-xs font-black">
+                  {String(currentEvent.payload.targetName)} 宛て
+                </div>
+              )}
+              <div className="text-xl font-black text-amber-300">
+                {String(currentEvent.payload.title ?? '運営からのお知らせ')}
+              </div>
+              <p className="text-sm text-white font-bold mt-3 leading-relaxed bg-black/40 p-3.5 rounded-2xl border border-white/20 whitespace-pre-wrap">
+                {String(currentEvent.payload.message ?? '')}
+              </p>
             </div>
           )}
 
           {(currentEvent.type === 'nuisance_attach' ||
             currentEvent.type === 'nuisance_action') && (
-            <div className="bg-gradient-to-b from-purple-950 via-slate-900 to-black border-4 border-purple-500 rounded-3xl px-6 py-7 text-center shadow-[0_0_50px_rgba(168,85,247,0.5)] max-w-sm w-full">
+            <div className="animate-event-shake bg-gradient-to-b from-purple-950 via-slate-900 to-black border-4 border-purple-500 rounded-3xl px-6 py-7 text-center shadow-[0_0_50px_rgba(168,85,247,0.5)] max-w-sm w-full">
               <div className="text-6xl mb-3 animate-bounce">👹</div>
               <div className="text-lg font-black text-purple-300">
                 {currentEvent.type === 'nuisance_attach'
@@ -451,43 +509,75 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
           {currentEvent.type === 'year_settlement' && (
             <div
               onClick={(e) => e.stopPropagation()}
-              className="bg-slate-900 border-4 border-emerald-500 rounded-3xl p-5 shadow-2xl max-w-md w-full"
+              className="animate-event-pop bg-gradient-to-b from-slate-900 to-emerald-950/90 border-4 border-emerald-400 rounded-3xl p-5 shadow-2xl max-w-md w-full"
             >
               <div className="text-center mb-4">
-                <h2 className="text-xl font-black text-white">
-                  📊 {String(currentEvent.payload.year)}年目 年度末決算
+                <div className="text-xs font-extrabold text-emerald-300 tracking-wider">
+                  3月終了・年度末総決算
+                </div>
+                <h2 className="text-2xl font-black text-white mt-0.5">
+                  📊 {String(currentEvent.payload.year)}年目 決算発表！
                 </h2>
               </div>
-              <div className="space-y-2.5 max-h-[55vh] overflow-y-auto">
-                {((currentEvent.payload.summary as {
-                  playerId: string;
-                  name: string;
-                  color: string;
-                  income: number;
-                  moneyAfter: number;
-                }[]) ?? []).map((row) => (
-                  <div key={row.playerId} className="bg-slate-800/80 rounded-xl p-2.5">
-                    <div className="flex justify-between text-xs font-bold mb-1">
-                      <span style={{ color: row.color }}>{row.name}</span>
-                      <span className="text-emerald-400">
-                        収益 +{formatMoney(row.income)}
-                      </span>
-                    </div>
-                    <div className="w-full h-2.5 bg-slate-700 rounded-full overflow-hidden">
+              <div className="space-y-2.5 max-h-[58vh] overflow-y-auto">
+                {(() => {
+                  const rows =
+                    (currentEvent.payload.summary as {
+                      playerId: string;
+                      name: string;
+                      avatar?: string;
+                      color: string;
+                      rank?: number;
+                      income: number;
+                      moneyAfter: number;
+                      propertyAssets?: number;
+                      totalAssets?: number;
+                    }[]) ?? [];
+                  const maxAssets = Math.max(
+                    10000,
+                    ...rows.map((r) => Math.max(0, r.totalAssets ?? r.moneyAfter))
+                  );
+                  return rows.map((row, idx) => {
+                    const tot = row.totalAssets ?? row.moneyAfter;
+                    const barPct = Math.min(100, Math.max(6, (Math.max(0, tot) / maxAssets) * 100));
+                    return (
                       <div
-                        className="h-full rounded-full transition-all"
-                        style={{
-                          backgroundColor: row.color,
-                          width: `${Math.min(100, Math.max(8, (row.income / 10000) * 100))}%`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                ))}
+                        key={row.playerId}
+                        className="bg-slate-900/90 border border-slate-700/80 rounded-2xl p-3 space-y-1.5"
+                      >
+                        <div className="flex items-center justify-between text-xs font-bold">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-amber-400 font-black text-sm">
+                              {row.rank ?? idx + 1}位
+                            </span>
+                            {row.avatar && <span>{row.avatar}</span>}
+                            <span style={{ color: row.color }}>{row.name}</span>
+                          </div>
+                          <span className="text-emerald-400 font-black">
+                            収益 +{formatMoney(row.income)}
+                          </span>
+                        </div>
+                        <div className="w-full h-3 bg-slate-800 rounded-full overflow-hidden">
+                          <div
+                            className="h-full rounded-full transition-all duration-700"
+                            style={{ backgroundColor: row.color, width: `${barPct}%` }}
+                          />
+                        </div>
+                        <div className="flex justify-between text-[11px] text-slate-300">
+                          <span>現金 {formatMoney(row.moneyAfter)}</span>
+                          <span>物件 {formatMoney(row.propertyAssets ?? 0)}</span>
+                          <span className="font-black text-amber-300">
+                            総資産 {formatMoney(tot)}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
               </div>
               <button
                 onClick={onConsumeEvent}
-                className="mt-4 w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm"
+                className="mt-4 w-full py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm shadow-lg"
               >
                 次の年へ進む
               </button>

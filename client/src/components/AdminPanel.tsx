@@ -26,6 +26,7 @@ import type {
   PublicGameState,
   SaveFileInfo,
   StationDef,
+  StationType,
 } from '../types';
 import { formatMoney } from './StatusBar';
 
@@ -36,6 +37,7 @@ interface AdminPanelProps {
   cardsMaster: CardDef[];
   eventsData: EventsData | null;
   savesList: SaveFileInfo[];
+  adminPlayersCards: Record<string, string[]>;
   onCreateGame: (totalYears: number, initialMoney: number, cpuCount: number) => void;
   onStartGame: () => void;
   onAddCpu: () => void;
@@ -46,7 +48,11 @@ interface AdminPanelProps {
   onRollback: () => void;
   onAdjustMoney: (playerId: string, delta: number) => void;
   onGiveCard: (playerId: string, cardId: string) => void;
-  onChangeDest: () => void;
+  onGiveCardAll: (cardId: string) => void;
+  onRemoveCard: (playerId: string, cardIndex: number) => void;
+  onWarpPlayer: (playerId: string, stationId: string) => void;
+  onChangeDest: (stationId?: string) => void;
+  onBroadcastMessage: (title: string, message: string, targetPlayerId?: string) => void;
   onSetNuisance: (playerId: string | null) => void;
   onAddLocalRule: (rule: Record<string, unknown>) => void;
   onToggleLocalRule: (ruleId: string) => void;
@@ -62,6 +68,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   cardsMaster,
   eventsData,
   savesList,
+  adminPlayersCards,
   onCreateGame,
   onStartGame,
   onAddCpu,
@@ -72,7 +79,11 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   onRollback,
   onAdjustMoney,
   onGiveCard,
+  onGiveCardAll,
+  onRemoveCard,
+  onWarpPlayer,
   onChangeDest,
+  onBroadcastMessage,
   onSetNuisance,
   onAddLocalRule,
   onToggleLocalRule,
@@ -90,6 +101,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   const [lrName, setLrName] = useState('');
   const [lrTrigger, setLrTrigger] = useState<LocalRuleTrigger>('on_dice_roll');
   const [lrTriggerVal, setLrTriggerVal] = useState<number>(1);
+  const [lrStationId, setLrStationId] = useState<string>('tokyo');
+  const [lrStationType, setLrStationType] = useState<StationType>('property');
   const [lrProb, setLrProb] = useState<number>(100);
   const [lrTarget, setLrTarget] = useState<LocalRuleTarget>('actor');
   const [lrEffect, setLrEffect] = useState<LocalRuleEffect>('cash_delta');
@@ -100,6 +113,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   // 神の手ツール用選択ステート
   const [targetPlayerId, setTargetPlayerId] = useState('');
   const [selectedCardId, setSelectedCardId] = useState('express_2');
+  const [customMoneyDelta, setCustomMoneyDelta] = useState<number>(10000);
+  const [warpStationId, setWarpStationId] = useState<string>('tokyo');
+  const [destSelectStationId, setDestSelectStationId] = useState<string>('sapporo');
+  const [broadcastTitle, setBroadcastTitle] = useState('運営からのお知らせ');
+  const [broadcastMsg, setBroadcastMsg] = useState('');
+  const [broadcastTargetId, setBroadcastTargetId] = useState('');
 
   const [localIps, setLocalIps] = useState<string[]>([]);
   const [ipDetails, setIpDetails] = useState<{ name: string; ip: string }[]>([]);
@@ -696,9 +715,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     が行われ、所有している全物件の年間収益が一括で振り込まれます。
                   </li>
                   <li>
-                    <strong className="text-white">目的地到着ボーナス:</strong> 🚩目的地に一番乗りした社長は、
-                    <span className="text-amber-300 font-bold">援助金（1億円＋年数×3,000万円）</span>
-                    を獲得！（ぴったりでも通過でも即ゴール！）
+                    <strong className="text-white">目的地到着ボーナス:</strong> 🚩目的地に
+                    <span className="text-amber-300 font-bold">ちょうどぴったり</span>止まった社長は、
+                    <span className="text-amber-300 font-bold">援助金（1億円＋年数×3,000万円・連続到着で最大2倍）</span>
+                    を獲得！（通過では到達になりません）
                   </li>
                   <li>
                     <strong className="text-white">移動とやり直し:</strong> サイコロやカードで出た歩数だけ、
@@ -739,10 +759,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     止まると全国のどこかの都市駅へ瞬間ワープ！
                   </div>
                   <div className="p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-700/50 text-xs leading-relaxed">
-                    <strong className="text-emerald-300">増資＆独占ボーナス（収益2倍！）:</strong>{' '}
-                    自分の物件駅に再び止まると物件価格の80%で増資（最大Lv.3：収益1.0倍/1.5倍/2.0倍）。
-                    さらに駅の全物件を買い占めると<strong>👑独占</strong>となり、
+                    <strong className="text-emerald-300">増資＆独占＆借金売却（本家準拠）:</strong>{' '}
+                    自分の物件駅に再び止まると物件価格と同額（100%）で増資可能（最大Lv.3：増資ごとに収益率+5%＆評価額アップ）。
+                    駅の全物件を買い占めると<strong>👑独占</strong>となり、
                     <strong>年度末決算の収益が2倍</strong>＆特定の10都市では<strong>ご当地歴史ヒーロー</strong>が味方になります！
+                    借金になった場合は、売却する物件を自分で選んで評価額の半額で返済します。
+                    また夏（6〜8月）はプラス駅1.5倍・冬（12〜2月）はマイナス駅1.8倍になります。
                   </div>
                 </div>
               </section>
@@ -964,6 +986,24 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   >
                     ＋ 出目1で罰ゲーム演出
                   </button>
+                  <button
+                    onClick={() =>
+                      onAddLocalRule({
+                        name: '東京駅凱旋ボーナス',
+                        enabled: true,
+                        trigger: 'on_specific_station',
+                        targetStationId: 'tokyo',
+                        probability: 100,
+                        target: 'actor',
+                        effect: 'cash_delta',
+                        effectAmount: 3000,
+                        message: '🗼 東京駅に凱旋！{player}へ特別報奨金 +3,000万円！',
+                      })
+                    }
+                    className="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-[11px] font-bold text-sky-300"
+                  >
+                    ＋ 東京駅に止まると+3,000万
+                  </button>
                 </div>
               </div>
 
@@ -988,6 +1028,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       className="w-full px-2.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white"
                     >
                       <option value="on_dice_roll">サイコロを振った時</option>
+                      <option value="on_specific_station">特定の駅（マス）に止まった時</option>
+                      <option value="on_station_type">特定種類のマスに止まった時</option>
                       <option value="month_change">月が変わった時</option>
                       <option value="every_turn_end">毎ターン終了時</option>
                       <option value="on_destination">目的地に到着した時</option>
@@ -1024,6 +1066,44 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       onChange={(e) => setLrTriggerVal(Number(e.target.value))}
                       className="w-full px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white"
                     />
+                  </div>
+                )}
+
+                {lrTrigger === 'on_specific_station' && (
+                  <div>
+                    <label className="block text-slate-400 mb-1">対象の駅（マス）</label>
+                    <select
+                      value={lrStationId}
+                      onChange={(e) => setLrStationId(e.target.value)}
+                      className="w-full px-2.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white"
+                    >
+                      {stations
+                        .filter((s) => s.type === 'property' || s.type === 'shop' || s.type === 'warp')
+                        .map((s) => (
+                          <option key={s.id} value={s.id}>
+                            [{s.region}] {s.name}（{s.type === 'property' ? '都市駅' : s.type === 'shop' ? 'カード売り場' : 'ワープ駅'}）
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                )}
+
+                {lrTrigger === 'on_station_type' && (
+                  <div>
+                    <label className="block text-slate-400 mb-1">対象のマス種別</label>
+                    <select
+                      value={lrStationType}
+                      onChange={(e) => setLrStationType(e.target.value as StationType)}
+                      className="w-full px-2.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-white"
+                    >
+                      <option value="property">🏢 物件駅（都市駅）</option>
+                      <option value="plus">🔵 プラス駅</option>
+                      <option value="minus">🔴 マイナス駅</option>
+                      <option value="card">🟡 カード駅</option>
+                      <option value="nice_card">✨ ナイスカード駅</option>
+                      <option value="shop">🛒 カード売り場</option>
+                      <option value="warp">🟣 ワープ駅</option>
+                    </select>
                   </div>
                 )}
 
@@ -1110,6 +1190,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       enabled: true,
                       trigger: lrTrigger,
                       triggerValue: lrTriggerVal,
+                      targetStationId: lrTrigger === 'on_specific_station' ? lrStationId : undefined,
+                      targetStationType: lrTrigger === 'on_station_type' ? lrStationType : undefined,
                       probability: lrProb,
                       target: lrTarget,
                       effect: lrEffect,
@@ -1173,7 +1255,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                         </div>
                       </div>
                       <div className="text-[11px] text-slate-400">
-                        条件: {r.trigger} / 確率: {r.probability}% / 対象: {r.target} / 効果: {r.effect}
+                        条件: {r.trigger}
+                        {r.targetStationId
+                          ? `（${stationMap.get(r.targetStationId)?.name ?? r.targetStationId}）`
+                          : ''}
+                        {r.targetStationType ? `（${r.targetStationType}）` : ''} / 確率:{' '}
+                        {r.probability}% / 対象: {r.target} / 効果: {r.effect}
                         {r.effect === 'cash_delta' ? ` (${r.effectAmount}万円)` : ''}
                       </div>
                       <div className="text-xs text-slate-200 bg-black/30 px-2.5 py-1.5 rounded-lg">
@@ -1230,11 +1317,28 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     </button>
                   ))}
                 </div>
+                <div className="flex gap-2">
+                  <input
+                    type="number"
+                    step={1000}
+                    value={customMoneyDelta}
+                    onChange={(e) => setCustomMoneyDelta(Number(e.target.value))}
+                    placeholder="任意金額(万円)"
+                    className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  />
+                  <button
+                    disabled={!targetPlayerId || !customMoneyDelta}
+                    onClick={() => onAdjustMoney(targetPlayerId, customMoneyDelta)}
+                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-xs font-extrabold text-white"
+                  >
+                    任意額を反映
+                  </button>
+                </div>
               </div>
 
-              {/* カード支給 */}
+              {/* カード支給・全員配布・手札没収 */}
               <div className="space-y-2">
-                <div className="text-xs font-bold text-slate-300">🃏 任意カードの支給</div>
+                <div className="text-xs font-bold text-slate-300">🃏 カード配布＆手札管理</div>
                 <div className="flex gap-2">
                   <select
                     value={selectedCardId}
@@ -1250,9 +1354,66 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <button
                     disabled={!targetPlayerId}
                     onClick={() => onGiveCard(targetPlayerId, selectedCardId)}
-                    className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-xs font-extrabold text-white"
+                    className="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-xs font-extrabold text-white"
                   >
-                    支給
+                    個別支給
+                  </button>
+                  <button
+                    onClick={() => onGiveCardAll(selectedCardId)}
+                    className="px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-xs font-extrabold text-white"
+                  >
+                    全員配布
+                  </button>
+                </div>
+                {targetPlayerId && (adminPlayersCards[targetPlayerId]?.length ?? 0) > 0 && (
+                  <div className="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 space-y-1.5">
+                    <div className="text-[11px] text-slate-400 font-bold">
+                      選択社長の手持ちカード（タップで没収）:
+                    </div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {adminPlayersCards[targetPlayerId].map((cid, idx) => {
+                        const c = cardsMaster.find((x) => x.id === cid);
+                        return (
+                          <button
+                            key={`${cid}_${idx}`}
+                            onClick={() => onRemoveCard(targetPlayerId, idx)}
+                            title="クリックで没収"
+                            className="px-2 py-1 rounded-lg bg-slate-800 hover:bg-rose-900 border border-slate-700 hover:border-rose-500 text-[11px] text-slate-200 font-bold flex items-center gap-1"
+                          >
+                            <span>{c?.icon ?? '🃏'}</span>
+                            <span>{c?.name ?? cid}</span>
+                            <span className="text-rose-400 ml-0.5">✕</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 強制ワープ */}
+              <div className="space-y-2 pt-3 border-t border-slate-800">
+                <div className="text-xs font-bold text-slate-300">🚀 選択社長を任意の駅へ強制移動</div>
+                <div className="flex gap-2">
+                  <select
+                    value={warpStationId}
+                    onChange={(e) => setWarpStationId(e.target.value)}
+                    className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  >
+                    {stations
+                      .filter((s) => s.type === 'property' || s.type === 'shop' || s.type === 'warp')
+                      .map((s) => (
+                        <option key={s.id} value={s.id}>
+                          [{s.region}] {s.name}
+                        </option>
+                      ))}
+                  </select>
+                  <button
+                    disabled={!targetPlayerId}
+                    onClick={() => onWarpPlayer(targetPlayerId, warpStationId)}
+                    className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-xs font-extrabold text-white"
+                  >
+                    強制ワープ
                   </button>
                 </div>
               </div>
@@ -1275,11 +1436,81 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     ケチケチ大王を解除
                   </button>
                   <button
-                    onClick={onChangeDest}
+                    onClick={() => onChangeDest()}
                     className="px-3.5 py-2 rounded-xl bg-amber-700 hover:bg-amber-600 text-xs font-extrabold text-white flex items-center gap-1"
                   >
                     <Flag className="w-3.5 h-3.5" />
-                    目的地を再抽選
+                    目的地をランダム変更
+                  </button>
+                </div>
+                <div className="flex gap-2">
+                  <select
+                    value={destSelectStationId}
+                    onChange={(e) => setDestSelectStationId(e.target.value)}
+                    className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  >
+                    {stations
+                      .filter((s) => s.type === 'property')
+                      .map((s) => (
+                        <option key={s.id} value={s.id}>
+                          [{s.region}] {s.name}駅
+                        </option>
+                      ))}
+                  </select>
+                  <button
+                    onClick={() => onChangeDest(destSelectStationId)}
+                    className="px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-xs font-extrabold text-white"
+                  >
+                    この駅を目的地に
+                  </button>
+                </div>
+              </div>
+
+              {/* 運営メッセージ送信 */}
+              <div className="pt-3 border-t border-slate-800 space-y-2">
+                <div className="text-xs font-bold text-amber-300">📢 プレイヤーへメッセージ送信（カットイン表示）</div>
+                <div className="grid grid-cols-2 gap-2">
+                  <input
+                    type="text"
+                    value={broadcastTitle}
+                    onChange={(e) => setBroadcastTitle(e.target.value)}
+                    placeholder="タイトル（例: 緊急イベント！）"
+                    className="px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  />
+                  <select
+                    value={broadcastTargetId}
+                    onChange={(e) => setBroadcastTargetId(e.target.value)}
+                    className="px-2.5 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  >
+                    <option value="">全社長へ送信</option>
+                    {gameState?.players.map((p) => (
+                      <option key={p.id} value={p.id}>
+                        {p.name} 宛て
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={broadcastMsg}
+                    onChange={(e) => setBroadcastMsg(e.target.value)}
+                    placeholder="全員の画面に表示するメッセージを入力…"
+                    className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
+                  />
+                  <button
+                    disabled={!broadcastMsg.trim()}
+                    onClick={() => {
+                      onBroadcastMessage(
+                        broadcastTitle,
+                        broadcastMsg,
+                        broadcastTargetId || undefined
+                      );
+                      setBroadcastMsg('');
+                    }}
+                    className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 disabled:bg-slate-800 disabled:text-slate-600 text-xs font-extrabold text-white"
+                  >
+                    送信
                   </button>
                 </div>
               </div>

@@ -153,6 +153,9 @@ function broadcastAll(lastEvents: GameEventSeqItem[] = []) {
     }
   }
 
+  // 管理者コンソール専用に全プレイヤーの手札一覧を送信
+  io.to('admins').emit('admin:players_cards', engine.getAdminPlayersCards());
+
   scheduleCpuIfNeeded(lastEvents);
 }
 
@@ -174,9 +177,11 @@ function calculateEventsDurationMs(events: GameEventSeqItem[]): number {
     else if (e.type === 'turn_start') total += 2100;
     else if (
       e.type === 'destination_reached' ||
+      e.type === 'monopoly_achieved' ||
       e.type === 'nuisance_action' ||
       e.type === 'nuisance_attach' ||
-      e.type === 'random_event'
+      e.type === 'random_event' ||
+      e.type === 'admin_message'
     ) {
       total += 3200;
     } else if (e.type === 'card_used') {
@@ -184,14 +189,6 @@ function calculateEventsDurationMs(events: GameEventSeqItem[]): number {
     }
   }
   return total;
-}
-
-// 通信が切れた人間プレイヤーの手番をCPUが代行するまでの猶予（ミリ秒）
-const DISCONNECT_PROXY_GRACE_MS = 30000;
-let proxyTurnCount = -1;
-
-function isCpuControlled(p: { isCpu: boolean; isMasterOverrideCpu: boolean; isConnected: boolean }) {
-  return p.isCpu || p.isMasterOverrideCpu || !p.isConnected;
 }
 
 function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
@@ -203,31 +200,27 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   if (engine.status !== 'playing') return;
   const current = engine.getCurrentPlayer();
   if (!current) return;
-  if (!isCpuControlled(current)) return;
+  // 通信切れの自動CPU化はせず、CPU本人または管理画面からCPU代打ONにされた場合のみ稼働
+  if (!current.isCpu && !current.isMasterOverrideCpu) return;
 
   // 直前のイベントキューがスマホ側で完全に再生し終わる時間を厳密に計算して待機
   const eventsMs = calculateEventsDurationMs(lastEvents);
   let baseDelay = 900;
   if (engine.phase === 'moving') {
     baseDelay = 450;
-  } else if (engine.phase === 'property_buy' || engine.phase === 'card_shop') {
+  } else if (
+    engine.phase === 'property_buy' ||
+    engine.phase === 'card_shop' ||
+    engine.phase === 'debt_sell'
+  ) {
     baseDelay = 1400;
   }
-  let delay = Math.max(baseDelay, eventsMs + 500);
-
-  // 離脱中の人間プレイヤー：復帰を待つ猶予の後にCPUが代行（同一ターン内の2手目以降は即代行）
-  const isDisconnectedHuman = !current.isCpu && !current.isMasterOverrideCpu && !current.isConnected;
-  if (isDisconnectedHuman && proxyTurnCount !== engine.turnCount) {
-    delay = Math.max(delay, DISCONNECT_PROXY_GRACE_MS);
-  }
+  const delay = Math.max(baseDelay, eventsMs + 500);
 
   cpuTimer = setTimeout(() => {
     if (engine.status !== 'playing') return;
     const active = engine.getCurrentPlayer();
-    if (!active || !isCpuControlled(active)) return;
-    if (!active.isCpu && !active.isMasterOverrideCpu && !active.isConnected) {
-      proxyTurnCount = engine.turnCount;
-    }
+    if (!active || (!active.isCpu && !active.isMasterOverrideCpu)) return;
 
     const decision = cpuAi.decideAction(active, engine.getPublicState());
     let events: GameEventSeqItem[] = [];
@@ -246,6 +239,8 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
       events = engine.buyCardFromShop(active.id, decision.cardId).events;
     } else if (decision.type === 'skip_card_shop') {
       events = engine.skipCardShop(active.id).events;
+    } else if (decision.type === 'sell_debt_properties') {
+      events = engine.sellPropertiesForDebt(active.id, decision.propertyIds).events;
     }
 
     emitEventsAndSync(events);
@@ -410,6 +405,20 @@ io.on('connection', (socket) => {
     emitEventsAndSync(res.events);
   });
 
+  socket.on(
+    'player:sell_debt_properties',
+    (payload: { propertyIds: string[]; token?: string }) => {
+      const pid = getSocketPlayerId(socket, payload?.token);
+      if (!pid) return;
+      const res = engine.sellPropertiesForDebt(pid, payload.propertyIds ?? []);
+      if (!res.ok) {
+        socket.emit('game:error', { message: res.error });
+        return;
+      }
+      emitEventsAndSync(res.events);
+    }
+  );
+
   socket.on('player:send_stamp', (payload: { stampId: string; token?: string }) => {
     const pid = getSocketPlayerId(socket, payload?.token);
     const player = engine.players.find((p) => p.id === pid);
@@ -426,8 +435,10 @@ io.on('connection', (socket) => {
 
   // --- 管理者コンソール用イベント ---
   socket.on('admin:subscribe', () => {
+    socket.join('admins');
     socket.emit('game:state_sync', engine.getPublicState());
     socket.emit('admin:saves_list', saveManager.listSaves());
+    socket.emit('admin:players_cards', engine.getAdminPlayersCards());
   });
 
   socket.on(
@@ -509,10 +520,43 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('admin:change_dest', () => {
-    engine.adminChangeDestination();
+  socket.on('admin:give_card_all', (payload: { cardId: string }) => {
+    if (engine.adminGiveCardAll(payload.cardId) > 0) {
+      broadcastAll();
+    }
+  });
+
+  socket.on('admin:remove_card', (payload: { playerId: string; cardIndex: number }) => {
+    if (engine.adminRemoveCard(payload.playerId, payload.cardIndex)) {
+      broadcastAll();
+    }
+  });
+
+  socket.on('admin:warp_player', (payload: { playerId: string; stationId: string }) => {
+    const events = engine.adminWarpPlayer(payload.playerId, payload.stationId);
+    if (events.length > 0) {
+      emitEventsAndSync(events);
+    }
+  });
+
+  socket.on('admin:change_dest', (payload?: { stationId?: string }) => {
+    engine.adminChangeDestination(payload?.stationId);
     broadcastAll();
   });
+
+  socket.on(
+    'admin:broadcast_message',
+    (payload: { title: string; message: string; targetPlayerId?: string }) => {
+      const events = engine.adminBroadcastMessage(
+        payload.title,
+        payload.message,
+        payload.targetPlayerId || undefined
+      );
+      if (events.length > 0) {
+        emitEventsAndSync(events);
+      }
+    }
+  );
 
   socket.on('admin:set_nuisance', (payload: { playerId: string | null }) => {
     engine.adminSetNuisance(payload.playerId);

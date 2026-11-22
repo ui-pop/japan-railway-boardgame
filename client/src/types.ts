@@ -87,6 +87,7 @@ export type TurnPhase =
   | 'moving'
   | 'property_buy'
   | 'card_shop'
+  | 'debt_sell'
   | 'settlement'
   | 'finished';
 
@@ -124,6 +125,8 @@ export type LocalRuleTrigger =
   | 'on_destination'
   | 'on_plus_station'
   | 'on_minus_station'
+  | 'on_specific_station'
+  | 'on_station_type'
   | 'on_debt';
 
 export type LocalRuleTarget = 'actor' | 'all' | 'top' | 'last';
@@ -143,6 +146,8 @@ export interface LocalRuleDef {
   enabled: boolean;
   trigger: LocalRuleTrigger;
   triggerValue?: number;
+  targetStationId?: string;
+  targetStationType?: StationType;
   probability: number;
   target: LocalRuleTarget;
   effect: LocalRuleEffect;
@@ -184,10 +189,12 @@ export interface GameEventSeqItem {
     | 'step_move'
     | 'station_effect'
     | 'destination_reached'
+    | 'monopoly_achieved'
     | 'nuisance_attach'
     | 'nuisance_action'
     | 'card_used'
     | 'random_event'
+    | 'admin_message'
     | 'year_settlement'
     | 'game_finished';
   playerId: string;

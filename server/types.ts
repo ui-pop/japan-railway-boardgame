@@ -130,6 +130,7 @@ export type TurnPhase =
   | 'moving'            // マスタップ移動待ち
   | 'property_buy'      // 物件購入モーダル待ち
   | 'card_shop'         // カード売り場モーダル待ち
+  | 'debt_sell'         // 借金返済のための物件売却選択待ち
   | 'settlement'        // 年度末決算表示中
   | 'finished';         // ゲーム終了
 
@@ -173,6 +174,8 @@ export type LocalRuleTrigger =
   | 'on_destination'
   | 'on_plus_station'
   | 'on_minus_station'
+  | 'on_specific_station'
+  | 'on_station_type'
   | 'on_debt';
 
 export type LocalRuleTarget = 'actor' | 'all' | 'top' | 'last';
@@ -192,6 +195,8 @@ export interface LocalRuleDef {
   enabled: boolean;
   trigger: LocalRuleTrigger;
   triggerValue?: number; // 対象月(1-12)やサイコロ指定出目(1-6/合計, 0=ゾロ目)など
+  targetStationId?: string; // 特定の駅ID（on_specific_station用）
+  targetStationType?: StationType; // 特定のマス種別（on_station_type用）
   probability: number;   // 発動確率 (1-100)
   target: LocalRuleTarget;
   effect: LocalRuleEffect;
@@ -233,10 +238,12 @@ export interface GameEventSeqItem {
     | 'step_move'
     | 'station_effect'
     | 'destination_reached'
+    | 'monopoly_achieved'
     | 'nuisance_attach'
     | 'nuisance_action'
     | 'card_used'
     | 'random_event'
+    | 'admin_message'
     | 'year_settlement'
     | 'game_finished';
   playerId: string;

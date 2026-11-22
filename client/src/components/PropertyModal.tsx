@@ -4,12 +4,13 @@ import type { PublicGameState, StationDef } from '../types';
 import { formatMoney } from './StatusBar';
 
 interface PropertyModalProps {
-  mode: 'buy' | 'portfolio';
+  mode: 'buy' | 'portfolio' | 'debt_sell';
   gameState: PublicGameState;
   myPlayerId: string;
   stations: StationDef[];
   onBuy: (propertyIds: string[], upgradeIds: string[]) => void;
   onSkip: () => void;
+  onSellDebt?: (propertyIds: string[]) => void;
   onClose: () => void;
 }
 
@@ -20,6 +21,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
   stations,
   onBuy,
   onSkip,
+  onSellDebt,
   onClose,
 }) => {
   const me = gameState.players.find((p) => p.id === myPlayerId);
@@ -27,6 +29,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
 
   const [selectedBuy, setSelectedBuy] = useState<string[]>([]);
   const [selectedUpgrade, setSelectedUpgrade] = useState<string[]>([]);
+  const [selectedSell, setSelectedSell] = useState<string[]>([]);
 
   const totalCost = useMemo(() => {
     if (!currentStation?.properties) return 0;
@@ -37,7 +40,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
     }
     for (const pid of selectedUpgrade) {
       const p = currentStation.properties.find((x) => x.id === pid);
-      if (p) sum += Math.floor(p.price * 0.8);
+      if (p) sum += p.price; // 本家準拠：増資コストは物件価格の100%
     }
     return sum;
   }, [currentStation, selectedBuy, selectedUpgrade]);
@@ -60,16 +63,19 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
     }
   };
 
-  // 所持物件一覧（portfolioモード用）
+  // 所持物件一覧（portfolio / debt_sell モード用）
   const myOwnedList = useMemo(() => {
     const result: {
+      propertyId: string;
       stationName: string;
       propName: string;
       category: string;
       price: number;
       rate: number;
       level: number;
+      isMonopolized: boolean;
       annualIncome: number;
+      sellValue: number;
     }[] = [];
 
     for (const owned of Object.values(gameState.ownedProperties)) {
@@ -77,19 +83,140 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
       const st = stations.find((s) => s.id === owned.stationId);
       const prop = st?.properties?.find((p) => p.id === owned.propertyId);
       if (!st || !prop) continue;
-      const mult = owned.level === 1 ? 1 : owned.level === 2 ? 1.5 : 2.0;
+      const isMono =
+        st.properties && st.properties.length > 0
+          ? st.properties.every((p) => gameState.ownedProperties[p.id]?.ownerId === myPlayerId)
+          : false;
+      const effectiveRate = prop.rate + (owned.level - 1) * 0.05;
+      const annualIncome = Math.round(
+        prop.price * owned.level * effectiveRate * (isMono ? 2.0 : 1.0)
+      );
+      const sellValue = Math.floor(prop.price * owned.level * 0.5);
       result.push({
+        propertyId: owned.propertyId,
         stationName: st.name,
         propName: prop.name,
         category: prop.category,
         price: prop.price,
-        rate: prop.rate,
+        rate: effectiveRate,
         level: owned.level,
-        annualIncome: Math.round(prop.price * prop.rate * mult),
+        isMonopolized: isMono,
+        annualIncome,
+        sellValue,
       });
     }
     return result;
   }, [gameState.ownedProperties, myPlayerId, stations]);
+
+  if (mode === 'debt_sell') {
+    const selectedRefund = myOwnedList
+      .filter((item) => selectedSell.includes(item.propertyId))
+      .reduce((acc, item) => acc + item.sellValue, 0);
+    const currentMoney = me?.money ?? 0;
+    const afterMoney = currentMoney + selectedRefund;
+    const canConfirm = afterMoney >= 0 || selectedSell.length >= myOwnedList.length;
+
+    const toggleSell = (pid: string) => {
+      setSelectedSell((prev) =>
+        prev.includes(pid) ? prev.filter((x) => x !== pid) : [...prev, pid]
+      );
+    };
+
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div className="w-full max-w-md bg-slate-900 border-2 border-rose-500 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[86vh]">
+          <div className="px-5 py-4 bg-gradient-to-r from-rose-900 to-red-950 border-b border-rose-700/60">
+            <div className="text-xs text-rose-200 font-bold">💸 借金返済（評価額の半額で売却）</div>
+            <h2 className="text-lg font-black text-white mt-0.5">
+              売却する物件を選んでください
+            </h2>
+            <div className="mt-2 grid grid-cols-3 gap-2 text-xs bg-black/35 rounded-xl p-2">
+              <div>
+                <div className="text-[10px] text-slate-400">現在所持金</div>
+                <div className="font-black text-rose-400">{formatMoney(currentMoney)}</div>
+              </div>
+              <div>
+                <div className="text-[10px] text-slate-400">売却合計</div>
+                <div className="font-black text-amber-300">+{formatMoney(selectedRefund)}</div>
+              </div>
+              <div>
+                <div className="text-[10px] text-slate-400">売却後</div>
+                <div
+                  className={`font-black ${
+                    afterMoney >= 0 ? 'text-emerald-400' : 'text-rose-400'
+                  }`}
+                >
+                  {formatMoney(afterMoney)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="p-4 overflow-y-auto space-y-2 flex-1">
+            {myOwnedList.map((item) => {
+              const checked = selectedSell.includes(item.propertyId);
+              return (
+                <button
+                  key={item.propertyId}
+                  onClick={() => toggleSell(item.propertyId)}
+                  className={`w-full text-left flex items-center justify-between p-3 rounded-2xl border transition ${
+                    checked
+                      ? 'bg-rose-950/80 border-rose-400 shadow'
+                      : 'bg-slate-800/80 border-slate-700 hover:bg-slate-800'
+                  }`}
+                >
+                  <div>
+                    <div className="text-[11px] text-sky-400 font-bold flex items-center gap-1.5">
+                      <span>
+                        {item.stationName}駅 ・ {item.category}
+                      </span>
+                      {item.isMonopolized && (
+                        <span className="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/50 text-amber-300 text-[10px]">
+                          👑独占中
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-sm font-bold text-white">
+                      {item.propName}{' '}
+                      <span className="text-amber-400 text-xs">Lv.{item.level}</span>
+                    </div>
+                    <div className="text-[10px] text-slate-400">
+                      年間収益 +{formatMoney(item.annualIncome)}
+                    </div>
+                  </div>
+                  <div className="text-right shrink-0 pl-2">
+                    <div
+                      className={`px-2.5 py-1.5 rounded-xl text-xs font-black flex items-center gap-1 ${
+                        checked ? 'bg-rose-600 text-white' : 'bg-slate-700 text-amber-300'
+                      }`}
+                    >
+                      {checked && <Check className="w-3.5 h-3.5" />}
+                      +{formatMoney(item.sellValue)}
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="p-4 bg-slate-950/90 border-t border-slate-800 space-y-2">
+            {!canConfirm && (
+              <div className="text-[11px] text-rose-300 text-center font-bold">
+                借金が0円以上になるまで（あと {formatMoney(Math.abs(afterMoney))} 分）選んでください
+              </div>
+            )}
+            <button
+              disabled={!canConfirm}
+              onClick={() => onSellDebt?.(selectedSell)}
+              className="w-full py-3 rounded-2xl bg-rose-600 hover:bg-rose-500 disabled:bg-slate-700 disabled:text-slate-500 text-white font-black text-sm shadow-lg"
+            >
+              選択した {selectedSell.length} 件を売却して返済する
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (mode === 'portfolio') {
     const totalAnnual = myOwnedList.reduce((acc, x) => acc + x.annualIncome, 0);
@@ -174,7 +301,7 @@ export const PropertyModal: React.FC<PropertyModalProps> = ({
               ? gameState.players.find((p) => p.id === owned.ownerId)
               : null;
             const isMine = owned?.ownerId === myPlayerId;
-            const upgradeCost = Math.floor(prop.price * 0.8);
+            const upgradeCost = prop.price;
             const isSelectedBuy = selectedBuy.includes(prop.id);
             const isSelectedUp = selectedUpgrade.includes(prop.id);
 

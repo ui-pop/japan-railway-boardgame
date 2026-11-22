@@ -26,6 +26,7 @@ export function useGameSocket(isAdmin: boolean) {
   const [eventQueue, setEventQueue] = useState<GameEventSeqItem[]>([]);
   const [stamps, setStamps] = useState<StampBroadcast[]>([]);
   const [savesList, setSavesList] = useState<SaveFileInfo[]>([]);
+  const [adminPlayersCards, setAdminPlayersCards] = useState<Record<string, string[]>>({});
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // マスターデータ取得（キャッシュ無効化）
@@ -131,6 +132,10 @@ export function useGameSocket(isAdmin: boolean) {
       setSavesList(list);
     });
 
+    socket.on('admin:players_cards', (cardsMap: Record<string, string[]>) => {
+      setAdminPlayersCards(cardsMap);
+    });
+
     return () => {
       socket.disconnect();
     };
@@ -213,6 +218,13 @@ export function useGameSocket(isAdmin: boolean) {
     });
   }, []);
 
+  const sellDebtProperties = useCallback((propertyIds: string[]) => {
+    socketRef.current?.emit('player:sell_debt_properties', {
+      propertyIds,
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
+  }, []);
+
   const sendStamp = useCallback((stampId: string) => {
     socketRef.current?.emit('player:send_stamp', {
       stampId,
@@ -272,9 +284,32 @@ export function useGameSocket(isAdmin: boolean) {
     socketRef.current?.emit('admin:give_card', { playerId, cardId });
   }, []);
 
-  const adminChangeDest = useCallback(() => {
-    socketRef.current?.emit('admin:change_dest');
+  const adminGiveCardAll = useCallback((cardId: string) => {
+    socketRef.current?.emit('admin:give_card_all', { cardId });
   }, []);
+
+  const adminRemoveCard = useCallback((playerId: string, cardIndex: number) => {
+    socketRef.current?.emit('admin:remove_card', { playerId, cardIndex });
+  }, []);
+
+  const adminWarpPlayer = useCallback((playerId: string, stationId: string) => {
+    socketRef.current?.emit('admin:warp_player', { playerId, stationId });
+  }, []);
+
+  const adminChangeDest = useCallback((stationId?: string) => {
+    socketRef.current?.emit('admin:change_dest', { stationId });
+  }, []);
+
+  const adminBroadcastMessage = useCallback(
+    (title: string, message: string, targetPlayerId?: string) => {
+      socketRef.current?.emit('admin:broadcast_message', {
+        title,
+        message,
+        targetPlayerId,
+      });
+    },
+    []
+  );
 
   const adminSetNuisance = useCallback((playerId: string | null) => {
     socketRef.current?.emit('admin:set_nuisance', { playerId });
@@ -311,6 +346,7 @@ export function useGameSocket(isAdmin: boolean) {
     eventQueue,
     stamps,
     savesList,
+    adminPlayersCards,
     errorMsg,
     clearError: () => setErrorMsg(null),
     joinGame,
@@ -324,6 +360,7 @@ export function useGameSocket(isAdmin: boolean) {
     skipBuy,
     buyCardShop,
     skipCardShop,
+    sellDebtProperties,
     sendStamp,
     consumeFirstEvent,
     adminCreateGame,
@@ -336,7 +373,11 @@ export function useGameSocket(isAdmin: boolean) {
     adminRollback,
     adminAdjustMoney,
     adminGiveCard,
+    adminGiveCardAll,
+    adminRemoveCard,
+    adminWarpPlayer,
     adminChangeDest,
+    adminBroadcastMessage,
     adminSetNuisance,
     adminAddLocalRule,
     adminToggleLocalRule,
