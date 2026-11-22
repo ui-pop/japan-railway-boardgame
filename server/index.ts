@@ -163,6 +163,27 @@ function emitEventsAndSync(events: GameEventSeqItem[]) {
   broadcastAll(events);
 }
 
+function calculateEventsDurationMs(events: GameEventSeqItem[]): number {
+  let total = 0;
+  for (const e of events) {
+    if (e.type === 'step_move') total += 600;
+    else if (e.type === 'dice_roll') total += 2500;
+    else if (e.type === 'station_effect') total += 2550;
+    else if (e.type === 'turn_start') total += 2100;
+    else if (
+      e.type === 'destination_reached' ||
+      e.type === 'nuisance_action' ||
+      e.type === 'nuisance_attach' ||
+      e.type === 'random_event'
+    ) {
+      total += 3200;
+    } else if (e.type === 'card_used') {
+      total += 2400;
+    }
+  }
+  return total;
+}
+
 function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   if (cpuTimer) {
     clearTimeout(cpuTimer);
@@ -174,36 +195,15 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   if (!current) return;
   if (!current.isCpu && !current.isMasterOverrideCpu) return;
 
-  // 桃鉄らしいゆったりした演出テンポの計算（ターン間アイキャッチ分も含めて余裕を持たせる）
-  let delay = 2900; // デフォルト（ターン開始アイキャッチ後）
-  const hasDiceRoll = lastEvents.some((e) => e.type === 'dice_roll');
-  const hasBigEvent = lastEvents.some(
-    (e) =>
-      e.type === 'destination_reached' ||
-      e.type === 'nuisance_action' ||
-      e.type === 'nuisance_attach' ||
-      e.type === 'random_event'
-  );
-  const hasStationEffect = lastEvents.some((e) => e.type === 'station_effect');
-  const hasTurnStart = lastEvents.some((e) => e.type === 'turn_start');
-
-  if (hasBigEvent && hasTurnStart) {
-    delay = 5200; // 大イベント + 次ターンアイキャッチを両方見終わるまで待つ
-  } else if (hasBigEvent) {
-    delay = 3600;
-  } else if (hasStationEffect && hasTurnStart) {
-    delay = 4500; // マス演出 + 次ターンアイキャッチを両方見終わるまで待つ
-  } else if (hasDiceRoll) {
-    delay = 2700; // サイコロが回って確定するまで待つ
-  } else if (hasTurnStart) {
-    delay = 2600; // ターン開始アイキャッチが終わるまで待つ
-  } else if (hasStationEffect) {
-    delay = 2800;
-  } else if (engine.phase === 'moving') {
-    delay = 900; // 1マスずつ列車が走るテンポ
+  // 直前のイベントキューがスマホ側で完全に再生し終わる時間を厳密に計算して待機
+  const eventsMs = calculateEventsDurationMs(lastEvents);
+  let baseDelay = 900;
+  if (engine.phase === 'moving') {
+    baseDelay = 450;
   } else if (engine.phase === 'property_buy' || engine.phase === 'card_shop') {
-    delay = 1900;
+    baseDelay = 1400;
   }
+  const delay = Math.max(baseDelay, eventsMs + 500);
 
   cpuTimer = setTimeout(() => {
     if (engine.status !== 'playing') return;

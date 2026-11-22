@@ -8,6 +8,7 @@ interface MapCanvasProps {
   gameState: PublicGameState | null;
   myPlayerId: string | null;
   lowDataMode: boolean;
+  isPlayingPreTurnEffect?: boolean;
   onSelectNextStation: (stationId: string) => void;
   focusTargetTrigger?: { type: 'me' | 'dest' | 'all'; seq: number } | null;
 }
@@ -17,6 +18,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
   gameState,
   myPlayerId,
   lowDataMode,
+  isPlayingPreTurnEffect = false,
   onSelectNextStation,
   focusTargetTrigger,
 }) => {
@@ -135,9 +137,10 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
     }
   }, [focusTargetTrigger, panTo, panToWholeJapan]);
 
-  // ターンが別のプレイヤーへ切り替わったときだけ、自動で手番プレイヤーへ追従ONにする
+  // ターンが別のプレイヤーへ切り替わったときだけ、前のマス演出が終わってから手番プレイヤーへ追従ONにする
   const lastTurnPlayerRef = useRef<string>('');
   useEffect(() => {
+    if (isPlayingPreTurnEffect) return;
     const turnPid = gameState?.currentTurnPlayerId;
     if (!turnPid) return;
     if (turnPid !== lastTurnPlayerRef.current) {
@@ -145,12 +148,11 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       const active = gameState.players.find((p) => p.id === turnPid);
       const st = active ? stationMap.get(active.stationId) : null;
       if (st) {
-        // 全体俯瞰ほど引きすぎている場合だけ見やすい倍率に戻す
         const nextZoom = cameraRef.current.zoom < 0.25 ? 0.52 : cameraRef.current.zoom;
         panTo(st.x, st.y, nextZoom, true);
       }
     }
-  }, [gameState?.currentTurnPlayerId, gameState?.players, stationMap, panTo]);
+  }, [gameState?.currentTurnPlayerId, gameState?.players, stationMap, panTo, isPlayingPreTurnEffect]);
 
   // 追従モードONのとき、手番プレイヤーが1マス進んだらターゲット座標だけ更新（ズームは変えない！）
   useEffect(() => {
@@ -791,7 +793,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           全体
         </button>
         <div className="text-[10px] text-center font-mono text-white/80 bg-black/40 rounded-full px-2 py-0.5">
-          v2.8
+          v2.9
         </div>
       </div>
     </div>

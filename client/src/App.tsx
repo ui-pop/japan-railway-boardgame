@@ -275,6 +275,9 @@ export function App() {
         gameState={gameState}
         myPlayerId={myPlayerId}
         lowDataMode={lowDataMode}
+        isPlayingPreTurnEffect={
+          eventQueue.length > 0 && eventQueue[0].type !== 'turn_start'
+        }
         onSelectNextStation={moveStep}
         focusTargetTrigger={focusTrigger}
       />
