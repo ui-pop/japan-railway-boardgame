@@ -580,13 +580,10 @@ io.on('connection', (socket) => {
     broadcastAll();
   });
 
-  socket.on(
-    'admin:set_nuisance_form',
-    (payload: { form: 'normal' | 'mini' | 'king' | 'happy' | 'rate_curse' }) => {
-      engine.adminSetNuisanceForm(payload.form);
-      broadcastAll();
-    }
-  );
+  socket.on('admin:set_nuisance_form', (payload: { form: import('./types').NuisanceForm }) => {
+    engine.adminSetNuisanceForm(payload.form);
+    broadcastAll();
+  });
 
   socket.on('admin:set_economy', (payload: { phase: 'boom' | 'normal' | 'recession' }) => {
     engine.adminSetEconomyPhase(payload.phase);
@@ -600,7 +597,7 @@ io.on('connection', (socket) => {
 
   socket.on(
     'admin:update_station',
-    (payload: { stationId: string; type: 'property' | 'plus' | 'minus' | 'card' | 'nice_card' | 'shop' | 'warp'; name?: string }) => {
+    (payload: { stationId: string; type: import('./types').StationType; name?: string }) => {
       if (engine.adminUpdateStation(payload.stationId, payload.type, payload.name)) {
         io.emit('stations:sync', engine.stations);
         broadcastAll();

@@ -393,15 +393,21 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
             ctx.fill();
             ctx.stroke();
           } else {
-            ctx.arc(st.x, st.y, isNextAvail ? 17 : st.type === 'nice_card' ? 15 : 13, 0, Math.PI * 2);
-            if (st.type === 'plus') ctx.fillStyle = '#2563eb';
+            const isM10 = st.type === 'minus10' || Boolean(gs?.minus10Stations?.[st.id]);
+            ctx.arc(st.x, st.y, isNextAvail ? 17 : st.type === 'nice_card' || isM10 ? 15 : 13, 0, Math.PI * 2);
+            if (isM10) ctx.fillStyle = '#991b1b';
+            else if (st.type === 'plus') ctx.fillStyle = '#2563eb';
             else if (st.type === 'minus') ctx.fillStyle = '#dc2626';
             else if (st.type === 'warp') ctx.fillStyle = '#9333ea';
             else if (st.type === 'nice_card') ctx.fillStyle = '#10b981';
+            else if (st.type === 'lottery') ctx.fillStyle = '#f59e0b';
+            else if (st.type === 'dubbing') ctx.fillStyle = '#0ea5e9';
+            else if (st.type === 'shuyu') ctx.fillStyle = '#14b8a6';
+            else if (st.type === 'steal_station') ctx.fillStyle = '#be123c';
             else ctx.fillStyle = '#eab308';
             ctx.fill();
-            ctx.strokeStyle = isUndoTarget ? '#fdba74' : '#ffffff';
-            ctx.lineWidth = isNextAvail ? 4 : 3;
+            ctx.strokeStyle = isUndoTarget ? '#fdba74' : isM10 ? '#fde047' : '#ffffff';
+            ctx.lineWidth = isNextAvail || isM10 ? 4 : 3;
             ctx.stroke();
           }
 
@@ -409,8 +415,10 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           ctx.font = 'bold 14px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          const symbol =
-            st.type === 'plus'
+          const isM10Sym = st.type === 'minus10' || Boolean(gs?.minus10Stations?.[st.id]);
+          const symbol = isM10Sym
+            ? '10'
+            : st.type === 'plus'
               ? '＋'
               : st.type === 'minus'
                 ? '－'
@@ -420,8 +428,24 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
                     ? '🛒'
                     : st.type === 'nice_card'
                       ? '✨'
-                      : '★';
+                      : st.type === 'lottery'
+                        ? '🎟'
+                        : st.type === 'dubbing'
+                          ? '📋'
+                          : st.type === 'shuyu'
+                            ? '🔋'
+                            : st.type === 'steal_station'
+                              ? '⚔'
+                              : '★';
           ctx.fillText(symbol, st.x, st.y + 1);
+        }
+
+        // マス上にうんちがある場合は💩アイコンを描画
+        if (gs?.unchiStations?.[st.id]) {
+          ctx.font = '24px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('💩', st.x, st.y - 22);
         }
 
         if (isUndoTarget) {
@@ -550,18 +574,24 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
             }
 
             if (p.hasNuisance) {
-              const formIcon =
-                gs.nuisanceForm === 'king'
-                  ? '🔥'
-                  : gs.nuisanceForm === 'rate_curse'
-                    ? '📉'
-                    : gs.nuisanceForm === 'mini'
-                      ? '👶'
-                      : gs.nuisanceForm === 'happy'
-                        ? '😇'
-                        : '👹';
+              const iconMap: Record<string, string> = {
+                normal: '👹',
+                mini: '👶',
+                pokon: '💥',
+                king: '🔥',
+                destroy: '🚜',
+                rate_curse: '📉',
+                bakuretsu: '💣',
+                devil: '😈',
+                minus10: '⚡',
+                happy: '😇',
+              };
               ctx.font = '22px sans-serif';
-              ctx.fillText(formIcon, px + 18, py - 18);
+              ctx.fillText(iconMap[gs.nuisanceForm] ?? '👹', px + 18, py - 18);
+            }
+            if ((p.zekkochoTurns ?? 0) > 0) {
+              ctx.font = '18px sans-serif';
+              ctx.fillText('⚡', px - 20, py - 18);
             }
           });
         }
@@ -818,7 +848,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           全体
         </button>
         <div className="text-[10px] text-center font-mono text-white/80 bg-black/40 rounded-full px-2 py-0.5">
-          v5.0
+          v6.0
         </div>
       </div>
     </div>

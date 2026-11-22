@@ -307,7 +307,14 @@
         "price": 160000,
         "rate": 0.1
       }
-    ]
+    ],
+    "hero": {
+      "id": "clark",
+      "name": "クラーク博士",
+      "icon": "🎓",
+      "effectType": "give_express",
+      "description": "少年よ大志を抱け！急行・新幹線系カードを授けてくれる！"
+    }
   },
   {
     "id": "tomakomai",
@@ -663,8 +670,8 @@
       "id": "masamune",
       "name": "伊達政宗",
       "icon": "🌙",
-      "effectType": "steal_money_all",
-      "description": "独占で味方に！確率で他の全社長から軍資金を徴収してくれる！"
+      "effectType": "cash_gift",
+      "description": "独眼竜の軍資金！臨時収入を授けてくれる！"
     }
   },
   {
@@ -1047,11 +1054,11 @@
       }
     ],
     "hero": {
-      "id": "ieyasu",
-      "name": "徳川家康",
+      "id": "dokwan",
+      "name": "太田道灌",
       "icon": "🏯",
       "effectType": "cash_gift",
-      "description": "独占で味方に！確率で幕府の埋蔵金（臨時ボーナス）を授けてくれる！"
+      "description": "江戸城築城の知恵！大金を授けてくれる！"
     }
   },
   {
@@ -1578,7 +1585,7 @@
       "name": "織田信長",
       "icon": "🔥",
       "effectType": "steal_money_all",
-      "description": "独占で味方に！確率で天下布武の力でライバルから資金を奪う！"
+      "description": "天下布武！ライバル全員から資金を徴収！"
     }
   },
   {
@@ -2118,8 +2125,8 @@
       "id": "motonari",
       "name": "毛利元就",
       "icon": "🏹",
-      "effectType": "give_express",
-      "description": "独占で味方に！三本の矢の計で特急カードをプレゼント！"
+      "effectType": "shield_gift",
+      "description": "三本の矢の守り！パトカードを授けてくれる！"
     }
   },
   {
@@ -2743,8 +2750,8 @@
       "id": "saigo",
       "name": "西郷隆盛",
       "icon": "🐕",
-      "effectType": "cash_gift",
-      "description": "独占で味方に！確率で薩摩の臨時ボーナスを授けてくれる！"
+      "effectType": "move_closer",
+      "description": "敬天愛人！目的地近くへ運んでくれる！"
     }
   },
   {
@@ -4087,9 +4094,9 @@
   },
   {
     "id": "route_1",
-    "name": "稚内・旭川間(プラス駅)",
+    "name": "稚内・旭川間(宝くじ駅)",
     "region": "北海道",
-    "type": "plus",
+    "type": "lottery",
     "x": 7020,
     "y": 520,
     "neighbors": [
@@ -4468,9 +4475,9 @@
   },
   {
     "id": "route_30",
-    "name": "釧路・帯広間(プラス駅)",
+    "name": "釧路・帯広間(ダビング駅)",
     "region": "北海道",
-    "type": "plus",
+    "type": "dubbing",
     "x": 7930,
     "y": 1820,
     "neighbors": [
@@ -4861,9 +4868,9 @@
   },
   {
     "id": "route_60",
-    "name": "青森・盛岡間(プラス駅)",
+    "name": "青森・盛岡間(周遊駅)",
     "region": "東北",
-    "type": "plus",
+    "type": "shuyu",
     "x": 6630,
     "y": 3640,
     "neighbors": [
@@ -5256,9 +5263,9 @@
   },
   {
     "id": "route_90",
-    "name": "秋田・新潟間(プラス駅)",
+    "name": "秋田・新潟間(刀狩り駅)",
     "region": "東北",
-    "type": "plus",
+    "type": "steal_station",
     "x": 5590,
     "y": 4680,
     "neighbors": [
@@ -5624,9 +5631,9 @@
   },
   {
     "id": "route_118",
-    "name": "新潟・会津若松間(プラス駅)",
+    "name": "新潟・会津若松間(宝くじ駅)",
     "region": "中部",
-    "type": "plus",
+    "type": "lottery",
     "x": 5720,
     "y": 4810,
     "neighbors": [
@@ -5976,9 +5983,9 @@
   },
   {
     "id": "route_145",
-    "name": "水戸・つくば間(プラス駅)",
+    "name": "水戸・つくば間(ダビング駅)",
     "region": "関東",
-    "type": "plus",
+    "type": "dubbing",
     "x": 6500,
     "y": 5850,
     "neighbors": [
@@ -6357,9 +6364,9 @@
   },
   {
     "id": "route_174",
-    "name": "甲府・静岡間(プラス駅)",
+    "name": "甲府・静岡間(周遊駅)",
     "region": "中部",
-    "type": "plus",
+    "type": "shuyu",
     "x": 5200,
     "y": 6500,
     "neighbors": [
@@ -6762,9 +6769,9 @@
   },
   {
     "id": "route_205",
-    "name": "岐阜・高山間(プラス駅)",
+    "name": "岐阜・高山間(刀狩り駅)",
     "region": "中部",
-    "type": "plus",
+    "type": "steal_station",
     "x": 4680,
     "y": 6240,
     "neighbors": [
@@ -7260,7 +7267,14 @@
         "price": 1000000,
         "rate": 0.06
       }
-    ]
+    ],
+    "hero": {
+      "id": "mitsunari",
+      "name": "石田三成",
+      "icon": "⚔️",
+      "effectType": "give_express",
+      "description": "堺の名将！進行系カードを授けてくれる！"
+    }
   },
   {
     "id": "route_236",
@@ -7331,9 +7345,9 @@
   },
   {
     "id": "route_241",
-    "name": "和歌山・徳島間(プラス駅)",
+    "name": "和歌山・徳島間(宝くじ駅)",
     "region": "近畿",
-    "type": "plus",
+    "type": "lottery",
     "x": 3380,
     "y": 7020,
     "neighbors": [
@@ -7749,9 +7763,9 @@
   },
   {
     "id": "route_271",
-    "name": "広島・松山間(プラス駅)",
+    "name": "広島・松山間(ダビング駅)",
     "region": "中国",
-    "type": "plus",
+    "type": "dubbing",
     "x": 2470,
     "y": 7020,
     "neighbors": [
@@ -8129,9 +8143,9 @@
   },
   {
     "id": "route_300",
-    "name": "松山・別府間(プラス駅)",
+    "name": "松山・別府間(周遊駅)",
     "region": "四国",
-    "type": "plus",
+    "type": "shuyu",
     "x": 2340,
     "y": 7540,
     "neighbors": [
@@ -8502,9 +8516,9 @@
   },
   {
     "id": "route_328",
-    "name": "熊本・鹿児島間(プラス駅)",
+    "name": "熊本・鹿児島間(刀狩り駅)",
     "region": "九州",
-    "type": "plus",
+    "type": "steal_station",
     "x": 1300,
     "y": 8320,
     "neighbors": [
@@ -8894,9 +8908,9 @@
   },
   {
     "id": "route_358",
-    "name": "那覇・指宿間(プラス駅)",
+    "name": "那覇・指宿間(宝くじ駅)",
     "region": "沖縄",
-    "type": "plus",
+    "type": "lottery",
     "x": 1430,
     "y": 8970,
     "neighbors": [

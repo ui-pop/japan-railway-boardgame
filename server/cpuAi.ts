@@ -38,8 +38,8 @@ export class CpuAi {
     state: PublicGameState
   ): CpuActionDecision {
     if (state.phase === 'action_select') {
-      // カードは1ターン1枚まで。使用済みならサイコロ
-      if (state.cardUsedThisTurn) return { type: 'roll_dice' };
+      // カード封印中またはカード使用済みならサイコロ
+      if (state.cardUsedThisTurn || (player.sealTurns ?? 0) > 0) return { type: 'roll_dice' };
 
       const dist = this.pathfinder.getShortestDistance(
         player.stationId,
@@ -144,7 +144,7 @@ export class CpuAi {
       if (player.cards.length >= 8) {
         for (let i = 0; i < player.cards.length; i++) {
           const card = this.cardMap.get(player.cards[i]);
-          if (!card || card.passive) continue;
+          if (!card || card.passive || card.category === 'devil') continue;
           if (card.category === 'economy' && card.id !== 'shuffle_all' && card.id !== 'summon_all') {
             return { type: 'use_card', cardIndex: i };
           }

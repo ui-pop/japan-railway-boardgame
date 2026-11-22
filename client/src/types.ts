@@ -1,4 +1,16 @@
-export type StationType = 'property' | 'plus' | 'minus' | 'card' | 'nice_card' | 'shop' | 'warp';
+export type StationType =
+  | 'property'
+  | 'plus'
+  | 'minus'
+  | 'card'
+  | 'nice_card'
+  | 'shop'
+  | 'warp'
+  | 'lottery'
+  | 'dubbing'
+  | 'shuyu'
+  | 'steal_station'
+  | 'minus10';
 
 export interface PropertyDef {
   id: string;
@@ -32,13 +44,16 @@ export interface StationDef {
 export interface CardDef {
   id: string;
   name: string;
-  category: 'dice' | 'fixed_move' | 'warp' | 'attack' | 'defense' | 'economy';
+  category: 'dice' | 'fixed_move' | 'warp' | 'attack' | 'defense' | 'economy' | 'devil';
   description: string;
   icon: string;
   price?: number;
   diceCount?: number;
   fixedSteps?: number;
   cashAmount?: number;
+  multiUse?: boolean;
+  canActAgain?: boolean;
+  unsellable?: boolean;
   requiresTarget: boolean;
   passive?: boolean;
   rarity: 'common' | 'uncommon' | 'rare';
@@ -108,6 +123,15 @@ export interface PlayerPublicState {
   cardCount: number;
   hasNuisance: boolean;
   skipNextTurn?: boolean;
+  zekkochoTurns?: number;
+  sealTurns?: number;
+  cowWalkTurns?: number;
+  heccharaTurns?: number;
+  yellowTurns?: number;
+  unchiPassTurns?: number;
+  allSixNext?: boolean;
+  discountMode?: 'silver' | 'gold' | 'platinum' | 'cinderella' | null;
+  homeStationId?: string;
   distanceToDest: number;
   totalAssets: number;
   rank: number;
@@ -162,7 +186,17 @@ export interface LocalRuleDef {
   message: string;
 }
 
-export type NuisanceForm = 'normal' | 'mini' | 'king' | 'happy' | 'rate_curse';
+export type NuisanceForm =
+  | 'normal'
+  | 'mini'
+  | 'pokon'
+  | 'king'
+  | 'destroy'
+  | 'rate_curse'
+  | 'bakuretsu'
+  | 'devil'
+  | 'minus10'
+  | 'happy';
 export type EconomyPhase = 'boom' | 'normal' | 'recession';
 
 export interface PublicGameState {
@@ -182,7 +216,10 @@ export interface PublicGameState {
   ownedProperties: Record<string, OwnedProperty>;
   nuisanceTargetPlayerId: string | null;
   nuisanceForm: NuisanceForm;
+  bakuretsuSteps: number;
   economyPhase: EconomyPhase;
+  unchiStations: Record<string, number>;
+  minus10Stations: Record<string, number>;
   lastEventMessage: string;
   eventLogs: string[];
   localRules: LocalRuleDef[];

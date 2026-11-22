@@ -329,7 +329,7 @@ export function useGameSocket(isAdmin: boolean) {
   }, []);
 
   const adminSetNuisanceForm = useCallback(
-    (form: 'normal' | 'mini' | 'king' | 'happy' | 'rate_curse') => {
+    (form: import('../types').NuisanceForm) => {
       socketRef.current?.emit('admin:set_nuisance_form', { form });
     },
     []

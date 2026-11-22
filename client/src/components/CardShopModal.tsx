@@ -18,16 +18,20 @@ const SHOP_STOCK_IDS = [
   'express_2',
   'express_3',
   'super_express',
-  'pinpoint_1',
-  'pinpoint_2',
-  'pinpoint_3',
-  'pinpoint_6',
+  'nozomi_express',
   'warp_near',
-  'warp_near_dest',
+  'star_warp',
+  'senzai_ichigu',
+  'special_move',
+  'hecchara',
   'shield',
   'steal_card',
   'swap_pos',
   'pass_nuisance',
+  'shredder_card',
+  'vacuum_card',
+  'unchi_card',
+  'debt_relief',
   'card_pack',
 ];
 
@@ -149,10 +153,15 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
                     </div>
                   </div>
                   <button
+                    disabled={Boolean(card.unsellable)}
                     onClick={() => onSellCard(idx)}
-                    className="shrink-0 px-3 py-2 rounded-xl text-xs font-extrabold bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white transition"
+                    className={`shrink-0 px-3 py-2 rounded-xl text-xs font-extrabold transition ${
+                      card.unsellable
+                        ? 'bg-slate-700 text-slate-500 cursor-not-allowed'
+                        : 'bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white'
+                    }`}
                   >
-                    +{formatMoney(sellPrice)}
+                    {card.unsellable ? '売却不可' : `+${formatMoney(sellPrice)}`}
                   </button>
                 </div>
               );

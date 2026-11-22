@@ -1453,7 +1453,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           <option value="card">🟡 カード駅</option>
                           <option value="nice_card">✨ ナイスカード</option>
                           <option value="shop">🛒 カード売り場</option>
-                          <option value="warp">🟣 ワープ駅</option>
+                          <option value="warp">🟣 ワープ/ヘリ</option>
+                          <option value="lottery">🎟️ 宝くじ駅</option>
+                          <option value="dubbing">📋 ダビング駅</option>
+                          <option value="shuyu">🔋 周遊駅</option>
+                          <option value="steal_station">⚔️ 刀狩り駅</option>
+                          <option value="minus10">⚡ マイナス10倍</option>
                         </select>
                         {editedName !== st.name && (
                           <button
@@ -1649,10 +1654,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <div className="grid grid-cols-5 gap-1.5">
                     {(
                       [
-                        { form: 'normal', label: '👹通常' },
-                        { form: 'mini', label: '👶プチ' },
-                        { form: 'rate_curse', label: '📉割合' },
+                        { form: 'normal', label: '👹貧乏神' },
+                        { form: 'mini', label: '👶ミニ' },
+                        { form: 'pokon', label: '💥ポコン' },
                         { form: 'king', label: '🔥キング' },
+                        { form: 'destroy', label: '🚜デストロイ' },
+                        { form: 'rate_curse', label: '📉パーセント' },
+                        { form: 'bakuretsu', label: '💣バクレツ' },
+                        { form: 'devil', label: '😈デビル' },
+                        { form: 'minus10', label: '⚡マイナ10' },
                         { form: 'happy', label: '😇ハッピー' },
                       ] as const
                     ).map((item) => (
