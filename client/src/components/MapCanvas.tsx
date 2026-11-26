@@ -320,6 +320,22 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
           gs.currentTurnPlayerId === myPid;
         const isNextAvail = isMyMoving && gs.availableNextStations.includes(st.id);
         const isUndoTarget = isMyMoving && gs.undoStationId === st.id;
+        const isReachable =
+          isMyMoving &&
+          Boolean(gs.reachableStations?.includes(st.id)) &&
+          !isNextAvail;
+
+        if (isReachable) {
+          ctx.beginPath();
+          ctx.arc(st.x, st.y, 26 + pulse * 8, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(16, 185, 129, ${0.22 + pulse * 0.18})`;
+          ctx.fill();
+          ctx.strokeStyle = '#34d399';
+          ctx.lineWidth = 4;
+          ctx.setLineDash([6, 4]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
 
         if (isDest) {
           ctx.beginPath();
@@ -404,6 +420,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
             else if (st.type === 'dubbing') ctx.fillStyle = '#0ea5e9';
             else if (st.type === 'shuyu') ctx.fillStyle = '#14b8a6';
             else if (st.type === 'steal_station') ctx.fillStyle = '#be123c';
+            else if (st.type === 'duel') ctx.fillStyle = '#7c2d12';
             else ctx.fillStyle = '#eab308';
             ctx.fill();
             ctx.strokeStyle = isUndoTarget ? '#fdba74' : isM10 ? '#fde047' : '#ffffff';
@@ -436,7 +453,9 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
                             ? '🔋'
                             : st.type === 'steal_station'
                               ? '⚔'
-                              : '★';
+                              : st.type === 'duel'
+                                ? '🎲'
+                                : '★';
           ctx.fillText(symbol, st.x, st.y + 1);
         }
 

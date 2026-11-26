@@ -10,7 +10,8 @@ export type StationType =
   | 'dubbing'
   | 'shuyu'
   | 'steal_station'
-  | 'minus10';
+  | 'minus10'
+  | 'duel';
 
 export interface PropertyDef {
   id: string;
@@ -104,6 +105,7 @@ export type TurnPhase =
   | 'moving'
   | 'property_buy'
   | 'card_shop'
+  | 'duel_setup'
   | 'debt_sell'
   | 'settlement'
   | 'finished';
@@ -127,11 +129,13 @@ export interface PlayerPublicState {
   sealTurns?: number;
   cowWalkTurns?: number;
   heccharaTurns?: number;
+  russellTurns?: number;
   yellowTurns?: number;
   unchiPassTurns?: number;
   allSixNext?: boolean;
   discountMode?: 'silver' | 'gold' | 'platinum' | 'cinderella' | null;
   homeStationId?: string;
+  shuyuUses?: Record<string, number>;
   distanceToDest: number;
   totalAssets: number;
   rank: number;
@@ -211,6 +215,7 @@ export interface PublicGameState {
   remainingSteps: number;
   availableNextStations: string[];
   recommendedNextStations: string[];
+  reachableStations?: string[];
   undoStationId: string | null;
   players: PlayerPublicState[];
   ownedProperties: Record<string, OwnedProperty>;
@@ -226,6 +231,9 @@ export interface PublicGameState {
   turnCount: number;
   canRollback: boolean;
   cardUsedThisTurn: boolean;
+  shopStockIds?: string[];
+  shopPriceMultiplier?: number;
+  assetHistory?: { year: number; assets: Record<string, number> }[];
 }
 
 export interface GameEventSeqItem {
@@ -240,6 +248,7 @@ export interface GameEventSeqItem {
     | 'monopoly_achieved'
     | 'property_bought'
     | 'shop_traded'
+    | 'duel_result'
     | 'nuisance_attach'
     | 'nuisance_action'
     | 'rate_curse_roulette'

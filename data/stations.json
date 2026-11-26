@@ -4422,9 +4422,9 @@
   },
   {
     "id": "route_26",
-    "name": "富良野・帯広間(マイナス駅)",
+    "name": "富良野・帯広間(決闘マス)",
     "region": "北海道",
-    "type": "minus",
+    "type": "duel",
     "x": 7540,
     "y": 1690,
     "neighbors": [
@@ -5184,9 +5184,9 @@
   },
   {
     "id": "route_84",
-    "name": "秋田・新潟間(プラス駅)",
+    "name": "秋田・新潟間(決闘マス)",
     "region": "東北",
-    "type": "plus",
+    "type": "duel",
     "x": 5590,
     "y": 3900,
     "neighbors": [
@@ -6113,9 +6113,9 @@
   },
   {
     "id": "route_155",
-    "name": "大宮・つくば間(マイナス駅)",
+    "name": "大宮・つくば間(決闘マス)",
     "region": "関東",
-    "type": "minus",
+    "type": "duel",
     "x": 6110,
     "y": 5980,
     "neighbors": [
@@ -7222,9 +7222,9 @@
   },
   {
     "id": "route_234",
-    "name": "京都・城崎間(プラス駅)",
+    "name": "京都・城崎間(決闘マス)",
     "region": "近畿",
-    "type": "plus",
+    "type": "duel",
     "x": 3640,
     "y": 6240,
     "neighbors": [
@@ -7698,9 +7698,9 @@
   },
   {
     "id": "route_266",
-    "name": "広島・出雲間(マイナス駅)",
+    "name": "広島・出雲間(決闘マス)",
     "region": "中国",
-    "type": "minus",
+    "type": "duel",
     "x": 2340,
     "y": 6500,
     "neighbors": [
@@ -8490,9 +8490,9 @@
   },
   {
     "id": "route_326",
-    "name": "熊本・鹿児島間(マイナス駅)",
+    "name": "熊本・鹿児島間(決闘マス)",
     "region": "九州",
-    "type": "minus",
+    "type": "duel",
     "x": 1300,
     "y": 8060,
     "neighbors": [

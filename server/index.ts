@@ -169,13 +169,15 @@ function emitEventsAndSync(events: GameEventSeqItem[]) {
 function calculateEventsDurationMs(events: GameEventSeqItem[]): number {
   let total = 0;
   for (const e of events) {
-    if (e.type === 'step_move') total += 600;
-    else if (e.type === 'warp_move') total += 1950;
+    if (e.type === 'step_move') total += 260;
+    else if (e.type === 'warp_move') total += 1300;
     else if (e.type === 'turn_fade') total += 1850;
-    else if (e.type === 'dice_roll') total += 2500;
-    else if (e.type === 'station_effect') total += 2550;
+    else if (e.type === 'dice_roll') total += 1550;
+    else if (e.type === 'station_effect') total += 1600;
     else if (e.type === 'turn_start') total += 2100;
-    else if (e.type === 'rate_curse_roulette') total += 4300;
+    else if (e.type === 'year_settlement') total += 7500;
+    else if (e.type === 'duel_result') total += 3600;
+    else if (e.type === 'rate_curse_roulette') total += 2900;
     else if (
       e.type === 'destination_reached' ||
       e.type === 'monopoly_achieved' ||
@@ -184,13 +186,13 @@ function calculateEventsDurationMs(events: GameEventSeqItem[]): number {
       e.type === 'random_event' ||
       e.type === 'admin_message'
     ) {
-      total += 3200;
+      total += 2150;
     } else if (e.type === 'card_used') {
-      total += 2400;
+      total += 1550;
     } else if (e.type === 'property_bought') {
-      total += 2300;
+      total += 1500;
     } else if (e.type === 'shop_traded') {
-      total += 1900;
+      total += 1300;
     }
   }
   return total;
@@ -208,19 +210,31 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
   // 通信切れの自動CPU化はせず、CPU本人または管理画面からCPU代打ONにされた場合のみ稼働
   if (!current.isCpu && !current.isMasterOverrideCpu) return;
 
-  // 直前のイベントキューがスマホ側で完全に再生し終わる時間を厳密に計算して待機
+  // 直前のイベントキューがスマホ側で完全に再生し終わる時間を計算して待機
   const eventsMs = calculateEventsDurationMs(lastEvents);
-  let baseDelay = 900;
-  if (engine.phase === 'moving') {
-    baseDelay = 450;
-  } else if (
-    engine.phase === 'property_buy' ||
-    engine.phase === 'card_shop' ||
-    engine.phase === 'debt_sell'
-  ) {
-    baseDelay = 1400;
+  const isPureStepMove =
+    engine.phase === 'moving' &&
+    lastEvents.length > 0 &&
+    lastEvents.every((e) => e.type === 'step_move');
+
+  let delay: number;
+  if (isPureStepMove) {
+    // CPUの1マス移動はテンポよく進める（約0.3秒/マス）
+    delay = 300;
+  } else {
+    let baseDelay = 700;
+    if (engine.phase === 'moving') {
+      baseDelay = 320;
+    } else if (
+      engine.phase === 'property_buy' ||
+      engine.phase === 'card_shop' ||
+      engine.phase === 'duel_setup' ||
+      engine.phase === 'debt_sell'
+    ) {
+      baseDelay = 1000;
+    }
+    delay = Math.max(baseDelay, eventsMs + 350);
   }
-  const delay = Math.max(baseDelay, eventsMs + 500);
 
   cpuTimer = setTimeout(() => {
     if (engine.status !== 'playing') return;
@@ -244,6 +258,10 @@ function scheduleCpuIfNeeded(lastEvents: GameEventSeqItem[] = []) {
       events = engine.buyCardFromShop(active.id, decision.cardId).events;
     } else if (decision.type === 'skip_card_shop') {
       events = engine.skipCardShop(active.id).events;
+    } else if (decision.type === 'start_duel') {
+      events = engine.resolveDuel(active.id, decision.opponentId, decision.bet).events;
+    } else if (decision.type === 'skip_duel') {
+      events = engine.skipDuel(active.id).events;
     } else if (decision.type === 'sell_debt_properties') {
       events = engine.sellPropertiesForDebt(active.id, decision.propertyIds).events;
     }
@@ -414,6 +432,31 @@ io.on('connection', (socket) => {
     const pid = getSocketPlayerId(socket, payload?.token);
     if (!pid) return;
     const res = engine.skipCardShop(pid);
+    if (!res.ok) {
+      socket.emit('game:error', { message: res.error });
+      return;
+    }
+    emitEventsAndSync(res.events);
+  });
+
+  socket.on(
+    'player:start_duel',
+    (payload: { opponentId: string; bet: number; token?: string }) => {
+      const pid = getSocketPlayerId(socket, payload?.token);
+      if (!pid) return;
+      const res = engine.resolveDuel(pid, payload.opponentId, payload.bet);
+      if (!res.ok) {
+        socket.emit('game:error', { message: res.error });
+        return;
+      }
+      emitEventsAndSync(res.events);
+    }
+  );
+
+  socket.on('player:skip_duel', (payload?: { token?: string }) => {
+    const pid = getSocketPlayerId(socket, payload?.token);
+    if (!pid) return;
+    const res = engine.skipDuel(pid);
     if (!res.ok) {
       socket.emit('game:error', { message: res.error });
       return;

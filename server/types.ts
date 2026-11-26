@@ -10,7 +10,8 @@ export type StationType =
   | 'dubbing'
   | 'shuyu'
   | 'steal_station'
-  | 'minus10';
+  | 'minus10'
+  | 'duel';
 
 export interface PropertyDef {
   id: string;
@@ -147,6 +148,7 @@ export type TurnPhase =
   | 'moving'            // マスタップ移動待ち
   | 'property_buy'      // 物件購入モーダル待ち
   | 'card_shop'         // カード売り場モーダル待ち
+  | 'duel_setup'        // 決闘マス：対戦相手・掛け金選択待ち
   | 'debt_sell'         // 借金返済のための物件売却選択待ち
   | 'settlement'        // 年度末決算表示中
   | 'finished';         // ゲーム終了
@@ -170,11 +172,13 @@ export interface PlayerPublicState {
   sealTurns?: number;
   cowWalkTurns?: number;
   heccharaTurns?: number;
+  russellTurns?: number;
   yellowTurns?: number;
   unchiPassTurns?: number;
   allSixNext?: boolean;
   discountMode?: 'silver' | 'gold' | 'platinum' | 'cinderella' | null;
   homeStationId?: string;
+  shuyuUses?: Record<string, number>;
   distanceToDest: number;
   totalAssets: number;
   rank: number;
@@ -266,6 +270,7 @@ export interface PublicGameState {
   remainingSteps: number;
   availableNextStations: string[]; // 進行・戻りが可能な隣接駅IDリスト
   recommendedNextStations: string[]; // 目的地への最短経路となる隣接駅IDリスト
+  reachableStations?: string[]; // 残り歩数でぴったり到達可能な駅IDリスト
   undoStationId: string | null;    // 今ターン1歩前にいた駅（タップで歩数+1して戻れる）
   players: PlayerPublicState[];
   ownedProperties: Record<string, OwnedProperty>; // key: propertyId
@@ -281,6 +286,9 @@ export interface PublicGameState {
   turnCount: number;
   canRollback: boolean;
   cardUsedThisTurn: boolean;
+  shopStockIds?: string[];
+  shopPriceMultiplier?: number;
+  assetHistory?: { year: number; assets: Record<string, number> }[];
 }
 
 export interface GameEventSeqItem {
@@ -295,6 +303,7 @@ export interface GameEventSeqItem {
     | 'monopoly_achieved'
     | 'property_bought'
     | 'shop_traded'
+    | 'duel_result'
     | 'nuisance_attach'
     | 'nuisance_action'
     | 'rate_curse_roulette'
@@ -324,6 +333,22 @@ export interface SavedGameSnapshot {
   players: PlayerInternalState[];
   ownedProperties: Record<string, OwnedProperty>;
   nuisanceTargetPlayerId: string | null;
+  nuisanceForm?: NuisanceForm;
+  nuisanceTurnCount?: number;
+  nuisanceFormRemainingTurns?: number;
+  currentDestOriginDistance?: number;
+  assetHistory?: { year: number; assets: Record<string, number> }[];
+  playerStats?: Record<
+    string,
+    {
+      destReached: number;
+      bombyTurns: number;
+      duelWins: number;
+      duelLosses: number;
+      maxDebt: number;
+      monopolies: number;
+    }
+  >;
   lastEventMessage: string;
   turnCount: number;
   cardUsedThisTurn?: boolean;

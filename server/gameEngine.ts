@@ -34,27 +34,89 @@ const PLAYER_COLORS = [
 
 const PLAYER_AVATARS = ['🚄', '🚂', '🚈', '🚇', '🚋', '🚝', '🚀', '🛸'];
 
-// カード売り場の品揃え（クライアントの CardShopModal と一致させる）
+// カード売り場のデフォルト品揃え（管理者が新規に売り場化した駅などのフォールバック）
 export const SHOP_STOCK_IDS = [
   'express_2',
   'express_3',
   'super_express',
-  'nozomi_express',
   'warp_near',
   'star_warp',
-  'senzai_ichigu',
-  'special_move',
   'hecchara',
   'shield',
-  'steal_card',
-  'swap_pos',
-  'pass_nuisance',
   'shredder_card',
   'vacuum_card',
   'unchi_card',
-  'debt_relief',
-  'card_pack',
 ];
+
+// 本家準拠：地域ごとのカード売り場品揃え（辺境の売り場ほどレア・徳政令0円が並ぶ）
+export const SHOP_STOCK_BY_STATION: Record<string, string[]> = {
+  // 関東（大宮・東京間）：序盤の基本移動＆防御
+  route_153: [
+    'express_2',
+    'express_3',
+    'warp_near',
+    'shield',
+    'hecchara',
+    'unchi_card',
+    'vacuum_card',
+  ],
+  // 近畿（京都・大阪間）：バランス型
+  route_224: [
+    'express_2',
+    'express_3',
+    'super_express',
+    'star_warp',
+    'hecchara',
+    'shield',
+    'steal_card',
+    'shredder_card',
+  ],
+  // 中国（尾道・広島間）：攻撃・妨害特化
+  route_263: [
+    'express_3',
+    'warp_near',
+    'steal_card',
+    'swap_pos',
+    'pass_nuisance',
+    'shredder_card',
+    'unchi_card',
+    'vacuum_card',
+  ],
+  // 九州（熊本・鹿児島間）：長距離移動＆逆転（徳政令あり）
+  route_327: [
+    'express_3',
+    'super_express',
+    'nozomi_express',
+    'star_warp',
+    'pass_nuisance',
+    'shredder_card',
+    'debt_relief',
+  ],
+  // 北海道（旭川・札幌間）：北のハイグレード売り場
+  route_21: [
+    'express_3',
+    'super_express',
+    'nozomi_express',
+    'special_move',
+    'hecchara',
+    'shield',
+    'card_pack',
+  ],
+  // 沖縄（那覇・石垣島間）：最果てレア売り場（徳政令・千載一遇・スペシャル）
+  route_350: [
+    'nozomi_express',
+    'senzai_ichigu',
+    'special_move',
+    'swap_pos',
+    'pass_nuisance',
+    'card_pack',
+    'debt_relief',
+  ],
+};
+
+export function getShopStockForStation(stationId: string): string[] {
+  return SHOP_STOCK_BY_STATION[stationId] ?? SHOP_STOCK_IDS;
+}
 
 // 物件の評価額（桃鉄2準拠：増資3段階・購入額×Lv）
 function investedValue(price: number, level = 1): number {
@@ -68,14 +130,31 @@ function calcAnnualIncome(price: number, rate: number, level: number, isMonopoli
   return Math.round(price * level * effectiveRate * monoMult);
 }
 
-// インフレシステム廃止（桃鉄スイッチの固定基準値をそのまま使用）
-export function getYearInflationMult(_year: number): number {
-  return 1;
+// 本家エンジン準拠：物件価格は固定のまま、フロー（青/赤マス・目的地・貧乏神被害）のみ年数テーブルでスケール
+export function getYearInflationMult(year: number): number {
+  const y = Math.max(1, Math.floor(year));
+  if (y === 1) return 1.0;
+  if (y === 2) return 1.2;
+  if (y === 3) return 1.5;
+  if (y === 4) return 1.8;
+  if (y === 5) return 2.2;
+  if (y <= 10) return Number((2.5 + (y - 6) * 0.5).toFixed(2));
+  if (y <= 20) return Number((5.0 + (y - 11) * 0.8).toFixed(2));
+  if (y <= 50) return Number((13.0 + (y - 21) * 1.2).toFixed(2));
+  return Number((50.0 + (y - 51) * 2.0).toFixed(2));
 }
 
-// カード売り場価格（固定基準値・インフレなし）
-export function getCardShopPrice(basePrice: number | undefined, _year = 1): number {
-  return basePrice ?? 1500;
+// カード売り場価格の年数倍率（短期戦でも買いやすい緩やかな上昇）
+export function getCardShopPriceMultiplier(year = 1): number {
+  const y = Math.max(1, Math.floor(year));
+  return Number((1 + (y - 1) * 0.15).toFixed(2));
+}
+
+// カード売り場価格（0円の徳政令カードは常に0円）
+export function getCardShopPrice(basePrice: number | undefined, year = 1): number {
+  if (basePrice === 0) return 0;
+  const base = basePrice ?? 1500;
+  return Math.round((base * getCardShopPriceMultiplier(year)) / 100) * 100;
 }
 
 export class GameEngine {
@@ -100,10 +179,25 @@ export class GameEngine {
   public ownedProperties: Record<string, OwnedProperty> = {};
   public nuisanceTargetPlayerId: string | null = null;
   public nuisanceForm: NuisanceForm = 'normal';
+  public nuisanceTurnCount = 0;
+  public nuisanceFormRemainingTurns = 0;
+  public currentDestOriginDistance = 16;
   public bakuretsuSteps = 0;
   public economyPhase: EconomyPhase = 'normal';
   public unchiStations: Record<string, number> = {};
   public minus10Stations: Record<string, number> = {};
+  public assetHistory: { year: number; assets: Record<string, number> }[] = [];
+  private playerStats: Record<
+    string,
+    {
+      destReached: number;
+      bombyTurns: number;
+      duelWins: number;
+      duelLosses: number;
+      maxDebt: number;
+      monopolies: number;
+    }
+  > = {};
   private milestoneWinners: Record<number, string> = {};
   private dropUnchiAfterMove = false;
   private _lastEventMessage = 'ゲーム開始を待っています…';
@@ -212,7 +306,8 @@ export class GameEngine {
     this.currentMonth = 4;
     this.currentTurnIndex = 0;
     this.phase = 'lobby';
-    this.destinationStationId = this.pickRandomDestination('tokyo');
+    this.destinationStationId = this.pickRandomDestination('tokyo', { minDist: 10, maxDist: 22 });
+    this.currentDestOriginDistance = this.pathfinder.getShortestDistance('tokyo', this.destinationStationId) || 16;
     this.remainingSteps = 0;
     this.visitedPathThisTurn = [];
     this.cardUsedThisTurn = false;
@@ -223,10 +318,14 @@ export class GameEngine {
     this.ownedProperties = {};
     this.nuisanceTargetPlayerId = null;
     this.nuisanceForm = 'normal';
+    this.nuisanceTurnCount = 0;
+    this.nuisanceFormRemainingTurns = 0;
     this.bakuretsuSteps = 0;
     this.economyPhase = 'normal';
     this.unchiStations = {};
     this.minus10Stations = {};
+    this.assetHistory = [];
+    this.playerStats = {};
     this.milestoneWinners = {};
     this.dropUnchiAfterMove = false;
     this.lastEventMessage = '新しいゲームが作成されました！参加者を待っています。';
@@ -277,7 +376,7 @@ export class GameEngine {
       rank: 1,
       token: uuidv4(),
       socketId: null,
-      cards: ['express_2', 'pinpoint_1'],
+      cards: ['express_2', 'warp_near'],
     });
 
     this.recalculateRankingsAndDistances();
@@ -341,7 +440,7 @@ export class GameEngine {
       rank: 1,
       token,
       socketId,
-      cards: ['express_2', 'pinpoint_1'],
+      cards: ['express_2', 'warp_near'],
     };
 
     this.players.push(newPlayer);
@@ -405,7 +504,8 @@ export class GameEngine {
       p.prevStationId = null;
     });
 
-    this.destinationStationId = this.pickRandomDestination('tokyo');
+    this.destinationStationId = this.pickRandomDestination('tokyo', { minDist: 10, maxDist: 22 });
+    this.currentDestOriginDistance = this.pathfinder.getShortestDistance('tokyo', this.destinationStationId) || 16;
     this.status = 'playing';
     this.currentYear = 1;
     this.currentMonth = 4;
@@ -416,6 +516,21 @@ export class GameEngine {
     this.lastEventMessage = `ゲームスタート！最初の目的地は「${this.getStationName(this.destinationStationId)}」です！`;
 
     this.recalculateRankingsAndDistances();
+    // 開始時点（0年目）の資産履歴と統計を初期化
+    this.playerStats = {};
+    const initialAssets: Record<string, number> = {};
+    for (const p of this.players) {
+      this.playerStats[p.id] = {
+        destReached: 0,
+        bombyTurns: 0,
+        duelWins: 0,
+        duelLosses: 0,
+        maxDebt: 0,
+        monopolies: 0,
+      };
+      initialAssets[p.id] = p.totalAssets;
+    }
+    this.assetHistory = [{ year: 0, assets: initialAssets }];
     this.previousTurnSnapshot = this.createSnapshot();
     this.saveManager.saveAutosave(this.previousTurnSnapshot);
 
@@ -526,12 +641,21 @@ export class GameEngine {
       this.cardUsedThisTurn = true;
     }
 
-    // カード消費（multiUse周遊系は75%の確率で手元に残る）
+    // カード消費（multiUse周遊系は内部の残り回数5〜7回を確定管理し、周遊駅で全回復）
     player.cards.splice(cardIndex, 1);
     let keptMsg = '';
-    if (card.multiUse && Math.random() < 0.75 && player.cards.length < 8) {
-      player.cards.push(card.id);
-      keptMsg = '（周遊カードは手元に残った！）';
+    if (card.multiUse && player.cards.length < 8) {
+      player.shuyuUses = player.shuyuUses ?? {};
+      const currentUses = player.shuyuUses[card.id] ?? 5 + Math.floor(Math.random() * 3);
+      const remainingUses = currentUses - 1;
+      if (remainingUses > 0) {
+        player.shuyuUses[card.id] = remainingUses;
+        player.cards.push(card.id);
+        keptMsg = `（周遊カードは手元に残った！ 残りあと${remainingUses}回）`;
+      } else {
+        delete player.shuyuUses[card.id];
+        keptMsg = '（周遊カードを使い切った！）';
+      }
     }
     player.cardCount = player.cards.length;
 
@@ -544,7 +668,8 @@ export class GameEngine {
     ];
 
     if (card.category === 'dice') {
-      const count = (player.zekkochoTurns ?? 0) > 0 ? 3 : card.diceCount ?? 2;
+      const baseCount = card.diceCount ?? 2;
+      const count = (player.zekkochoTurns ?? 0) > 0 ? Math.max(baseCount, 3) : baseCount;
       const rolls: number[] = [];
       for (let i = 0; i < count; i++) {
         rolls.push(player.allSixNext ? 6 : Math.floor(Math.random() * 6) + 1);
@@ -612,7 +737,7 @@ export class GameEngine {
         player.allSixNext = true;
         this.lastEventMessage = `🎲 ${player.name}がオール6カード発動！次のサイコロはすべて6！（再行動可）`;
       } else if (card.id === 'russell_car') {
-        player.heccharaTurns = Math.max(player.heccharaTurns ?? 0, 12);
+        player.russellTurns = Math.max(player.russellTurns ?? 0, 12);
         this.lastEventMessage = `❄️ ${player.name}がラッセル車カード発動！1年間マイナス駅無効！（再行動可）`;
       } else if (card.id === 'hecchara') {
         player.heccharaTurns = Math.max(player.heccharaTurns ?? 0, 20);
@@ -932,7 +1057,8 @@ export class GameEngine {
           player.cards.push('shield');
           player.cardCount = player.cards.length;
         }
-        this.lastEventMessage = `⛩️✨ ${player.name}が大お祓いカードでケチケチ大王を撃退＆バリアカード獲得！`;
+        const shieldName = this.cardMap.get('shield')?.name ?? 'パトカード';
+        this.lastEventMessage = `⛩️✨ ${player.name}が大お祓いカードでケチケチ大王を撃退＆${shieldName}獲得！`;
       } else if (card.id === 'angel_card') {
         const gain = Math.round((5000 * getYearInflationMult(this.currentYear)) / 100) * 100;
         player.money += gain;
@@ -1130,14 +1256,9 @@ export class GameEngine {
       }
 
       // パトカード / パトカーズチェック
-      const shieldIdx = target.cards.findIndex((id) => id === 'shield' || id === 'patocars');
-      if (shieldIdx !== -1) {
-        const usedShield = target.cards[shieldIdx];
-        if (usedShield === 'shield' || Math.random() < 0.35) {
-          target.cards.splice(shieldIdx, 1);
-          target.cardCount = target.cards.length;
-        }
-        this.lastEventMessage = `🚓 ${player.name}の「${card.name}」を${target.name}がパトカードで防いだ！`;
+      const defense = this.consumeDefenseCard(target);
+      if (defense) {
+        this.lastEventMessage = `${defense.icon} ${player.name}の「${card.name}」を${target.name}が「${defense.name}」で防いだ！`;
         const endEvents = this.finishTurn(player);
         return { ok: true, events: [...events, ...endEvents] };
       }
@@ -1395,15 +1516,18 @@ export class GameEngine {
         this.bakuretsuSteps = 0;
         const distMap = this.pathfinder.getAllDistancesFrom(nextStationId);
         const victims: string[] = [];
+        const bakuretsuPenalty =
+          Math.round((5000 * getYearInflationMult(this.currentYear)) / 100) * 100;
         for (const p of this.players) {
           if (p.id === player.id || (distMap.get(p.stationId) ?? 99) <= 2) {
-            p.money = Math.min(0, p.money) - 5000;
+            p.money = Math.min(0, p.money) - bakuretsuPenalty;
             p.cards = [];
             p.cardCount = 0;
             victims.push(p.name);
           }
         }
         this.nuisanceForm = 'normal';
+        this.nuisanceFormRemainingTurns = 0;
         this.lastEventMessage = `💣 バクレツボンビー大爆発！！ ${victims.join('・')} の持ち金とカードが吹き飛んだ！！`;
         events.push({
           type: 'nuisance_action',
@@ -1411,7 +1535,7 @@ export class GameEngine {
           payload: {
             blocked: false,
             title: '💣 バクレツボンビー大爆発！！',
-            description: `7マス移動でカウント0！${victims.join('・')}の持ち金とカードが全消滅＋修理費-5,000万円！！`,
+            description: `7マス移動でカウント0！${victims.join('・')}の持ち金とカードが全消滅＋修理費-${bakuretsuPenalty.toLocaleString()}万円！！`,
             icon: '💣',
           },
         });
@@ -1447,9 +1571,13 @@ export class GameEngine {
       }
       const streakMult =
         this.consecutiveDestCount >= 3 ? 2.0 : this.consecutiveDestCount === 2 ? 1.5 : 1.0;
+      const distMult = Math.max(
+        0.8,
+        Math.min(2.5, Math.round((Math.max(10, this.currentDestOriginDistance) / 20) * 10) / 10)
+      );
       const baseBonus =
         this.eventsData.stationValues.destinationBonusBase * getYearInflationMult(this.currentYear);
-      let bonus = Math.round((baseBonus * streakMult) / 100) * 100;
+      let bonus = Math.round((baseBonus * distMult * streakMult) / 100) * 100;
 
       // 骨折り損カード所持で0円、虎につばさカード所持で2倍！
       const honeIdx = player.cards.indexOf('honeori_zon');
@@ -1472,10 +1600,16 @@ export class GameEngine {
         }
       }
 
-      // 次の目的地を先に決定して演出に表示する
+    const stats = this.ensurePlayerStats(player.id);
+    stats.destReached += 1;
+
+    // 次の目的地を先に決定して演出に表示する
       const arrivedName = this.getStationName(nextStationId);
       const arrivedStation = this.stationMap.get(nextStationId);
-      this.destinationStationId = this.pickRandomDestination(nextStationId);
+      const nextDestId = this.pickRandomDestination(nextStationId);
+      this.currentDestOriginDistance =
+        this.pathfinder.getShortestDistance(nextStationId, nextDestId) || 20;
+      this.destinationStationId = nextDestId;
       const nextDestName = this.getStationName(this.destinationStationId);
       this.recalculateRankingsAndDistances();
 
@@ -1518,6 +1652,11 @@ export class GameEngine {
         this.players.forEach((p) => (p.hasNuisance = false));
         unlucky.hasNuisance = true;
         this.nuisanceTargetPlayerId = unlucky.id;
+        // 本家準拠：目的地到着で貧乏神が移動したときは通常形態へリセット
+        this.nuisanceForm = 'normal';
+        this.nuisanceTurnCount = 0;
+        this.nuisanceFormRemainingTurns = 0;
+        this.bakuretsuSteps = 0;
         events.push({
           type: 'nuisance_attach',
           playerId: unlucky.id,
@@ -1640,16 +1779,19 @@ export class GameEngine {
     }
 
     if (effectiveType === 'minus' || effectiveType === 'minus10') {
-      // へっちゃらカード効果中ならダメージ0！
-      if ((player.heccharaTurns ?? 0) > 0) {
-        this.lastEventMessage = `🛡️ へっちゃらカード効果！${player.name}はマイナス駅の被害を完全に防いだ！`;
+      // へっちゃらカード / ラッセル車カード効果中ならダメージ0！（発動カード名を正確に表示）
+      if ((player.heccharaTurns ?? 0) > 0 || (player.russellTurns ?? 0) > 0) {
+        const isHecchara = (player.heccharaTurns ?? 0) > 0;
+        const cardName = isHecchara ? 'へっちゃらカード' : 'ラッセル車カード';
+        const cardIcon = isHecchara ? '🛡️' : '❄️';
+        this.lastEventMessage = `${cardIcon} ${cardName}効果！${player.name}はマイナス駅の被害を完全に防いだ！`;
         events.push({
           type: 'random_event',
           playerId: player.id,
           payload: {
-            title: '🛡️ へっちゃらカード発動！',
-            icon: '🛡️',
-            description: `${player.name}はマイナス駅の損失を完全に無効化した！`,
+            title: `${cardIcon} ${cardName}発動！`,
+            icon: cardIcon,
+            description: `${player.name}は${cardName}の効果でマイナス駅の損失を完全に無効化した！`,
             isPositive: true,
           },
         });
@@ -1745,18 +1887,31 @@ export class GameEngine {
     }
 
     if (effectiveType === 'shuyu') {
-      if (player.cards.length < 8 && !player.cards.some((cid) => this.cardMap.get(cid)?.multiUse)) {
+      player.shuyuUses = player.shuyuUses ?? {};
+      const multiCards = player.cards.filter((cid) => this.cardMap.get(cid)?.multiUse);
+      if (multiCards.length > 0) {
+        for (const cid of multiCards) {
+          player.shuyuUses[cid] = 7;
+        }
+        this.lastEventMessage = `🔋 周遊駅！${player.name}の周遊系カード（${multiCards.length}枚）の残り回数が全回復した！`;
+      } else if (player.cards.length < 8) {
         player.cards.push('express_shuyu');
+        player.shuyuUses['express_shuyu'] = 7;
         player.cardCount = player.cards.length;
+        this.lastEventMessage = `🔋 周遊駅！${player.name}は「急行周遊カード」を獲得した！`;
+      } else {
+        this.lastEventMessage = `🔋 周遊駅に到着したが、回復できる周遊カードがなかった！`;
       }
-      this.lastEventMessage = `🔋 周遊駅！${player.name}の周遊系カードがリフレッシュされた！`;
       events.push({
         type: 'random_event',
         playerId: player.id,
         payload: {
           title: '🔋 周遊駅 発動！',
           icon: '🔋',
-          description: `${player.name}の周遊カードが全回復した！（未所持なら急行周遊カード獲得！）`,
+          description:
+            multiCards.length > 0
+              ? `${player.name}の周遊カードの使用回数が最大（7回）まで全回復した！`
+              : `${player.name}は周遊駅で急行周遊カードを獲得した！（手札満杯時は無効）`,
           isPositive: true,
         },
       });
@@ -1838,6 +1993,16 @@ export class GameEngine {
       this.phase = 'card_shop';
       this.lastEventMessage = `🛒 ${player.name}がカード売り場に到着！`;
       return events;
+    }
+
+    if (effectiveType === 'duel') {
+      events.push(...stationLocalRules);
+      if (this.players.length > 1) {
+        this.phase = 'duel_setup';
+        this.lastEventMessage = `⚔️ ${player.name}が決闘マスに到着！対戦相手と掛け金を選んでチンチロ勝負！`;
+        return events;
+      }
+      return [...events, ...this.finishTurn(player)];
     }
 
     if (station.type === 'warp') {
@@ -1970,6 +2135,7 @@ export class GameEngine {
         },
       });
       if (!wasMonopolized && this.isStationMonopolizedBy(station.id, player.id)) {
+        this.ensurePlayerStats(player.id).monopolies += 1;
         this.lastEventMessage = `👑 ${player.name}が「${station.name}駅」を独占！年間収益が2倍に！`;
         events.push({
           type: 'monopoly_achieved',
@@ -1993,37 +2159,58 @@ export class GameEngine {
     return this.buyProperties(playerId, [], []);
   }
 
-  // 本家名物「スリの銀次」遭遇判定（現金5,000万円以上でプラス/マイナス駅到着時に5%）
+  // パトカード / パトカーズ共通防御判定（発動したカード名を正確に返す）
+  private consumeDefenseCard(
+    player: PlayerInternalState
+  ): { name: string; icon: string; broken: boolean } | null {
+    const idx = player.cards.findIndex((id) => id === 'shield' || id === 'patocars');
+    if (idx === -1) return null;
+    const cardId = player.cards[idx];
+    const def = this.cardMap.get(cardId);
+    const broken = cardId === 'shield' || Math.random() < 0.35;
+    if (broken) {
+      player.cards.splice(idx, 1);
+      player.cardCount = player.cards.length;
+    }
+    return {
+      name: def?.name ?? 'パトカード',
+      icon: def?.icon ?? '🚓',
+      broken,
+    };
+  }
+
+  // 本家名物「スリの銀次」遭遇判定（現金5,000万円以上でプラス/マイナス駅到着時に5%、1/4・1/2・全額の3段階）
   private maybeTriggerPickpocket(player: PlayerInternalState): GameEventSeqItem | null {
     if (this.config.enablePickpocket === false) return null;
     if (player.money < 5000 || Math.random() >= 0.05) return null;
-    const shieldIdx = player.cards.findIndex((id) => id === 'shield' || id === 'king_shield');
-    if (shieldIdx !== -1) {
-      player.cards.splice(shieldIdx, 1);
-      player.cardCount = player.cards.length;
-      this.lastEventMessage = `🕵️ スリの銀次が現れたが、${player.name}はバリアカードで撃退した！`;
+    const defense = this.consumeDefenseCard(player);
+    if (defense) {
+      this.lastEventMessage = `🕵️ スリの銀次が現れたが、${player.name}は「${defense.name}」で撃退した！`;
       return {
         type: 'random_event',
         playerId: player.id,
         payload: {
-          title: '🕵️ スリの銀次を撃退！',
-          icon: '🛡️',
-          description: `スリの銀次が狙ってきたが、${player.name}はバリアカードで完全に防いだ！`,
+          title: `${defense.icon} ${defense.name}発動！`,
+          icon: defense.icon,
+          description: `スリの銀次が狙ってきたが、${player.name}は${defense.name}で完全に撃退した！`,
           isPositive: true,
         },
       };
     }
-    const stolen = Math.round((player.money * 0.25) / 100) * 100;
+    const tierRoll = Math.random();
+    const rate = tierRoll < 0.55 ? 0.25 : tierRoll < 0.85 ? 0.5 : 1.0;
+    const rateLabel = rate === 1.0 ? '全額' : rate === 0.5 ? '半分（50%）' : '4分の1（25%）';
+    const stolen = rate === 1.0 ? player.money : Math.round((player.money * rate) / 100) * 100;
     player.money -= stolen;
     this.recalculateRankingsAndDistances();
-    this.lastEventMessage = `🕵️ スリの銀次出現！${player.name}は持ち金の25%（-${stolen.toLocaleString()}万円）をすられた！`;
+    this.lastEventMessage = `🕵️ スリの銀次出現！${player.name}は持ち金の${rateLabel}（-${stolen.toLocaleString()}万円）をすられた！`;
     return {
       type: 'random_event',
       playerId: player.id,
       payload: {
         title: '🕵️ スリの銀次 出現！！',
         icon: '🕵️',
-        description: `「へへっ、いただきだ！」${player.name}は現金 ${stolen.toLocaleString()}万円をすられてしまった！`,
+        description: `「へへっ、いただきだ！」${player.name}は現金の${rateLabel}（-${stolen.toLocaleString()}万円）をすられてしまった！`,
         isPositive: false,
       },
     };
@@ -2042,7 +2229,8 @@ export class GameEngine {
     }
     const card = this.cardMap.get(cardId);
     const price = getCardShopPrice(card?.price, this.currentYear);
-    if (!card || !SHOP_STOCK_IDS.includes(card.id) || player.cards.length >= 8 || player.money < price) {
+    const stockIds = getShopStockForStation(player.stationId);
+    if (!card || !stockIds.includes(card.id) || player.cards.length >= 8 || player.money < price) {
       return { ok: false, error: 'このカードは購入できません。', events: [] };
     }
     player.money -= price;
@@ -2117,6 +2305,175 @@ export class GameEngine {
       return { ok: false, error: 'あなたのターンではありません。', events: [] };
     }
     this.lastEventMessage = `${player.name}はカードを購入しませんでした。`;
+    const endEvents = this.finishTurn(player);
+    return { ok: true, events: endEvents };
+  }
+
+  private evaluateChinchiro(dice: [number, number, number]): {
+    rank: number;
+    name: string;
+    mult: number;
+    isHifumi: boolean;
+  } {
+    const s = [...dice].sort((a, b) => a - b);
+    if (s[0] === 1 && s[1] === 1 && s[2] === 1) {
+      return { rank: 100, name: 'ピンゾロ (1-1-1)', mult: 5, isHifumi: false };
+    }
+    if (s[0] === s[1] && s[1] === s[2]) {
+      return { rank: 80 + s[0], name: `アラシ (${s[0]}-${s[0]}-${s[0]})`, mult: 3, isHifumi: false };
+    }
+    if (s[0] === 4 && s[1] === 5 && s[2] === 6) {
+      return { rank: 70, name: 'シゴロ (4-5-6)', mult: 2, isHifumi: false };
+    }
+    if (s[0] === 1 && s[1] === 2 && s[2] === 3) {
+      return { rank: -10, name: 'ヒフミ (1-2-3)', mult: 2, isHifumi: true };
+    }
+    if (s[0] === s[1]) {
+      return { rank: 10 + s[2], name: `${s[2]}の目`, mult: 1, isHifumi: false };
+    }
+    if (s[1] === s[2]) {
+      return { rank: 10 + s[0], name: `${s[0]}の目`, mult: 1, isHifumi: false };
+    }
+    return { rank: 0, name: '目なし', mult: 1, isHifumi: false };
+  }
+
+  private rollChinchiro(): {
+    dice: [number, number, number];
+    tries: number;
+    rank: number;
+    name: string;
+    mult: number;
+    isHifumi: boolean;
+  } {
+    let lastDice: [number, number, number] = [1, 2, 4];
+    let lastEval = { rank: 0, name: '目なし', mult: 1, isHifumi: false };
+    for (let tries = 1; tries <= 3; tries++) {
+      const dice: [number, number, number] = [
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+        Math.floor(Math.random() * 6) + 1,
+      ];
+      const ev = this.evaluateChinchiro(dice);
+      lastDice = dice;
+      lastEval = ev;
+      if (ev.rank !== 0) {
+        return { dice, tries, ...ev };
+      }
+    }
+    return { dice: lastDice, tries: 3, ...lastEval };
+  }
+
+  public resolveDuel(
+    playerId: string,
+    opponentId: string,
+    rawBet: number
+  ): { ok: boolean; error?: string; events: GameEventSeqItem[] } {
+    if (this.status !== 'playing' || this.phase !== 'duel_setup') {
+      return { ok: false, error: '現在は決闘フェーズではありません。', events: [] };
+    }
+    const challenger = this.getCurrentPlayer();
+    if (!challenger || challenger.id !== playerId) {
+      return { ok: false, error: 'あなたのターンではありません。', events: [] };
+    }
+    const opponent = this.players.find((p) => p.id === opponentId && p.id !== challenger.id);
+    if (!opponent) {
+      return { ok: false, error: '対戦相手が見つかりません。', events: [] };
+    }
+
+    const infl = getYearInflationMult(this.currentYear);
+    const minBet = Math.round((1000 * infl) / 100) * 100;
+    const maxBet = Math.max(minBet * 5, Math.max(0, challenger.money));
+    const safeRaw = Number.isFinite(rawBet) ? rawBet : minBet;
+    const bet = Math.max(minBet, Math.min(maxBet, Math.round(safeRaw / 100) * 100));
+
+    const cRoll = this.rollChinchiro();
+    const oRoll = this.rollChinchiro();
+
+    let winnerId: string | null = null;
+    let loserId: string | null = null;
+    let multiplier = 1;
+    let payout = 0;
+
+    if (cRoll.rank > oRoll.rank) {
+      winnerId = challenger.id;
+      loserId = opponent.id;
+      multiplier = oRoll.isHifumi ? Math.max(cRoll.mult, 2) : cRoll.mult;
+      payout = bet * multiplier;
+      challenger.money += payout;
+      opponent.money -= payout;
+      this.ensurePlayerStats(challenger.id).duelWins += 1;
+      this.ensurePlayerStats(opponent.id).duelLosses += 1;
+    } else if (oRoll.rank > cRoll.rank) {
+      winnerId = opponent.id;
+      loserId = challenger.id;
+      multiplier = cRoll.isHifumi ? Math.max(oRoll.mult, 2) : oRoll.mult;
+      payout = bet * multiplier;
+      opponent.money += payout;
+      challenger.money -= payout;
+      this.ensurePlayerStats(opponent.id).duelWins += 1;
+      this.ensurePlayerStats(challenger.id).duelLosses += 1;
+    }
+
+    const winnerName =
+      winnerId === challenger.id
+        ? challenger.name
+        : winnerId === opponent.id
+          ? opponent.name
+          : null;
+
+    this.recalculateRankingsAndDistances();
+    this.lastEventMessage = winnerName
+      ? `⚔️ チンチロ決闘！${challenger.name}【${cRoll.name}】 vs ${opponent.name}【${oRoll.name}】→ ${winnerName}の勝利！（${multiplier}倍・${payout.toLocaleString()}万円獲得！）`
+      : `⚔️ チンチロ決闘！${challenger.name}【${cRoll.name}】 vs ${opponent.name}【${oRoll.name}】→ 引き分け！`;
+
+    const duelEvent: GameEventSeqItem = {
+      type: 'duel_result',
+      playerId: challenger.id,
+      payload: {
+        bet,
+        multiplier,
+        payout,
+        winnerId,
+        loserId,
+        winnerName,
+        challenger: {
+          id: challenger.id,
+          name: challenger.name,
+          avatar: challenger.avatar,
+          color: challenger.color,
+          dice: cRoll.dice,
+          tries: cRoll.tries,
+          handName: cRoll.name,
+          mult: cRoll.mult,
+          isHifumi: cRoll.isHifumi,
+        },
+        opponent: {
+          id: opponent.id,
+          name: opponent.name,
+          avatar: opponent.avatar,
+          color: opponent.color,
+          dice: oRoll.dice,
+          tries: oRoll.tries,
+          handName: oRoll.name,
+          mult: oRoll.mult,
+          isHifumi: oRoll.isHifumi,
+        },
+      },
+    };
+
+    const endEvents = this.finishTurn(challenger);
+    return { ok: true, events: [duelEvent, ...endEvents] };
+  }
+
+  public skipDuel(playerId: string): { ok: boolean; error?: string; events: GameEventSeqItem[] } {
+    if (this.status !== 'playing' || this.phase !== 'duel_setup') {
+      return { ok: false, error: '現在は決闘フェーズではありません。', events: [] };
+    }
+    const player = this.getCurrentPlayer();
+    if (!player || player.id !== playerId) {
+      return { ok: false, error: 'あなたのターンではありません。', events: [] };
+    }
+    this.lastEventMessage = `⚔️ ${player.name}は決闘を見送った。`;
     const endEvents = this.finishTurn(player);
     return { ok: true, events: endEvents };
   }
@@ -2225,59 +2582,96 @@ export class GameEngine {
 
     // お邪魔キャラの変身＆悪行発動チェック（1回休みのターンは何も起きない）
     if (!skipped && player.hasNuisance) {
-      // 一定確率で変身（桃鉄2全9種：ミニ/ポコン/キング/デストロイ/パーセント/バクレツ/デビル/マイナ～～ス/ハッピー）
-      if (this.nuisanceForm === 'normal' && Math.random() < 0.30) {
-        const allowRateCurse = this.config.enableRateCurse !== false;
-        const pool: NuisanceForm[] = [
-          'mini',
-          'pokon',
-          'king',
-          'destroy',
-          'bakuretsu',
-          'devil',
-          'minus10',
-          'happy',
-          ...(allowRateCurse ? (['rate_curse'] as NuisanceForm[]) : []),
-        ];
-        const nextForm = pool[Math.floor(Math.random() * pool.length)];
-        this.nuisanceForm = nextForm;
-        this.bakuretsuSteps = 0;
-        const formMeta: Record<NuisanceForm, { icon: string; title: string; desc: string; positive?: boolean }> = {
-          normal: { icon: '👹', title: '貧乏神に戻った', desc: '元の姿に戻った！' },
-          mini: { icon: '👶', title: 'ミニボンビーに変身！', desc: 'かわいいミニボンビーに変身！出費が軽くなりそう！', positive: true },
-          pokon: { icon: '💥', title: 'ポコンに変身！！', desc: '物件を吹き飛ばすポコンに変身した！！' },
-          king: { icon: '🔥', title: 'キングボンビーに変身！！', desc: '最凶のキングボンビーに変身してしまった！！' },
-          destroy: { icon: '🚜', title: 'デストロイ号に変身！！', desc: '通過した駅の物件を無差別破壊するデストロイ号に変身！！' },
-          rate_curse: { icon: '📉', title: 'パーセントボンビー（割合ケチケチ）に変身！！', desc: '所有物件の収益率をマイナスにするパーセントボンビーに変身！！' },
-          bakuretsu: { icon: '💣', title: 'バクレツボンビーに変身！！', desc: '7マス移動で大爆発するバクレツボンビーに変身！！早く誰かになすりつけろ！' },
-          devil: { icon: '😈', title: 'デビルボンビーに変身！！', desc: '毎ターンデビル系カードを押し付けるデビルボンビーに変身！！' },
-          minus10: { icon: '⚡', title: 'マイナ～～スボンビーに変身！！', desc: '持ち金ゼロ＆カード封印＆マイナス10倍駅を生み出すマイナ～～スボンビーに変身！！' },
-          happy: { icon: '😇', title: 'ハッピー大王に変身！', desc: '奇跡！幸運を運ぶハッピー大王に変身した！', positive: true },
-        };
-        const m = formMeta[nextForm];
-        if (nextForm === 'minus10') {
-          player.money = Math.min(0, player.money);
-          player.sealTurns = Math.max(player.sealTurns ?? 0, 3);
-          const plusSts = this.stations.filter((s) => s.type === 'plus');
-          for (let i = 0; i < 4 && plusSts.length > 0; i++) {
-            const pick = plusSts[Math.floor(Math.random() * plusSts.length)];
-            this.minus10Stations[pick.id] = 8;
+      this.ensurePlayerStats(player.id).bombyTurns += 1;
+      this.nuisanceTurnCount += 1;
+      // 本家準拠ステートマシン：憑依経過ターンで変身確率が上昇、年数解禁＋重み付け抽選、持続ターン経過で通常へ戻る
+      if (this.nuisanceForm === 'normal') {
+        const transformChance = Math.min(0.36, 0.12 + (this.nuisanceTurnCount - 1) * 0.06);
+        if (Math.random() < transformChance) {
+          const allowRateCurse = this.config.enableRateCurse !== false;
+          const weightedPool: { form: NuisanceForm; weight: number }[] =
+            this.currentYear <= 2
+              ? [
+                  { form: 'mini', weight: 55 },
+                  { form: 'happy', weight: 15 },
+                  { form: 'pokon', weight: 15 },
+                  { form: 'devil', weight: 15 },
+                ]
+              : this.currentYear <= 4
+                ? [
+                    { form: 'mini', weight: 25 },
+                    { form: 'happy', weight: 8 },
+                    { form: 'pokon', weight: 18 },
+                    { form: 'devil', weight: 15 },
+                    { form: 'king', weight: 18 },
+                    { form: 'bakuretsu', weight: 15 },
+                    ...(allowRateCurse ? [{ form: 'rate_curse' as NuisanceForm, weight: 15 }] : []),
+                  ]
+                : [
+                    { form: 'mini', weight: 15 },
+                    { form: 'happy', weight: 6 },
+                    { form: 'pokon', weight: 15 },
+                    { form: 'devil', weight: 12 },
+                    { form: 'king', weight: 25 },
+                    { form: 'bakuretsu', weight: 14 },
+                    { form: 'destroy', weight: 14 },
+                    { form: 'minus10', weight: 12 },
+                    ...(allowRateCurse ? [{ form: 'rate_curse' as NuisanceForm, weight: 14 }] : []),
+                  ];
+          const totalW = weightedPool.reduce((sum, x) => sum + x.weight, 0);
+          let roll = Math.random() * totalW;
+          let nextForm: NuisanceForm = weightedPool[0].form;
+          for (const item of weightedPool) {
+            roll -= item.weight;
+            if (roll <= 0) {
+              nextForm = item.form;
+              break;
+            }
           }
+          this.nuisanceForm = nextForm;
+          this.nuisanceFormRemainingTurns = 2 + Math.floor(Math.random() * 3); // 2〜4ターン持続
+          this.bakuretsuSteps = 0;
+          const formMeta: Record<NuisanceForm, { icon: string; title: string; desc: string; positive?: boolean }> = {
+            normal: { icon: '👹', title: '貧乏神に戻った', desc: '元の姿に戻った！' },
+            mini: { icon: '👶', title: 'ミニボンビーに変身！', desc: 'かわいいミニボンビーに変身！出費が軽くなりそう！', positive: true },
+            pokon: { icon: '💥', title: 'ポコンに変身！！', desc: '物件を吹き飛ばすポコンに変身した！！' },
+            king: { icon: '🔥', title: 'キングボンビーに変身！！', desc: '最凶のキングボンビーに変身してしまった！！' },
+            destroy: { icon: '🚜', title: 'デストロイ号に変身！！', desc: '通過した駅の物件を無差別破壊するデストロイ号に変身！！' },
+            rate_curse: { icon: '📉', title: 'パーセントボンビー（割合ケチケチ）に変身！！', desc: '所有物件の収益率をマイナスにするパーセントボンビーに変身！！' },
+            bakuretsu: { icon: '💣', title: 'バクレツボンビーに変身！！', desc: '7マス移動で大爆発するバクレツボンビーに変身！！早く誰かになすりつけろ！' },
+            devil: { icon: '😈', title: 'デビルボンビーに変身！！', desc: '毎ターンデビル系カードを押し付けるデビルボンビーに変身！！' },
+            minus10: { icon: '⚡', title: 'マイナ～～スボンビーに変身！！', desc: '持ち金ゼロ＆カード封印＆マイナス10倍駅を生み出すマイナ～～スボンビーに変身！！' },
+            happy: { icon: '😇', title: 'ハッピー大王に変身！', desc: '奇跡！幸運を運ぶハッピー大王に変身した！', positive: true },
+          };
+          const m = formMeta[nextForm];
+          if (nextForm === 'minus10') {
+            player.money = Math.min(0, player.money);
+            player.sealTurns = Math.max(player.sealTurns ?? 0, 3);
+            const plusSts = this.stations.filter((s) => s.type === 'plus');
+            for (let i = 0; i < 4 && plusSts.length > 0; i++) {
+              const pick = plusSts[Math.floor(Math.random() * plusSts.length)];
+              this.minus10Stations[pick.id] = 8;
+            }
+          }
+          events.push({
+            type: m.positive ? 'random_event' : 'nuisance_action',
+            playerId: player.id,
+            payload: {
+              blocked: false,
+              title: `${m.icon} ${m.title}`,
+              description: m.desc,
+              icon: m.icon,
+              isPositive: Boolean(m.positive),
+            },
+          });
         }
-        events.push({
-          type: m.positive ? 'random_event' : 'nuisance_action',
-          playerId: player.id,
-          payload: {
-            blocked: false,
-            title: `${m.icon} ${m.title}`,
-            description: m.desc,
-            icon: m.icon,
-            isPositive: Boolean(m.positive),
-          },
-        });
-      } else if (this.nuisanceForm !== 'normal' && Math.random() < 0.28) {
-        this.nuisanceForm = 'normal';
-        this.bakuretsuSteps = 0;
+      } else {
+        this.nuisanceFormRemainingTurns = Math.max(0, this.nuisanceFormRemainingTurns - 1);
+        if (this.nuisanceFormRemainingTurns === 0) {
+          this.nuisanceForm = 'normal';
+          this.bakuretsuSteps = 0;
+          this.nuisanceTurnCount = 0;
+        }
       }
 
       const inflMult = getYearInflationMult(this.currentYear);
@@ -2311,21 +2705,24 @@ export class GameEngine {
           },
         });
       } else {
-        const shieldIdx = player.cards.findIndex((id) => id === 'shield' || id === 'king_shield');
+        // 本家準拠：パトカードはスリ・攻撃カード専用であり、貧乏神の悪行は防がない（レガシー king_shield のみ対応）
+        const shieldIdx = player.cards.findIndex((id) => id === 'king_shield');
         if (shieldIdx !== -1) {
-          player.cards.splice(shieldIdx, 1);
+          const shieldId = player.cards.splice(shieldIdx, 1)[0];
           player.cardCount = player.cards.length;
+          const shieldCard = this.cardMap.get(shieldId);
+          const shieldName = shieldCard?.name ?? 'キングバリアカード';
           events.push({
             type: 'nuisance_action',
             playerId: player.id,
             payload: {
               blocked: true,
-              title: 'バリアカード発動！',
-              description: `${player.name}はバリアカードで${
+              title: `${shieldCard?.icon ?? '🛡️'} ${shieldName}発動！`,
+              description: `${player.name}は${shieldName}で${
                 this.nuisanceForm === 'king'
-                  ? 'キングケチケチ'
+                  ? 'キングボンビー'
                   : this.nuisanceForm === 'rate_curse'
-                    ? '割合ケチケチ'
+                    ? 'パーセントボンビー'
                     : this.eventsData.nuisanceCharacter.name
               }の悪行を防いだ！`,
             },
@@ -2402,14 +2799,15 @@ export class GameEngine {
               },
             });
           } else {
-            player.money -= 2000;
+            const pokonLoss = Math.round((2000 * inflMult) / 100) * 100;
+            player.money -= pokonLoss;
             events.push({
               type: 'nuisance_action',
               playerId: player.id,
               payload: {
                 blocked: false,
                 title: '💥 ポコンが大暴れ！',
-                description: `吹き飛ばす物件がなかったので現金2,000万円を奪われた！`,
+                description: `吹き飛ばす物件がなかったので現金${pokonLoss.toLocaleString()}万円を奪われた！`,
                 icon: '💥',
               },
             });
@@ -2527,7 +2925,8 @@ export class GameEngine {
               },
             });
           } else {
-            const myProps = this.getPlayerProperties(player.id);
+            // 本家準拠：農林物件はキングボンビーの物件破壊からも保護
+            const myProps = this.getSellableProperties(player.id);
             if (myProps.length > 0) {
               const target = myProps[Math.floor(Math.random() * myProps.length)];
               const st = this.stationMap.get(target.stationId);
@@ -2539,12 +2938,12 @@ export class GameEngine {
                 payload: {
                   blocked: false,
                   title: '🔥 キングの物件破壊！！',
-                  description: `キングケチケチが「${def?.name ?? '物件'}」を勝手に手放してしまった！！（売却金ゼロ！）`,
+                  description: `キングボンビーが「${def?.name ?? '物件'}」を勝手に手放してしまった！！（売却金ゼロ！）`,
                   icon: '🔥',
                 },
               });
             } else {
-              const loss = 4000;
+              const loss = Math.round((4000 * inflMult) / 100) * 100;
               player.money -= loss;
               events.push({
                 type: 'nuisance_action',
@@ -2552,7 +2951,7 @@ export class GameEngine {
                 payload: {
                   blocked: false,
                   title: '🔥 キングの豪遊！！',
-                  description: `キングケチケチが宇宙旅行へ行った！ (-${loss.toLocaleString()}万円)`,
+                  description: `キングボンビーが宇宙旅行へ行った！ (-${loss.toLocaleString()}万円)`,
                   icon: '🔥',
                 },
               });
@@ -2692,8 +3091,8 @@ export class GameEngine {
       }
     }
 
-    // ご当地歴史ヒーロー発動チェック（独占している都市の偉人が35%の確率で応援！）
-    if (!skipped && !player.hasNuisance && Math.random() < 0.35) {
+    // ご当地歴史ヒーロー発動チェック（本家準拠：1位独走を防ぐため14%に調整）
+    if (!skipped && !player.hasNuisance && Math.random() < 0.14) {
       const heroEv = this.triggerHistoryHero(player);
       if (heroEv) events.push(heroEv);
     }
@@ -2758,6 +3157,7 @@ export class GameEngine {
     if ((player.sealTurns ?? 0) > 0) player.sealTurns = (player.sealTurns ?? 1) - 1;
     if ((player.cowWalkTurns ?? 0) > 0) player.cowWalkTurns = (player.cowWalkTurns ?? 1) - 1;
     if ((player.heccharaTurns ?? 0) > 0) player.heccharaTurns = (player.heccharaTurns ?? 1) - 1;
+    if ((player.russellTurns ?? 0) > 0) player.russellTurns = (player.russellTurns ?? 1) - 1;
     if ((player.yellowTurns ?? 0) > 0) player.yellowTurns = (player.yellowTurns ?? 1) - 1;
     if ((player.unchiPassTurns ?? 0) > 0) player.unchiPassTurns = (player.unchiPassTurns ?? 1) - 1;
 
@@ -2828,7 +3228,11 @@ export class GameEngine {
           events.push({
             type: 'game_finished',
             playerId: player.id,
-            payload: { rankings: this.getPublicState().players },
+            payload: {
+              rankings: this.getPublicState().players,
+              assetHistory: this.assetHistory,
+              awards: this.computeSpecialAwards(),
+            },
           });
           this.saveManager.saveAutosave(this.createSnapshot());
           return events;
@@ -2924,29 +3328,35 @@ export class GameEngine {
       if (this.minus10Stations[k] <= 0) delete this.minus10Stations[k];
     }
 
-    // 次のプレイヤーの行動開始イベント（絶好調突入 / 持ち金2倍マン）
+    // 次のプレイヤーの行動開始イベント（本家準拠ラバーバンディング：下位ほど絶好調に入りやすい / 持ち金2倍マンは超低確率＆上限あり）
     if (nextPlayer && this.phase === 'action_select') {
-      if (this.currentYear >= 3 && (nextPlayer.zekkochoTurns ?? 0) === 0 && Math.random() < 0.04) {
-        nextPlayer.zekkochoTurns = 4;
+      const zekkoChance =
+        nextPlayer.rank <= 1 ? 0.01 : nextPlayer.rank === 2 ? 0.03 : nextPlayer.rank === 3 ? 0.06 : 0.09;
+      const isLast = this.players.length > 1 && nextPlayer.rank >= this.players.length;
+      const doubleChance = isLast ? 0.006 : 0.003;
+      if (this.currentYear >= 2 && (nextPlayer.zekkochoTurns ?? 0) === 0 && Math.random() < zekkoChance) {
+        nextPlayer.zekkochoTurns = 5;
         events.push({
           type: 'random_event',
           playerId: nextPlayer.id,
           payload: {
             title: `⚡ ${nextPlayer.name}が絶好調に突入！！`,
             icon: '⚡',
-            description: `サイコロ3個固定＆プラス駅3倍＆カード駅パワーアップの大チャンス！`,
+            description: `サイコロ最低3個＆プラス駅3倍＆カード駅パワーアップの大チャンス！（5ターン）`,
             isPositive: true,
           },
         });
-      } else if (nextPlayer.money > 0 && Math.random() < 0.015) {
-        nextPlayer.money *= 2;
+      } else if (nextPlayer.money > 0 && Math.random() < doubleChance) {
+        const cap = Math.round((50000 * getYearInflationMult(this.currentYear)) / 100) * 100;
+        const gain = Math.min(nextPlayer.money, cap);
+        nextPlayer.money += gain;
         events.push({
           type: 'random_event',
           playerId: nextPlayer.id,
           payload: {
             title: '💰 持ち金2倍マン 登場！！',
             icon: '💰',
-            description: `奇跡！${nextPlayer.name}の持ち金が2倍（${nextPlayer.money.toLocaleString()}万円）になった！！`,
+            description: `奇跡！${nextPlayer.name}の持ち金が +${gain.toLocaleString()}万円（計 ${nextPlayer.money.toLocaleString()}万円）になった！！`,
             isPositive: true,
           },
         });
@@ -3026,7 +3436,8 @@ export class GameEngine {
       if (player.cards.length >= 8) return null;
       player.cards.push('shield');
       player.cardCount = player.cards.length;
-      desc = `${st.name}の偉人「${hero.name}」が「バリアカード」を授けてくれた！`;
+      const shieldName = this.cardMap.get('shield')?.name ?? 'パトカード';
+      desc = `${st.name}の偉人「${hero.name}」が「${shieldName}」を授けてくれた！`;
     } else if (hero.effectType === 'move_closer') {
       const distMap = this.pathfinder.getAllDistancesFrom(this.destinationStationId);
       const near = this.stations.filter((s) => {
@@ -3092,6 +3503,13 @@ export class GameEngine {
 
     this.recalculateRankingsAndDistances();
 
+    // 年度末の総資産履歴を記録
+    const yearAssets: Record<string, number> = {};
+    for (const p of this.players) {
+      yearAssets[p.id] = p.totalAssets;
+    }
+    this.assetHistory.push({ year: this.currentYear, assets: yearAssets });
+
     const summary = [...this.players]
       .sort((a, b) => a.rank - b.rank)
       .map((p) => ({
@@ -3111,6 +3529,7 @@ export class GameEngine {
     return {
       year: this.currentYear,
       summary,
+      assetHistory: this.assetHistory,
     };
   }
 
@@ -3141,9 +3560,16 @@ export class GameEngine {
     if (this.visitedPathThisTurn.length >= 2) {
       const currentId = this.visitedPathThisTurn[this.visitedPathThisTurn.length - 1];
       const currentSt = this.stationMap.get(currentId);
-      // 行き止まり駅（隣接1駅のみ）では折り返し前進（歩数消費）とし、無限ループを防ぐ
+      // 行き止まり駅（物理的に隣接1駅のみ、またはうんち封鎖で進行可能駅が1駅のみ）では折り返し前進（歩数消費）とし、無限ループを防ぐ
       if (currentSt && currentSt.neighbors.length <= 1) {
         return null;
+      }
+      const curPlayer = this.getCurrentPlayer();
+      if (curPlayer && curPlayer.stationId === currentId) {
+        const available = this.getAvailableNextStations(curPlayer);
+        if (available.length <= 1) {
+          return null;
+        }
       }
       return this.visitedPathThisTurn[this.visitedPathThisTurn.length - 2];
     }
@@ -3160,12 +3586,19 @@ export class GameEngine {
   }
 
   public getRecommendedNextStations(player: PlayerInternalState): string[] {
-    const station = this.stationMap.get(player.stationId);
-    if (!station) return [];
+    const available = this.getAvailableNextStations(player);
+    if (available.length === 0) return [];
     const undoId = this.getUndoStationId();
-    const candidates = station.neighbors.filter((n) => n !== undoId);
-    const list = candidates.length > 0 ? candidates : station.neighbors;
-    const distMap = this.pathfinder.getAllDistancesFrom(this.destinationStationId);
+    const candidates = available.filter((n) => n !== undoId);
+    const list = candidates.length > 0 ? candidates : available;
+    const blocked =
+      (player.unchiPassTurns ?? 0) > 0
+        ? undefined
+        : new Set(Object.keys(this.unchiStations).filter((id) => this.unchiStations[id] > 0));
+    let distMap = this.pathfinder.getAllDistancesFrom(this.destinationStationId, blocked);
+    if (blocked && blocked.size > 0 && list.every((id) => !distMap.has(id))) {
+      distMap = this.pathfinder.getAllDistancesFrom(this.destinationStationId);
+    }
 
     let minDist = Infinity;
     for (const id of list) {
@@ -3173,6 +3606,156 @@ export class GameEngine {
       if (d < minDist) minDist = d;
     }
     return list.filter((id) => (distMap.get(id) ?? 999) === minDist);
+  }
+
+  /**
+   * 現在の残り歩数でぴったり到達可能な駅ID一覧を返す（マップハイライト用）
+   */
+  public getReachableStations(player: PlayerInternalState): string[] {
+    const steps = this.remainingSteps;
+    if (this.phase !== 'moving' || steps <= 0) return [];
+    const maxSteps = Math.min(steps, 36);
+    const ignoreUnchi = (player.unchiPassTurns ?? 0) > 0;
+    const initialPrev = this.getUndoStationId();
+    const mustBeExact = this.config.exactDestination !== false;
+
+    const results = new Set<string>();
+    const memo = new Set<string>();
+
+    const dfs = (curId: string, prevId: string | null, rem: number) => {
+      if (rem === 0) {
+        results.add(curId);
+        return;
+      }
+      const key = `${curId}|${prevId ?? ''}|${rem}`;
+      if (memo.has(key)) return;
+      memo.add(key);
+
+      const st = this.stationMap.get(curId);
+      if (!st || st.neighbors.length === 0) return;
+
+      let open = ignoreUnchi
+        ? st.neighbors
+        : st.neighbors.filter((nb) => !(this.unchiStations[nb] > 0));
+      if (open.length === 0) open = st.neighbors;
+
+      // 直前の駅へ戻るのを避ける（行き止まり・実質1本道なら折り返し許可）
+      const forward = prevId && open.length > 1 ? open.filter((nb) => nb !== prevId) : open;
+      const nextList = forward.length > 0 ? forward : open;
+
+      for (const nextId of nextList) {
+        if (!mustBeExact && nextId === this.destinationStationId) {
+          results.add(nextId);
+          continue;
+        }
+        dfs(nextId, curId, rem - 1);
+      }
+    };
+
+    dfs(player.stationId, initialPrev, maxSteps);
+    return Array.from(results);
+  }
+
+  private ensurePlayerStats(playerId: string) {
+    if (!this.playerStats[playerId]) {
+      this.playerStats[playerId] = {
+        destReached: 0,
+        bombyTurns: 0,
+        duelWins: 0,
+        duelLosses: 0,
+        maxDebt: 0,
+        monopolies: 0,
+      };
+    }
+    return this.playerStats[playerId];
+  }
+
+  private computeSpecialAwards(): {
+    title: string;
+    icon: string;
+    playerName: string;
+    playerColor: string;
+    detail: string;
+  }[] {
+    if (this.players.length === 0) return [];
+    const awards: {
+      title: string;
+      icon: string;
+      playerName: string;
+      playerColor: string;
+      detail: string;
+    }[] = [];
+
+    const byDest = [...this.players].sort(
+      (a, b) => (this.playerStats[b.id]?.destReached ?? 0) - (this.playerStats[a.id]?.destReached ?? 0)
+    );
+    if ((this.playerStats[byDest[0].id]?.destReached ?? 0) > 0) {
+      awards.push({
+        title: '目的地最多到着賞',
+        icon: '🚩',
+        playerName: byDest[0].name,
+        playerColor: byDest[0].color,
+        detail: `${this.playerStats[byDest[0].id].destReached}回ゴール！`,
+      });
+    }
+
+    const propCountMap = new Map<string, number>();
+    for (const o of Object.values(this.ownedProperties)) {
+      propCountMap.set(o.ownerId, (propCountMap.get(o.ownerId) ?? 0) + 1);
+    }
+    const byProp = [...this.players].sort(
+      (a, b) => (propCountMap.get(b.id) ?? 0) - (propCountMap.get(a.id) ?? 0)
+    );
+    if ((propCountMap.get(byProp[0].id) ?? 0) > 0) {
+      awards.push({
+        title: '物件王',
+        icon: '🏢',
+        playerName: byProp[0].name,
+        playerColor: byProp[0].color,
+        detail: `所有物件 ${propCountMap.get(byProp[0].id)}件！`,
+      });
+    }
+
+    const byBomby = [...this.players].sort(
+      (a, b) => (this.playerStats[b.id]?.bombyTurns ?? 0) - (this.playerStats[a.id]?.bombyTurns ?? 0)
+    );
+    if ((this.playerStats[byBomby[0].id]?.bombyTurns ?? 0) > 0) {
+      awards.push({
+        title: '貧乏神に愛された賞',
+        icon: '👹',
+        playerName: byBomby[0].name,
+        playerColor: byBomby[0].color,
+        detail: `${this.playerStats[byBomby[0].id].bombyTurns}ターン憑依`,
+      });
+    }
+
+    const byDuel = [...this.players].sort(
+      (a, b) => (this.playerStats[b.id]?.duelWins ?? 0) - (this.playerStats[a.id]?.duelWins ?? 0)
+    );
+    if ((this.playerStats[byDuel[0].id]?.duelWins ?? 0) > 0) {
+      awards.push({
+        title: 'チンチロ勝負師賞',
+        icon: '⚔️',
+        playerName: byDuel[0].name,
+        playerColor: byDuel[0].color,
+        detail: `決闘 ${this.playerStats[byDuel[0].id].duelWins}勝！`,
+      });
+    }
+
+    const byDebt = [...this.players].sort(
+      (a, b) => (this.playerStats[b.id]?.maxDebt ?? 0) - (this.playerStats[a.id]?.maxDebt ?? 0)
+    );
+    if ((this.playerStats[byDebt[0].id]?.maxDebt ?? 0) > 0) {
+      awards.push({
+        title: '不屈の借金王',
+        icon: '💸',
+        playerName: byDebt[0].name,
+        playerColor: byDebt[0].color,
+        detail: `最大借金 ${this.playerStats[byDebt[0].id].maxDebt.toLocaleString()}万円`,
+      });
+    }
+
+    return awards;
   }
 
   // --- 管理者用「神の手」操作 ---
@@ -3622,17 +4205,15 @@ export class GameEngine {
 
     if (ev.effectType === 'pickpocket') {
       if (player.money <= 1000) return null;
-      const shieldIdx = player.cards.indexOf('shield');
-      if (shieldIdx !== -1) {
-        player.cards.splice(shieldIdx, 1);
-        player.cardCount = player.cards.length;
+      const defense = this.consumeDefenseCard(player);
+      if (defense) {
         return {
           type: 'random_event',
           playerId: player.id,
           payload: {
-            title: '🛡️ バリアカード発動！',
-            icon: '🛡️',
-            description: `スリの銀次が現れたが、${player.name}はバリアカードで撃退した！`,
+            title: `${defense.icon} ${defense.name}発動！`,
+            icon: defense.icon,
+            description: `スリの銀次が現れたが、${player.name}は${defense.name}で撃退した！`,
             isPositive: true,
           },
         };
@@ -3749,13 +4330,29 @@ export class GameEngine {
     return false;
   }
 
-  private pickRandomDestination(excludeId: string): string {
+  private pickRandomDestination(
+    excludeId: string,
+    range?: { minDist?: number; maxDist?: number }
+  ): string {
     const occupied = new Set(this.players.map((p) => p.stationId));
     let candidates = this.stations.filter(
       (s) => s.isDestinationCandidate && s.id !== excludeId && !occupied.has(s.id)
     );
     if (candidates.length === 0) {
       candidates = this.stations.filter((s) => s.isDestinationCandidate && s.id !== excludeId);
+    }
+    if (range && (range.minDist !== undefined || range.maxDist !== undefined)) {
+      const distMap = this.pathfinder.getAllDistancesFrom(excludeId);
+      const inRange = candidates.filter((s) => {
+        const d = distMap.get(s.id);
+        if (d === undefined) return false;
+        if (range.minDist !== undefined && d < range.minDist) return false;
+        if (range.maxDist !== undefined && d > range.maxDist) return false;
+        return true;
+      });
+      if (inRange.length > 0) {
+        candidates = inRange;
+      }
     }
     if (candidates.length === 0) return 'sapporo';
     return candidates[Math.floor(Math.random() * candidates.length)].id;
@@ -3780,9 +4377,17 @@ export class GameEngine {
     }
 
     for (const p of this.players) {
+      // 未定義カードIDが混入していた場合は自動除去し、枚数表示と手札一覧を完全一致させる
+      if (p.cards.some((cid) => !this.cardMap.has(cid))) {
+        p.cards = p.cards.filter((cid) => this.cardMap.has(cid));
+      }
       p.distanceToDest = distMap.get(p.stationId) ?? 99;
       p.totalAssets = p.money + (propAssetMap.get(p.id) ?? 0);
       p.cardCount = p.cards.length;
+      if (p.money < 0) {
+        const st = this.ensurePlayerStats(p.id);
+        st.maxDebt = Math.max(st.maxDebt, -p.money);
+      }
     }
 
     const sorted = [...this.players].sort((a, b) => b.totalAssets - a.totalAssets);
@@ -3812,11 +4417,13 @@ export class GameEngine {
       sealTurns: p.sealTurns,
       cowWalkTurns: p.cowWalkTurns,
       heccharaTurns: p.heccharaTurns,
+      russellTurns: p.russellTurns,
       yellowTurns: p.yellowTurns,
       unchiPassTurns: p.unchiPassTurns,
       allSixNext: p.allSixNext,
       discountMode: p.discountMode,
       homeStationId: p.homeStationId,
+      shuyuUses: p.shuyuUses,
       distanceToDest: p.distanceToDest,
       totalAssets: p.totalAssets,
       rank: p.rank,
@@ -3836,6 +4443,8 @@ export class GameEngine {
         this.phase === 'moving' && current ? this.getAvailableNextStations(current) : [],
       recommendedNextStations:
         this.phase === 'moving' && current ? this.getRecommendedNextStations(current) : [],
+      reachableStations:
+        this.phase === 'moving' && current ? this.getReachableStations(current) : [],
       undoStationId: this.phase === 'moving' ? this.getUndoStationId() : null,
       players: publicPlayers,
       ownedProperties: this.ownedProperties,
@@ -3851,6 +4460,10 @@ export class GameEngine {
       turnCount: this.turnCount,
       canRollback: this.previousTurnSnapshot !== null,
       cardUsedThisTurn: this.cardUsedThisTurn,
+      shopStockIds:
+        this.phase === 'card_shop' && current ? getShopStockForStation(current.stationId) : undefined,
+      shopPriceMultiplier: getCardShopPriceMultiplier(this.currentYear),
+      assetHistory: this.assetHistory,
     };
   }
 
@@ -3871,6 +4484,12 @@ export class GameEngine {
       players: JSON.parse(JSON.stringify(this.players)),
       ownedProperties: JSON.parse(JSON.stringify(this.ownedProperties)),
       nuisanceTargetPlayerId: this.nuisanceTargetPlayerId,
+      nuisanceForm: this.nuisanceForm,
+      nuisanceTurnCount: this.nuisanceTurnCount,
+      nuisanceFormRemainingTurns: this.nuisanceFormRemainingTurns,
+      currentDestOriginDistance: this.currentDestOriginDistance,
+      assetHistory: JSON.parse(JSON.stringify(this.assetHistory)),
+      playerStats: JSON.parse(JSON.stringify(this.playerStats)),
       lastEventMessage: this.lastEventMessage,
       turnCount: this.turnCount,
       cardUsedThisTurn: this.cardUsedThisTurn,
@@ -3903,6 +4522,12 @@ export class GameEngine {
 
     this.ownedProperties = JSON.parse(JSON.stringify(snap.ownedProperties));
     this.nuisanceTargetPlayerId = snap.nuisanceTargetPlayerId;
+    this.nuisanceForm = snap.nuisanceForm ?? 'normal';
+    this.nuisanceTurnCount = snap.nuisanceTurnCount ?? 0;
+    this.nuisanceFormRemainingTurns = snap.nuisanceFormRemainingTurns ?? 0;
+    this.currentDestOriginDistance = snap.currentDestOriginDistance ?? 20;
+    this.assetHistory = snap.assetHistory ? JSON.parse(JSON.stringify(snap.assetHistory)) : [];
+    this.playerStats = snap.playerStats ? JSON.parse(JSON.stringify(snap.playerStats)) : {};
     this.lastEventMessage = snap.lastEventMessage;
     this.turnCount = snap.turnCount;
     this.cardUsedThisTurn = Boolean(snap.cardUsedThisTurn);

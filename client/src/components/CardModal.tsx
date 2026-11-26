@@ -25,6 +25,10 @@ export const CardModal: React.FC<CardModalProps> = ({
   const cardMap = new Map(cardsMaster.map((c) => [c.id, c]));
 
   const rivals = gameState.players.filter((p) => p.id !== myPlayerId);
+  const me = gameState.players.find((p) => p.id === myPlayerId);
+  const validCards = myCards
+    .map((cid, idx) => ({ cid, idx, card: cardMap.get(cid) }))
+    .filter((x): x is { cid: string; idx: number; card: CardDef } => Boolean(x.card));
 
   if (targetSelectIdx !== null) {
     const chosenCard = cardMap.get(myCards[targetSelectIdx]);
@@ -88,7 +92,7 @@ export const CardModal: React.FC<CardModalProps> = ({
           <div className="flex items-center gap-2">
             <CreditCard className="w-5 h-5 text-amber-400" />
             <h2 className="text-base font-extrabold text-white">
-              手持ちカード ({myCards.length}/8)
+              手持ちカード ({validCards.length}/8)
             </h2>
           </div>
           <button onClick={onClose} className="p-1.5 rounded-full bg-slate-700 text-slate-300">
@@ -97,15 +101,14 @@ export const CardModal: React.FC<CardModalProps> = ({
         </div>
 
         <div className="p-4 overflow-y-auto space-y-2.5 flex-1">
-          {myCards.length === 0 ? (
+          {validCards.length === 0 ? (
             <div className="text-center text-slate-400 py-10 text-sm">
               カードを1枚も持っていません。
             </div>
           ) : (
-            myCards.map((cid, idx) => {
-              const card = cardMap.get(cid);
-              if (!card) return null;
+            validCards.map(({ cid, idx, card }) => {
               const usable = canUseNow && !card.passive;
+              const shuyuLeft = card.multiUse ? me?.shuyuUses?.[cid] : undefined;
               return (
                 <div
                   key={`${cid}_${idx}`}
@@ -114,7 +117,14 @@ export const CardModal: React.FC<CardModalProps> = ({
                   <div className="flex items-start gap-2.5">
                     <span className="text-2xl mt-0.5">{card.icon}</span>
                     <div>
-                      <div className="text-sm font-extrabold text-white">{card.name}</div>
+                      <div className="text-sm font-extrabold text-white flex items-center gap-1.5 flex-wrap">
+                        <span>{card.name}</span>
+                        {shuyuLeft !== undefined && (
+                          <span className="px-1.5 py-0.5 rounded-md bg-teal-600/80 text-[10px] font-black text-white">
+                            あと{shuyuLeft}回
+                          </span>
+                        )}
+                      </div>
                       <div className="text-xs text-slate-400 leading-snug mt-0.5">
                         {card.description}
                       </div>

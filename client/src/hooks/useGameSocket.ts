@@ -229,6 +229,20 @@ export function useGameSocket(isAdmin: boolean) {
     });
   }, []);
 
+  const startDuel = useCallback((opponentId: string, bet: number) => {
+    socketRef.current?.emit('player:start_duel', {
+      opponentId,
+      bet,
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
+  }, []);
+
+  const skipDuel = useCallback(() => {
+    socketRef.current?.emit('player:skip_duel', {
+      token: localStorage.getItem(TOKEN_KEY) ?? undefined,
+    });
+  }, []);
+
   const sellDebtProperties = useCallback((propertyIds: string[]) => {
     socketRef.current?.emit('player:sell_debt_properties', {
       propertyIds,
@@ -400,6 +414,8 @@ export function useGameSocket(isAdmin: boolean) {
     buyCardShop,
     sellCardShop,
     skipCardShop,
+    startDuel,
+    skipDuel,
     sellDebtProperties,
     sendComment,
     consumeFirstEvent,

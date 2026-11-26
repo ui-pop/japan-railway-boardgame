@@ -14,29 +14,22 @@ interface CardShopModalProps {
   onSkip: () => void;
 }
 
-const SHOP_STOCK_IDS = [
+const DEFAULT_SHOP_STOCK_IDS = [
   'express_2',
   'express_3',
   'super_express',
-  'nozomi_express',
   'warp_near',
   'star_warp',
-  'senzai_ichigu',
-  'special_move',
   'hecchara',
   'shield',
-  'steal_card',
-  'swap_pos',
-  'pass_nuisance',
   'shredder_card',
   'vacuum_card',
   'unchi_card',
-  'debt_relief',
-  'card_pack',
 ];
 
-function getCardShopPrice(basePrice: number | undefined): number {
-  return basePrice ?? 1500;
+function getCardShopPrice(basePrice: number | undefined, mult = 1): number {
+  if (basePrice === 0) return 0;
+  return Math.round(((basePrice ?? 1500) * mult) / 100) * 100;
 }
 
 export const CardShopModal: React.FC<CardShopModalProps> = ({
@@ -52,9 +45,18 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
   const [tab, setTab] = useState<'buy' | 'sell'>('buy');
   const me = gameState.players.find((p) => p.id === myPlayerId);
   const myMoney = me?.money ?? 0;
-  const shopCards = SHOP_STOCK_IDS.map((id) => cardsMaster.find((c) => c.id === id)).filter(
-    (c): c is CardDef => Boolean(c)
-  );
+  const priceMult = gameState.shopPriceMultiplier ?? 1;
+  const stockIds =
+    gameState.shopStockIds && gameState.shopStockIds.length > 0
+      ? gameState.shopStockIds
+      : DEFAULT_SHOP_STOCK_IDS;
+  const shopCards = stockIds
+    .map((id) => cardsMaster.find((c) => c.id === id))
+    .filter((c): c is CardDef => Boolean(c));
+  const validMyCards = myCards
+    .map((cid, idx) => ({ cid, idx, card: cardsMaster.find((c) => c.id === cid) }))
+    .filter((x): x is { cid: string; idx: number; card: CardDef } => Boolean(x.card));
+  const validCardCount = Math.min(myCardCount, validMyCards.length);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4">
@@ -66,7 +68,7 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
               🛒 カード売り場
             </h2>
             <span className="text-xs font-bold text-amber-100">
-              手札 {myCardCount}/8
+              手札 {validCardCount}/8
             </span>
           </div>
           <div className="text-xs text-amber-100 mt-1 font-bold">
@@ -91,7 +93,7 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
                   : 'bg-black/25 text-amber-100 hover:bg-black/40'
               }`}
             >
-              売る（買値の1/4・{myCards.length}枚）
+              売る（買値の1/4・{validCardCount}枚）
             </button>
           </div>
         </div>
@@ -99,8 +101,8 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
         <div className="p-4 overflow-y-auto space-y-2 flex-1">
           {tab === 'buy' ? (
             shopCards.map((card) => {
-              const price = getCardShopPrice(card.price);
-              const canAfford = myMoney >= price && myCardCount < 8;
+              const price = getCardShopPrice(card.price, priceMult);
+              const canAfford = myMoney >= price && validCardCount < 8;
               return (
                 <div
                   key={card.id}
@@ -129,15 +131,13 @@ export const CardShopModal: React.FC<CardShopModalProps> = ({
                 </div>
               );
             })
-          ) : myCards.length === 0 ? (
+          ) : validMyCards.length === 0 ? (
             <div className="text-center text-slate-400 py-10 text-sm">
               売却できる手持ちカードがありません。
             </div>
           ) : (
-            myCards.map((cid, idx) => {
-              const card = cardsMaster.find((c) => c.id === cid);
-              if (!card) return null;
-              const sellPrice = Math.floor(getCardShopPrice(card.price) * 0.25);
+            validMyCards.map(({ cid, idx, card }) => {
+              const sellPrice = Math.floor(getCardShopPrice(card.price, priceMult) * 0.25);
               return (
                 <div
                   key={`${cid}_${idx}`}

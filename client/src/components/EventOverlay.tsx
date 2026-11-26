@@ -16,6 +16,71 @@ interface EventOverlayProps {
   onConsumeEvent: () => void;
 }
 
+const AssetHistoryChart: React.FC<{
+  history: { year: number; assets: Record<string, number> }[];
+  players: { id: string; name: string; color: string }[];
+}> = ({ history, players }) => {
+  if (!history || history.length < 2 || players.length === 0) return null;
+  const w = 320;
+  const h = 110;
+  const padX = 18;
+  const padY = 14;
+  const allVals = history.flatMap((pt) => players.map((p) => pt.assets[p.id] ?? 0));
+  const minV = Math.min(0, ...allVals);
+  const maxV = Math.max(10000, ...allVals);
+  const range = Math.max(1, maxV - minV);
+  const toX = (idx: number) =>
+    padX + (idx / Math.max(1, history.length - 1)) * (w - padX * 2);
+  const toY = (v: number) => h - padY - ((v - minV) / range) * (h - padY * 2);
+  const zeroY = toY(0);
+
+  return (
+    <div className="mb-3 p-2.5 rounded-2xl bg-slate-950/80 border border-slate-700/80">
+      <div className="text-[10px] font-bold text-slate-400 mb-1 flex items-center justify-between">
+        <span>📈 総資産推移グラフ</span>
+        <span>0年目 → {history[history.length - 1].year}年目</span>
+      </div>
+      <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-24 overflow-visible">
+        <line
+          x1={padX}
+          y1={zeroY}
+          x2={w - padX}
+          y2={zeroY}
+          stroke="rgba(148,163,184,0.35)"
+          strokeDasharray="3 3"
+          strokeWidth="1"
+        />
+        {players.map((p) => {
+          const pts = history
+            .map((pt, idx) => `${toX(idx).toFixed(1)},${toY(pt.assets[p.id] ?? 0).toFixed(1)}`)
+            .join(' ');
+          const lastVal = history[history.length - 1].assets[p.id] ?? 0;
+          return (
+            <g key={p.id}>
+              <polyline
+                fill="none"
+                stroke={p.color}
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                points={pts}
+              />
+              <circle
+                cx={toX(history.length - 1)}
+                cy={toY(lastVal)}
+                r="3.5"
+                fill={p.color}
+                stroke="#fff"
+                strokeWidth="1"
+              />
+            </g>
+          );
+        })}
+      </svg>
+    </div>
+  );
+};
+
 // 本物のサイコロの目（1は赤丸、2〜6は黒丸）を描画するコンポーネント
 const DiceFace: React.FC<{ value: number; isRolling: boolean; index: number }> = ({
   value,
@@ -94,7 +159,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
 
     if (currentEvent.type === 'warp_move') {
       soundManager.playPlus();
-      const timer = window.setTimeout(onConsumeEvent, lowDataMode ? 1000 : 1850);
+      const timer = window.setTimeout(onConsumeEvent, lowDataMode ? 750 : 1200);
       return () => window.clearTimeout(timer);
     }
 
@@ -111,7 +176,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         setIsRollingDice(false);
         setRollingValues(targetRolls);
         soundManager.playDiceResult();
-        const timer = window.setTimeout(onConsumeEvent, 1200);
+        const timer = window.setTimeout(onConsumeEvent, 850);
         return () => window.clearTimeout(timer);
       }
 
@@ -124,20 +189,20 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         tick++;
         soundManager.playDiceTick(tick);
         setRollingValues(targetRolls.map(() => Math.floor(Math.random() * 6) + 1));
-      }, 85);
+      }, 75);
 
-      // 1.15秒後に確定出目を表示
+      // 0.68秒後に確定出目を表示
       const revealTimer = window.setTimeout(() => {
         window.clearInterval(rollInterval);
         setIsRollingDice(false);
         setRollingValues(targetRolls);
         soundManager.playDiceResult();
-      }, 1150);
+      }, 680);
 
-      // 合計2.35秒後にイベント消化
+      // 合計1.45秒後にイベント消化
       const endTimer = window.setTimeout(() => {
         onConsumeEvent();
-      }, 2350);
+      }, 1450);
 
       return () => {
         window.clearInterval(rollInterval);
@@ -157,7 +222,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         setCurseSlotIndex(finalSlotIdx);
         setCurseStage('result');
         soundManager.playNuisance();
-        const timer = window.setTimeout(onConsumeEvent, 2000);
+        const timer = window.setTimeout(onConsumeEvent, 1400);
         return () => window.clearTimeout(timer);
       }
 
@@ -171,7 +236,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
           Math.floor(Math.random() * 6) + 1,
           Math.floor(Math.random() * 6) + 1,
         ]);
-      }, 85);
+      }, 75);
 
       let rouletteInterval: number | undefined;
       const toRouletteTimer = window.setTimeout(() => {
@@ -185,17 +250,17 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
           rTick++;
           soundManager.playDiceTick(rTick);
           setCurseSlotIndex(rTick % 4);
-        }, 90);
-      }, 1050);
+        }, 80);
+      }, 700);
 
       const toResultTimer = window.setTimeout(() => {
         if (rouletteInterval !== undefined) window.clearInterval(rouletteInterval);
         setCurseSlotIndex(finalSlotIdx);
         setCurseStage('result');
         soundManager.playNuisance();
-      }, 2250);
+      }, 1550);
 
-      const endTimer = window.setTimeout(onConsumeEvent, 4200);
+      const endTimer = window.setTimeout(onConsumeEvent, 2800);
 
       return () => {
         window.clearInterval(diceInterval);
@@ -219,7 +284,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         setDisplayAmount(targetAmt);
         if (isPlus) soundManager.playPlus();
         else soundManager.playMinus();
-        const timer = window.setTimeout(onConsumeEvent, 1200);
+        const timer = window.setTimeout(onConsumeEvent, 850);
         return () => window.clearTimeout(timer);
       }
 
@@ -231,7 +296,7 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         soundManager.playDiceTick(tick);
         const pick = candidates[Math.floor(Math.random() * candidates.length)];
         setDisplayAmount(isPlus ? pick : -pick);
-      }, 75);
+      }, 65);
 
       const revealTimer = window.setTimeout(() => {
         window.clearInterval(spinInterval);
@@ -239,11 +304,11 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         setDisplayAmount(targetAmt);
         if (isPlus) soundManager.playPlus();
         else soundManager.playMinus();
-      }, 1050);
+      }, 650);
 
       const endTimer = window.setTimeout(() => {
         onConsumeEvent();
-      }, 2400);
+      }, 1500);
 
       return () => {
         window.clearInterval(spinInterval);
@@ -276,33 +341,40 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
       currentEvent.type === 'shop_traded'
     ) {
       soundManager.playPlus();
+    } else if (currentEvent.type === 'duel_result') {
+      if (currentEvent.payload.winnerId) soundManager.playGoal();
+      else soundManager.playDiceResult();
     }
 
     const duration =
       currentEvent.type === 'step_move'
-        ? 550
+        ? 240
         : currentEvent.type === 'year_settlement' || currentEvent.type === 'game_finished'
           ? 0 // 手動で閉じる
+          : currentEvent.type === 'duel_result'
+            ? lowDataMode
+              ? 1800
+              : 3400
           : currentEvent.type === 'shop_traded'
             ? lowDataMode
-              ? 900
-              : 1800
+              ? 700
+              : 1200
             : currentEvent.type === 'property_bought'
               ? lowDataMode
-                ? 1100
-                : 2200
+                ? 850
+                : 1400
               : currentEvent.type === 'destination_reached' ||
-              currentEvent.type === 'monopoly_achieved' ||
-              currentEvent.type === 'admin_message' ||
-              currentEvent.type === 'nuisance_action' ||
-              currentEvent.type === 'nuisance_attach' ||
-              currentEvent.type === 'random_event'
-            ? lowDataMode
-              ? 1600
-              : 3000
-            : lowDataMode
-              ? 1200
-              : 2300;
+                  currentEvent.type === 'monopoly_achieved' ||
+                  currentEvent.type === 'admin_message' ||
+                  currentEvent.type === 'nuisance_action' ||
+                  currentEvent.type === 'nuisance_attach' ||
+                  currentEvent.type === 'random_event'
+                ? lowDataMode
+                  ? 1100
+                  : 2000
+                : lowDataMode
+                  ? 850
+                  : 1450;
 
     if (duration > 0) {
       const timer = window.setTimeout(onConsumeEvent, duration);
@@ -320,6 +392,26 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
   const actor = currentEvent
     ? players.find((p) => p.id === currentEvent.playerId)
     : undefined;
+
+  const isSkippableCutIn =
+    Boolean(currentEvent) &&
+    currentEvent.type !== 'turn_start' &&
+    currentEvent.type !== 'year_settlement' &&
+    currentEvent.type !== 'game_finished' &&
+    !(currentEvent.type === 'dice_roll' && isRollingDice) &&
+    !(
+      currentEvent.type === 'station_effect' &&
+      (currentEvent.payload.stationType === 'plus' ||
+        currentEvent.payload.stationType === 'minus') &&
+      isSpinningMoney
+    ) &&
+    !(currentEvent.type === 'rate_curse_roulette' && curseStage !== 'result');
+
+  const handleCutInTap = () => {
+    if (isSkippableCutIn) {
+      onConsumeEvent();
+    }
+  };
 
   return (
     <>
@@ -356,12 +448,17 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
         <div className="fixed inset-0 z-50 bg-black pointer-events-none animate-turn-blackout" />
       )}
 
-      {/* イベントカットイン（スキップ不可・順番に最後まで再生） */}
+      {/* イベントカットイン（確定後はタップで早送り可能） */}
       {currentEvent &&
         currentEvent.type !== 'step_move' &&
         currentEvent.type !== 'warp_move' &&
         currentEvent.type !== 'turn_fade' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-[3px] p-4">
+        <div
+          onClick={handleCutInTap}
+          className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-[3px] p-4 ${
+            isSkippableCutIn ? 'cursor-pointer' : ''
+          }`}
+        >
           {currentEvent.type === 'turn_start' && (
             <div
               className="w-full max-w-sm rounded-3xl p-6 text-center shadow-[0_15px_50px_rgba(0,0,0,0.75)] border-4 border-amber-300"
@@ -705,12 +802,109 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
             </div>
           )}
 
+          {currentEvent.type === 'duel_result' && (() => {
+            const c = currentEvent.payload.challenger as {
+              id: string;
+              name: string;
+              avatar: string;
+              color: string;
+              dice: number[];
+              tries: number;
+              handName: string;
+              mult: number;
+              isHifumi: boolean;
+            };
+            const o = currentEvent.payload.opponent as typeof c;
+            const bet = Number(currentEvent.payload.bet ?? 0);
+            const payout = Number(currentEvent.payload.payout ?? 0);
+            const mult = Number(currentEvent.payload.multiplier ?? 1);
+            const winnerId = currentEvent.payload.winnerId as string | null;
+            const winnerName = currentEvent.payload.winnerName as string | null;
+            const renderMiniDice = (dice: number[]) => (
+              <div className="flex items-center justify-center gap-1.5 my-1.5">
+                {dice.map((v, i) => (
+                  <span
+                    key={i}
+                    className={`w-9 h-9 rounded-xl bg-white border-2 border-slate-300 shadow flex items-center justify-center text-lg font-black ${
+                      v === 1 ? 'text-rose-600' : 'text-slate-900'
+                    }`}
+                  >
+                    {v}
+                  </span>
+                ))}
+              </div>
+            );
+            return (
+              <div className="animate-event-pop bg-gradient-to-b from-rose-950 via-slate-900 to-purple-950 border-4 border-amber-400 rounded-3xl p-5 shadow-2xl max-w-sm w-full text-center">
+                <div className="text-xs font-extrabold text-amber-300 tracking-wider">
+                  ⚔️ チンチロ決闘結果（掛け金 {formatMoney(bet)}）
+                </div>
+                <div className="grid grid-cols-2 gap-2.5 mt-3">
+                  <div
+                    className={`p-2.5 rounded-2xl border ${
+                      winnerId === c?.id
+                        ? 'bg-amber-500/20 border-amber-400'
+                        : 'bg-slate-900/80 border-slate-700'
+                    }`}
+                  >
+                    <div className="text-xs font-black truncate" style={{ color: c?.color }}>
+                      {c?.avatar} {c?.name}
+                    </div>
+                    {c?.dice && renderMiniDice(c.dice)}
+                    <div
+                      className={`text-xs font-black ${
+                        c?.isHifumi ? 'text-rose-400' : 'text-amber-200'
+                      }`}
+                    >
+                      {c?.handName}
+                    </div>
+                  </div>
+                  <div
+                    className={`p-2.5 rounded-2xl border ${
+                      winnerId === o?.id
+                        ? 'bg-amber-500/20 border-amber-400'
+                        : 'bg-slate-900/80 border-slate-700'
+                    }`}
+                  >
+                    <div className="text-xs font-black truncate" style={{ color: o?.color }}>
+                      {o?.avatar} {o?.name}
+                    </div>
+                    {o?.dice && renderMiniDice(o.dice)}
+                    <div
+                      className={`text-xs font-black ${
+                        o?.isHifumi ? 'text-rose-400' : 'text-amber-200'
+                      }`}
+                    >
+                      {o?.handName}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3 py-2.5 px-3 rounded-2xl bg-black/45 border border-amber-400/50">
+                  {winnerName ? (
+                    <>
+                      <div className="text-base font-black text-amber-300">
+                        🏆 {winnerName} の勝利！{mult > 1 ? `（${mult}倍！）` : ''}
+                      </div>
+                      <div className="text-sm font-black text-emerald-400 mt-0.5">
+                        +{formatMoney(payout)} 獲得！
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-base font-black text-slate-200">
+                      🤝 引き分け！（移動なし）
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
+
           {currentEvent.type === 'year_settlement' && (
             <div
               onClick={(e) => e.stopPropagation()}
               className="animate-event-pop bg-gradient-to-b from-slate-900 to-emerald-950/90 border-4 border-emerald-400 rounded-3xl p-5 shadow-2xl max-w-md w-full"
             >
-              <div className="text-center mb-4">
+              <div className="text-center mb-3">
                 <div className="text-xs font-extrabold text-emerald-300 tracking-wider">
                   3月終了・年度末総決算
                 </div>
@@ -718,6 +912,15 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
                   📊 {String(currentEvent.payload.year)}年目 決算発表！
                 </h2>
               </div>
+              <AssetHistoryChart
+                history={
+                  (currentEvent.payload.assetHistory as {
+                    year: number;
+                    assets: Record<string, number>;
+                  }[]) ?? []
+                }
+                players={players}
+              />
               <div className="space-y-2.5 max-h-[58vh] overflow-y-auto">
                 {(() => {
                   const rows =
@@ -786,17 +989,26 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
           {currentEvent.type === 'game_finished' && (
             <div
               onClick={(e) => e.stopPropagation()}
-              className="bg-gradient-to-b from-slate-900 to-indigo-950 border-4 border-amber-400 rounded-3xl p-6 shadow-2xl max-w-md w-full text-center"
+              className="bg-gradient-to-b from-slate-900 to-indigo-950 border-4 border-amber-400 rounded-3xl p-5 shadow-2xl max-w-md w-full text-center max-h-[88vh] overflow-y-auto"
             >
-              <Trophy className="w-12 h-12 text-amber-400 mx-auto mb-2" />
-              <h2 className="text-2xl font-black text-white mb-4">最終結果発表！</h2>
-              <div className="space-y-2 text-left max-h-[55vh] overflow-y-auto">
+              <Trophy className="w-12 h-12 text-amber-400 mx-auto mb-1.5 animate-bounce" />
+              <h2 className="text-2xl font-black text-white mb-3">🏆 最終結果発表！</h2>
+              <AssetHistoryChart
+                history={
+                  (currentEvent.payload.assetHistory as {
+                    year: number;
+                    assets: Record<string, number>;
+                  }[]) ?? []
+                }
+                players={players}
+              />
+              <div className="space-y-2 text-left">
                 {[...players]
                   .sort((a, b) => a.rank - b.rank)
                   .map((p) => (
                     <div
                       key={p.id}
-                      className="flex items-center justify-between p-3 rounded-2xl bg-slate-800/90 border border-slate-700"
+                      className="flex items-center justify-between p-2.5 rounded-2xl bg-slate-800/90 border border-slate-700"
                     >
                       <div className="flex items-center gap-2.5">
                         <span className="text-lg font-black text-amber-400 w-6">
@@ -811,6 +1023,45 @@ export const EventOverlay: React.FC<EventOverlayProps> = ({
                     </div>
                   ))}
               </div>
+              {Array.isArray(currentEvent.payload.awards) &&
+                (currentEvent.payload.awards as unknown[]).length > 0 && (
+                  <div className="mt-4 pt-3 border-t border-indigo-700/60 text-left">
+                    <div className="text-xs font-extrabold text-amber-300 mb-2 text-center">
+                      🎖️ 特別表彰式
+                    </div>
+                    <div className="grid grid-cols-1 gap-1.5">
+                      {(
+                        currentEvent.payload.awards as {
+                          title: string;
+                          icon: string;
+                          playerName: string;
+                          playerColor: string;
+                          detail: string;
+                        }[]
+                      ).map((aw) => (
+                        <div
+                          key={aw.title}
+                          className="flex items-center justify-between px-3 py-2 rounded-xl bg-slate-950/75 border border-amber-500/30 text-xs"
+                        >
+                          <div className="font-extrabold text-amber-200">
+                            {aw.icon} {aw.title}
+                          </div>
+                          <div className="text-right">
+                            <span className="font-black" style={{ color: aw.playerColor }}>
+                              {aw.playerName}
+                            </span>
+                            <span className="text-slate-400 ml-1.5 text-[11px]">{aw.detail}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+            </div>
+          )}
+          {isSkippableCutIn && (
+            <div className="mt-3 text-[11px] font-bold text-white/60 tracking-wider animate-pulse select-none">
+              タップで次へ ▸
             </div>
           )}
         </div>

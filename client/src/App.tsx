@@ -1,15 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Train, Users } from 'lucide-react';
 import { ActionDock } from './components/ActionDock';
 import { AdminPanel } from './components/AdminPanel';
 import { CardModal } from './components/CardModal';
 import { CardShopModal } from './components/CardShopModal';
+import { DuelModal } from './components/DuelModal';
 import { EventOverlay } from './components/EventOverlay';
 import { MapCanvas } from './components/MapCanvas';
 import { PropertyModal } from './components/PropertyModal';
 import { StatusBar } from './components/StatusBar';
 import { useGameSocket } from './hooks/useGameSocket';
+import type { PublicGameState } from './types';
 import { soundManager } from './utils/sound';
+
+const SPOILER_EVENT_TYPES = new Set([
+  'dice_roll',
+  'station_effect',
+  'nuisance_action',
+  'rate_curse_roulette',
+  'random_event',
+  'destination_reached',
+  'monopoly_achieved',
+  'card_used',
+  'property_bought',
+  'shop_traded',
+  'duel_result',
+]);
 
 export function App() {
   const isAdmin = window.location.pathname.startsWith('/admin');
@@ -39,6 +55,8 @@ export function App() {
     buyCardShop,
     sellCardShop,
     skipCardShop,
+    startDuel,
+    skipDuel,
     sellDebtProperties,
     sendComment,
     consumeFirstEvent,
@@ -82,6 +100,21 @@ export function App() {
     type: 'me' | 'dest' | 'all';
     seq: number;
   } | null>(null);
+  const [statusBarState, setStatusBarState] = useState<PublicGameState | null>(null);
+  const isSpoilerEventPlaying =
+    eventQueue.length > 0 && SPOILER_EVENT_TYPES.has(eventQueue[0].type);
+
+  useEffect(() => {
+    if (!gameState) {
+      setStatusBarState(null);
+      return;
+    }
+    if (!isSpoilerEventPlaying || gameState.status !== 'playing') {
+      setStatusBarState(gameState);
+    } else {
+      setStatusBarState((prev) => prev ?? gameState);
+    }
+  }, [gameState, isSpoilerEventPlaying]);
 
   if (isAdmin) {
     return (
@@ -288,6 +321,7 @@ export function App() {
     gameState.status === 'playing' && gameState.currentTurnPlayerId === myPlayerId;
   const showBuyModal = isMyTurn && gameState.phase === 'property_buy' && eventQueue.length === 0;
   const showCardShopModal = isMyTurn && gameState.phase === 'card_shop' && eventQueue.length === 0;
+  const showDuelModal = isMyTurn && gameState.phase === 'duel_setup' && eventQueue.length === 0;
   const showDebtSellModal = isMyTurn && gameState.phase === 'debt_sell' && eventQueue.length === 0;
 
   return (
@@ -310,9 +344,9 @@ export function App() {
         focusTargetTrigger={focusTrigger}
       />
 
-      {/* 上部ステータスバー */}
+      {/* 上部ステータスバー（演出中の所持金先バレを防止） */}
       <StatusBar
-        gameState={gameState}
+        gameState={statusBarState ?? gameState}
         myPlayerId={myPlayerId}
         stations={stations}
         bgmOn={bgmOn}
@@ -382,6 +416,16 @@ export function App() {
           onBuyCard={buyCardShop}
           onSellCard={sellCardShop}
           onSkip={skipCardShop}
+        />
+      )}
+
+      {/* チンチロ決闘モーダル（決闘マス到着時） */}
+      {showDuelModal && (
+        <DuelModal
+          gameState={gameState}
+          myPlayerId={myPlayerId}
+          onStartDuel={startDuel}
+          onSkip={skipDuel}
         />
       )}
 

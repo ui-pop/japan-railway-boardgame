@@ -9,8 +9,9 @@ export class Pathfinder {
 
   /**
    * 指定した目的駅からの全駅の最短距離（マス数）をBFSで計算する
+   * blockedIds が指定された場合、封鎖駅（うんち等）を避けて経路探索する
    */
-  public getAllDistancesFrom(targetId: string): Map<string, number> {
+  public getAllDistancesFrom(targetId: string, blockedIds?: Set<string>): Map<string, number> {
     const dist = new Map<string, number>();
     if (!this.stationMap.has(targetId)) return dist;
 
@@ -25,6 +26,7 @@ export class Pathfinder {
       if (!station) continue;
 
       for (const neighborId of station.neighbors) {
+        if (blockedIds && blockedIds.has(neighborId)) continue;
         if (!dist.has(neighborId)) {
           dist.set(neighborId, currentDist + 1);
           queue.push(neighborId);
@@ -38,9 +40,9 @@ export class Pathfinder {
   /**
    * 2駅間の最短距離を返す
    */
-  public getShortestDistance(fromId: string, toId: string): number {
+  public getShortestDistance(fromId: string, toId: string, blockedIds?: Set<string>): number {
     if (fromId === toId) return 0;
-    const distances = this.getAllDistancesFrom(toId);
+    const distances = this.getAllDistancesFrom(toId, blockedIds);
     return distances.get(fromId) ?? 999;
   }
 
@@ -50,7 +52,8 @@ export class Pathfinder {
   public getBestNextStep(
     fromId: string,
     toId: string,
-    allowedNeighbors?: string[]
+    allowedNeighbors?: string[],
+    blockedIds?: Set<string>
   ): string | null {
     const station = this.stationMap.get(fromId);
     if (!station) return null;
@@ -58,7 +61,11 @@ export class Pathfinder {
     const candidates = allowedNeighbors ?? station.neighbors;
     if (candidates.length === 0) return null;
 
-    const distances = this.getAllDistancesFrom(toId);
+    let distances = this.getAllDistancesFrom(toId, blockedIds);
+    // 封鎖駅を避けると到達不能な場合は封鎖無視の距離にフォールバック
+    if (blockedIds && blockedIds.size > 0 && candidates.every((c) => !distances.has(c))) {
+      distances = this.getAllDistancesFrom(toId);
+    }
     let bestId = candidates[0];
     let bestDist = distances.get(bestId) ?? 999;
 
