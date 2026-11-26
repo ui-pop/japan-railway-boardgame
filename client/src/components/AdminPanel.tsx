@@ -784,59 +784,66 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                   <li>
                     <strong className="text-white">1年の流れ:</strong> 4月スタート → 全員が1回ずつ行動すると1ヶ月進行 →
                     <span className="text-amber-300 font-bold">3月終了時に「年度末決算」</span>
-                    が行われ、所有している全物件の年間収益が一括で振り込まれます。
+                    が行われ、所有物件の年間収益が一括で振り込まれます。決算＆最終結果では
+                    <span className="text-emerald-300 font-bold">総資産推移グラフ</span>と
+                    <span className="text-amber-300 font-bold">特別表彰式</span>が表示されます。
                   </li>
                   <li>
                     <strong className="text-white">目的地到着ボーナス:</strong> 🚩目的地に
                     <span className="text-amber-300 font-bold">ちょうどぴったり</span>止まった社長は、
-                    <span className="text-amber-300 font-bold">援助金（1億円＋年数×3,000万円・連続到着で最大2倍）</span>
-                    を獲得！（通過では到達になりません）
+                    <span className="text-amber-300 font-bold">援助金（基準1億円×年数インフレ×距離補正0.8〜2.5倍・連続到着で最大2倍）</span>
+                    を獲得！（最初の目的地は東京から10〜22マスの範囲から選ばれます）
                   </li>
                   <li>
-                    <strong className="text-white">移動とやり直し:</strong> サイコロやカードで出た歩数だけ、
-                    <span className="text-sky-300 font-bold">水色に光る隣接マスを直接タップ</span>して進みます。
+                    <strong className="text-white">移動と到達プレビュー:</strong> サイコロやカードで出た歩数だけ、
+                    <span className="text-sky-300 font-bold">水色に光る隣接マス</span>をタップして進みます。
+                    <span className="text-emerald-300 font-bold">エメラルド点線リング</span>は残り歩数でぴったり止まれる駅、
                     <span className="text-amber-300 font-bold">ゴールドの矢印</span>は目的地への最短方向です。
-                    <span className="text-orange-300 font-bold">オレンジの「↩戻る」マス</span>をタップすると1歩戻って残り歩数が＋1回復します。
+                    <span className="text-orange-300 font-bold">オレンジの「↩戻る」マス</span>で1歩やり直せます。
+                  </li>
+                  <li>
+                    <strong className="text-white">絶好調＆CPU難易度:</strong> 2年目以降は下位社長ほど
+                    <span className="text-amber-300 font-bold">⚡絶好調（5ターン・サイコロ最低3個＆プラス駅3倍＆カード強化）</span>
+                    に入りやすくなります。CPUは「まめ鬼（弱）」〜「えんま・さくま（最強・積極増資）」まで強さが異なります。
                   </li>
                 </ul>
               </section>
 
               <section className="bg-slate-900 border border-sky-500/40 rounded-2xl p-5 space-y-3">
                 <h2 className="text-lg font-black text-sky-300">
-                  🗺️ 2. 全7種類のマス＆物件・増資・独占ルール
+                  🗺️ 2. 全13種類のマス＆物件・増資・独占ルール
                 </h2>
                 <div className="space-y-2 text-sm text-slate-200">
                   <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800">
-                    <span className="font-bold text-sky-400">🏢 都市駅（全国100都市・351物件）:</span>{' '}
+                    <span className="font-bold text-sky-400">🏢 都市駅（全国105都市・366物件）:</span>{' '}
                     ご当地物件を購入・増資できます。マップ上で都市駅をタップすると物件一覧を確認できます。
                   </div>
                   <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800">
-                    <span className="font-bold text-blue-400">🔵 プラス駅（＋）:</span>{' '}
-                    金額ルーレットで所持金アップ！（年数が進むほど金額上昇）
+                    <span className="font-bold text-blue-400">🔵 プラス駅（＋） / 🔴 マイナス駅（－） / ⚡ マイナス10倍:</span>{' '}
+                    金額ルーレットで所持金が増減（年数インフレ連動）。夏（6〜8月）はプラス1.5倍、冬（10〜3月）はマイナス1.8倍！
                   </div>
                   <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800">
-                    <span className="font-bold text-rose-400">🔴 マイナス駅（－）:</span>{' '}
-                    金額ルーレットで所持金ダウン…
+                    <span className="font-bold text-amber-400">🟡 カード駅（★） / ✨ ナイスカード駅 / 📋 ダビング / 🔋 周遊 / ⚔️ 刀狩り:</span>{' '}
+                    カード入手（最大8枚）・手札複製・周遊カードの使用回数全回復（最大7回）・ライバルから1枚強奪！
                   </div>
                   <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800">
-                    <span className="font-bold text-amber-400">🟡 カード駅（★） / ✨ ナイスカード駅:</span>{' '}
-                    カードを入手（最大8枚）。緑の✨駅はレア・強力カード確定！
+                    <span className="font-bold text-orange-400">🛒 カード売り場（全国6箇所・地域別品揃え）:</span>{' '}
+                    関東は基本カード、中国は妨害系、九州・沖縄にはレアカードや無料の「徳政令カード」が並びます（売却は買値の1/4）。
                   </div>
                   <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800">
-                    <span className="font-bold text-orange-400">🛒 カード売り場:</span>{' '}
-                    現金で急行・新幹線・バリア・攻撃カード等を自由に購入できます。
+                    <span className="font-bold text-rose-300">🎲 決闘マス（全国6箇所・チンチロ勝負）:</span>{' '}
+                    止まった社長が対戦相手と掛け金を決めて3個サイコロで真剣勝負！ピンゾロ(5倍)・アラシ(3倍)・シゴロ(2倍)・ヒフミ(2倍払い)で一発逆転！
                   </div>
                   <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800">
-                    <span className="font-bold text-purple-400">🟣 ワープ駅（🌀）:</span>{' '}
-                    止まると全国のどこかの都市駅へ瞬間ワープ！
+                    <span className="font-bold text-purple-400">🟣 ワープ駅（🌀） / 🎟️ 宝くじ駅:</span>{' '}
+                    ワープ駅は全国の都市駅へ瞬間移動。宝くじ駅は最大1億円の抽選チャンス！
                   </div>
                   <div className="p-2.5 rounded-xl bg-emerald-950/40 border border-emerald-700/50 text-xs leading-relaxed">
-                    <strong className="text-emerald-300">増資＆独占＆借金売却（本家準拠）:</strong>{' '}
-                    自分の物件駅に再び止まると物件価格と同額（100%）で増資可能（最大Lv.3：増資ごとに収益率+5%＆評価額アップ）。
+                    <strong className="text-emerald-300">増資＆独占＆農林保護（本家準拠）:</strong>{' '}
+                    所有物件駅に再停車すると物件価格と同額で増資可能（最大Lv.3：増資ごとに収益率+5%）。
                     駅の全物件を買い占めると<strong>👑独占</strong>となり、
-                    <strong>年度末決算の収益が2倍</strong>＆特定の10都市では<strong>ご当地歴史ヒーロー</strong>が味方になります！
-                    借金になった場合は、売却する物件を自分で選んで評価額の半額で返済します。
-                    また夏（6〜8月）はプラス駅1.5倍・冬（12〜2月）はマイナス駅1.8倍になります。
+                    <strong>年度末決算の収益が2倍</strong>＆特定の12都市では<strong>ご当地歴史ヒーロー</strong>が味方になります！
+                    <strong>農林物件</strong>は借金売却やキングボンビー・ポコンの物件破壊からも保護されます。
                   </div>
                 </div>
               </section>
@@ -845,7 +852,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             {/* ご当地歴史ヒーロー一覧 */}
             <section className="bg-slate-900 border border-yellow-500/40 rounded-2xl p-5 space-y-3">
               <h2 className="text-lg font-black text-yellow-300">
-                ⚔️ ご当地歴史ヒーロー（全10都市・独占で味方に！）
+                ⚔️ ご当地歴史ヒーロー（全{stations.filter((s) => s.hero).length}都市・独占で味方に！）
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5">
                 {stations
@@ -872,9 +879,10 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 👹 3. お邪魔キャラ「{eventsData?.nuisanceCharacter.name ?? 'ケチケチ大王'}」のルール＆全12種の悪行
               </h2>
               <p className="text-sm text-slate-300 leading-relaxed">
-                誰かが目的地に到着した瞬間、<strong>次の目的地から一番遠くにいる社長</strong>に憑依します。
+                誰かが目的地に到着した瞬間、<strong>次の目的地から一番遠くにいる社長</strong>に通常形態で憑依します。
                 憑依された社長が<strong>他の社長と同じマスを通過・到着すると「なすりつけ」</strong>ができます！
-                毎ターン終了時に以下の悪行のいずれかが発動します（※<strong>🛡️バリアカード</strong>を持っていれば1回自動で防御）。
+                憑依が続くと年数に応じた形態へ変身（1〜2年目はミニ/ポコン/デビル/ハッピー、3〜4年目からキング/バクレツ/パーセント解禁、5年目〜デストロイ号/マイナ～～ス解禁）。
+                ※<strong>🚓パトカード・パトカーズ</strong>はスリの銀次＆攻撃カード専用の自動防御です。貧乏神対策には「あっちいけカード」「九死に一生カード」を活用しましょう。
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
                 {eventsData?.nuisanceCharacter.actions.map((act) => (
@@ -1175,6 +1183,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                       <option value="nice_card">✨ ナイスカード駅</option>
                       <option value="shop">🛒 カード売り場</option>
                       <option value="warp">🟣 ワープ駅</option>
+                      <option value="duel">🎲 決闘マス</option>
+                      <option value="lottery">🎟️ 宝くじ駅</option>
+                      <option value="dubbing">📋 ダビング駅</option>
+                      <option value="shuyu">🔋 周遊駅</option>
+                      <option value="steal_station">⚔️ 刀狩り駅</option>
+                      <option value="minus10">⚡ マイナス10倍</option>
                     </select>
                   </div>
                 )}
@@ -1399,6 +1413,12 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                 <option value="nice_card">✨ ナイスカード駅</option>
                 <option value="shop">🛒 カード売り場</option>
                 <option value="warp">🟣 ワープ駅</option>
+                <option value="duel">🎲 決闘マス</option>
+                <option value="lottery">🎟️ 宝くじ駅</option>
+                <option value="dubbing">📋 ダビング駅</option>
+                <option value="shuyu">🔋 周遊駅</option>
+                <option value="steal_station">⚔️ 刀狩り駅</option>
+                <option value="minus10">⚡ マイナス10倍</option>
               </select>
             </div>
 
@@ -1459,6 +1479,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                           <option value="shuyu">🔋 周遊駅</option>
                           <option value="steal_station">⚔️ 刀狩り駅</option>
                           <option value="minus10">⚡ マイナス10倍</option>
+                          <option value="duel">🎲 決闘マス</option>
                         </select>
                         {editedName !== st.name && (
                           <button
