@@ -831,8 +831,8 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     関東は基本カード、中国は妨害系、九州・沖縄にはレアカードや無料の「徳政令カード」が並びます（売却は買値の1/4）。
                   </div>
                   <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800">
-                    <span className="font-bold text-rose-300">🎲 決闘マス（全国6箇所・チンチロ勝負）:</span>{' '}
-                    止まった社長が対戦相手と掛け金を決めて3個サイコロで真剣勝負！ピンゾロ(5倍)・アラシ(3倍)・シゴロ(2倍)・ヒフミ(2倍払い)で一発逆転！
+                    <span className="font-bold text-rose-300">🎲 決闘マス（全国6箇所）＆同じマス鉢合わせ決闘:</span>{' '}
+                    決闘マスに止まった時や、他の社長と同じマスに止まった時にチンチロ真剣勝負！止まった社長が対戦相手と掛け金を決めます（ピンゾロ5倍・アラシ3倍・シゴロ2倍・ヒフミ2倍払い）。
                   </div>
                   <div className="p-2 rounded-xl bg-slate-950/70 border border-slate-800">
                     <span className="font-bold text-purple-400">🟣 ワープ駅（🌀） / 🎟️ 宝くじ駅:</span>{' '}

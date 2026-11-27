@@ -200,6 +200,8 @@ export class GameEngine {
   > = {};
   private milestoneWinners: Record<number, string> = {};
   private dropUnchiAfterMove = false;
+  private pendingSameStationDuelIds: string[] = [];
+  private activeDuelOpponentIds: string[] | null = null;
   private _lastEventMessage = 'ゲーム開始を待っています…';
   public eventLogs: string[] = [];
   public localRules: LocalRuleDef[] = [];
@@ -328,6 +330,8 @@ export class GameEngine {
     this.playerStats = {};
     this.milestoneWinners = {};
     this.dropUnchiAfterMove = false;
+    this.pendingSameStationDuelIds = [];
+    this.activeDuelOpponentIds = null;
     this.lastEventMessage = '新しいゲームが作成されました！参加者を待っています。';
     this.turnCount = 0;
     this.previousTurnSnapshot = null;
@@ -1669,6 +1673,12 @@ export class GameEngine {
       }
 
       // 到着駅が物件駅なら購入可否に関わらず必ず購入画面を出す
+      const sameAtDest = this.players
+        .filter((p) => p.id !== player.id && p.stationId === nextStationId)
+        .map((p) => p.id);
+      if (sameAtDest.length > 0) {
+        this.pendingSameStationDuelIds = sameAtDest;
+      }
       if (arrivedStation?.type === 'property' && arrivedStation.properties?.length) {
         this.phase = 'property_buy';
         return { ok: true, events };
@@ -1747,6 +1757,16 @@ export class GameEngine {
     }
     if ((this.minus10Stations[station.id] ?? 0) > 0) {
       effectiveType = 'minus10';
+    }
+
+    // 同じマスに他の社長が止まっている場合は、マス効果後に鉢合わせチンチロ決闘を発生させる
+    if (effectiveType !== 'duel' && effectiveType !== 'warp' && this.players.length > 1) {
+      const sameHere = this.players
+        .filter((p) => p.id !== player.id && p.stationId === stationId)
+        .map((p) => p.id);
+      if (sameHere.length > 0) {
+        this.pendingSameStationDuelIds = sameHere;
+      }
     }
 
     if (effectiveType === 'plus') {
@@ -1998,6 +2018,7 @@ export class GameEngine {
     if (effectiveType === 'duel') {
       events.push(...stationLocalRules);
       if (this.players.length > 1) {
+        this.activeDuelOpponentIds = null;
         this.phase = 'duel_setup';
         this.lastEventMessage = `⚔️ ${player.name}が決闘マスに到着！対戦相手と掛け金を選んでチンチロ勝負！`;
         return events;
@@ -2375,10 +2396,16 @@ export class GameEngine {
     if (!challenger || challenger.id !== playerId) {
       return { ok: false, error: 'あなたのターンではありません。', events: [] };
     }
-    const opponent = this.players.find((p) => p.id === opponentId && p.id !== challenger.id);
+    const opponent = this.players.find(
+      (p) =>
+        p.id === opponentId &&
+        p.id !== challenger.id &&
+        (!this.activeDuelOpponentIds || this.activeDuelOpponentIds.includes(p.id))
+    );
     if (!opponent) {
       return { ok: false, error: '対戦相手が見つかりません。', events: [] };
     }
+    this.activeDuelOpponentIds = null;
 
     const infl = getYearInflationMult(this.currentYear);
     const minBet = Math.round((1000 * infl) / 100) * 100;
@@ -2473,6 +2500,7 @@ export class GameEngine {
     if (!player || player.id !== playerId) {
       return { ok: false, error: 'あなたのターンではありません。', events: [] };
     }
+    this.activeDuelOpponentIds = null;
     this.lastEventMessage = `⚔️ ${player.name}は決闘を見送った。`;
     const endEvents = this.finishTurn(player);
     return { ok: true, events: endEvents };
@@ -2579,6 +2607,21 @@ export class GameEngine {
 
   private finishTurn(player: PlayerInternalState, skipped = false): GameEventSeqItem[] {
     const events: GameEventSeqItem[] = [];
+
+    // 同じマスに他の社長と止まった場合、マス処理完了後に鉢合わせ決闘フェーズへ移行
+    if (!skipped && this.pendingSameStationDuelIds.length > 0) {
+      const validOpponents = this.pendingSameStationDuelIds.filter((id) =>
+        this.players.some((p) => p.id === id && p.id !== player.id)
+      );
+      this.pendingSameStationDuelIds = [];
+      if (validOpponents.length > 0) {
+        this.activeDuelOpponentIds = validOpponents;
+        this.phase = 'duel_setup';
+        this.recalculateRankingsAndDistances();
+        this.lastEventMessage = `⚔️ ${player.name}が同じマスで鉢合わせ！チンチロ決闘に突入！`;
+        return events;
+      }
+    }
 
     // お邪魔キャラの変身＆悪行発動チェック（1回休みのターンは何も起きない）
     if (!skipped && player.hasNuisance) {
@@ -4463,6 +4506,10 @@ export class GameEngine {
       shopStockIds:
         this.phase === 'card_shop' && current ? getShopStockForStation(current.stationId) : undefined,
       shopPriceMultiplier: getCardShopPriceMultiplier(this.currentYear),
+      duelOpponentIds:
+        this.phase === 'duel_setup' && this.activeDuelOpponentIds
+          ? [...this.activeDuelOpponentIds]
+          : undefined,
       assetHistory: this.assetHistory,
     };
   }

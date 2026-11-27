@@ -325,8 +325,12 @@ export class CpuAi {
     }
 
     if (state.phase === 'duel_setup') {
+      const allowedSet =
+        state.duelOpponentIds && state.duelOpponentIds.length > 0
+          ? new Set(state.duelOpponentIds)
+          : null;
       const rivals = state.players
-        .filter((p) => p.id !== player.id)
+        .filter((p) => p.id !== player.id && (!allowedSet || allowedSet.has(p.id)))
         .sort((a, b) => b.money - a.money);
       if (rivals.length === 0) return { type: 'skip_duel' };
       const persona = getCpuPersona(player.name);

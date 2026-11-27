@@ -233,6 +233,7 @@ export interface PublicGameState {
   cardUsedThisTurn: boolean;
   shopStockIds?: string[];
   shopPriceMultiplier?: number;
+  duelOpponentIds?: string[];
   assetHistory?: { year: number; assets: Record<string, number> }[];
 }
 

@@ -17,10 +17,18 @@ export const DuelModal: React.FC<DuelModalProps> = ({
   onSkip,
 }) => {
   const me = gameState.players.find((p) => p.id === myPlayerId);
-  const rivals = useMemo(
-    () => gameState.players.filter((p) => p.id !== myPlayerId),
-    [gameState.players, myPlayerId]
+  const isSameStationDuel = Boolean(
+    gameState.duelOpponentIds && gameState.duelOpponentIds.length > 0
   );
+  const rivals = useMemo(() => {
+    const allowed =
+      gameState.duelOpponentIds && gameState.duelOpponentIds.length > 0
+        ? new Set(gameState.duelOpponentIds)
+        : null;
+    return gameState.players.filter(
+      (p) => p.id !== myPlayerId && (!allowed || allowed.has(p.id))
+    );
+  }, [gameState.players, gameState.duelOpponentIds, myPlayerId]);
 
   const infl = gameState.shopPriceMultiplier ?? 1;
   const minBet = Math.max(1000, Math.round((1000 * infl) / 100) * 100);
@@ -47,7 +55,7 @@ export const DuelModal: React.FC<DuelModalProps> = ({
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-black text-white flex items-center gap-2">
               <Swords className="w-5 h-5 text-amber-300" />
-              ⚔️ チンチロ決闘マス！
+              {isSameStationDuel ? '⚔️ 同じマスで鉢合わせ！チンチロ決闘' : '⚔️ チンチロ決闘マス！'}
             </h2>
             <span className="text-xs font-bold text-amber-200">
               所持金: {formatMoney(myMoney)}
