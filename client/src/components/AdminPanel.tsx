@@ -1624,7 +1624,17 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                     className="flex-1 px-3 py-2 rounded-xl bg-slate-950 border border-slate-700 text-xs text-white"
                   >
                     {stations
-                      .filter((s) => s.type === 'property' || s.type === 'shop' || s.type === 'warp')
+                      .filter(
+                        (s) =>
+                          s.type === 'property' ||
+                          s.type === 'shop' ||
+                          s.type === 'warp' ||
+                          s.type === 'duel' ||
+                          s.type === 'lottery' ||
+                          s.type === 'shuyu' ||
+                          s.type === 'dubbing' ||
+                          s.type === 'steal_station'
+                      )
                       .map((s) => (
                         <option key={s.id} value={s.id}>
                           [{s.region}] {s.name}

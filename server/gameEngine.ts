@@ -916,7 +916,15 @@ export class GameEngine {
         this.lastEventMessage = `🧹 バキュームカード発動！マップ上のうんち${count}個をすべて撤去！${keptMsg}`;
         return { ok: true, events: [...events, ...this.finishTurn(player)] };
       } else if (card.id === 'extend_shuyu') {
-        this.lastEventMessage = `🔋 期間延長カード発動！周遊系カードの耐久力が完全回復した！`;
+        player.shuyuUses = player.shuyuUses ?? {};
+        const multiCards = player.cards.filter((cid) => this.cardMap.get(cid)?.multiUse);
+        for (const cid of multiCards) {
+          player.shuyuUses[cid] = 7;
+        }
+        this.lastEventMessage =
+          multiCards.length > 0
+            ? `🔋 期間延長カード発動！周遊系カード（${multiCards.length}枚）の残り回数が最大（7回）まで全回復した！`
+            : `🔋 期間延長カードを使ったが、所持中の周遊系カードがなかった。`;
         return { ok: true, events: [...events, ...this.finishTurn(player)] };
       } else if (card.id === 'kimi_ga_subete') {
         const valid = player.cards
@@ -1066,8 +1074,9 @@ export class GameEngine {
       } else if (card.id === 'angel_card') {
         const gain = Math.round((5000 * getYearInflationMult(this.currentYear)) / 100) * 100;
         player.money += gain;
-        if (player.cards.length < 8) {
-          const rc = this.cards[Math.floor(Math.random() * this.cards.length)];
+        const safePool = this.cards.filter((c) => c.category !== 'devil');
+        if (player.cards.length < 8 && safePool.length > 0) {
+          const rc = safePool[Math.floor(Math.random() * safePool.length)];
           player.cards.push(rc.id);
           player.cardCount = player.cards.length;
         }
@@ -1079,7 +1088,15 @@ export class GameEngine {
             p.stationId = player.stationId;
           }
         });
-        this.lastEventMessage = `📢 ${player.name}が「全員集合カード」を発動！全社長が${this.getStationName(player.stationId)}へ集合！`;
+        this.lastEventMessage = `📢 ${player.name}が「サミットカード」を発動！全社長が${this.getStationName(player.stationId)}へ集合！`;
+        events.push({
+          type: 'warp_move',
+          playerId: player.id,
+          payload: {
+            stationId: player.stationId,
+            stationName: this.getStationName(player.stationId),
+          },
+        });
         this.recalculateRankingsAndDistances();
         const endEvents = this.finishTurn(player);
         return { ok: true, events: [...events, ...endEvents] };
@@ -1105,8 +1122,9 @@ export class GameEngine {
           this.lastEventMessage = `⛩️ ${player.name}はお祓いカードを使ったが憑いていなかった。`;
         }
       } else if (card.id === 'dubbing_card') {
-        if (player.cards.length > 0 && player.cards.length < 8) {
-          const copyId = player.cards[Math.floor(Math.random() * player.cards.length)];
+        const copyable = player.cards.filter((cid) => this.cardMap.get(cid)?.category !== 'devil');
+        if (copyable.length > 0 && player.cards.length < 8) {
+          const copyId = copyable[Math.floor(Math.random() * copyable.length)];
           player.cards.push(copyId);
           player.cardCount = player.cards.length;
           const cname = this.cardMap.get(copyId)?.name ?? 'カード';
@@ -1127,9 +1145,10 @@ export class GameEngine {
         this.lastEventMessage = `${player.name}が「${card.name}」を使用！ 全社長から合計 +${collected.toLocaleString()}万円を徴収！`;
       } else if (card.id === 'card_pack') {
         const gained: string[] = [];
+        const safePool = this.cards.filter((c) => c.category !== 'devil');
         for (let i = 0; i < 2; i++) {
-          if (player.cards.length < 8) {
-            const rc = this.cards[Math.floor(Math.random() * this.cards.length)];
+          if (player.cards.length < 8 && safePool.length > 0) {
+            const rc = safePool[Math.floor(Math.random() * safePool.length)];
             player.cards.push(rc.id);
             gained.push(rc.name);
           }
@@ -1148,20 +1167,77 @@ export class GameEngine {
 
     if (card.category === 'warp') {
       if (card.id === 'galaxy_rail') {
-        const bonus = 50000; // 銀河鉄道5倍プラス相当
-        player.money += bonus;
+        const infl = getYearInflationMult(this.currentYear);
+        const galaxyCash = Math.round((50000 * infl) / 100) * 100;
+        const arrivedId = this.destinationStationId;
+        const arrivedStation = this.stationMap.get(arrivedId);
+        const arrivedName = this.getStationName(arrivedId);
+        player.money += galaxyCash;
         player.prevStationId = player.stationId;
-        player.stationId = this.destinationStationId;
-        this.lastEventMessage = `🌌 銀河鉄道カード発動！+${bonus.toLocaleString()}万円を獲得し目的地へ直行！`;
+        player.stationId = arrivedId;
+
+        if (this.lastDestinationWinnerId === player.id) {
+          this.consecutiveDestCount += 1;
+        } else {
+          this.lastDestinationWinnerId = player.id;
+          this.consecutiveDestCount = 1;
+        }
+        const streakMult =
+          this.consecutiveDestCount >= 3 ? 2.0 : this.consecutiveDestCount === 2 ? 1.5 : 1.0;
+        const destBonus =
+          Math.round((this.eventsData.stationValues.destinationBonusBase * infl * streakMult) / 100) * 100;
+        player.money += destBonus;
+        this.ensurePlayerStats(player.id).destReached += 1;
+
+        const nextDestId = this.pickRandomDestination(arrivedId);
+        this.currentDestOriginDistance =
+          this.pathfinder.getShortestDistance(arrivedId, nextDestId) || 20;
+        this.destinationStationId = nextDestId;
+        const nextDestName = this.getStationName(nextDestId);
+        this.recalculateRankingsAndDistances();
+
+        this.lastEventMessage = `🌌 銀河鉄道カード発動！+${galaxyCash.toLocaleString()}万円＆目的地「${arrivedName}」ゴール（+${destBonus.toLocaleString()}万円）！次の目的地は「${nextDestName}」！`;
         events.push({
           type: 'warp_move',
           playerId: player.id,
+          payload: { stationId: arrivedId, stationName: arrivedName },
+        });
+        events.push({
+          type: 'destination_reached',
+          playerId: player.id,
           payload: {
-            stationId: this.destinationStationId,
-            stationName: this.getStationName(this.destinationStationId),
+            stationId: arrivedId,
+            stationName: arrivedName,
+            bonus: destBonus,
+            streak: this.consecutiveDestCount,
+            nextDestName,
           },
         });
-        this.recalculateRankingsAndDistances();
+        if (this.players.length > 1) {
+          const others = this.players.filter((p) => p.id !== player.id);
+          others.sort((a, b) => b.distanceToDest - a.distanceToDest);
+          const unlucky = others[0];
+          this.players.forEach((p) => (p.hasNuisance = false));
+          unlucky.hasNuisance = true;
+          this.nuisanceTargetPlayerId = unlucky.id;
+          this.nuisanceForm = 'normal';
+          this.nuisanceTurnCount = 0;
+          this.nuisanceFormRemainingTurns = 0;
+          this.bakuretsuSteps = 0;
+          events.push({
+            type: 'nuisance_attach',
+            playerId: unlucky.id,
+            payload: {
+              targetName: unlucky.name,
+              nuisanceName: this.eventsData.nuisanceCharacter.name,
+              icon: this.eventsData.nuisanceCharacter.icon,
+            },
+          });
+        }
+        if (arrivedStation?.type === 'property' && arrivedStation.properties?.length) {
+          this.phase = 'property_buy';
+          return { ok: true, events };
+        }
         const endEvents = this.finishTurn(player);
         return { ok: true, events: [...events, ...endEvents] };
       }
@@ -1186,7 +1262,7 @@ export class GameEngine {
         const home = this.stationMap.get(player.homeStationId ?? 'tokyo');
         if (home) candidates = [home];
       } else if (card.id === 'bookmark_card') {
-        const majors = ['tokyo', 'osaka', 'kyoto', 'sapporo', 'fukuoka']
+        const majors = ['tokyo', 'osaka', 'kyoto', 'sapporo', 'hakata']
           .map((id) => this.stationMap.get(id))
           .filter((s): s is StationDef => Boolean(s && s.id !== player.stationId));
         if (majors.length > 0) candidates = majors;
@@ -1227,11 +1303,21 @@ export class GameEngine {
       } else if (card.id === 'warp_north') {
         const cur = this.stationMap.get(player.stationId);
         const north = candidates.filter((s) => (cur ? s.y < cur.y : s.region === '北海道' || s.region === '東北'));
-        if (north.length > 0) candidates = north;
+        if (north.length > 0) {
+          candidates = north;
+        } else {
+          // すでに最北端付近の場合は北寄り上位5都市から選ぶ
+          candidates = [...candidates].sort((a, b) => a.y - b.y).slice(0, 5);
+        }
       } else if (card.id === 'warp_west') {
         const cur = this.stationMap.get(player.stationId);
         const west = candidates.filter((s) => (cur ? s.x < cur.x : s.region === '近畿' || s.region === '中国' || s.region === '四国'));
-        if (west.length > 0) candidates = west;
+        if (west.length > 0) {
+          candidates = west;
+        } else {
+          // すでに最西端付近の場合は西寄り上位5都市から選ぶ
+          candidates = [...candidates].sort((a, b) => a.x - b.x).slice(0, 5);
+        }
       }
       const dest = candidates[Math.floor(Math.random() * candidates.length)];
       if (dest) {
@@ -1244,7 +1330,13 @@ export class GameEngine {
           payload: { stationId: dest.id, stationName: dest.name },
         });
         this.recalculateRankingsAndDistances();
-        return { ok: true, events: [...events, ...this.resolveWarpArrival(player, dest.id)] };
+        return {
+          ok: true,
+          events: [
+            ...events,
+            ...this.resolveWarpArrival(player, dest.id, card.id === 'heliport_card'),
+          ],
+        };
       }
       this.recalculateRankingsAndDistances();
       const endEvents = this.finishTurn(player);
@@ -1289,6 +1381,8 @@ export class GameEngine {
           playerId: player.id,
           payload: { stationId: target.stationId, stationName: this.getStationName(target.stationId) },
         });
+        this.recalculateRankingsAndDistances();
+        return { ok: true, events: [...events, ...this.resolveWarpArrival(player, target.stationId)] };
       } else if (card.id === 'unchi_target') {
         this.unchiStations[target.stationId] = 10;
         this.lastEventMessage = `💩 指定うんち！カード発動！${target.name}のいる「${this.getStationName(target.stationId)}」にうんちを落とした！`;
@@ -1722,10 +1816,14 @@ export class GameEngine {
     return { ok: true, events: [...events, ...arrivalEvents] };
   }
 
-  // ワープ後の到着処理（ワープ駅の連鎖は起こさず、それ以外は通常の到着マス効果を適用）
-  private resolveWarpArrival(player: PlayerInternalState, stationId: string): GameEventSeqItem[] {
+  // ワープ後の到着処理（通常ワープ駅の無限連鎖は防ぎつつ、ヘリポートカード等からの1段ワープは許可）
+  private resolveWarpArrival(
+    player: PlayerInternalState,
+    stationId: string,
+    allowWarpStation = false
+  ): GameEventSeqItem[] {
     const st = this.stationMap.get(stationId);
-    if (!st || st.type === 'warp') return this.finishTurn(player);
+    if (!st || (st.type === 'warp' && !allowWarpStation)) return this.finishTurn(player);
     return this.resolveStationArrival(player, stationId);
   }
 
@@ -3157,6 +3255,7 @@ export class GameEngine {
     // デビル系カードの月次被害＆自然消滅チェック
     if (!skipped && player.cards.length > 0) {
       let devilLoss = 0;
+      const devilNotes: string[] = [];
       const toRemove: number[] = [];
       player.cards.forEach((cid, idx) => {
         if (cid === 'little_devil') {
@@ -3174,22 +3273,86 @@ export class GameEngine {
         } else if (cid === 'time_bomb' && Math.random() < 0.2) {
           devilLoss += 6000;
           toRemove.push(idx);
+        } else if (cid === 'oitekebori') {
+          const nonDevilIdx = player.cards.findIndex(
+            (x, i) => i !== idx && !toRemove.includes(i) && this.cardMap.get(x)?.category !== 'devil'
+          );
+          if (nonDevilIdx !== -1) {
+            toRemove.push(nonDevilIdx);
+            devilNotes.push(`おいてけ堀で「${this.cardMap.get(player.cards[nonDevilIdx])?.name ?? 'カード'}」を失った`);
+          } else {
+            devilLoss += 1000;
+          }
+          if (Math.random() < 0.25) toRemove.push(idx);
+        } else if (cid === 'hitori_warai') {
+          if (Math.random() < 0.35) {
+            toRemove.push(idx);
+            devilNotes.push('ひとり笑いカードが消滅した！');
+          } else {
+            player.skipNextTurn = true;
+            devilNotes.push('ひとり笑いカードで次ターン1回休み…');
+          }
+        } else if (cid === 'ichi_derumade') {
+          const roll = Math.floor(Math.random() * 6) + 1;
+          if (roll === 1) {
+            toRemove.push(idx);
+            devilNotes.push('1が出るまでカード：出目1で解除！');
+          } else {
+            player.skipNextTurn = true;
+            devilNotes.push(`1が出るまでカード：出目${roll}で次ターン休み…`);
+          }
+        } else if (cid === 'card_128') {
+          if (Math.random() < 0.15) toRemove.push(idx);
+        } else if (cid === 'card_999') {
+          if (Math.random() < 0.08) toRemove.push(idx);
         }
       });
-      for (let i = toRemove.length - 1; i >= 0; i--) {
-        player.cards.splice(toRemove[i], 1);
+      const uniqueRemove = Array.from(new Set(toRemove)).sort((a, b) => b - a);
+      for (const idx of uniqueRemove) {
+        player.cards.splice(idx, 1);
       }
       player.cardCount = player.cards.length;
-      if (devilLoss > 0) {
-        player.money -= devilLoss;
+      if (devilLoss > 0 || devilNotes.length > 0) {
+        if (devilLoss > 0) player.money -= devilLoss;
+        const msgParts = [
+          devilLoss > 0 ? `-${devilLoss.toLocaleString()}万円を失った` : '',
+          ...devilNotes,
+        ].filter(Boolean);
         events.push({
           type: 'random_event',
           playerId: player.id,
           payload: {
             title: '😈 デビル系カードの悪さ！',
             icon: '😈',
-            description: `${player.name}は所持中のデビル系カードにより -${devilLoss.toLocaleString()}万円 を失った！`,
+            description: `${player.name}：${msgParts.join(' / ')}`,
             isPositive: false,
+          },
+        });
+      }
+    }
+
+    // 連帯保証人カード（パッシブ）：借金時に0円で踏みとどまり不足分を他社長へ押し付ける！
+    if (!skipped && player.money < 0 && player.cards.includes('rentai_hoshonin')) {
+      const rIdx = player.cards.indexOf('rentai_hoshonin');
+      player.cards.splice(rIdx, 1);
+      player.cardCount = player.cards.length;
+      const deficit = Math.abs(player.money);
+      player.money = 0;
+      const others = this.players.filter((p) => p.id !== player.id);
+      if (others.length > 0) {
+        const per = Math.round(deficit / others.length / 100) * 100 || deficit;
+        others.forEach((o) => {
+          o.money -= per;
+        });
+        this.lastEventMessage = `📝 連帯保証人カード発動！${player.name}の借金${deficit.toLocaleString()}万円を他社長全員で肩代わり（1人-${per.toLocaleString()}万円）！`;
+        events.push({
+          type: 'random_event',
+          playerId: player.id,
+          payload: {
+            title: '📝 連帯保証人カード発動！',
+            icon: '📝',
+            description: `${player.name}は0円で踏みとどまり、不足分 ${deficit.toLocaleString()}万円をライバル全員に肩代わりさせた！`,
+            isPositive: true,
           },
         });
       }
@@ -3854,6 +4017,12 @@ export class GameEngine {
     if (!p || !st) return [];
     p.prevStationId = p.stationId;
     p.stationId = st.id;
+    // 手番中の社長を強制ワープした場合、移動履歴（↩戻る先）と待機中の鉢合わせ決闘をリセットして経路不整合を防ぐ
+    const cur = this.getCurrentPlayer();
+    if (cur && cur.id === p.id) {
+      this.visitedPathThisTurn = [st.id];
+      this.pendingSameStationDuelIds = [];
+    }
     this.recalculateRankingsAndDistances();
     this.lastEventMessage = `👑 管理者操作: ${p.name} を「${st.name}」へ強制移動しました！`;
     return [
@@ -3866,11 +4035,14 @@ export class GameEngine {
   }
 
   public adminChangeDestination(stationId?: string): void {
+    const prevDest = this.destinationStationId;
     if (stationId && this.stationMap.has(stationId)) {
       this.destinationStationId = stationId;
     } else {
       this.destinationStationId = this.pickRandomDestination(this.destinationStationId);
     }
+    this.currentDestOriginDistance =
+      this.pathfinder.getShortestDistance(prevDest, this.destinationStationId) || 20;
     this.recalculateRankingsAndDistances();
     this.lastEventMessage = `👑 管理者操作: 目的地を「${this.getStationName(this.destinationStationId)}」へ変更しました！`;
   }
@@ -4091,6 +4263,15 @@ export class GameEngine {
           if (dest) {
             t.prevStationId = t.stationId;
             t.stationId = dest.id;
+            const cur = this.getCurrentPlayer();
+            if (cur && cur.id === t.id && this.phase === 'moving') {
+              this.visitedPathThisTurn = [dest.id];
+            }
+            results.push({
+              type: 'warp_move',
+              playerId: t.id,
+              payload: { stationId: dest.id, stationName: dest.name },
+            });
           }
         } else if (rule.effect === 'attach_nuisance') {
           isPositive = false;

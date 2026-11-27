@@ -166,9 +166,9 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
   }, [warpFocusStationId, stationMap, panTo]);
 
   // 追従モードONのとき、手番プレイヤーが1マス進んだらターゲット座標だけ更新（ズームは変えない！）
-  // ターン終了演出中（次プレイヤーへ切り替わる前）は次の社長へカメラを飛ばさない
+  // ワープ演出中やターン終了演出中（次プレイヤーへ切り替わる前）はカメラを奪わない
   useEffect(() => {
-    if (!cameraRef.current.following || !gameState) return;
+    if (!cameraRef.current.following || !gameState || warpFocusStationId) return;
     if (lastTurnPlayerRef.current && gameState.currentTurnPlayerId !== lastTurnPlayerRef.current) {
       return;
     }
@@ -179,7 +179,7 @@ export const MapCanvas: React.FC<MapCanvasProps> = ({
       cameraRef.current.targetY = st.y;
       cameraRef.current.animating = true;
     }
-  }, [gameState?.players, gameState?.currentTurnPlayerId, stationMap]);
+  }, [gameState?.players, gameState?.currentTurnPlayerId, stationMap, warpFocusStationId]);
 
   // 常時1本だけ走る安定した描画ループ（ドラッグやズームで再生成されない）
   useEffect(() => {
